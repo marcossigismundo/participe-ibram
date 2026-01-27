@@ -1,0 +1,33 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build files
+*.map
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# WordPress
+wp-config.php
