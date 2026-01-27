@@ -22,11 +22,18 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
-        <h1>
-            <i class="fas fa-envelope"></i>
-            <?php _e('Comunicação por Email', 'crm-developer'); ?>
-        </h1>
-        <p class="crm-dev-subtitle"><?php _e('Envie emails personalizados para seus contatos', 'crm-developer'); ?></p>
+        <div class="header-title-row">
+            <div>
+                <h1>
+                    <i class="fas fa-envelope"></i>
+                    <?php _e('Comunicação por Email', 'crm-developer'); ?>
+                </h1>
+                <p class="crm-dev-subtitle"><?php _e('Envie emails personalizados para seus contatos', 'crm-developer'); ?></p>
+            </div>
+            <button type="button" class="btn-help-floating" id="btn-help-<?php echo esc_attr($tab); ?>" title="<?php _e('Ajuda', 'crm-developer'); ?>">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </div>
     </div>
 
     <!-- Navegação por Abas -->
@@ -621,6 +628,215 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
     </div>
 </div>
 
+<!-- Modal de Ajuda - Enviar Email -->
+<div id="modal-help-send" class="crm-dev-modal help-modal">
+    <div class="modal-content">
+        <div class="modal-header help-header">
+            <div class="help-header-icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+            <h3><?php _e('Enviar Email', 'crm-developer'); ?></h3>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body help-body">
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-edit"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Compor Email', 'crm-developer'); ?></h4>
+                    <p><?php _e('Crie emails personalizados usando templates prontos ou escrevendo do zero. Use o editor visual para formatar seu texto com negrito, itálico, listas e links.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-code"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Variáveis Personalizadas', 'crm-developer'); ?></h4>
+                    <p><?php _e('Insira variáveis como {{nome}}, {{primeiro_nome}} ou {{email}} para personalizar cada mensagem automaticamente. O sistema substituirá pelos dados de cada contato.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-filter"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Filtrar Destinatários', 'crm-developer'); ?></h4>
+                    <p><?php _e('Selecione os contatos por região, estado, nível de engajamento ou status. O sistema mostra quantos destinatários serão atingidos em tempo real.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Conformidade LGPD', 'crm-developer'); ?></h4>
+                    <p><?php _e('Por padrão, apenas contatos com consentimento recebem emails. Um link de descadastro é incluído automaticamente em todas as mensagens.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer help-footer">
+            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Ajuda - Templates -->
+<div id="modal-help-templates" class="crm-dev-modal help-modal">
+    <div class="modal-content">
+        <div class="modal-header help-header">
+            <div class="help-header-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <h3><?php _e('Templates de Email', 'crm-developer'); ?></h3>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body help-body">
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-save"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('O que são Templates?', 'crm-developer'); ?></h4>
+                    <p><?php _e('Templates são modelos de email pré-formatados que você pode reutilizar. Crie uma vez e use sempre que precisar enviar mensagens similares.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-plus-circle"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Criar Templates', 'crm-developer'); ?></h4>
+                    <p><?php _e('Clique em "Novo Template" para criar um modelo. Dê um nome descritivo, defina o assunto e escreva o conteúdo com as variáveis desejadas.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-magic"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Dicas de Uso', 'crm-developer'); ?></h4>
+                    <p><?php _e('Use {{primeiro_nome}} para saudações pessoais. Mantenha templates organizados por tipo: boas-vindas, newsletters, convites, etc.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer help-footer">
+            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Ajuda - Campanhas -->
+<div id="modal-help-campaigns" class="crm-dev-modal help-modal">
+    <div class="modal-content">
+        <div class="modal-header help-header">
+            <div class="help-header-icon">
+                <i class="fas fa-bullhorn"></i>
+            </div>
+            <h3><?php _e('Campanhas de Email', 'crm-developer'); ?></h3>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body help-body">
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-list-alt"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Acompanhar Campanhas', 'crm-developer'); ?></h4>
+                    <p><?php _e('Visualize todas as campanhas de email criadas, com estatísticas de envio, quantidade de destinatários e status atual.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-clock"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Fila de Envio', 'crm-developer'); ?></h4>
+                    <p><?php _e('Os emails são enviados em lotes para evitar bloqueios de spam. Acompanhe em tempo real quantos estão pendentes, processando, enviados ou com falha.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Limites de Envio', 'crm-developer'); ?></h4>
+                    <p><?php _e('O sistema respeita limites configuráveis por hora para garantir boa reputação do seu servidor e evitar que emails caiam em spam.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer help-footer">
+            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Ajuda - Histórico -->
+<div id="modal-help-logs" class="crm-dev-modal help-modal">
+    <div class="modal-content">
+        <div class="modal-header help-header">
+            <div class="help-header-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h3><?php _e('Histórico de Emails', 'crm-developer'); ?></h3>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body help-body">
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-search"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Rastrear Envios', 'crm-developer'); ?></h4>
+                    <p><?php _e('Consulte o histórico completo de todos os emails enviados, incluindo destinatário, assunto, data e status de entrega.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-filter"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Filtrar por Status', 'crm-developer'); ?></h4>
+                    <p><?php _e('Use os filtros para visualizar apenas emails enviados com sucesso, falhas de envio ou mensagens abertas pelo destinatário.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-bug"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Identificar Problemas', 'crm-developer'); ?></h4>
+                    <p><?php _e('Analise as falhas de envio para identificar emails inválidos ou problemas de configuração do servidor.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer help-footer">
+            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Ajuda - Configurações -->
+<div id="modal-help-settings" class="crm-dev-modal help-modal">
+    <div class="modal-content">
+        <div class="modal-header help-header">
+            <div class="help-header-icon">
+                <i class="fas fa-cog"></i>
+            </div>
+            <h3><?php _e('Configurações de Email', 'crm-developer'); ?></h3>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body help-body">
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-user"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Remetente', 'crm-developer'); ?></h4>
+                    <p><?php _e('Defina o nome e email que aparecerão como remetente das mensagens. Use um email válido do seu domínio para melhor entregabilidade.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-server"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Configuração SMTP', 'crm-developer'); ?></h4>
+                    <p><?php _e('Para melhor confiabilidade, configure um servidor SMTP externo (Gmail, SendGrid, etc). Isso melhora a taxa de entrega e evita bloqueios.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Limites de Envio', 'crm-developer'); ?></h4>
+                    <p><?php _e('Configure a quantidade máxima de emails por hora e o tamanho dos lotes. Valores menores são mais seguros, valores maiores são mais rápidos.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+            <div class="help-section">
+                <div class="help-icon"><i class="fas fa-signature"></i></div>
+                <div class="help-content">
+                    <h4><?php _e('Rodapé Padrão', 'crm-developer'); ?></h4>
+                    <p><?php _e('Adicione informações de contato, redes sociais ou avisos legais que serão incluídos automaticamente em todos os emails.', 'crm-developer'); ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer help-footer">
+            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+        </div>
+    </div>
+</div>
+
 <script>
 jQuery(document).ready(function($) {
     // ========================================
@@ -1080,42 +1296,246 @@ jQuery(document).ready(function($) {
             $('.crm-dev-modal.show').removeClass('show');
         }
     });
+
+    // ========================================
+    // MODAIS DE AJUDA
+    // ========================================
+
+    // Abrir modal de ajuda correspondente à aba atual
+    $('[id^="btn-help-"]').on('click', function() {
+        const tab = $(this).attr('id').replace('btn-help-', '');
+        $('#modal-help-' + tab).addClass('show');
+    });
 });
 </script>
 
 <style>
-/* Estilos específicos para Email */
+/* ========================================
+   ESTILOS DE BOTÕES - DESIGN MODERNO
+   ======================================== */
+
+/* Header com botão de ajuda */
+.header-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Botão de ajuda flutuante */
+.btn-help-floating {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.btn-help-floating:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.5);
+}
+
+.btn-help-floating:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Botões Base */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Botão Primário */
+.btn-primary {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.35);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #047857 0%, #059669 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.45);
+    color: white;
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(5, 150, 105, 0.35);
+}
+
+/* Botão Secundário */
+.btn-secondary {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #475569;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    color: #334155;
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Botão Outline */
+.btn-outline {
+    background: transparent;
+    color: #059669;
+    border: 2px solid #059669;
+    box-shadow: none;
+}
+
+.btn-outline::before {
+    display: none;
+}
+
+.btn-outline:hover {
+    background: #059669;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.35);
+}
+
+/* Botão Block */
+.btn-block {
+    width: 100%;
+}
+
+/* Botão Large */
+.btn-lg {
+    padding: 16px 32px;
+    font-size: 16px;
+    border-radius: 12px;
+}
+
+/* Botão Small */
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+}
+
+/* Botão Ícone */
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon:hover {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.btn-icon.btn-delete-template:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Botão desabilitado */
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* ========================================
+   ESTILOS DE TABS
+   ======================================== */
+
 .crm-dev-tabs {
     display: flex;
     gap: 0;
     margin-bottom: 24px;
     background: white;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .crm-dev-tabs .tab-item {
-    padding: 16px 24px;
+    padding: 18px 28px;
     text-decoration: none;
     color: #64748b;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     border-bottom: 3px solid transparent;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
 }
 
 .crm-dev-tabs .tab-item:hover {
-    background: #f1f5f9;
+    background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%);
     color: #059669;
 }
 
 .crm-dev-tabs .tab-item.active {
     color: #059669;
     border-bottom-color: #059669;
-    background: #f0fdf4;
+    background: linear-gradient(180deg, #f0fdf4 0%, white 100%);
 }
+
+.crm-dev-tabs .tab-item i {
+    font-size: 16px;
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
 
 .crm-dev-row {
     display: flex;
@@ -1143,39 +1563,45 @@ jQuery(document).ready(function($) {
     }
 }
 
-/* Editor de Email */
+/* ========================================
+   EDITOR DE EMAIL
+   ======================================== */
+
 .editor-toolbar {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 8px;
-    background: #f8fafc;
+    gap: 6px;
+    padding: 12px;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
     border: 1px solid #e2e8f0;
     border-bottom: none;
-    border-radius: 8px 8px 0 0;
+    border-radius: 12px 12px 0 0;
 }
 
 .btn-toolbar {
-    padding: 8px 12px;
+    padding: 10px 14px;
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     color: #64748b;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
 }
 
 .btn-toolbar:hover {
-    background: #059669;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
     color: white;
-    border-color: #059669;
+    border-color: transparent;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
 }
 
 .toolbar-divider {
     width: 1px;
-    height: 24px;
-    background: #e2e8f0;
-    margin: 0 8px;
+    height: 28px;
+    background: linear-gradient(180deg, transparent, #cbd5e1, transparent);
+    margin: 0 10px;
 }
 
 .dropdown-toolbar {
@@ -1189,51 +1615,69 @@ jQuery(document).ready(function($) {
     left: 0;
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     z-index: 100;
-    min-width: 200px;
-    margin-top: 4px;
+    min-width: 220px;
+    margin-top: 8px;
+    overflow: hidden;
 }
 
 .dropdown-menu.show {
     display: block;
+    animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .dropdown-menu a {
     display: block;
-    padding: 10px 16px;
+    padding: 12px 18px;
     color: #334155;
     text-decoration: none;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.dropdown-menu a:last-child {
+    border-bottom: none;
 }
 
 .dropdown-menu a:hover {
-    background: #f0fdf4;
+    background: linear-gradient(90deg, #f0fdf4 0%, white 100%);
     color: #059669;
+    padding-left: 22px;
 }
 
 .content-editor {
     min-height: 300px;
-    padding: 16px;
+    padding: 20px;
     border: 1px solid #e2e8f0;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 12px 12px;
     background: white;
     outline: none;
+    transition: all 0.3s;
 }
 
 .content-editor:focus {
     border-color: #059669;
-    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
 }
 
-/* Contagem de destinatários */
+/* ========================================
+   CONTAGEM DE DESTINATÁRIOS
+   ======================================== */
+
 .recipients-count {
     text-align: center;
-    padding: 20px;
-    background: #f0fdf4;
-    border-radius: 8px;
-    margin: 16px 0;
+    padding: 24px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border-radius: 16px;
+    margin: 20px 0;
+    border: 1px solid #d1fae5;
 }
 
 .count-box span {
@@ -1241,33 +1685,49 @@ jQuery(document).ready(function($) {
 }
 
 .count-box #recipients-count {
-    font-size: 48px;
-    font-weight: 700;
-    color: #059669;
+    font-size: 56px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
 }
 
 .count-box label {
     color: #64748b;
     font-size: 14px;
+    font-weight: 500;
+    margin-top: 4px;
 }
 
-/* Info list */
+/* ========================================
+   INFO LIST
+   ======================================== */
+
 .info-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .info-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.info-item:last-child {
+    border-bottom: none;
 }
 
 .info-item i {
     color: #059669;
     width: 20px;
+    text-align: center;
 }
 
 .info-item span {
@@ -1277,41 +1737,54 @@ jQuery(document).ready(function($) {
 .info-item strong {
     color: #334155;
     margin-left: auto;
+    font-weight: 600;
 }
 
 .info-note {
-    margin-top: 16px;
-    padding: 12px;
-    background: #fef3c7;
-    border-radius: 8px;
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
+    border-radius: 12px;
     font-size: 13px;
     color: #92400e;
+    border: 1px solid #fde68a;
 }
 
 .info-note i {
-    margin-right: 8px;
+    margin-right: 10px;
 }
 
-/* Variáveis */
+/* ========================================
+   VARIÁVEIS
+   ======================================== */
+
 .variables-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .variable-item {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.variable-item:last-child {
+    border-bottom: none;
 }
 
 .variable-item code {
-    background: #f0fdf4;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
     color: #059669;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 6px 12px;
+    border-radius: 8px;
     font-size: 13px;
     display: inline-block;
+    font-weight: 600;
+    border: 1px solid #d1fae5;
 }
 
 .variable-item span {
@@ -1319,7 +1792,10 @@ jQuery(document).ready(function($) {
     font-size: 13px;
 }
 
-/* Queue stats */
+/* ========================================
+   QUEUE STATS
+   ======================================== */
+
 .queue-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1328,14 +1804,21 @@ jQuery(document).ready(function($) {
 
 .queue-stat {
     text-align: center;
-    padding: 16px;
-    background: #f8fafc;
-    border-radius: 8px;
+    padding: 20px 16px;
+    background: linear-gradient(180deg, #f8fafc 0%, white 100%);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s;
+}
+
+.queue-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .queue-stat .value {
     display: block;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     color: #334155;
 }
@@ -1343,53 +1826,80 @@ jQuery(document).ready(function($) {
 .queue-stat .label {
     color: #64748b;
     font-size: 12px;
+    font-weight: 500;
+    margin-top: 4px;
 }
 
-/* Status badges */
+/* ========================================
+   STATUS BADGES
+   ======================================== */
+
 .status-badge {
-    padding: 4px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .status-pending, .status-queued {
-    background: #fef3c7;
+    background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
     color: #92400e;
+    border: 1px solid #fde68a;
 }
 
 .status-processing, .status-sending {
-    background: #dbeafe;
+    background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
     color: #1e40af;
+    border: 1px solid #bfdbfe;
 }
 
 .status-sent, .status-completed {
-    background: #dcfce7;
+    background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%);
     color: #166534;
+    border: 1px solid #bbf7d0;
 }
 
 .status-failed {
-    background: #fee2e2;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
     color: #991b1b;
+    border: 1px solid #fecaca;
 }
 
 .status-opened {
-    background: #e0e7ff;
+    background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
     color: #3730a3;
+    border: 1px solid #c7d2fe;
 }
 
-/* Form actions fixed */
+/* ========================================
+   FORM ACTIONS FIXED
+   ======================================== */
+
 .form-actions-fixed {
     position: sticky;
     bottom: 0;
-    background: white;
-    padding: 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, white 100%);
+    padding: 20px 24px;
     margin: 24px -24px -24px;
     border-top: 1px solid #e2e8f0;
     text-align: right;
+    backdrop-filter: blur(8px);
 }
 
-/* SMTP form */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* ========================================
+   SMTP FORM
+   ======================================== */
+
 .form-row {
     display: flex;
     gap: 16px;
@@ -1401,6 +1911,7 @@ jQuery(document).ready(function($) {
 
 #smtp-test-result {
     margin-left: 16px;
+    font-weight: 500;
 }
 
 .text-success {
@@ -1411,7 +1922,10 @@ jQuery(document).ready(function($) {
     color: #dc2626;
 }
 
-/* Modal */
+/* ========================================
+   MODAIS
+   ======================================== */
+
 .crm-dev-modal {
     display: none;
     position: fixed;
@@ -1419,24 +1933,41 @@ jQuery(document).ready(function($) {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
     z-index: 100000;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 .crm-dev-modal.show {
     display: flex;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.crm-dev-modal.show .modal-content {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .modal-content {
     background: white;
-    border-radius: 12px;
+    border-radius: 20px;
     width: 100%;
     max-width: 600px;
     max-height: 90vh;
     overflow: auto;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
 }
 
 .modal-content.modal-lg {
@@ -1447,71 +1978,221 @@ jQuery(document).ready(function($) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 24px;
+    padding: 24px 28px;
     border-bottom: 1px solid #e2e8f0;
 }
 
 .modal-header h3 {
     margin: 0;
-    font-size: 18px;
-    color: #334155;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
 }
 
 .modal-close {
-    background: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
     border: none;
-    font-size: 24px;
+    border-radius: 10px;
+    font-size: 20px;
     cursor: pointer;
     color: #64748b;
-    padding: 0;
-    line-height: 1;
+    transition: all 0.2s;
 }
 
 .modal-close:hover {
-    color: #334155;
+    background: #fee2e2;
+    color: #dc2626;
 }
 
 .modal-body {
-    padding: 24px;
+    padding: 28px;
 }
 
 .modal-footer {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    padding: 16px 24px;
+    padding: 20px 28px;
     border-top: 1px solid #e2e8f0;
-    background: #f8fafc;
+    background: linear-gradient(180deg, #f8fafc 0%, white 100%);
+    border-radius: 0 0 20px 20px;
 }
 
-/* Email preview */
-#email-preview-content {
-    background: #f8fafc;
+/* ========================================
+   MODAIS DE AJUDA - DESIGN MODERNO
+   ======================================== */
+
+.help-modal .modal-content {
+    max-width: 560px;
+}
+
+.help-header {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+    padding: 28px;
+    position: relative;
+}
+
+.help-header-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+}
+
+.help-header h3 {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.help-header .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    backdrop-filter: blur(8px);
+}
+
+.help-header .modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.help-body {
+    padding: 28px;
+}
+
+.help-section {
+    display: flex;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.help-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.help-section:first-child {
+    padding-top: 0;
+}
+
+.help-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #059669;
+    font-size: 20px;
+    flex-shrink: 0;
+    border: 1px solid #d1fae5;
+}
+
+.help-content h4 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.help-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.help-footer {
+    background: linear-gradient(180deg, #f0fdf4 0%, white 100%);
+    justify-content: center;
     padding: 24px;
-    border-radius: 8px;
+}
+
+.help-footer .btn-primary {
+    padding: 14px 40px;
+    font-size: 15px;
+}
+
+/* ========================================
+   EMAIL PREVIEW
+   ======================================== */
+
+#email-preview-content {
+    background: linear-gradient(180deg, #f8fafc 0%, white 100%);
+    padding: 28px;
+    border-radius: 12px;
     border: 1px solid #e2e8f0;
 }
 
-/* Header actions */
+/* ========================================
+   HEADER ACTIONS
+   ======================================== */
+
 .header-actions {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     align-items: center;
 }
 
 .form-control-sm {
-    padding: 6px 12px;
+    padding: 8px 14px;
     font-size: 14px;
+    border-radius: 8px;
 }
 
-/* Loading */
+/* ========================================
+   LOADING
+   ======================================== */
+
 .loading {
     text-align: center;
-    padding: 40px;
+    padding: 50px;
     color: #64748b;
 }
 
 .loading i {
-    margin-right: 8px;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.crm-dev-empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: #64748b;
+}
+
+.crm-dev-empty i {
+    font-size: 48px;
+    color: #cbd5e1;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.crm-dev-empty p {
+    margin-bottom: 20px;
+    font-size: 15px;
 }
 </style>
