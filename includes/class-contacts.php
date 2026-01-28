@@ -269,9 +269,9 @@ class CRM_Dev_Contacts {
     private static function sanitize_contact_data($data) {
         $sanitized = array();
 
-        // Foto ID (inteiro ou null)
+        // Foto ID (inteiro, 0 se vazio)
         if (isset($data['foto_id'])) {
-            $sanitized['foto_id'] = !empty($data['foto_id']) ? intval($data['foto_id']) : null;
+            $sanitized['foto_id'] = !empty($data['foto_id']) ? intval($data['foto_id']) : 0;
         }
 
         // Campos de texto
@@ -374,7 +374,7 @@ class CRM_Dev_Contacts {
      */
     private static function get_data_formats($data) {
         $formats = array();
-        $int_fields = array('score_engajamento', 'criado_por', 'atualizado_por');
+        $int_fields = array('foto_id', 'score_engajamento', 'criado_por', 'atualizado_por');
 
         foreach ($data as $key => $value) {
             if (in_array($key, $int_fields)) {
