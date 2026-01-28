@@ -74,8 +74,15 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
     <div class="crm-dev-contact-view">
         <!-- Cabeçalho do Contato -->
         <div class="contact-header-card">
-            <div class="contact-avatar">
-                <span><?php echo strtoupper(substr($contact['nome_completo'], 0, 2)); ?></span>
+            <div class="contact-avatar <?php echo !empty($contact['foto_id']) ? 'has-photo' : ''; ?>">
+                <?php
+                $foto_url = !empty($contact['foto_id']) ? wp_get_attachment_image_url($contact['foto_id'], 'thumbnail') : '';
+                if ($foto_url) :
+                ?>
+                    <img src="<?php echo esc_url($foto_url); ?>" alt="<?php echo esc_attr($contact['nome_completo']); ?>">
+                <?php else : ?>
+                    <span><?php echo strtoupper(substr($contact['nome_completo'], 0, 2)); ?></span>
+                <?php endif; ?>
             </div>
             <div class="contact-header-info">
                 <h1><?php echo esc_html($contact['nome_social'] ?: $contact['nome_completo']); ?></h1>
@@ -250,8 +257,58 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                                                     <?php endif; ?>
                                                 </div>
                                             <?php endif; ?>
+                                            <?php
+                                            // Exibir anexos
+                                            $anexos = !empty($interaction['anexos']) ? json_decode($interaction['anexos'], true) : array();
+                                            if (!empty($anexos)) :
+                                            ?>
+                                                <div class="timeline-attachments">
+                                                    <strong><i class="fas fa-paperclip"></i> <?php _e('Anexos:', 'crm-developer'); ?></strong>
+                                                    <div class="attachments-list">
+                                                        <?php foreach ($anexos as $attachment_id) :
+                                                            $attachment_url = wp_get_attachment_url($attachment_id);
+                                                            $attachment_title = get_the_title($attachment_id);
+                                                            $attachment_type = get_post_mime_type($attachment_id);
+                                                            $is_image = strpos($attachment_type, 'image') !== false;
+
+                                                            if ($attachment_url) :
+                                                        ?>
+                                                            <a href="<?php echo esc_url($attachment_url); ?>" target="_blank" class="attachment-item <?php echo $is_image ? 'is-image' : ''; ?>">
+                                                                <?php if ($is_image) : ?>
+                                                                    <img src="<?php echo esc_url(wp_get_attachment_thumb_url($attachment_id)); ?>" alt="<?php echo esc_attr($attachment_title); ?>">
+                                                                <?php else : ?>
+                                                                    <i class="fas fa-file"></i>
+                                                                    <span><?php echo esc_html($attachment_title); ?></span>
+                                                                <?php endif; ?>
+                                                            </a>
+                                                        <?php
+                                                            endif;
+                                                        endforeach;
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
                                             <div class="timeline-meta">
                                                 <?php _e('Por', 'crm-developer'); ?> <?php echo esc_html($interaction['user_name']); ?>
+                                            </div>
+                                            <div class="timeline-actions">
+                                                <button type="button" class="btn-edit-interaction"
+                                                    data-id="<?php echo $interaction['id']; ?>"
+                                                    data-tipo="<?php echo esc_attr($interaction['tipo']); ?>"
+                                                    data-titulo="<?php echo esc_attr($interaction['titulo']); ?>"
+                                                    data-descricao="<?php echo esc_attr($interaction['descricao']); ?>"
+                                                    data-resultado="<?php echo esc_attr($interaction['resultado']); ?>"
+                                                    data-proxima_acao="<?php echo esc_attr($interaction['proxima_acao']); ?>"
+                                                    data-data_proxima_acao="<?php echo esc_attr($interaction['data_proxima_acao']); ?>"
+                                                    data-anexos="<?php echo esc_attr($interaction['anexos']); ?>"
+                                                    title="<?php _e('Editar', 'crm-developer'); ?>">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn-delete-interaction"
+                                                    data-id="<?php echo $interaction['id']; ?>"
+                                                    title="<?php _e('Excluir', 'crm-developer'); ?>">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -383,15 +440,16 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
     </div>
 </div>
 
-<!-- Modal de Nova Interação -->
+<!-- Modal de Interação (Nova/Editar) -->
 <div id="modal-interaction" class="crm-dev-modal" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
-            <h3><i class="fas fa-plus"></i> <?php _e('Nova Interação', 'crm-developer'); ?></h3>
+            <h3><i class="fas fa-plus" id="modal-icon"></i> <span id="modal-title"><?php _e('Nova Interação', 'crm-developer'); ?></span></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <form id="interaction-form">
             <input type="hidden" name="contact_id" value="<?php echo $contact_id; ?>">
+            <input type="hidden" name="id" id="int-id" value="">
 
             <div class="form-group">
                 <label for="int-tipo"><?php _e('Tipo de Interação', 'crm-developer'); ?> *</label>
@@ -434,6 +492,18 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <input type="date" id="int-data-proxima" name="data_proxima_acao">
             </div>
 
+            <div class="form-group">
+                <label><?php _e('Anexos', 'crm-developer'); ?></label>
+                <div class="attachments-area">
+                    <div id="attachments-preview" class="attachments-preview"></div>
+                    <input type="hidden" name="anexos" id="int-anexos" value="">
+                    <button type="button" class="button" id="btn-add-attachment">
+                        <i class="fas fa-paperclip"></i> <?php _e('Adicionar Anexo', 'crm-developer'); ?>
+                    </button>
+                    <span class="field-help"><?php _e('Imagens, PDFs, documentos (máx. 10MB cada)', 'crm-developer'); ?></span>
+                </div>
+            </div>
+
             <div class="modal-footer">
                 <button type="button" class="button modal-close"><?php _e('Cancelar', 'crm-developer'); ?></button>
                 <button type="submit" class="button button-primary"><?php _e('Salvar Interação', 'crm-developer'); ?></button>
@@ -444,20 +514,199 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
 
 <script>
 jQuery(document).ready(function($) {
-    // Abrir modal de interação
+    // Variável para armazenar IDs dos anexos
+    let attachmentIds = [];
+
+    // Função para renderizar preview dos anexos
+    function renderAttachmentPreviews() {
+        const $container = $('#attachments-preview');
+        $container.empty();
+
+        if (attachmentIds.length === 0) {
+            return;
+        }
+
+        attachmentIds.forEach(function(id) {
+            // Buscar dados do anexo via AJAX ou usar dados já carregados
+            $.post(ajaxurl, {
+                action: 'crm_dev_get_attachment_info',
+                nonce: crmDevAdmin.nonce,
+                attachment_id: id
+            }, function(response) {
+                if (response.success) {
+                    const att = response.data;
+                    const isImage = att.type && att.type.indexOf('image') !== -1;
+
+                    let html = '<div class="attachment-preview-item" data-id="' + id + '">';
+                    if (isImage && att.thumb_url) {
+                        html += '<img src="' + att.thumb_url + '" alt="">';
+                    } else {
+                        html += '<i class="fas fa-file"></i>';
+                    }
+                    html += '<span class="attachment-name">' + att.title + '</span>';
+                    html += '<button type="button" class="btn-remove-attachment" data-id="' + id + '">&times;</button>';
+                    html += '</div>';
+
+                    $container.append(html);
+                }
+            });
+        });
+
+        $('#int-anexos').val(JSON.stringify(attachmentIds));
+    }
+
+    // Função para resetar o formulário
+    function resetInteractionForm() {
+        $('#interaction-form')[0].reset();
+        $('#int-id').val('');
+        attachmentIds = [];
+        $('#attachments-preview').empty();
+        $('#int-anexos').val('');
+        $('#modal-title').text('<?php _e('Nova Interação', 'crm-developer'); ?>');
+        $('#modal-icon').removeClass('fa-edit').addClass('fa-plus');
+    }
+
+    // Abrir modal para nova interação
     $('#btn-new-interaction').on('click', function() {
+        resetInteractionForm();
         $('#modal-interaction').show();
+    });
+
+    // Abrir modal para editar interação
+    $(document).on('click', '.btn-edit-interaction', function() {
+        const $btn = $(this);
+
+        // Preencher formulário com dados da interação
+        $('#int-id').val($btn.data('id'));
+        $('#int-tipo').val($btn.data('tipo'));
+        $('#int-titulo').val($btn.data('titulo'));
+        $('#int-descricao').val($btn.data('descricao'));
+        $('#int-resultado').val($btn.data('resultado'));
+        $('#int-proxima-acao').val($btn.data('proxima_acao'));
+        $('#int-data-proxima').val($btn.data('data_proxima_acao'));
+
+        // Carregar anexos
+        const anexosData = $btn.data('anexos');
+        if (anexosData) {
+            try {
+                attachmentIds = typeof anexosData === 'string' ? JSON.parse(anexosData) : anexosData;
+                if (!Array.isArray(attachmentIds)) {
+                    attachmentIds = [];
+                }
+            } catch (e) {
+                attachmentIds = [];
+            }
+        } else {
+            attachmentIds = [];
+        }
+        renderAttachmentPreviews();
+
+        // Atualizar título do modal
+        $('#modal-title').text('<?php _e('Editar Interação', 'crm-developer'); ?>');
+        $('#modal-icon').removeClass('fa-plus').addClass('fa-edit');
+
+        $('#modal-interaction').show();
+    });
+
+    // Abrir Media Library para adicionar anexo
+    $('#btn-add-attachment').on('click', function(e) {
+        e.preventDefault();
+
+        // Se a Media Library já está aberta, não abrir novamente
+        if (typeof wp === 'undefined' || !wp.media) {
+            alert('<?php _e('Biblioteca de mídia não disponível', 'crm-developer'); ?>');
+            return;
+        }
+
+        const mediaUploader = wp.media({
+            title: '<?php _e('Selecionar Anexos', 'crm-developer'); ?>',
+            button: {
+                text: '<?php _e('Adicionar Anexo(s)', 'crm-developer'); ?>'
+            },
+            multiple: true
+        });
+
+        mediaUploader.on('select', function() {
+            const attachments = mediaUploader.state().get('selection').toJSON();
+            attachments.forEach(function(attachment) {
+                if (attachmentIds.indexOf(attachment.id) === -1) {
+                    attachmentIds.push(attachment.id);
+
+                    // Adicionar preview imediatamente
+                    const isImage = attachment.type === 'image';
+                    const thumbUrl = isImage && attachment.sizes && attachment.sizes.thumbnail
+                        ? attachment.sizes.thumbnail.url
+                        : (isImage ? attachment.url : '');
+
+                    let html = '<div class="attachment-preview-item" data-id="' + attachment.id + '">';
+                    if (isImage && thumbUrl) {
+                        html += '<img src="' + thumbUrl + '" alt="">';
+                    } else {
+                        html += '<i class="fas fa-file"></i>';
+                    }
+                    html += '<span class="attachment-name">' + attachment.title + '</span>';
+                    html += '<button type="button" class="btn-remove-attachment" data-id="' + attachment.id + '">&times;</button>';
+                    html += '</div>';
+
+                    $('#attachments-preview').append(html);
+                }
+            });
+            $('#int-anexos').val(JSON.stringify(attachmentIds));
+        });
+
+        mediaUploader.open();
+    });
+
+    // Remover anexo
+    $(document).on('click', '.btn-remove-attachment', function(e) {
+        e.preventDefault();
+        const id = parseInt($(this).data('id'));
+        attachmentIds = attachmentIds.filter(function(aid) { return aid !== id; });
+        $(this).closest('.attachment-preview-item').remove();
+        $('#int-anexos').val(JSON.stringify(attachmentIds));
+    });
+
+    // Excluir interação
+    $(document).on('click', '.btn-delete-interaction', function() {
+        if (!confirm('<?php _e('Tem certeza que deseja excluir esta interação?', 'crm-developer'); ?>')) {
+            return;
+        }
+
+        const id = $(this).data('id');
+        const $item = $(this).closest('.timeline-item');
+
+        $.post(crmDevAdmin.ajaxUrl, {
+            action: 'crm_dev_delete_interaction',
+            nonce: crmDevAdmin.nonce,
+            id: id
+        }, function(response) {
+            if (response.success) {
+                $item.fadeOut(300, function() {
+                    $(this).remove();
+                    // Se não houver mais interações, mostrar mensagem vazia
+                    if ($('.timeline-item').length === 0) {
+                        $('.interactions-timeline').replaceWith(
+                            '<p class="crm-dev-empty"><?php _e('Nenhuma interação registrada ainda.', 'crm-developer'); ?></p>'
+                        );
+                    }
+                });
+            } else {
+                alert(response.data.message || '<?php _e('Erro ao excluir', 'crm-developer'); ?>');
+            }
+        });
     });
 
     // Fechar modal
     $('.modal-close').on('click', function() {
         $('#modal-interaction').hide();
+        resetInteractionForm();
     });
 
     // Fechar modal clicando fora
     $('#modal-interaction').on('click', function(e) {
         if (e.target === this) {
             $(this).hide();
+            resetInteractionForm();
         }
     });
 
@@ -470,6 +719,10 @@ jQuery(document).ready(function($) {
             formData[item.name] = item.value;
         });
 
+        const $submitBtn = $(this).find('button[type="submit"]');
+        const originalText = $submitBtn.html();
+        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> <?php _e('Salvando...', 'crm-developer'); ?>');
+
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_save_interaction',
             nonce: crmDevAdmin.nonce,
@@ -478,8 +731,12 @@ jQuery(document).ready(function($) {
             if (response.success) {
                 location.reload();
             } else {
-                alert(response.data.message || 'Erro ao salvar');
+                alert(response.data.message || '<?php _e('Erro ao salvar', 'crm-developer'); ?>');
+                $submitBtn.prop('disabled', false).html(originalText);
             }
+        }).fail(function() {
+            alert('<?php _e('Erro de conexão', 'crm-developer'); ?>');
+            $submitBtn.prop('disabled', false).html(originalText);
         });
     });
 });

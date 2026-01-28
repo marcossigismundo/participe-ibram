@@ -65,6 +65,7 @@ class CRM_Developer {
         require_once CRM_DEV_PLUGIN_DIR . 'includes/class-dashboard.php';
         require_once CRM_DEV_PLUGIN_DIR . 'includes/class-helpers.php';
         require_once CRM_DEV_PLUGIN_DIR . 'includes/class-email.php';
+        require_once CRM_DEV_PLUGIN_DIR . 'includes/class-alerts.php';
 
         // Admin
         if (is_admin()) {
@@ -99,7 +100,9 @@ class CRM_Developer {
         add_action('wp_ajax_crm_dev_import_contacts', array('CRM_Dev_Import_Export', 'ajax_import'));
         add_action('wp_ajax_crm_dev_export_contacts', array('CRM_Dev_Import_Export', 'ajax_export'));
         add_action('wp_ajax_crm_dev_save_interaction', array('CRM_Dev_Interactions', 'ajax_save_interaction'));
+        add_action('wp_ajax_crm_dev_delete_interaction', array('CRM_Dev_Interactions', 'ajax_delete_interaction'));
         add_action('wp_ajax_crm_dev_get_interactions', array('CRM_Dev_Interactions', 'ajax_get_interactions'));
+        add_action('wp_ajax_crm_dev_get_attachment_info', array('CRM_Dev_Interactions', 'ajax_get_attachment_info'));
         add_action('wp_ajax_crm_dev_get_dashboard_data', array('CRM_Dev_Dashboard', 'ajax_get_data'));
         add_action('wp_ajax_crm_dev_get_report_data', array('CRM_Dev_Dashboard', 'ajax_get_report_data'));
 
@@ -113,6 +116,11 @@ class CRM_Developer {
         add_action('wp_ajax_crm_dev_save_email_settings', array('CRM_Dev_Email', 'ajax_save_settings'));
         add_action('wp_ajax_crm_dev_test_smtp', array('CRM_Dev_Email', 'ajax_test_smtp'));
         add_action('wp_ajax_crm_dev_get_email_logs', array('CRM_Dev_Email', 'ajax_get_logs'));
+
+        // Alert handlers
+        add_action('wp_ajax_crm_dev_save_alert_settings', array('CRM_Dev_Alerts', 'ajax_save_settings'));
+        add_action('wp_ajax_crm_dev_get_alert_settings', array('CRM_Dev_Alerts', 'ajax_get_settings'));
+        add_action('wp_ajax_crm_dev_test_alert', array('CRM_Dev_Alerts', 'ajax_test_alert'));
 
         // AJAX público (sem autenticação)
         add_action('wp_ajax_nopriv_crm_dev_public_register', array('CRM_Dev_Public', 'ajax_register'));
@@ -143,6 +151,9 @@ class CRM_Developer {
         if (strpos($hook, 'crm-developer') === false && strpos($hook, 'crm_developer') === false) {
             return;
         }
+
+        // Media Library para uploads de anexos
+        wp_enqueue_media();
 
         // CSS
         wp_enqueue_style('crm-dev-admin', CRM_DEV_PLUGIN_URL . 'assets/css/admin.css', array(), CRM_DEV_VERSION);

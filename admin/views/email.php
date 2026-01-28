@@ -85,9 +85,9 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                             <option value=""><?php _e('-- Selecionar template ou criar novo --', 'crm-developer'); ?></option>
                                             <?php foreach ($templates as $template) : ?>
                                                 <option value="<?php echo esc_attr($template['id']); ?>"
-                                                        data-subject="<?php echo esc_attr($template['subject']); ?>"
-                                                        data-content="<?php echo esc_attr($template['content']); ?>">
-                                                    <?php echo esc_html($template['name']); ?>
+                                                        data-assunto="<?php echo esc_attr($template['assunto'] ?? ''); ?>"
+                                                        data-conteudo="<?php echo esc_attr($template['conteudo'] ?? ''); ?>">
+                                                    <?php echo esc_html($template['nome'] ?? ''); ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
@@ -283,15 +283,15 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                         <tbody id="templates-list">
                                             <?php foreach ($templates as $template) : ?>
                                                 <tr data-id="<?php echo esc_attr($template['id']); ?>">
-                                                    <td><strong><?php echo esc_html($template['name']); ?></strong></td>
-                                                    <td><?php echo esc_html($template['subject']); ?></td>
+                                                    <td><strong><?php echo esc_html($template['nome'] ?? ''); ?></strong></td>
+                                                    <td><?php echo esc_html($template['assunto'] ?? ''); ?></td>
                                                     <td><?php echo CRM_Dev_Helpers::format_datetime($template['created_at'], 'd/m/Y'); ?></td>
                                                     <td>
                                                         <button type="button" class="btn-icon btn-edit-template"
                                                                 data-id="<?php echo esc_attr($template['id']); ?>"
-                                                                data-name="<?php echo esc_attr($template['name']); ?>"
-                                                                data-subject="<?php echo esc_attr($template['subject']); ?>"
-                                                                data-content="<?php echo esc_attr($template['content']); ?>"
+                                                                data-nome="<?php echo esc_attr($template['nome'] ?? ''); ?>"
+                                                                data-assunto="<?php echo esc_attr($template['assunto'] ?? ''); ?>"
+                                                                data-conteudo="<?php echo esc_attr($template['conteudo'] ?? ''); ?>"
                                                                 title="<?php _e('Editar', 'crm-developer'); ?>">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
@@ -577,36 +577,78 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 
 <!-- Modal de Template -->
 <div id="modal-template" class="crm-dev-modal">
-    <div class="modal-content">
+    <div class="modal-content modal-lg">
         <div class="modal-header">
             <h3 id="modal-template-title"><?php _e('Novo Template', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body">
-            <form id="template-form">
-                <input type="hidden" name="template_id" id="template-id">
+            <div class="template-modal-grid">
+                <div class="template-form-area">
+                    <form id="template-form">
+                        <input type="hidden" name="template_id" id="template-id">
 
-                <div class="form-group">
-                    <label for="template-name"><?php _e('Nome do Template', 'crm-developer'); ?> *</label>
-                    <input type="text" id="template-name" name="name" class="form-control" required>
-                </div>
+                        <div class="form-group">
+                            <label for="template-nome"><?php _e('Nome do Template', 'crm-developer'); ?> *</label>
+                            <input type="text" id="template-nome" name="nome" class="form-control" required
+                                   placeholder="<?php _e('Ex: Boas-vindas, Newsletter, Convite...', 'crm-developer'); ?>">
+                        </div>
 
-                <div class="form-group">
-                    <label for="template-subject"><?php _e('Assunto', 'crm-developer'); ?> *</label>
-                    <input type="text" id="template-subject" name="subject" class="form-control" required>
-                </div>
+                        <div class="form-group">
+                            <label for="template-assunto"><?php _e('Assunto do Email', 'crm-developer'); ?> *</label>
+                            <input type="text" id="template-assunto" name="assunto" class="form-control" required
+                                   placeholder="<?php _e('Ex: Olá {{primeiro_nome}}, temos novidades!', 'crm-developer'); ?>">
+                        </div>
 
-                <div class="form-group">
-                    <label for="template-content"><?php _e('Conteúdo', 'crm-developer'); ?> *</label>
-                    <textarea id="template-content" name="content" class="form-control" rows="10" required></textarea>
-                    <p class="form-help"><?php _e('Use as variáveis disponíveis para personalizar o email.', 'crm-developer'); ?></p>
+                        <div class="form-group">
+                            <label for="template-conteudo"><?php _e('Conteúdo', 'crm-developer'); ?> *</label>
+                            <textarea id="template-conteudo" name="conteudo" class="form-control" rows="12" required
+                                      placeholder="<?php _e('Digite o conteúdo do email. Use as variáveis ao lado para personalizar...', 'crm-developer'); ?>"></textarea>
+                        </div>
+                    </form>
                 </div>
-            </form>
+                <div class="template-vars-area">
+                    <div class="vars-panel">
+                        <h4><i class="fas fa-code"></i> <?php _e('Variáveis Disponíveis', 'crm-developer'); ?></h4>
+                        <p class="vars-help"><?php _e('Clique para inserir no conteúdo:', 'crm-developer'); ?></p>
+                        <div class="vars-buttons">
+                            <button type="button" class="var-btn" data-var="{{nome}}" title="<?php _e('Nome completo', 'crm-developer'); ?>">
+                                <i class="fas fa-user"></i> {{nome}}
+                            </button>
+                            <button type="button" class="var-btn" data-var="{{primeiro_nome}}" title="<?php _e('Primeiro nome', 'crm-developer'); ?>">
+                                <i class="fas fa-user-tag"></i> {{primeiro_nome}}
+                            </button>
+                            <button type="button" class="var-btn" data-var="{{email}}" title="<?php _e('Email', 'crm-developer'); ?>">
+                                <i class="fas fa-at"></i> {{email}}
+                            </button>
+                            <button type="button" class="var-btn" data-var="{{estado}}" title="<?php _e('Estado', 'crm-developer'); ?>">
+                                <i class="fas fa-map-marker-alt"></i> {{estado}}
+                            </button>
+                            <button type="button" class="var-btn" data-var="{{municipio}}" title="<?php _e('Município', 'crm-developer'); ?>">
+                                <i class="fas fa-city"></i> {{municipio}}
+                            </button>
+                            <button type="button" class="var-btn" data-var="{{regiao}}" title="<?php _e('Região', 'crm-developer'); ?>">
+                                <i class="fas fa-globe-americas"></i> {{regiao}}
+                            </button>
+                            <button type="button" class="var-btn" data-var="{{data_cadastro}}" title="<?php _e('Data de cadastro', 'crm-developer'); ?>">
+                                <i class="fas fa-calendar"></i> {{data_cadastro}}
+                            </button>
+                            <button type="button" class="var-btn" data-var="{{link_descadastro}}" title="<?php _e('Link descadastro', 'crm-developer'); ?>">
+                                <i class="fas fa-unlink"></i> {{link_descadastro}}
+                            </button>
+                        </div>
+                        <div class="vars-tip">
+                            <i class="fas fa-lightbulb"></i>
+                            <span><?php _e('As variáveis serão substituídas pelos dados de cada contato no momento do envio.', 'crm-developer'); ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary modal-close-btn"><?php _e('Cancelar', 'crm-developer'); ?></button>
             <button type="button" id="btn-save-template-modal" class="btn btn-primary">
-                <i class="fas fa-save"></i> <?php _e('Salvar', 'crm-developer'); ?>
+                <i class="fas fa-save"></i> <?php _e('Salvar Template', 'crm-developer'); ?>
             </button>
         </div>
     </div>
@@ -847,8 +889,8 @@ jQuery(document).ready(function($) {
     $('#email-template').on('change', function() {
         const selected = $(this).find(':selected');
         if (selected.val()) {
-            $('#email-subject').val(selected.data('subject'));
-            $('#email-content').html(selected.data('content'));
+            $('#email-subject').val(selected.data('assunto'));
+            $('#email-content').html(selected.data('conteudo'));
         }
     });
 
@@ -999,7 +1041,22 @@ jQuery(document).ready(function($) {
         $('#modal-template-title').text('<?php _e('Novo Template', 'crm-developer'); ?>');
         $('#template-form')[0].reset();
         $('#template-id').val('');
+        $('#template-nome').val('');
+        $('#template-assunto').val('');
+        $('#template-conteudo').val('');
         $('#modal-template').addClass('show');
+    });
+
+    // Inserir variável no campo de conteúdo do template
+    $(document).on('click', '.var-btn', function() {
+        const variable = $(this).data('var');
+        const $textarea = $('#template-conteudo');
+        const cursorPos = $textarea[0].selectionStart;
+        const textBefore = $textarea.val().substring(0, cursorPos);
+        const textAfter = $textarea.val().substring(cursorPos);
+        $textarea.val(textBefore + variable + textAfter);
+        $textarea.focus();
+        $textarea[0].setSelectionRange(cursorPos + variable.length, cursorPos + variable.length);
     });
 
     // Editar template
@@ -1007,9 +1064,9 @@ jQuery(document).ready(function($) {
         const $btn = $(this);
         $('#modal-template-title').text('<?php _e('Editar Template', 'crm-developer'); ?>');
         $('#template-id').val($btn.data('id'));
-        $('#template-name').val($btn.data('name'));
-        $('#template-subject').val($btn.data('subject'));
-        $('#template-content').val($btn.data('content'));
+        $('#template-nome').val($btn.data('nome'));
+        $('#template-assunto').val($btn.data('assunto'));
+        $('#template-conteudo').val($btn.data('conteudo'));
         $('#modal-template').addClass('show');
     });
 
@@ -1028,12 +1085,14 @@ jQuery(document).ready(function($) {
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_save_email_template',
             nonce: crmDevAdmin.nonce,
-            id: $('#template-id').val(),
-            name: $('#template-name').val(),
-            subject: $('#template-subject').val(),
-            content: $('#template-content').val()
+            data: {
+                id: $('#template-id').val(),
+                nome: $('#template-nome').val(),
+                assunto: $('#template-assunto').val(),
+                conteudo: $('#template-conteudo').val()
+            }
         }, function(response) {
-            $btn.prop('disabled', false).html('<i class="fas fa-save"></i> <?php _e('Salvar', 'crm-developer'); ?>');
+            $btn.prop('disabled', false).html('<i class="fas fa-save"></i> <?php _e('Salvar Template', 'crm-developer'); ?>');
 
             if (response.success) {
                 location.reload();
@@ -1069,23 +1128,25 @@ jQuery(document).ready(function($) {
 
     // Salvar como template (da aba enviar)
     $('#btn-save-template').on('click', function() {
-        const subject = $('#email-subject').val();
-        const content = $('#email-content').html();
+        const assunto = $('#email-subject').val();
+        const conteudo = $('#email-content').html();
 
-        if (!subject || !content) {
+        if (!assunto || !conteudo) {
             alert('<?php _e('Preencha o assunto e conteúdo antes de salvar.', 'crm-developer'); ?>');
             return;
         }
 
-        const name = prompt('<?php _e('Digite o nome do template:', 'crm-developer'); ?>');
-        if (!name) return;
+        const nome = prompt('<?php _e('Digite o nome do template:', 'crm-developer'); ?>');
+        if (!nome) return;
 
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_save_email_template',
             nonce: crmDevAdmin.nonce,
-            name: name,
-            subject: subject,
-            content: content
+            data: {
+                nome: nome,
+                assunto: assunto,
+                conteudo: conteudo
+            }
         }, function(response) {
             if (response.success) {
                 alert('<?php _e('Template salvo com sucesso!', 'crm-developer'); ?>');
@@ -2194,5 +2255,110 @@ jQuery(document).ready(function($) {
 .crm-dev-empty p {
     margin-bottom: 20px;
     font-size: 15px;
+}
+
+/* ========================================
+   TEMPLATE MODAL STYLES
+   ======================================== */
+
+.template-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .template-modal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.template-form-area .form-group {
+    margin-bottom: 20px;
+}
+
+.template-form-area textarea {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    resize: vertical;
+}
+
+.vars-panel {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1px solid #d1fae5;
+    border-radius: 12px;
+    padding: 20px;
+    position: sticky;
+    top: 20px;
+}
+
+.vars-panel h4 {
+    margin: 0 0 8px 0;
+    color: #059669;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vars-help {
+    color: #64748b;
+    font-size: 13px;
+    margin: 0 0 16px 0;
+}
+
+.vars-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.var-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: white;
+    border: 1px solid #d1fae5;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+}
+
+.var-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    border-color: transparent;
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+}
+
+.var-btn i {
+    width: 16px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.var-btn:hover i {
+    opacity: 1;
+}
+
+.vars-tip {
+    margin-top: 16px;
+    padding: 12px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.vars-tip i {
+    color: #f59e0b;
+    margin-top: 2px;
 }
 </style>

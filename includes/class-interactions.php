@@ -91,6 +91,25 @@ class CRM_Dev_Interactions {
         $table = self::get_table();
         $tables = CRM_Dev_Database::get_tables();
 
+        // Processar anexos
+        $anexos = null;
+        if (isset($data['anexos'])) {
+            if (is_string($data['anexos']) && !empty($data['anexos'])) {
+                // Verificar se é JSON válido
+                $decoded = json_decode($data['anexos'], true);
+                if (is_array($decoded)) {
+                    // Sanitizar IDs
+                    $decoded = array_map('intval', $decoded);
+                    $decoded = array_filter($decoded);
+                    $anexos = !empty($decoded) ? json_encode($decoded) : null;
+                }
+            } elseif (is_array($data['anexos'])) {
+                $decoded = array_map('intval', $data['anexos']);
+                $decoded = array_filter($decoded);
+                $anexos = !empty($decoded) ? json_encode($decoded) : null;
+            }
+        }
+
         $sanitized = array(
             'contact_id' => intval($data['contact_id']),
             'tipo' => sanitize_text_field($data['tipo']),
@@ -99,6 +118,7 @@ class CRM_Dev_Interactions {
             'resultado' => sanitize_text_field($data['resultado'] ?? ''),
             'proxima_acao' => sanitize_textarea_field($data['proxima_acao'] ?? ''),
             'data_proxima_acao' => !empty($data['data_proxima_acao']) ? sanitize_text_field($data['data_proxima_acao']) : null,
+            'anexos' => $anexos,
         );
 
         if ($id) {
@@ -106,7 +126,7 @@ class CRM_Dev_Interactions {
                 $table,
                 $sanitized,
                 array('id' => $id),
-                array('%d', '%s', '%s', '%s', '%s', '%s', '%s'),
+                array('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s'),
                 array('%d')
             );
         } else {
@@ -116,7 +136,7 @@ class CRM_Dev_Interactions {
             $result = $wpdb->insert(
                 $table,
                 $sanitized,
-                array('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s')
+                array('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s')
             );
 
             if ($result) {
@@ -245,16 +265,76 @@ class CRM_Dev_Interactions {
             wp_send_json_error(array('message' => 'Dados obrigatórios não informados'));
         }
 
-        $id = isset($data['id']) ? intval($data['id']) : null;
+        $id = isset($data['id']) && !empty($data['id']) ? intval($data['id']) : null;
         $result = self::save_interaction($data, $id);
 
         if ($result) {
             wp_send_json_success(array(
                 'id' => $result,
-                'message' => 'Interação salva com sucesso!'
+                'message' => $id ? 'Interação atualizada com sucesso!' : 'Interação salva com sucesso!'
             ));
         } else {
             wp_send_json_error(array('message' => 'Erro ao salvar interação'));
         }
+    }
+
+    /**
+     * Handler AJAX - Excluir interação
+     */
+    public static function ajax_delete_interaction() {
+        check_ajax_referer('crm_dev_nonce', 'nonce');
+
+        if (!CRM_Dev_Helpers::can_user('edit_crm_contacts')) {
+            wp_send_json_error(array('message' => 'Sem permissão'));
+        }
+
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+
+        if (!$id) {
+            wp_send_json_error(array('message' => 'ID da interação inválido'));
+        }
+
+        $result = self::delete_interaction($id);
+
+        if ($result) {
+            wp_send_json_success(array('message' => 'Interação excluída com sucesso!'));
+        } else {
+            wp_send_json_error(array('message' => 'Erro ao excluir interação'));
+        }
+    }
+
+    /**
+     * Handler AJAX - Obter informações de anexo
+     */
+    public static function ajax_get_attachment_info() {
+        check_ajax_referer('crm_dev_nonce', 'nonce');
+
+        if (!CRM_Dev_Helpers::can_user('edit_crm_contacts')) {
+            wp_send_json_error(array('message' => 'Sem permissão'));
+        }
+
+        $attachment_id = isset($_POST['attachment_id']) ? intval($_POST['attachment_id']) : 0;
+
+        if (!$attachment_id) {
+            wp_send_json_error(array('message' => 'ID do anexo inválido'));
+        }
+
+        $attachment = get_post($attachment_id);
+
+        if (!$attachment) {
+            wp_send_json_error(array('message' => 'Anexo não encontrado'));
+        }
+
+        $thumb_url = wp_get_attachment_thumb_url($attachment_id);
+        $url = wp_get_attachment_url($attachment_id);
+        $type = get_post_mime_type($attachment_id);
+
+        wp_send_json_success(array(
+            'id' => $attachment_id,
+            'title' => get_the_title($attachment_id),
+            'url' => $url,
+            'thumb_url' => $thumb_url ?: $url,
+            'type' => $type
+        ));
     }
 }

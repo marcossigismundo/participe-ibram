@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inclui modais de ajuda
+require_once CRM_DEV_PLUGIN_DIR . 'admin/views/partials/help-modals.php';
+
 $tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'import';
 $available_fields = CRM_Dev_Import_Export::get_available_fields();
 $import_history = CRM_Dev_Import_Export::get_import_history(10);
@@ -16,11 +19,16 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
 
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
-        <h1>
-            <i class="fas fa-exchange-alt"></i>
-            <?php _e('Importar / Exportar', 'crm-developer'); ?>
-        </h1>
-        <p class="crm-dev-subtitle"><?php _e('Gerencie a importação e exportação de contatos', 'crm-developer'); ?></p>
+        <div class="header-title-row">
+            <div>
+                <h1>
+                    <i class="fas fa-exchange-alt"></i>
+                    <?php _e('Importar / Exportar', 'crm-developer'); ?>
+                </h1>
+                <p class="crm-dev-subtitle"><?php _e('Gerencie a importação e exportação de contatos', 'crm-developer'); ?></p>
+            </div>
+            <?php crm_dev_render_help_button('import-export'); ?>
+        </div>
     </div>
 
     <!-- Tabs -->
@@ -646,3 +654,9 @@ jQuery(document).ready(function($) {
     });
 });
 </script>
+
+<?php
+// Modal de ajuda
+crm_dev_render_help_modal_import_export();
+crm_dev_render_help_modal_script();
+?>

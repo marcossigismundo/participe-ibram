@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inclui modais de ajuda
+require_once CRM_DEV_PLUGIN_DIR . 'admin/views/partials/help-modals.php';
+
 $contact_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $contact = $contact_id ? CRM_Dev_Contacts::get_contact($contact_id) : array();
 $is_edit = !empty($contact);
@@ -48,15 +51,20 @@ function is_checked($contact, $field, $value) {
 
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
-        <h1>
-            <i class="fas fa-<?php echo $is_edit ? 'user-edit' : 'user-plus'; ?>"></i>
-            <?php echo $is_edit ? __('Editar Contato', 'crm-developer') : __('Novo Contato', 'crm-developer'); ?>
-        </h1>
-        <p class="crm-dev-subtitle">
-            <?php echo $is_edit
-                ? __('Atualize as informações do contato abaixo', 'crm-developer')
-                : __('Preencha as informações do novo contato', 'crm-developer'); ?>
-        </p>
+        <div class="header-title-row">
+            <div>
+                <h1>
+                    <i class="fas fa-<?php echo $is_edit ? 'user-edit' : 'user-plus'; ?>"></i>
+                    <?php echo $is_edit ? __('Editar Contato', 'crm-developer') : __('Novo Contato', 'crm-developer'); ?>
+                </h1>
+                <p class="crm-dev-subtitle">
+                    <?php echo $is_edit
+                        ? __('Atualize as informações do contato abaixo', 'crm-developer')
+                        : __('Preencha as informações do novo contato', 'crm-developer'); ?>
+                </p>
+            </div>
+            <?php crm_dev_render_help_button('contact-form'); ?>
+        </div>
     </div>
 
     <div class="crm-dev-form-container">
@@ -101,6 +109,34 @@ function is_checked($contact, $field, $value) {
                 </div>
 
                 <div class="form-grid">
+                    <!-- Foto do Contato -->
+                    <div class="form-group full-width">
+                        <label><?php _e('Foto do Contato', 'crm-developer'); ?></label>
+                        <div class="contact-photo-upload">
+                            <div class="photo-preview" id="photo-preview">
+                                <?php
+                                $foto_id = get_value($contact, 'foto_id');
+                                $foto_url = $foto_id ? wp_get_attachment_image_url($foto_id, 'thumbnail') : '';
+                                if ($foto_url) :
+                                ?>
+                                    <img src="<?php echo esc_url($foto_url); ?>" alt="">
+                                    <button type="button" class="btn-remove-photo" title="<?php _e('Remover foto', 'crm-developer'); ?>">&times;</button>
+                                <?php else : ?>
+                                    <div class="photo-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="photo-actions">
+                                <input type="hidden" name="foto_id" id="foto_id" value="<?php echo esc_attr($foto_id); ?>">
+                                <button type="button" class="button" id="btn-select-photo">
+                                    <i class="fas fa-camera"></i> <?php _e('Selecionar Foto', 'crm-developer'); ?>
+                                </button>
+                                <span class="field-help"><?php _e('Opcional. Imagem de perfil do contato.', 'crm-developer'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group full-width">
                         <label for="nome_completo"><?php _e('Nome Completo', 'crm-developer'); ?> <span class="required">*</span></label>
                         <input type="text" id="nome_completo" name="nome_completo" value="<?php echo esc_attr(get_value($contact, 'nome_completo')); ?>" required>
@@ -485,6 +521,47 @@ jQuery(document).ready(function($) {
         $('#regiao').val(regiaoMap[estado] || '');
     });
 
+    // Seleção de foto do contato
+    $('#btn-select-photo').on('click', function(e) {
+        e.preventDefault();
+
+        if (typeof wp === 'undefined' || !wp.media) {
+            alert('<?php _e('Biblioteca de mídia não disponível', 'crm-developer'); ?>');
+            return;
+        }
+
+        const mediaUploader = wp.media({
+            title: '<?php _e('Selecionar Foto do Contato', 'crm-developer'); ?>',
+            button: { text: '<?php _e('Usar esta Foto', 'crm-developer'); ?>' },
+            library: { type: 'image' },
+            multiple: false
+        });
+
+        mediaUploader.on('select', function() {
+            const attachment = mediaUploader.state().get('selection').first().toJSON();
+            const thumbUrl = attachment.sizes && attachment.sizes.thumbnail
+                ? attachment.sizes.thumbnail.url
+                : attachment.url;
+
+            $('#foto_id').val(attachment.id);
+            $('#photo-preview').html(
+                '<img src="' + thumbUrl + '" alt="">' +
+                '<button type="button" class="btn-remove-photo" title="<?php _e('Remover foto', 'crm-developer'); ?>">&times;</button>'
+            );
+        });
+
+        mediaUploader.open();
+    });
+
+    // Remover foto
+    $(document).on('click', '.btn-remove-photo', function(e) {
+        e.preventDefault();
+        $('#foto_id').val('');
+        $('#photo-preview').html(
+            '<div class="photo-placeholder"><i class="fas fa-user"></i></div>'
+        );
+    });
+
     // Campos condicionais
     $('input[name="pessoa_deficiencia"]').on('change', function() {
         $('#deficiencia-desc-group').toggle($(this).val() === 'sim');
@@ -600,3 +677,9 @@ jQuery(document).ready(function($) {
     });
 });
 </script>
+
+<?php
+// Modal de ajuda
+crm_dev_render_help_modal_contact_form();
+crm_dev_render_help_modal_script();
+?>

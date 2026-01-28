@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inclui modais de ajuda
+require_once CRM_DEV_PLUGIN_DIR . 'admin/views/partials/help-modals.php';
+
 $dashboard_data = CRM_Dev_Dashboard::get_dashboard_data();
 $stats = $dashboard_data['stats'];
 $suggestions = $dashboard_data['suggestions'];
@@ -17,11 +20,16 @@ $charts = $dashboard_data['charts'];
 
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
-        <h1>
-            <i class="fas fa-chart-pie"></i>
-            <?php _e('Dashboard CRM', 'crm-developer'); ?>
-        </h1>
-        <p class="crm-dev-subtitle"><?php _e('Visão geral da sua base de contatos e indicadores de gestão', 'crm-developer'); ?></p>
+        <div class="header-title-row">
+            <div>
+                <h1>
+                    <i class="fas fa-chart-pie"></i>
+                    <?php _e('Dashboard CRM', 'crm-developer'); ?>
+                </h1>
+                <p class="crm-dev-subtitle"><?php _e('Visão geral da sua base de contatos e indicadores de gestão', 'crm-developer'); ?></p>
+            </div>
+            <?php crm_dev_render_help_button('dashboard'); ?>
+        </div>
     </div>
 
     <!-- Cards de Estatísticas -->
@@ -336,3 +344,9 @@ jQuery(document).ready(function($) {
     }
 });
 </script>
+
+<?php
+// Modal de ajuda
+crm_dev_render_help_modal_dashboard();
+crm_dev_render_help_modal_script();
+?>

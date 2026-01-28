@@ -269,6 +269,11 @@ class CRM_Dev_Contacts {
     private static function sanitize_contact_data($data) {
         $sanitized = array();
 
+        // Foto ID (inteiro ou null)
+        if (isset($data['foto_id'])) {
+            $sanitized['foto_id'] = !empty($data['foto_id']) ? intval($data['foto_id']) : null;
+        }
+
         // Campos de texto
         $text_fields = array(
             'nome_completo', 'nome_social', 'municipio', 'comunidade_territorio',

@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inclui modais de ajuda
+require_once CRM_DEV_PLUGIN_DIR . 'admin/views/partials/help-modals.php';
+
 $estados = CRM_Dev_Helpers::get_estados();
 $regioes = CRM_Dev_Helpers::get_regioes();
 $generos = CRM_Dev_Helpers::get_generos();
@@ -20,11 +23,16 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
 
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
-        <h1>
-            <i class="fas fa-chart-bar"></i>
-            <?php _e('Relatórios e Análises', 'crm-developer'); ?>
-        </h1>
-        <p class="crm-dev-subtitle"><?php _e('Análise detalhada com filtros avançados e múltiplas visualizações', 'crm-developer'); ?></p>
+        <div class="header-title-row">
+            <div>
+                <h1>
+                    <i class="fas fa-chart-bar"></i>
+                    <?php _e('Relatórios e Análises', 'crm-developer'); ?>
+                </h1>
+                <p class="crm-dev-subtitle"><?php _e('Análise detalhada com filtros avançados e múltiplas visualizações', 'crm-developer'); ?></p>
+            </div>
+            <?php crm_dev_render_help_button('reports'); ?>
+        </div>
     </div>
 
     <!-- Painel de Filtros Avançados -->
@@ -917,3 +925,9 @@ jQuery(document).ready(function($) {
     }
 });
 </script>
+
+<?php
+// Modal de ajuda
+crm_dev_render_help_modal_reports();
+crm_dev_render_help_modal_script();
+?>

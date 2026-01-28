@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inclui modais de ajuda
+require_once CRM_DEV_PLUGIN_DIR . 'admin/views/partials/help-modals.php';
+
 $estados = CRM_Dev_Helpers::get_estados();
 $regioes = CRM_Dev_Helpers::get_regioes();
 $eixos = CRM_Dev_Helpers::get_eixos_tematicos();
@@ -22,14 +25,19 @@ if (isset($_GET['deleted'])) {
 
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
-        <h1>
-            <i class="fas fa-address-book"></i>
-            <?php _e('Contatos', 'crm-developer'); ?>
-        </h1>
-        <div class="header-actions">
-            <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contact-new'); ?>" class="button button-primary">
-                <i class="fas fa-plus"></i> <?php _e('Novo Contato', 'crm-developer'); ?>
-            </a>
+        <div class="header-title-row">
+            <div>
+                <h1>
+                    <i class="fas fa-address-book"></i>
+                    <?php _e('Contatos', 'crm-developer'); ?>
+                </h1>
+            </div>
+            <div class="header-actions-with-help">
+                <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contact-new'); ?>" class="button button-primary">
+                    <i class="fas fa-plus"></i> <?php _e('Novo Contato', 'crm-developer'); ?>
+                </a>
+                <?php crm_dev_render_help_button('contacts'); ?>
+            </div>
         </div>
     </div>
 
@@ -446,3 +454,9 @@ jQuery(document).ready(function($) {
     }
 });
 </script>
+
+<?php
+// Modal de ajuda
+crm_dev_render_help_modal_contacts();
+crm_dev_render_help_modal_script();
+?>

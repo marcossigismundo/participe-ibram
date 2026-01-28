@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inclui modais de ajuda
+require_once CRM_DEV_PLUGIN_DIR . 'admin/views/partials/help-modals.php';
+
 // Salvar configurações
 if (isset($_POST['crm_dev_save_settings']) && wp_verify_nonce($_POST['crm_dev_settings_nonce'], 'crm_dev_save_settings')) {
     update_option('crm_dev_public_form_enabled', isset($_POST['public_form_enabled']) ? 1 : 0);
@@ -27,11 +30,16 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
 
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
-        <h1>
-            <i class="fas fa-cog"></i>
-            <?php _e('Configurações', 'crm-developer'); ?>
-        </h1>
-        <p class="crm-dev-subtitle"><?php _e('Configure o comportamento do plugin CRM', 'crm-developer'); ?></p>
+        <div class="header-title-row">
+            <div>
+                <h1>
+                    <i class="fas fa-cog"></i>
+                    <?php _e('Configurações', 'crm-developer'); ?>
+                </h1>
+                <p class="crm-dev-subtitle"><?php _e('Configure o comportamento do plugin CRM', 'crm-developer'); ?></p>
+            </div>
+            <?php crm_dev_render_help_button('settings'); ?>
+        </div>
     </div>
 
     <form method="post" class="crm-dev-settings-form">
@@ -112,6 +120,71 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
                         </td>
                     </tr>
                 </table>
+            </div>
+        </div>
+
+        <!-- Sistema de Alertas -->
+        <div class="crm-dev-card">
+            <div class="card-header">
+                <h3><i class="fas fa-bell-exclamation"></i> <?php _e('Sistema de Alertas por Email', 'crm-developer'); ?></h3>
+            </div>
+            <div class="card-body">
+                <p class="description" style="margin-bottom: 20px;">
+                    <?php _e('Configure alertas automáticos por email para eventos importantes do CRM.', 'crm-developer'); ?>
+                </p>
+
+                <?php
+                $alert_types = CRM_Dev_Alerts::get_alert_types();
+                $alert_settings = CRM_Dev_Alerts::get_settings();
+                ?>
+
+                <div class="alerts-config">
+                    <?php foreach ($alert_types as $key => $type) :
+                        $setting = $alert_settings[$key] ?? array('enabled' => false, 'recipients' => get_option('admin_email'), 'subject' => $type['default_subject'], 'message' => $type['default_message']);
+                    ?>
+                        <div class="alert-config-item">
+                            <div class="alert-header">
+                                <div class="alert-info">
+                                    <div class="alert-icon">
+                                        <i class="fas <?php echo esc_attr($type['icon']); ?>"></i>
+                                    </div>
+                                    <div class="alert-details">
+                                        <h4><?php echo esc_html($type['label']); ?></h4>
+                                        <p><?php echo esc_html($type['description']); ?></p>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="alert-enabled" data-alert="<?php echo esc_attr($key); ?>" <?php checked(!empty($setting['enabled'])); ?>>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="alert-config-fields" style="<?php echo empty($setting['enabled']) ? 'display:none;' : ''; ?>">
+                                <div class="form-group">
+                                    <label><?php _e('Destinatários (separados por vírgula)', 'crm-developer'); ?></label>
+                                    <input type="text" class="alert-recipients regular-text" data-alert="<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($setting['recipients']); ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label><?php _e('Assunto do Email', 'crm-developer'); ?></label>
+                                    <input type="text" class="alert-subject regular-text" data-alert="<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($setting['subject']); ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label><?php _e('Mensagem', 'crm-developer'); ?></label>
+                                    <textarea class="alert-message large-text" data-alert="<?php echo esc_attr($key); ?>" rows="4"><?php echo esc_textarea($setting['message']); ?></textarea>
+                                    <p class="description"><?php _e('Variáveis disponíveis: {{nome}}, {{email}}, {{telefone}}, {{estado}}, {{data_hora}}, {{site_name}}', 'crm-developer'); ?></p>
+                                </div>
+                                <button type="button" class="button btn-test-alert" data-alert="<?php echo esc_attr($key); ?>">
+                                    <i class="fas fa-paper-plane"></i> <?php _e('Enviar Teste', 'crm-developer'); ?>
+                                </button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="alert-actions" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--crm-border);">
+                    <button type="button" id="btn-save-alerts" class="button button-primary">
+                        <i class="fas fa-save"></i> <?php _e('Salvar Configurações de Alertas', 'crm-developer'); ?>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -219,5 +292,72 @@ jQuery(document).ready(function($) {
             $btn.html('<i class="fas fa-trash"></i> Excluir Contatos de Teste').prop('disabled', false);
         }, 2000);
     });
+
+    // Toggle campos de alerta ao habilitar/desabilitar
+    $('.alert-enabled').on('change', function() {
+        const $fields = $(this).closest('.alert-config-item').find('.alert-config-fields');
+        if ($(this).is(':checked')) {
+            $fields.slideDown(200);
+        } else {
+            $fields.slideUp(200);
+        }
+    });
+
+    // Salvar configurações de alertas
+    $('#btn-save-alerts').on('click', function() {
+        const $btn = $(this);
+        $btn.html('<i class="fas fa-spinner fa-spin"></i> Salvando...').prop('disabled', true);
+
+        const settings = {};
+        $('.alert-config-item').each(function() {
+            const $item = $(this);
+            const alertKey = $item.find('.alert-enabled').data('alert');
+            settings[alertKey] = {
+                enabled: $item.find('.alert-enabled').is(':checked'),
+                recipients: $item.find('.alert-recipients').val(),
+                subject: $item.find('.alert-subject').val(),
+                message: $item.find('.alert-message').val()
+            };
+        });
+
+        $.post(crmDevAdmin.ajaxUrl, {
+            action: 'crm_dev_save_alert_settings',
+            nonce: crmDevAdmin.nonce,
+            settings: settings
+        }, function(response) {
+            if (response.success) {
+                alert('<?php _e('Configurações de alertas salvas!', 'crm-developer'); ?>');
+            } else {
+                alert(response.data.message || '<?php _e('Erro ao salvar', 'crm-developer'); ?>');
+            }
+            $btn.html('<i class="fas fa-save"></i> <?php _e('Salvar Configurações de Alertas', 'crm-developer'); ?>').prop('disabled', false);
+        });
+    });
+
+    // Testar alerta
+    $('.btn-test-alert').on('click', function() {
+        const $btn = $(this);
+        const alertType = $btn.data('alert');
+        $btn.html('<i class="fas fa-spinner fa-spin"></i> Enviando...').prop('disabled', true);
+
+        $.post(crmDevAdmin.ajaxUrl, {
+            action: 'crm_dev_test_alert',
+            nonce: crmDevAdmin.nonce,
+            type: alertType
+        }, function(response) {
+            if (response.success) {
+                alert('<?php _e('Alerta de teste enviado!', 'crm-developer'); ?>');
+            } else {
+                alert(response.data.message || '<?php _e('Erro ao enviar teste', 'crm-developer'); ?>');
+            }
+            $btn.html('<i class="fas fa-paper-plane"></i> <?php _e('Enviar Teste', 'crm-developer'); ?>').prop('disabled', false);
+        });
+    });
 });
 </script>
+
+<?php
+// Modal de ajuda
+crm_dev_render_help_modal_settings();
+crm_dev_render_help_modal_script();
+?>

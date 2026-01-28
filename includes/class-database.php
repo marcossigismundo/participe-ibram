@@ -49,6 +49,7 @@ class CRM_Dev_Database {
             id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 
             -- Dados Pessoais
+            foto_id bigint(20) UNSIGNED DEFAULT NULL,
             nome_completo varchar(255) NOT NULL,
             nome_social varchar(255) DEFAULT NULL,
             data_nascimento date DEFAULT NULL,
