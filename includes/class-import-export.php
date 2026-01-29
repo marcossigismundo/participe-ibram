@@ -286,11 +286,15 @@ class CRM_Dev_Import_Export {
     }
 
     /**
-     * Importa dados
+     * Importa dados com detecção avançada de duplicatas
      */
     public static function import_data($data, $mapping = array(), $options = array()) {
         global $wpdb;
         $tables = CRM_Dev_Database::get_tables();
+
+        // Aumenta limites para importações grandes
+        @set_time_limit(600); // 10 minutos
+        @ini_set('memory_limit', '512M');
 
         $defaults = array(
             'update_existing' => false,
@@ -312,16 +316,51 @@ class CRM_Dev_Import_Export {
             $mapping = self::auto_map_fields($header);
         }
 
+        // Resultados detalhados
         $results = array(
             'total' => count($data),
             'imported' => 0,
             'updated' => 0,
             'skipped' => 0,
             'errors' => array(),
+            'skip_reasons' => array(
+                'nome_vazio' => 0,
+                'email_duplicado' => 0,
+                'telefone_duplicado' => 0,
+                'whatsapp_duplicado' => 0,
+                'nome_estado_duplicado' => 0,
+                'linha_vazia' => 0,
+                'erro_insercao' => 0,
+            ),
+            'details' => array(), // Detalhes de cada linha
         );
+
+        // Carrega índices de duplicatas existentes para performance
+        $existing_emails = self::load_existing_emails();
+        $existing_phones = self::load_existing_phones();
+        $existing_whatsapps = self::load_existing_whatsapps();
+        $existing_names_states = self::load_existing_names_states();
+
+        // Arrays para controlar duplicatas dentro da própria importação
+        $import_emails = array();
+        $import_phones = array();
+        $import_whatsapps = array();
+        $import_names_states = array();
+
+        // Processa em lotes para arquivos grandes
+        $batch_size = 100;
+        $total_rows = count($data);
 
         foreach ($data as $line_num => $row) {
             $line = $line_num + 2; // +2 porque removemos header e arrays começam em 0
+
+            // Verifica se linha está vazia
+            $row_content = array_filter($row, function($v) { return trim($v) !== ''; });
+            if (empty($row_content)) {
+                $results['skip_reasons']['linha_vazia']++;
+                $results['skipped']++;
+                continue;
+            }
 
             // Monta dados do contato
             $contact_data = array();
@@ -334,41 +373,146 @@ class CRM_Dev_Import_Export {
                     // Conversões especiais
                     if ($field === 'estado' && strlen($value) > 2) {
                         $estados = array_flip(CRM_Dev_Helpers::get_estados());
-                        $value = isset($estados[$value]) ? $estados[$value] : substr($value, 0, 2);
+                        $value = isset($estados[$value]) ? $estados[$value] : strtoupper(substr($value, 0, 2));
+                    }
+
+                    // Normaliza telefones
+                    if (in_array($field, array('telefone', 'whatsapp'))) {
+                        $value = self::normalize_phone($value);
+                    }
+
+                    // Normaliza email
+                    if ($field === 'email') {
+                        $value = strtolower(trim($value));
                     }
 
                     $contact_data[$field] = $value;
                 }
             }
 
-            // Validação básica
+            // Validação: Nome completo obrigatório
             if (empty($contact_data['nome_completo'])) {
-                $results['errors'][] = "Linha {$line}: Nome completo não informado";
+                $results['errors'][] = "Linha {$line}: Nome completo não informado (campo obrigatório)";
+                $results['skip_reasons']['nome_vazio']++;
                 $results['skipped']++;
                 continue;
             }
 
-            // Verifica duplicata por email
-            $existing = null;
+            // Normaliza nome para comparação
+            $nome_normalizado = self::normalize_name($contact_data['nome_completo']);
+            $estado = isset($contact_data['estado']) ? strtoupper($contact_data['estado']) : '';
+            $nome_estado_key = $nome_normalizado . '|' . $estado;
+
+            // ========== VERIFICAÇÃO DE DUPLICATAS ==========
+            $duplicate_found = false;
+            $duplicate_reason = '';
+            $existing_id = null;
+
+            // 1. Verifica duplicata por email (prioridade máxima)
             if (!empty($contact_data['email'])) {
-                $existing = CRM_Dev_Contacts::get_contact_by_email($contact_data['email']);
+                $email_lower = strtolower($contact_data['email']);
+
+                // Verifica no banco
+                if (isset($existing_emails[$email_lower])) {
+                    $duplicate_found = true;
+                    $duplicate_reason = "Email '{$contact_data['email']}' já existe no sistema";
+                    $existing_id = $existing_emails[$email_lower];
+                    $results['skip_reasons']['email_duplicado']++;
+                }
+                // Verifica na própria importação
+                elseif (isset($import_emails[$email_lower])) {
+                    $duplicate_found = true;
+                    $duplicate_reason = "Email '{$contact_data['email']}' já foi importado neste arquivo (linha {$import_emails[$email_lower]})";
+                    $results['skip_reasons']['email_duplicado']++;
+                }
             }
 
-            if ($existing) {
+            // 2. Verifica duplicata por WhatsApp
+            if (!$duplicate_found && !empty($contact_data['whatsapp'])) {
+                $whatsapp_norm = self::normalize_phone($contact_data['whatsapp']);
+                if (!empty($whatsapp_norm)) {
+                    // Verifica no banco
+                    if (isset($existing_whatsapps[$whatsapp_norm])) {
+                        $duplicate_found = true;
+                        $duplicate_reason = "WhatsApp '{$contact_data['whatsapp']}' já existe no sistema";
+                        $existing_id = $existing_whatsapps[$whatsapp_norm];
+                        $results['skip_reasons']['whatsapp_duplicado']++;
+                    }
+                    // Verifica na própria importação
+                    elseif (isset($import_whatsapps[$whatsapp_norm])) {
+                        $duplicate_found = true;
+                        $duplicate_reason = "WhatsApp '{$contact_data['whatsapp']}' já foi importado neste arquivo (linha {$import_whatsapps[$whatsapp_norm]})";
+                        $results['skip_reasons']['whatsapp_duplicado']++;
+                    }
+                }
+            }
+
+            // 3. Verifica duplicata por telefone
+            if (!$duplicate_found && !empty($contact_data['telefone'])) {
+                $telefone_norm = self::normalize_phone($contact_data['telefone']);
+                if (!empty($telefone_norm)) {
+                    // Verifica no banco
+                    if (isset($existing_phones[$telefone_norm])) {
+                        $duplicate_found = true;
+                        $duplicate_reason = "Telefone '{$contact_data['telefone']}' já existe no sistema";
+                        $existing_id = $existing_phones[$telefone_norm];
+                        $results['skip_reasons']['telefone_duplicado']++;
+                    }
+                    // Verifica na própria importação
+                    elseif (isset($import_phones[$telefone_norm])) {
+                        $duplicate_found = true;
+                        $duplicate_reason = "Telefone '{$contact_data['telefone']}' já foi importado neste arquivo (linha {$import_phones[$telefone_norm]})";
+                        $results['skip_reasons']['telefone_duplicado']++;
+                    }
+                }
+            }
+
+            // 4. Verifica duplicata por nome + estado (menos restritivo)
+            if (!$duplicate_found && !empty($nome_normalizado) && !empty($estado)) {
+                // Verifica no banco
+                if (isset($existing_names_states[$nome_estado_key])) {
+                    $duplicate_found = true;
+                    $duplicate_reason = "Contato '{$contact_data['nome_completo']}' do estado '{$estado}' já existe no sistema";
+                    $existing_id = $existing_names_states[$nome_estado_key];
+                    $results['skip_reasons']['nome_estado_duplicado']++;
+                }
+                // Verifica na própria importação
+                elseif (isset($import_names_states[$nome_estado_key])) {
+                    $duplicate_found = true;
+                    $duplicate_reason = "Contato '{$contact_data['nome_completo']}' do estado '{$estado}' já foi importado neste arquivo (linha {$import_names_states[$nome_estado_key]})";
+                    $results['skip_reasons']['nome_estado_duplicado']++;
+                }
+            }
+
+            // ========== PROCESSA O CONTATO ==========
+            if ($duplicate_found) {
                 if ($options['skip_duplicates'] && !$options['update_existing']) {
+                    $results['errors'][] = "Linha {$line}: {$duplicate_reason} - IGNORADO";
                     $results['skipped']++;
                     continue;
                 }
 
-                if ($options['update_existing'] && !$options['dry_run']) {
-                    $result = CRM_Dev_Contacts::save_contact($contact_data, $existing['id']);
+                if ($options['update_existing'] && $existing_id && !$options['dry_run']) {
+                    $result = CRM_Dev_Contacts::save_contact($contact_data, $existing_id);
                     if ($result) {
                         $results['updated']++;
+                        $results['details'][] = array(
+                            'line' => $line,
+                            'action' => 'updated',
+                            'name' => $contact_data['nome_completo'],
+                            'reason' => $duplicate_reason . ' - ATUALIZADO'
+                        );
                     } else {
-                        $results['errors'][] = "Linha {$line}: Erro ao atualizar contato";
+                        $results['errors'][] = "Linha {$line}: Erro ao atualizar contato '{$contact_data['nome_completo']}'";
+                        $results['skip_reasons']['erro_insercao']++;
                     }
                     continue;
                 }
+
+                // Se chegou aqui, é duplicata mas não vai atualizar
+                $results['errors'][] = "Linha {$line}: {$duplicate_reason} - IGNORADO";
+                $results['skipped']++;
+                continue;
             }
 
             // Insere novo contato
@@ -376,8 +520,34 @@ class CRM_Dev_Import_Export {
                 $result = CRM_Dev_Contacts::save_contact($contact_data);
                 if ($result) {
                     $results['imported']++;
+
+                    // Adiciona aos índices de controle da importação
+                    if (!empty($contact_data['email'])) {
+                        $import_emails[strtolower($contact_data['email'])] = $line;
+                        $existing_emails[strtolower($contact_data['email'])] = $result;
+                    }
+                    if (!empty($contact_data['telefone'])) {
+                        $phone_norm = self::normalize_phone($contact_data['telefone']);
+                        if ($phone_norm) {
+                            $import_phones[$phone_norm] = $line;
+                            $existing_phones[$phone_norm] = $result;
+                        }
+                    }
+                    if (!empty($contact_data['whatsapp'])) {
+                        $whats_norm = self::normalize_phone($contact_data['whatsapp']);
+                        if ($whats_norm) {
+                            $import_whatsapps[$whats_norm] = $line;
+                            $existing_whatsapps[$whats_norm] = $result;
+                        }
+                    }
+                    if (!empty($nome_estado_key)) {
+                        $import_names_states[$nome_estado_key] = $line;
+                        $existing_names_states[$nome_estado_key] = $result;
+                    }
                 } else {
-                    $results['errors'][] = "Linha {$line}: Erro ao inserir contato";
+                    $results['errors'][] = "Linha {$line}: Erro ao inserir contato '{$contact_data['nome_completo']}' - verifique os dados";
+                    $results['skip_reasons']['erro_insercao']++;
+                    $results['skipped']++;
                 }
             } else {
                 $results['imported']++;
@@ -386,14 +556,19 @@ class CRM_Dev_Import_Export {
 
         // Salva log de importação
         if (!$options['dry_run']) {
+            $log_details = array(
+                'errors' => array_slice($results['errors'], 0, 100), // Limita a 100 erros no log
+                'skip_reasons' => $results['skip_reasons'],
+            );
+
             $wpdb->insert(
                 $tables['import_logs'],
                 array(
                     'arquivo' => 'import_' . date('Y-m-d_H-i-s'),
                     'total_linhas' => $results['total'],
                     'importados' => $results['imported'] + $results['updated'],
-                    'erros' => count($results['errors']),
-                    'detalhes_erros' => json_encode($results['errors']),
+                    'erros' => $results['skipped'],
+                    'detalhes_erros' => json_encode($log_details, JSON_UNESCAPED_UNICODE),
                     'user_id' => get_current_user_id(),
                     'created_at' => current_time('mysql'),
                 ),
@@ -402,6 +577,122 @@ class CRM_Dev_Import_Export {
         }
 
         return $results;
+    }
+
+    /**
+     * Normaliza número de telefone (remove formatação)
+     */
+    private static function normalize_phone($phone) {
+        if (empty($phone)) return '';
+        // Remove tudo que não é número
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+        // Se começar com 55 (Brasil) e tiver mais de 11 dígitos, remove
+        if (strlen($phone) > 11 && substr($phone, 0, 2) === '55') {
+            $phone = substr($phone, 2);
+        }
+        // Retorna apenas se tiver pelo menos 8 dígitos
+        return strlen($phone) >= 8 ? $phone : '';
+    }
+
+    /**
+     * Normaliza nome para comparação
+     */
+    private static function normalize_name($name) {
+        if (empty($name)) return '';
+        // Remove acentos
+        $name = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $name);
+        // Converte para minúsculas
+        $name = strtolower($name);
+        // Remove caracteres especiais
+        $name = preg_replace('/[^a-z0-9\s]/', '', $name);
+        // Remove espaços extras
+        $name = preg_replace('/\s+/', ' ', trim($name));
+        return $name;
+    }
+
+    /**
+     * Carrega emails existentes para verificação rápida
+     */
+    private static function load_existing_emails() {
+        global $wpdb;
+        $table = CRM_Dev_Database::get_tables()['contacts'];
+
+        $results = $wpdb->get_results(
+            "SELECT id, LOWER(email) as email FROM {$table} WHERE email IS NOT NULL AND email != ''",
+            ARRAY_A
+        );
+
+        $index = array();
+        foreach ($results as $row) {
+            $index[$row['email']] = $row['id'];
+        }
+        return $index;
+    }
+
+    /**
+     * Carrega telefones existentes para verificação rápida
+     */
+    private static function load_existing_phones() {
+        global $wpdb;
+        $table = CRM_Dev_Database::get_tables()['contacts'];
+
+        $results = $wpdb->get_results(
+            "SELECT id, telefone FROM {$table} WHERE telefone IS NOT NULL AND telefone != ''",
+            ARRAY_A
+        );
+
+        $index = array();
+        foreach ($results as $row) {
+            $normalized = self::normalize_phone($row['telefone']);
+            if ($normalized) {
+                $index[$normalized] = $row['id'];
+            }
+        }
+        return $index;
+    }
+
+    /**
+     * Carrega WhatsApps existentes para verificação rápida
+     */
+    private static function load_existing_whatsapps() {
+        global $wpdb;
+        $table = CRM_Dev_Database::get_tables()['contacts'];
+
+        $results = $wpdb->get_results(
+            "SELECT id, whatsapp FROM {$table} WHERE whatsapp IS NOT NULL AND whatsapp != ''",
+            ARRAY_A
+        );
+
+        $index = array();
+        foreach ($results as $row) {
+            $normalized = self::normalize_phone($row['whatsapp']);
+            if ($normalized) {
+                $index[$normalized] = $row['id'];
+            }
+        }
+        return $index;
+    }
+
+    /**
+     * Carrega combinações nome+estado existentes para verificação rápida
+     */
+    private static function load_existing_names_states() {
+        global $wpdb;
+        $table = CRM_Dev_Database::get_tables()['contacts'];
+
+        $results = $wpdb->get_results(
+            "SELECT id, nome_completo, estado FROM {$table} WHERE nome_completo IS NOT NULL AND nome_completo != ''",
+            ARRAY_A
+        );
+
+        $index = array();
+        foreach ($results as $row) {
+            $name_normalized = self::normalize_name($row['nome_completo']);
+            $estado = strtoupper($row['estado'] ?? '');
+            $key = $name_normalized . '|' . $estado;
+            $index[$key] = $row['id'];
+        }
+        return $index;
     }
 
     /**

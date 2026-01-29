@@ -127,12 +127,20 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                             <div class="import-options">
                                 <label class="checkbox-option">
                                     <input type="checkbox" id="opt-skip-duplicates" checked>
-                                    <span><?php _e('Ignorar contatos com email duplicado', 'crm-developer'); ?></span>
+                                    <span><?php _e('Ignorar contatos duplicados (email, telefone, WhatsApp ou nome+estado)', 'crm-developer'); ?></span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" id="opt-update-existing">
-                                    <span><?php _e('Atualizar contatos existentes (por email)', 'crm-developer'); ?></span>
+                                    <span><?php _e('Atualizar contatos existentes ao invés de ignorar', 'crm-developer'); ?></span>
                                 </label>
+                            </div>
+
+                            <div class="import-info-box">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong><?php _e('Detecção de Duplicatas', 'crm-developer'); ?></strong>
+                                    <p><?php _e('O sistema verifica duplicatas por: Email, WhatsApp, Telefone e combinação Nome + Estado. Se qualquer um desses dados já existir, o contato será considerado duplicado.', 'crm-developer'); ?></p>
+                                </div>
                             </div>
 
                             <div class="import-summary">
@@ -540,17 +548,57 @@ jQuery(document).ready(function($) {
 
             if (response.success) {
                 const r = response.data;
+                const sr = r.skip_reasons || {};
+
+                let skipDetails = '';
+                if (r.skipped > 0) {
+                    skipDetails = `
+                        <div class="skip-reasons">
+                            <h5><i class="fas fa-filter"></i> Detalhes dos ${r.skipped} registros ignorados:</h5>
+                            <div class="reasons-grid">
+                                ${sr.email_duplicado > 0 ? `<div class="reason-item"><i class="fas fa-envelope"></i> <strong>${sr.email_duplicado}</strong> Email duplicado</div>` : ''}
+                                ${sr.whatsapp_duplicado > 0 ? `<div class="reason-item"><i class="fab fa-whatsapp"></i> <strong>${sr.whatsapp_duplicado}</strong> WhatsApp duplicado</div>` : ''}
+                                ${sr.telefone_duplicado > 0 ? `<div class="reason-item"><i class="fas fa-phone"></i> <strong>${sr.telefone_duplicado}</strong> Telefone duplicado</div>` : ''}
+                                ${sr.nome_estado_duplicado > 0 ? `<div class="reason-item"><i class="fas fa-user"></i> <strong>${sr.nome_estado_duplicado}</strong> Nome+Estado duplicado</div>` : ''}
+                                ${sr.nome_vazio > 0 ? `<div class="reason-item"><i class="fas fa-exclamation-triangle"></i> <strong>${sr.nome_vazio}</strong> Nome vazio</div>` : ''}
+                                ${sr.linha_vazia > 0 ? `<div class="reason-item"><i class="fas fa-minus"></i> <strong>${sr.linha_vazia}</strong> Linhas vazias</div>` : ''}
+                                ${sr.erro_insercao > 0 ? `<div class="reason-item error"><i class="fas fa-times-circle"></i> <strong>${sr.erro_insercao}</strong> Erros de inserção</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let errorsList = '';
+                if (r.errors && r.errors.length > 0) {
+                    const maxErrors = 20;
+                    const errorsToShow = r.errors.slice(0, maxErrors);
+                    const moreErrors = r.errors.length > maxErrors ? `<li class="more-errors">... e mais ${r.errors.length - maxErrors} registros</li>` : '';
+
+                    errorsList = `
+                        <div class="result-errors">
+                            <h5><i class="fas fa-list"></i> Detalhes por linha (primeiros ${maxErrors}):</h5>
+                            <div class="errors-scroll">
+                                <ul>${errorsToShow.map(e => `<li>${escapeHtml(e)}</li>`).join('')}${moreErrors}</ul>
+                            </div>
+                        </div>
+                    `;
+                }
+
                 $('#import-result').html(`
                     <div class="result-success">
                         <i class="fas fa-check-circle"></i>
                         <h4>Importação Concluída!</h4>
                         <div class="result-stats">
-                            <div class="stat"><strong>${r.imported}</strong> importados</div>
-                            <div class="stat"><strong>${r.updated}</strong> atualizados</div>
-                            <div class="stat"><strong>${r.skipped}</strong> ignorados</div>
-                            <div class="stat errors"><strong>${r.errors.length}</strong> erros</div>
+                            <div class="stat success"><i class="fas fa-plus-circle"></i> <strong>${r.imported}</strong> novos importados</div>
+                            <div class="stat updated"><i class="fas fa-sync"></i> <strong>${r.updated}</strong> atualizados</div>
+                            <div class="stat skipped"><i class="fas fa-forward"></i> <strong>${r.skipped}</strong> ignorados</div>
                         </div>
-                        ${r.errors.length > 0 ? `<div class="result-errors"><h5>Erros:</h5><ul>${r.errors.slice(0, 10).map(e => `<li>${e}</li>`).join('')}</ul></div>` : ''}
+                        <div class="result-summary">
+                            <p><strong>Total processado:</strong> ${r.total} linhas</p>
+                            <p><strong>Taxa de sucesso:</strong> ${r.total > 0 ? Math.round(((r.imported + r.updated) / r.total) * 100) : 0}%</p>
+                        </div>
+                        ${skipDetails}
+                        ${errorsList}
                     </div>
                 `);
             } else {
