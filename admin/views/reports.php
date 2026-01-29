@@ -563,7 +563,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
 <!-- Área de Impressão -->
 <div id="print-area" style="display: none;">
     <div class="print-header">
-        <h1><?php echo get_bloginfo('name'); ?></h1>
+        <h1><?php _e('CRM Developer', 'crm-developer'); ?></h1>
         <h2><?php _e('Relatório de Contatos', 'crm-developer'); ?></h2>
         <p class="print-date"><?php _e('Gerado em:', 'crm-developer'); ?> <span id="print-date"></span></p>
         <p class="print-filters" id="print-filters"></p>
