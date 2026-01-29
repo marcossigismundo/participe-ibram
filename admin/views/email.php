@@ -933,22 +933,19 @@ jQuery(document).ready(function($) {
 
     // Atualizar contagem de destinatários
     function updateRecipientsCount() {
-        const filters = {
-            region: $('#filter-region').val(),
-            state: $('#filter-state').val(),
-            engagement: $('#filter-engagement').val(),
+        $.post(crmDevAdmin.ajaxUrl, {
+            action: 'crm_dev_count_email_recipients',
+            nonce: crmDevAdmin.nonce,
+            regiao: $('#filter-region').val(),
+            estado: $('#filter-state').val(),
+            engajamento: $('#filter-engagement').val(),
             status: $('#filter-status').val(),
             consent: $('#filter-consent').is(':checked') ? 1 : 0
-        };
-
-        $.post(crmDevAdmin.ajaxUrl, {
-            action: 'crm_dev_get_contacts',
-            nonce: crmDevAdmin.nonce,
-            count_only: 1,
-            filters: filters
         }, function(response) {
             if (response.success) {
                 $('#recipients-count').text(response.data.total || 0);
+            } else {
+                $('#recipients-count').text('0');
             }
         });
     }
@@ -1012,13 +1009,11 @@ jQuery(document).ready(function($) {
             nonce: crmDevAdmin.nonce,
             subject: subject,
             content: content,
-            filters: {
-                region: $('#filter-region').val(),
-                state: $('#filter-state').val(),
-                engagement: $('#filter-engagement').val(),
-                status: $('#filter-status').val(),
-                consent: $('#filter-consent').is(':checked') ? 1 : 0
-            }
+            regiao: $('#filter-region').val(),
+            estado: $('#filter-state').val(),
+            engajamento: $('#filter-engagement').val(),
+            status: $('#filter-status').val(),
+            consent: $('#filter-consent').is(':checked') ? 1 : 0
         }, function(response) {
             $btn.prop('disabled', false).html('<i class="fas fa-paper-plane"></i> <?php _e('Enviar Emails', 'crm-developer'); ?>');
 

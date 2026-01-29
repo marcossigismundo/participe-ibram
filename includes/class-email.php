@@ -647,6 +647,29 @@ class CRM_Dev_Email {
     }
 
     /**
+     * AJAX - Conta destinatários de email com filtros
+     */
+    public static function ajax_count_email_recipients() {
+        check_ajax_referer('crm_dev_nonce', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Sem permissão'));
+        }
+
+        $filters = array(
+            'estado' => sanitize_text_field($_POST['estado'] ?? ''),
+            'regiao' => sanitize_text_field($_POST['regiao'] ?? ''),
+            'status' => sanitize_text_field($_POST['status'] ?? ''),
+            'engajamento' => sanitize_text_field($_POST['engajamento'] ?? ''),
+            'consent' => isset($_POST['consent']) ? intval($_POST['consent']) : 1,
+        );
+
+        $contacts = self::get_filtered_contacts($filters);
+
+        wp_send_json_success(array('total' => count($contacts)));
+    }
+
+    /**
      * AJAX - Envia email em massa
      */
     public static function ajax_send_mass_email() {
@@ -659,7 +682,15 @@ class CRM_Dev_Email {
         $subject = sanitize_text_field($_POST['subject'] ?? '');
         $content = wp_kses_post($_POST['content'] ?? '');
         $campaign_name = sanitize_text_field($_POST['campaign_name'] ?? '');
-        $filters = isset($_POST['filters']) ? $_POST['filters'] : array();
+
+        // Filtros diretamente do POST
+        $filters = array(
+            'estado' => sanitize_text_field($_POST['estado'] ?? ''),
+            'regiao' => sanitize_text_field($_POST['regiao'] ?? ''),
+            'status' => sanitize_text_field($_POST['status'] ?? ''),
+            'engajamento' => sanitize_text_field($_POST['engajamento'] ?? ''),
+            'consent' => isset($_POST['consent']) ? intval($_POST['consent']) : 1,
+        );
 
         if (empty($subject) || empty($content)) {
             wp_send_json_error(array('message' => 'Assunto e conteúdo são obrigatórios'));
@@ -673,7 +704,11 @@ class CRM_Dev_Email {
         }
 
         $result = self::send_mass_email($contacts, $subject, $content, $campaign_name);
-        wp_send_json_success($result);
+        wp_send_json_success(array(
+            'success' => true,
+            'message' => sprintf('Email adicionado à fila para %d destinatários!', count($contacts)),
+            'queued' => count($contacts)
+        ));
     }
 
     /**
@@ -683,17 +718,31 @@ class CRM_Dev_Email {
         global $wpdb;
         $table = CRM_Dev_Database::get_tables()['contacts'];
 
-        $where = array("email IS NOT NULL AND email != ''", "consentimento_lgpd = 'sim'");
+        // Condições base: deve ter email válido
+        $where = array("email IS NOT NULL AND email != ''");
 
+        // Verifica consentimento LGPD (por padrão, apenas com consentimento)
+        $consent = isset($filters['consent']) ? intval($filters['consent']) : 1;
+        if ($consent) {
+            $where[] = "consentimento_lgpd = 'sim'";
+        }
+
+        // Filtro de estado
         if (!empty($filters['estado'])) {
             $where[] = $wpdb->prepare("estado = %s", $filters['estado']);
         }
+
+        // Filtro de região
         if (!empty($filters['regiao'])) {
             $where[] = $wpdb->prepare("regiao = %s", $filters['regiao']);
         }
+
+        // Filtro de status
         if (!empty($filters['status'])) {
             $where[] = $wpdb->prepare("status = %s", $filters['status']);
         }
+
+        // Filtro de engajamento
         if (!empty($filters['engajamento'])) {
             switch ($filters['engajamento']) {
                 case 'alto':
@@ -707,8 +756,11 @@ class CRM_Dev_Email {
                     break;
             }
         }
+
+        // Filtro de interesse (se fornecido)
         if (!empty($filters['interesse'])) {
-            $where[] = "{$filters['interesse']} = 'sim'";
+            $interesse_field = sanitize_key($filters['interesse']);
+            $where[] = "{$interesse_field} = 'sim'";
         }
 
         $where_clause = implode(' AND ', $where);

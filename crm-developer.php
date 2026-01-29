@@ -111,6 +111,7 @@ class CRM_Developer {
         add_action('wp_ajax_crm_dev_save_email_template', array('CRM_Dev_Email', 'ajax_save_template'));
         add_action('wp_ajax_crm_dev_delete_email_template', array('CRM_Dev_Email', 'ajax_delete_template'));
         add_action('wp_ajax_crm_dev_send_mass_email', array('CRM_Dev_Email', 'ajax_send_mass_email'));
+        add_action('wp_ajax_crm_dev_count_email_recipients', array('CRM_Dev_Email', 'ajax_count_email_recipients'));
         add_action('wp_ajax_crm_dev_get_email_queue', array('CRM_Dev_Email', 'ajax_get_queue'));
         add_action('wp_ajax_crm_dev_preview_email', array('CRM_Dev_Email', 'ajax_preview_email'));
         add_action('wp_ajax_crm_dev_save_email_settings', array('CRM_Dev_Email', 'ajax_save_settings'));
