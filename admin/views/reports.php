@@ -615,6 +615,26 @@ jQuery(document).ready(function($) {
     let currentPage = 1;
     const perPage = 20;
 
+    // ========== DEFINIÇÃO DE FUNÇÕES PRIMEIRO ==========
+
+    // Função para abrir modal de exportação
+    function openExportModal() {
+        $('#export-modal').addClass('show');
+    }
+
+    // Função para fechar modal de exportação
+    function closeExportModal() {
+        $('#export-modal').removeClass('show');
+        // Reset do botão de exportação
+        $('#btn-do-export').prop('disabled', false).html('<i class="fas fa-download"></i> Exportar');
+    }
+
+    // Expõe a função globalmente para os onclick inline
+    window.closeExportModal = closeExportModal;
+    window.openExportModal = openExportModal;
+
+    // ========== EVENT HANDLERS ==========
+
     // Período personalizado
     $('#filter-period').on('change', function() {
         if ($(this).val() === 'custom') {
@@ -674,10 +694,21 @@ jQuery(document).ready(function($) {
     // Botão de executar exportação
     $('#btn-do-export').on('click', doExport);
 
-    // Fechar modal
-    $('.modal-close').on('click', closeExportModal);
+    // Fechar modal - usando a função já definida
+    $('.modal-close').on('click', function(e) {
+        e.preventDefault();
+        closeExportModal();
+    });
+
     $('#export-modal').on('click', function(e) {
         if (e.target === this) closeExportModal();
+    });
+
+    // Tecla ESC para fechar modal
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape' && $('#export-modal').hasClass('show')) {
+            closeExportModal();
+        }
     });
 
     // Carrega dados iniciais
@@ -1115,14 +1146,6 @@ jQuery(document).ready(function($) {
         $('#report-data-tbody').html(html);
     }
 
-    function openExportModal() {
-        $('#export-modal').addClass('show');
-    }
-
-    window.closeExportModal = function() {
-        $('#export-modal').removeClass('show');
-    };
-
     function doExport() {
         const format = $('input[name="export_format"]:checked').val();
         const fields = [];
@@ -1136,32 +1159,48 @@ jQuery(document).ready(function($) {
         }
 
         const filters = getFilters();
-        $('#btn-do-export').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Exportando...');
+        const $btn = $('#btn-do-export');
+        const originalHtml = $btn.html();
 
-        $.post(crmDevAdmin.ajaxUrl, {
-            action: 'crm_dev_export_contacts',
-            nonce: crmDevAdmin.nonce,
-            format: format,
-            fields: fields,
-            filters: filters
-        }, function(response) {
-            if (response.success && response.data.data) {
-                const exportData = response.data.data;
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Exportando...');
 
-                if (format === 'xlsx') {
-                    exportToXLSX(exportData);
+        $.ajax({
+            url: crmDevAdmin.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'crm_dev_export_contacts',
+                nonce: crmDevAdmin.nonce,
+                format: format,
+                fields: fields,
+                filters: filters
+            },
+            success: function(response) {
+                if (response.success) {
+                    // A estrutura pode ser response.data.data ou response.data diretamente
+                    const exportData = response.data.data || response.data;
+
+                    if (Array.isArray(exportData) && exportData.length > 0) {
+                        if (format === 'xlsx') {
+                            exportToXLSX(exportData);
+                        } else {
+                            exportToCSV(exportData);
+                        }
+                        closeExportModal();
+                    } else {
+                        alert('Nenhum dado encontrado para exportar.');
+                    }
                 } else {
-                    exportToCSV(exportData);
+                    alert(response.data?.message || 'Erro ao exportar dados.');
                 }
-
-                closeExportModal();
-            } else {
-                alert('Erro ao exportar dados.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro na exportação:', error);
+                alert('Erro ao exportar dados. Verifique o console para detalhes.');
+            },
+            complete: function() {
+                // Sempre reseta o botão, independente do resultado
+                $btn.prop('disabled', false).html('<i class="fas fa-download"></i> Exportar');
             }
-            $('#btn-do-export').prop('disabled', false).html('<i class="fas fa-download"></i> Exportar');
-        }).fail(function() {
-            alert('Erro ao exportar dados.');
-            $('#btn-do-export').prop('disabled', false).html('<i class="fas fa-download"></i> Exportar');
         });
     }
 
