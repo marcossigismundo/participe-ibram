@@ -711,6 +711,11 @@ jQuery(document).ready(function($) {
         }
     });
 
+    // Esconde área de impressão após imprimir
+    window.addEventListener('afterprint', function() {
+        $('#print-area').hide();
+    });
+
     // Carrega dados iniciais
     loadReportData();
 
@@ -1329,24 +1334,42 @@ jQuery(document).ready(function($) {
                 const contacts = response.data.items || [];
                 let html = '';
 
-                contacts.forEach(c => {
-                    html += `
-                        <tr>
-                            <td>${c.nome_completo || '-'}</td>
-                            <td>${c.email || '-'}</td>
-                            <td>${c.telefone || c.whatsapp || '-'}</td>
-                            <td>${c.estado || '-'}</td>
-                            <td>${c.score_engajamento || 0}</td>
-                        </tr>
-                    `;
-                });
+                if (contacts.length === 0) {
+                    html = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Nenhum contato encontrado com os filtros aplicados.</td></tr>';
+                } else {
+                    contacts.forEach(c => {
+                        html += `
+                            <tr>
+                                <td>${c.nome_completo || '-'}</td>
+                                <td>${c.email || '-'}</td>
+                                <td>${c.telefone || c.whatsapp || '-'}</td>
+                                <td>${c.estado || '-'}</td>
+                                <td>${c.score_engajamento || 0}</td>
+                            </tr>
+                        `;
+                    });
+                }
 
                 $('#print-contacts-tbody').html(html);
                 $('#print-total').text(contacts.length);
 
-                // Executa impressão
-                window.print();
+                // Mostra a área de impressão temporariamente
+                $('#print-area').show();
+
+                // Pequeno delay para garantir que o DOM foi atualizado
+                setTimeout(function() {
+                    window.print();
+
+                    // Esconde a área após fechar o diálogo de impressão
+                    setTimeout(function() {
+                        $('#print-area').hide();
+                    }, 500);
+                }, 100);
+            } else {
+                alert('Erro ao carregar contatos para impressão.');
             }
+        }).fail(function() {
+            alert('Erro de conexão ao carregar contatos para impressão.');
         });
     }
 });

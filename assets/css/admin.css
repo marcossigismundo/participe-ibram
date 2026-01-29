@@ -3304,25 +3304,13 @@
 /* Print */
 @media print {
 
-    /* Oculta tudo exceto área de impressão */
-    body * {
-        visibility: hidden;
-    }
-
-    #print-area,
-    #print-area * {
-        visibility: visible;
-    }
-
-    #print-area {
-        display: block !important;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 20px;
-    }
-
+    /* Esconde a barra do admin do WordPress */
+    #wpadminbar,
+    #adminmenumain,
+    #adminmenuback,
+    #adminmenuwrap,
+    .update-nag,
+    .notice,
     .crm-dev-sidebar,
     .crm-dev-header,
     .crm-dev-card,
@@ -3331,8 +3319,49 @@
     .visualization-tabs,
     #charts-container,
     #export-modal,
-    .wp-admin {
+    #filtered-contacts-card,
+    .filters-actions,
+    .btn-help-floating {
         display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* Remove margens do admin */
+    html.wp-toolbar {
+        padding-top: 0 !important;
+    }
+
+    body,
+    body.wp-admin,
+    #wpwrap,
+    #wpcontent,
+    #wpbody,
+    #wpbody-content,
+    .wrap {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    /* Área de impressão */
+    #print-area {
+        display: block !important;
+        visibility: visible !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: #fff !important;
+        z-index: 999999 !important;
+        padding: 20px !important;
+        overflow: visible !important;
+    }
+
+    #print-area * {
+        visibility: visible !important;
     }
 
     .print-table {
@@ -3342,5 +3371,18 @@
     .print-table tr {
         page-break-inside: avoid;
         page-break-after: auto;
+    }
+
+    .print-table th {
+        background: #333 !important;
+        color: #fff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-table tr:nth-child(even) {
+        background: #f5f5f5 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 }
