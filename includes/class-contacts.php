@@ -39,6 +39,13 @@ class CRM_Dev_Contacts {
             'score_max' => '',
             'orderby' => 'created_at',
             'order' => 'DESC',
+            // Filtros adicionais para relatórios
+            'genero' => '',
+            'raca' => '',
+            'engajamento' => '',
+            'period' => '',
+            'date_from' => '',
+            'date_to' => '',
         );
 
         $args = wp_parse_args($args, $defaults);
@@ -91,6 +98,51 @@ class CRM_Dev_Contacts {
         if ($args['score_max'] !== '') {
             $where[] = "score_engajamento <= %d";
             $values[] = intval($args['score_max']);
+        }
+
+        // Filtro por gênero
+        if (!empty($args['genero'])) {
+            $where[] = "genero = %s";
+            $values[] = $args['genero'];
+        }
+
+        // Filtro por raça/etnia
+        if (!empty($args['raca'])) {
+            $where[] = "raca_etnia = %s";
+            $values[] = $args['raca'];
+        }
+
+        // Filtro por engajamento (alto, medio, baixo)
+        if (!empty($args['engajamento'])) {
+            switch ($args['engajamento']) {
+                case 'alto':
+                    $where[] = "score_engajamento >= 70";
+                    break;
+                case 'medio':
+                    $where[] = "score_engajamento >= 40 AND score_engajamento < 70";
+                    break;
+                case 'baixo':
+                    $where[] = "score_engajamento < 40";
+                    break;
+            }
+        }
+
+        // Filtro por período
+        if (!empty($args['period']) && $args['period'] !== 'all') {
+            if ($args['period'] === 'custom') {
+                if (!empty($args['date_from'])) {
+                    $where[] = "created_at >= %s";
+                    $values[] = $args['date_from'] . ' 00:00:00';
+                }
+                if (!empty($args['date_to'])) {
+                    $where[] = "created_at <= %s";
+                    $values[] = $args['date_to'] . ' 23:59:59';
+                }
+            } else {
+                $days = intval($args['period']);
+                $where[] = "created_at >= %s";
+                $values[] = date('Y-m-d', strtotime("-{$days} days"));
+            }
         }
 
         $where_clause = implode(' AND ', $where);
@@ -473,7 +525,19 @@ class CRM_Dev_Contacts {
             'categoria_representacao' => isset($_POST['categoria_representacao']) ? sanitize_text_field($_POST['categoria_representacao']) : '',
             'orderby' => isset($_POST['orderby']) ? sanitize_text_field($_POST['orderby']) : 'created_at',
             'order' => isset($_POST['order']) ? sanitize_text_field($_POST['order']) : 'DESC',
+            // Filtros adicionais para relatórios
+            'genero' => isset($_POST['genero']) ? sanitize_text_field($_POST['genero']) : '',
+            'raca' => isset($_POST['raca']) ? sanitize_text_field($_POST['raca']) : '',
+            'engajamento' => isset($_POST['engajamento']) ? sanitize_text_field($_POST['engajamento']) : '',
+            'period' => isset($_POST['period']) ? sanitize_text_field($_POST['period']) : '',
+            'date_from' => isset($_POST['date_from']) ? sanitize_text_field($_POST['date_from']) : '',
+            'date_to' => isset($_POST['date_to']) ? sanitize_text_field($_POST['date_to']) : '',
         );
+
+        // Também aceita eixo como alias para eixo_tematico
+        if (empty($args['eixo_tematico']) && !empty($_POST['eixo'])) {
+            $args['eixo_tematico'] = sanitize_text_field($_POST['eixo']);
+        }
 
         $result = self::get_contacts($args);
         wp_send_json_success($result);

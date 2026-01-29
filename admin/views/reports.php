@@ -473,6 +473,113 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
         </div>
     </div>
+
+    <!-- Lista de Contatos Filtrados -->
+    <div class="crm-dev-card full-width" id="filtered-contacts-card">
+        <div class="card-header">
+            <h3><i class="fas fa-users"></i> <?php _e('Contatos Filtrados', 'crm-developer'); ?></h3>
+            <span class="badge" id="filtered-count">0</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="crm-dev-table" id="filtered-contacts-table">
+                    <thead>
+                        <tr>
+                            <th><?php _e('Nome', 'crm-developer'); ?></th>
+                            <th><?php _e('Email', 'crm-developer'); ?></th>
+                            <th><?php _e('Telefone', 'crm-developer'); ?></th>
+                            <th><?php _e('Estado', 'crm-developer'); ?></th>
+                            <th><?php _e('Score', 'crm-developer'); ?></th>
+                            <th><?php _e('Status', 'crm-developer'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody id="filtered-contacts-tbody">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="contacts-pagination" class="pagination-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Exportação -->
+<div class="crm-dev-modal" id="export-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-download"></i> <?php _e('Exportar Relatório', 'crm-developer'); ?></h3>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label><?php _e('Formato de Exportação', 'crm-developer'); ?></label>
+                <div class="export-format-options">
+                    <label class="export-option">
+                        <input type="radio" name="export_format" value="xlsx" checked>
+                        <span class="option-content">
+                            <i class="fas fa-file-excel"></i>
+                            <span>Excel (XLSX)</span>
+                        </span>
+                    </label>
+                    <label class="export-option">
+                        <input type="radio" name="export_format" value="csv">
+                        <span class="option-content">
+                            <i class="fas fa-file-csv"></i>
+                            <span>CSV</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><?php _e('Campos para Exportar', 'crm-developer'); ?></label>
+                <div class="checkbox-group export-fields">
+                    <?php
+                    $export_fields = CRM_Dev_Import_Export::get_available_fields();
+                    $default_fields = array('nome_completo', 'email', 'telefone', 'whatsapp', 'estado', 'municipio', 'score_engajamento', 'status');
+                    foreach ($export_fields as $field => $label) :
+                        $checked = in_array($field, $default_fields) ? 'checked' : '';
+                    ?>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="export_field[]" value="<?php echo esc_attr($field); ?>" <?php echo $checked; ?>>
+                            <span><?php echo esc_html($label); ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="button" onclick="closeExportModal()"><?php _e('Cancelar', 'crm-developer'); ?></button>
+            <button type="button" class="button button-primary" id="btn-do-export">
+                <i class="fas fa-download"></i> <?php _e('Exportar', 'crm-developer'); ?>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Área de Impressão -->
+<div id="print-area" style="display: none;">
+    <div class="print-header">
+        <h1><?php echo get_bloginfo('name'); ?></h1>
+        <h2><?php _e('Relatório de Contatos', 'crm-developer'); ?></h2>
+        <p class="print-date"><?php _e('Gerado em:', 'crm-developer'); ?> <span id="print-date"></span></p>
+        <p class="print-filters" id="print-filters"></p>
+    </div>
+    <div class="print-summary" id="print-summary"></div>
+    <table class="print-table">
+        <thead>
+            <tr>
+                <th><?php _e('Nome', 'crm-developer'); ?></th>
+                <th><?php _e('Email', 'crm-developer'); ?></th>
+                <th><?php _e('Telefone', 'crm-developer'); ?></th>
+                <th><?php _e('Estado', 'crm-developer'); ?></th>
+                <th><?php _e('Score', 'crm-developer'); ?></th>
+            </tr>
+        </thead>
+        <tbody id="print-contacts-tbody"></tbody>
+    </table>
+    <div class="print-footer">
+        <p><?php _e('Total de contatos:', 'crm-developer'); ?> <span id="print-total"></span></p>
+    </div>
 </div>
 
 <script>
@@ -500,6 +607,9 @@ jQuery(document).ready(function($) {
 
     let charts = {};
     let reportData = null;
+    let filteredContacts = [];
+    let currentPage = 1;
+    const perPage = 20;
 
     // Período personalizado
     $('#filter-period').on('change', function() {
@@ -536,22 +646,35 @@ jQuery(document).ready(function($) {
     });
 
     // Aplicar filtros
-    $('#btn-apply-filters').on('click', loadReportData);
+    $('#btn-apply-filters').on('click', function() {
+        currentPage = 1;
+        loadReportData();
+    });
 
     // Limpar filtros
     $('#btn-clear-filters').on('click', function() {
         $('#filter-period').val('30');
         $('#filter-regiao, #filter-estado, #filter-status, #filter-engajamento, #filter-genero, #filter-raca, #filter-eixo').val('');
         $('.date-range').hide();
+        currentPage = 1;
         loadReportData();
     });
 
-    // Imprimir
-    $('#btn-print-report').on('click', () => window.print());
+    // Imprimir - agora imprime apenas a lista filtrada
+    $('#btn-print-report').on('click', printFilteredContacts);
 
-    // Exportar relatório
-    $('#btn-export-report').on('click', exportReport);
-    $('#btn-export-table').on('click', exportTable);
+    // Exportar relatório - abre modal
+    $('#btn-export-report').on('click', openExportModal);
+    $('#btn-export-table').on('click', exportSummaryTable);
+
+    // Botão de executar exportação
+    $('#btn-do-export').on('click', doExport);
+
+    // Fechar modal
+    $('.modal-close').on('click', closeExportModal);
+    $('#export-modal').on('click', function(e) {
+        if (e.target === this) closeExportModal();
+    });
 
     // Carrega dados iniciais
     loadReportData();
@@ -573,11 +696,15 @@ jQuery(document).ready(function($) {
 
     function loadReportData() {
         $('#stats-summary').addClass('loading');
+        $('#filtered-contacts-tbody').html('<tr><td colspan="6" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Carregando...</td></tr>');
 
+        const filters = getFilters();
+
+        // Carrega dados do relatório
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_get_report_data',
             nonce: crmDevAdmin.nonce,
-            filters: getFilters()
+            filters: filters
         }, function(response) {
             if (response.success) {
                 reportData = response.data;
@@ -587,7 +714,91 @@ jQuery(document).ready(function($) {
             }
             $('#stats-summary').removeClass('loading');
         });
+
+        // Carrega lista de contatos filtrados
+        loadFilteredContacts(filters);
     }
+
+    function loadFilteredContacts(filters) {
+        $.post(crmDevAdmin.ajaxUrl, {
+            action: 'crm_dev_get_contacts',
+            nonce: crmDevAdmin.nonce,
+            page: currentPage,
+            per_page: perPage,
+            search: '',
+            status: filters.status || '',
+            estado: filters.estado || '',
+            regiao: filters.regiao || '',
+            engajamento: filters.engajamento || '',
+            genero: filters.genero || '',
+            raca: filters.raca || '',
+            eixo: filters.eixo || '',
+            period: filters.period || '',
+            date_from: filters.date_from || '',
+            date_to: filters.date_to || ''
+        }, function(response) {
+            if (response.success) {
+                filteredContacts = response.data.items || [];
+                const total = response.data.total || 0;
+                const totalPages = response.data.pages || 1;
+
+                $('#filtered-count').text(total);
+                renderContactsTable(filteredContacts);
+                renderPagination(total, totalPages);
+            }
+        });
+    }
+
+    function renderContactsTable(contacts) {
+        let html = '';
+        if (contacts.length === 0) {
+            html = '<tr><td colspan="6" class="empty-row">Nenhum contato encontrado com os filtros aplicados.</td></tr>';
+        } else {
+            contacts.forEach(c => {
+                const scoreColor = c.score_engajamento >= 70 ? '#059669' : (c.score_engajamento >= 40 ? '#f59e0b' : '#ef4444');
+                const statusClass = c.status === 'ativo' ? 'badge-success' : (c.status === 'inativo' ? 'badge-danger' : 'badge-warning');
+                html += `
+                    <tr>
+                        <td><strong>${c.nome_completo || '-'}</strong></td>
+                        <td>${c.email || '-'}</td>
+                        <td>${c.telefone || c.whatsapp || '-'}</td>
+                        <td>${c.estado ? (estadosMap[c.estado] || c.estado) : '-'}</td>
+                        <td><span class="score-badge" style="background: ${scoreColor}">${c.score_engajamento || 0}</span></td>
+                        <td><span class="badge ${statusClass}">${c.status || 'ativo'}</span></td>
+                    </tr>
+                `;
+            });
+        }
+        $('#filtered-contacts-tbody').html(html);
+    }
+
+    function renderPagination(total, totalPages) {
+        if (totalPages <= 1) {
+            $('#contacts-pagination').html('');
+            return;
+        }
+
+        let html = '<div class="pagination">';
+        html += `<button class="btn-page" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})"><i class="fas fa-chevron-left"></i></button>`;
+
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                html += `<button class="btn-page ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            } else if (i === currentPage - 3 || i === currentPage + 3) {
+                html += '<span class="page-dots">...</span>';
+            }
+        }
+
+        html += `<button class="btn-page" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})"><i class="fas fa-chevron-right"></i></button>`;
+        html += '</div>';
+
+        $('#contacts-pagination').html(html);
+    }
+
+    window.goToPage = function(page) {
+        currentPage = page;
+        loadFilteredContacts(getFilters());
+    };
 
     function updateStats(summary) {
         $('#stat-total').text(summary.total.toLocaleString('pt-BR'));
@@ -900,14 +1111,105 @@ jQuery(document).ready(function($) {
         $('#report-data-tbody').html(html);
     }
 
-    function exportReport() {
-        if (!reportData) return;
-
-        // Gera PDF ou imagem dos gráficos
-        alert('Exportação de relatório em desenvolvimento. Use a função Imprimir para gerar um PDF.');
+    function openExportModal() {
+        $('#export-modal').addClass('show');
     }
 
-    function exportTable() {
+    window.closeExportModal = function() {
+        $('#export-modal').removeClass('show');
+    };
+
+    function doExport() {
+        const format = $('input[name="export_format"]:checked').val();
+        const fields = [];
+        $('input[name="export_field[]"]:checked').each(function() {
+            fields.push($(this).val());
+        });
+
+        if (fields.length === 0) {
+            alert('Selecione pelo menos um campo para exportar.');
+            return;
+        }
+
+        const filters = getFilters();
+        $('#btn-do-export').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Exportando...');
+
+        $.post(crmDevAdmin.ajaxUrl, {
+            action: 'crm_dev_export_contacts',
+            nonce: crmDevAdmin.nonce,
+            format: format,
+            fields: fields,
+            filters: filters
+        }, function(response) {
+            if (response.success && response.data.data) {
+                const exportData = response.data.data;
+
+                if (format === 'xlsx') {
+                    exportToXLSX(exportData);
+                } else {
+                    exportToCSV(exportData);
+                }
+
+                closeExportModal();
+            } else {
+                alert('Erro ao exportar dados.');
+            }
+            $('#btn-do-export').prop('disabled', false).html('<i class="fas fa-download"></i> Exportar');
+        }).fail(function() {
+            alert('Erro ao exportar dados.');
+            $('#btn-do-export').prop('disabled', false).html('<i class="fas fa-download"></i> Exportar');
+        });
+    }
+
+    function exportToXLSX(data) {
+        if (typeof XLSX === 'undefined') {
+            alert('Biblioteca XLSX não carregada. Tente exportar em CSV.');
+            return;
+        }
+
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        // Ajusta largura das colunas
+        const colWidths = data[0].map((header, i) => {
+            let maxLen = header.length;
+            data.forEach(row => {
+                if (row[i] && String(row[i]).length > maxLen) {
+                    maxLen = String(row[i]).length;
+                }
+            });
+            return { wch: Math.min(maxLen + 2, 50) };
+        });
+        ws['!cols'] = colWidths;
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Contatos');
+        XLSX.writeFile(wb, 'contatos_crm_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+    }
+
+    function exportToCSV(data) {
+        let csv = '\uFEFF'; // BOM para UTF-8
+
+        data.forEach(row => {
+            const escapedRow = row.map(cell => {
+                if (cell === null || cell === undefined) return '';
+                const str = String(cell);
+                if (str.includes(';') || str.includes('"') || str.includes('\n')) {
+                    return '"' + str.replace(/"/g, '""') + '"';
+                }
+                return str;
+            });
+            csv += escapedRow.join(';') + '\n';
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'contatos_crm_' + new Date().toISOString().slice(0, 10) + '.csv';
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }
+
+    function exportSummaryTable() {
         if (!reportData) return;
 
         const data = [
@@ -915,13 +1217,94 @@ jQuery(document).ready(function($) {
             ['Total de Contatos', reportData.summary.total, '100%'],
             ['Estados Representados', reportData.summary.estados, '-'],
             ['Score Médio', Math.round(reportData.summary.score_medio) + '%', '-'],
-            ['Com LGPD', Math.round(reportData.summary.lgpd_percent) + '%', '-']
+            ['Com Consentimento LGPD', Math.round(reportData.summary.lgpd_percent) + '%', '-'],
+            ['Alto Engajamento (70+)', reportData.engagement?.alto || 0, reportData.summary.total > 0 ? ((reportData.engagement?.alto || 0) / reportData.summary.total * 100).toFixed(1) + '%' : '0%'],
+            ['Médio Engajamento (40-69)', reportData.engagement?.medio || 0, reportData.summary.total > 0 ? ((reportData.engagement?.medio || 0) / reportData.summary.total * 100).toFixed(1) + '%' : '0%'],
+            ['Baixo Engajamento (<40)', reportData.engagement?.baixo || 0, reportData.summary.total > 0 ? ((reportData.engagement?.baixo || 0) / reportData.summary.total * 100).toFixed(1) + '%' : '0%']
         ];
 
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Relatório');
-        XLSX.writeFile(wb, 'relatorio_crm_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+        if (typeof XLSX !== 'undefined') {
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Resumo');
+            XLSX.writeFile(wb, 'resumo_crm_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+        } else {
+            exportToCSV(data);
+        }
+    }
+
+    function printFilteredContacts() {
+        // Prepara área de impressão
+        const now = new Date();
+        $('#print-date').text(now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR'));
+
+        // Mostra filtros aplicados
+        const filters = getFilters();
+        let filterText = [];
+        if (filters.period && filters.period !== 'all') {
+            if (filters.period === 'custom') {
+                filterText.push('Período: ' + (filters.date_from || '?') + ' a ' + (filters.date_to || '?'));
+            } else {
+                filterText.push('Período: últimos ' + filters.period + ' dias');
+            }
+        }
+        if (filters.regiao) filterText.push('Região: ' + filters.regiao);
+        if (filters.estado) filterText.push('Estado: ' + (estadosMap[filters.estado] || filters.estado));
+        if (filters.status) filterText.push('Status: ' + filters.status);
+        if (filters.engajamento) filterText.push('Engajamento: ' + filters.engajamento);
+        if (filters.genero) filterText.push('Gênero: ' + (generos[filters.genero] || filters.genero));
+        if (filters.raca) filterText.push('Raça/Etnia: ' + (racas[filters.raca] || filters.raca));
+
+        $('#print-filters').text(filterText.length > 0 ? 'Filtros: ' + filterText.join(' | ') : 'Sem filtros aplicados');
+
+        // Resumo
+        if (reportData) {
+            $('#print-summary').html(`
+                <p><strong>Total:</strong> ${reportData.summary.total} contatos |
+                <strong>Estados:</strong> ${reportData.summary.estados} |
+                <strong>Score Médio:</strong> ${Math.round(reportData.summary.score_medio)}%</p>
+            `);
+        }
+
+        // Busca todos os contatos filtrados para impressão
+        $.post(crmDevAdmin.ajaxUrl, {
+            action: 'crm_dev_get_contacts',
+            nonce: crmDevAdmin.nonce,
+            page: 1,
+            per_page: 9999,
+            status: filters.status || '',
+            estado: filters.estado || '',
+            regiao: filters.regiao || '',
+            engajamento: filters.engajamento || '',
+            genero: filters.genero || '',
+            raca: filters.raca || '',
+            period: filters.period || '',
+            date_from: filters.date_from || '',
+            date_to: filters.date_to || ''
+        }, function(response) {
+            if (response.success) {
+                const contacts = response.data.items || [];
+                let html = '';
+
+                contacts.forEach(c => {
+                    html += `
+                        <tr>
+                            <td>${c.nome_completo || '-'}</td>
+                            <td>${c.email || '-'}</td>
+                            <td>${c.telefone || c.whatsapp || '-'}</td>
+                            <td>${c.estado || '-'}</td>
+                            <td>${c.score_engajamento || 0}</td>
+                        </tr>
+                    `;
+                });
+
+                $('#print-contacts-tbody').html(html);
+                $('#print-total').text(contacts.length);
+
+                // Executa impressão
+                window.print();
+            }
+        });
     }
 });
 </script>

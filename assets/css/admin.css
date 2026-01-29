@@ -2948,21 +2948,260 @@
     color: var(--crm-primary);
 }
 
+/* ========================================
+   RELATÓRIOS - ESTILOS ADICIONAIS
+   ======================================== */
+
+/* Tabela de contatos filtrados */
+#filtered-contacts-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#filtered-contacts-card .badge {
+    background: var(--crm-primary);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.score-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: var(--crm-success);
+    color: #fff;
+}
+
+.badge-warning {
+    background: var(--crm-warning);
+    color: #fff;
+}
+
+.badge-danger {
+    background: var(--crm-danger);
+    color: #fff;
+}
+
+.loading-row,
+.empty-row {
+    text-align: center;
+    padding: 40px !important;
+    color: var(--crm-text-light);
+}
+
+.loading-row i {
+    margin-right: 8px;
+}
+
+/* Paginação */
+.pagination-container {
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.btn-page {
+    padding: 8px 12px;
+    border: 1px solid var(--crm-border);
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 36px;
+}
+
+.btn-page:hover:not(:disabled) {
+    background: var(--crm-primary-bg);
+    border-color: var(--crm-primary);
+}
+
+.btn-page.active {
+    background: var(--crm-primary);
+    color: #fff;
+    border-color: var(--crm-primary);
+}
+
+.btn-page:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-dots {
+    padding: 0 5px;
+    color: var(--crm-text-light);
+}
+
+/* Modal de exportação */
+#export-modal .modal-content {
+    max-width: 600px;
+}
+
+.export-format-options {
+    display: flex;
+    gap: 15px;
+}
+
+.export-option {
+    flex: 1;
+    cursor: pointer;
+}
+
+.export-option input {
+    display: none;
+}
+
+.export-option .option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    border: 2px solid var(--crm-border);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.export-option .option-content i {
+    font-size: 32px;
+    color: var(--crm-text-light);
+}
+
+.export-option input:checked + .option-content {
+    border-color: var(--crm-primary);
+    background: var(--crm-primary-bg);
+}
+
+.export-option input:checked + .option-content i {
+    color: var(--crm-primary);
+}
+
+.export-fields {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Área de impressão */
+#print-area {
+    font-family: Arial, sans-serif;
+}
+
+.print-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #333;
+}
+
+.print-header h1 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.print-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: #666;
+}
+
+.print-date,
+.print-filters {
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.print-summary {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.print-table th,
+.print-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.print-table th {
+    background: #333;
+    color: #fff;
+}
+
+.print-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.print-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+}
+
 /* Print */
 @media print {
-    .crm-dev-sidebar {
-        display: none;
+    /* Oculta tudo exceto área de impressão */
+    body * {
+        visibility: hidden;
     }
 
-    .crm-dev-content {
-        margin: 0;
+    #print-area,
+    #print-area * {
+        visibility: visible;
+    }
+
+    #print-area {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
         padding: 20px;
     }
 
-    .card-header .button,
-    .form-navigation,
-    .crm-dev-filters,
-    .header-actions {
+    .crm-dev-sidebar,
+    .crm-dev-header,
+    .crm-dev-card,
+    .crm-dev-stats-grid,
+    .advanced-filters,
+    .visualization-tabs,
+    #charts-container,
+    #export-modal,
+    .wp-admin {
         display: none !important;
+    }
+
+    .print-table {
+        page-break-inside: auto;
+    }
+
+    .print-table tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
     }
 }

@@ -138,8 +138,46 @@ class CRM_Dev_Import_Export {
     /**
      * Exporta contatos para XLSX (via JavaScript)
      */
-    public static function get_export_data($args = array(), $fields = array()) {
-        $contacts_data = CRM_Dev_Contacts::get_contacts(array_merge($args, array('per_page' => 999999)));
+    public static function get_export_data($filters = array(), $fields = array()) {
+        // Monta os argumentos para buscar contatos com filtros
+        $args = array(
+            'per_page' => 999999,
+            'page' => 1,
+        );
+
+        // Aplica filtros
+        if (!empty($filters['estado'])) {
+            $args['estado'] = $filters['estado'];
+        }
+        if (!empty($filters['regiao'])) {
+            $args['regiao'] = $filters['regiao'];
+        }
+        if (!empty($filters['status'])) {
+            $args['status'] = $filters['status'];
+        }
+        if (!empty($filters['genero'])) {
+            $args['genero'] = $filters['genero'];
+        }
+        if (!empty($filters['raca'])) {
+            $args['raca'] = $filters['raca'];
+        }
+        if (!empty($filters['engajamento'])) {
+            $args['engajamento'] = $filters['engajamento'];
+        }
+        if (!empty($filters['eixo_tematico'])) {
+            $args['eixo_tematico'] = $filters['eixo_tematico'];
+        }
+        if (!empty($filters['period'])) {
+            $args['period'] = $filters['period'];
+        }
+        if (!empty($filters['date_from'])) {
+            $args['date_from'] = $filters['date_from'];
+        }
+        if (!empty($filters['date_to'])) {
+            $args['date_to'] = $filters['date_to'];
+        }
+
+        $contacts_data = CRM_Dev_Contacts::get_contacts($args);
         $contacts = $contacts_data['items'];
 
         $available = self::get_available_fields();
@@ -475,7 +513,40 @@ class CRM_Dev_Import_Export {
         $fields = isset($_POST['fields']) ? array_map('sanitize_text_field', $_POST['fields']) : array();
         $filters = isset($_POST['filters']) ? $_POST['filters'] : array();
 
-        $data = self::get_export_data($filters, $fields);
+        // Sanitiza os filtros
+        $sanitized_filters = array();
+        if (!empty($filters['estado'])) {
+            $sanitized_filters['estado'] = sanitize_text_field($filters['estado']);
+        }
+        if (!empty($filters['regiao'])) {
+            $sanitized_filters['regiao'] = sanitize_text_field($filters['regiao']);
+        }
+        if (!empty($filters['status'])) {
+            $sanitized_filters['status'] = sanitize_text_field($filters['status']);
+        }
+        if (!empty($filters['genero'])) {
+            $sanitized_filters['genero'] = sanitize_text_field($filters['genero']);
+        }
+        if (!empty($filters['raca'])) {
+            $sanitized_filters['raca'] = sanitize_text_field($filters['raca']);
+        }
+        if (!empty($filters['engajamento'])) {
+            $sanitized_filters['engajamento'] = sanitize_text_field($filters['engajamento']);
+        }
+        if (!empty($filters['eixo'])) {
+            $sanitized_filters['eixo_tematico'] = sanitize_text_field($filters['eixo']);
+        }
+        if (!empty($filters['period'])) {
+            $sanitized_filters['period'] = sanitize_text_field($filters['period']);
+        }
+        if (!empty($filters['date_from'])) {
+            $sanitized_filters['date_from'] = sanitize_text_field($filters['date_from']);
+        }
+        if (!empty($filters['date_to'])) {
+            $sanitized_filters['date_to'] = sanitize_text_field($filters['date_to']);
+        }
+
+        $data = self::get_export_data($sanitized_filters, $fields);
 
         wp_send_json_success(array('data' => $data));
     }
