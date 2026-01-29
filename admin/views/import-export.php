@@ -530,11 +530,12 @@ jQuery(document).ready(function($) {
         $(this).html('<i class="fas fa-spinner fa-spin"></i> Importando...').prop('disabled', true);
         $('#btn-import-prev').prop('disabled', true);
 
+        // Envia dados como JSON string para evitar limite de max_input_vars do PHP
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_import_contacts',
             nonce: crmDevAdmin.nonce,
-            data: importData,
-            mapping: importMapping,
+            data_json: JSON.stringify(importData),
+            mapping_json: JSON.stringify(importMapping),
             options: {
                 skip_duplicates: $('#opt-skip-duplicates').is(':checked'),
                 update_existing: $('#opt-update-existing').is(':checked')

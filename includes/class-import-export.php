@@ -763,9 +763,22 @@ class CRM_Dev_Import_Export {
             wp_send_json_error(array('message' => 'Sem permissão'));
         }
 
-        $data = isset($_POST['data']) ? $_POST['data'] : array();
-        $mapping = isset($_POST['mapping']) ? $_POST['mapping'] : array();
+        // Recebe dados como JSON string para evitar limite de max_input_vars
+        $data_json = isset($_POST['data_json']) ? $_POST['data_json'] : '';
+        $mapping_json = isset($_POST['mapping_json']) ? $_POST['mapping_json'] : '';
         $options = isset($_POST['options']) ? $_POST['options'] : array();
+
+        // Decodifica JSON
+        $data = !empty($data_json) ? json_decode(stripslashes($data_json), true) : array();
+        $mapping = !empty($mapping_json) ? json_decode(stripslashes($mapping_json), true) : array();
+
+        // Fallback para formato antigo (compatibilidade)
+        if (empty($data) && isset($_POST['data'])) {
+            $data = $_POST['data'];
+        }
+        if (empty($mapping) && isset($_POST['mapping'])) {
+            $mapping = $_POST['mapping'];
+        }
 
         if (empty($data)) {
             wp_send_json_error(array('message' => 'Dados não informados'));
