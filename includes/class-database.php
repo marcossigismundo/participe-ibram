@@ -252,4 +252,44 @@ class CRM_Dev_Database {
 
         delete_option('crm_dev_db_version');
     }
+
+    /**
+     * Verifica e adiciona colunas faltantes (migrações)
+     */
+    public static function maybe_upgrade() {
+        global $wpdb;
+        $tables = self::get_tables();
+
+        // Verifica se coluna foto_id existe
+        $column_exists = $wpdb->get_results(
+            $wpdb->prepare(
+                "SHOW COLUMNS FROM {$tables['contacts']} LIKE %s",
+                'foto_id'
+            )
+        );
+
+        if (empty($column_exists)) {
+            $wpdb->query(
+                "ALTER TABLE {$tables['contacts']}
+                ADD COLUMN foto_id bigint(20) UNSIGNED DEFAULT NULL
+                AFTER id"
+            );
+        }
+
+        // Verifica se coluna anexos existe na tabela de interações
+        $anexos_exists = $wpdb->get_results(
+            $wpdb->prepare(
+                "SHOW COLUMNS FROM {$tables['interactions']} LIKE %s",
+                'anexos'
+            )
+        );
+
+        if (empty($anexos_exists)) {
+            $wpdb->query(
+                "ALTER TABLE {$tables['interactions']}
+                ADD COLUMN anexos text DEFAULT NULL
+                AFTER data_proxima_acao"
+            );
+        }
+    }
 }

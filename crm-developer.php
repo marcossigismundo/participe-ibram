@@ -131,6 +131,9 @@ class CRM_Developer {
      * Inicialização
      */
     public function init() {
+        // Verifica e aplica migrações do banco de dados
+        CRM_Dev_Database::maybe_upgrade();
+
         // Registra shortcodes
         add_shortcode('crm_cadastro', array('CRM_Dev_Public', 'shortcode_form'));
         add_shortcode('crm_dashboard_publico', array('CRM_Dev_Public', 'shortcode_dashboard'));

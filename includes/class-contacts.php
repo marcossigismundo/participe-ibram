@@ -216,9 +216,13 @@ class CRM_Dev_Contacts {
             }
 
             // Log do erro para debug
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('CRM Dev Insert Error: ' . $wpdb->last_error);
-            }
+            error_log('CRM Dev Insert Error: ' . $wpdb->last_error);
+            error_log('CRM Dev Insert Data: ' . print_r($sanitized, true));
+        }
+
+        // Log do erro de update
+        if ($id) {
+            error_log('CRM Dev Update Error: ' . $wpdb->last_error);
         }
 
         return false;
@@ -542,7 +546,11 @@ class CRM_Dev_Contacts {
                 'message' => $id ? 'Contato atualizado com sucesso!' : 'Contato criado com sucesso!'
             ));
         } else {
-            wp_send_json_error(array('message' => 'Erro ao salvar contato'));
+            global $wpdb;
+            wp_send_json_error(array(
+                'message' => 'Erro ao salvar contato',
+                'db_error' => $wpdb->last_error
+            ));
         }
     }
 
