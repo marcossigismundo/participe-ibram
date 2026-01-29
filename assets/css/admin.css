@@ -1529,10 +1529,14 @@
     right: 0;
     bottom: 0;
     background: rgba(0,0,0,0.5);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 100000;
+}
+
+.crm-dev-modal.show {
+    display: flex;
 }
 
 .modal-content {
@@ -3049,12 +3053,35 @@
 
 /* Modal de exportação */
 #export-modal .modal-content {
-    max-width: 600px;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#export-modal .modal-body {
+    overflow-y: auto;
+    flex: 1;
+    padding: 25px;
+}
+
+#export-modal .form-group {
+    margin-bottom: 20px;
+}
+
+#export-modal .form-group > label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--crm-text);
 }
 
 .export-format-options {
     display: flex;
     gap: 15px;
+    margin-bottom: 10px;
 }
 
 .export-option {
@@ -3075,11 +3102,22 @@
     border: 2px solid var(--crm-border);
     border-radius: 8px;
     transition: all 0.2s;
+    background: #fff;
 }
 
 .export-option .option-content i {
     font-size: 32px;
     color: var(--crm-text-light);
+}
+
+.export-option .option-content span {
+    font-weight: 500;
+    color: var(--crm-text);
+}
+
+.export-option:hover .option-content {
+    border-color: var(--crm-primary-light);
+    background: #fafafa;
 }
 
 .export-option input:checked + .option-content {
@@ -3091,9 +3129,58 @@
     color: var(--crm-primary);
 }
 
+.export-option input:checked + .option-content span {
+    color: var(--crm-primary-dark);
+}
+
 .export-fields {
-    max-height: 300px;
+    max-height: 280px;
     overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 15px;
+    background: #f9fafb;
+    border: 1px solid var(--crm-border);
+    border-radius: 8px;
+}
+
+.export-fields .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid var(--crm-border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 13px;
+}
+
+.export-fields .checkbox-item:hover {
+    border-color: var(--crm-primary);
+    background: var(--crm-primary-bg);
+}
+
+.export-fields .checkbox-item:has(input:checked) {
+    border-color: var(--crm-primary);
+    background: var(--crm-primary-bg);
+}
+
+.export-fields .checkbox-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--crm-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.export-fields .checkbox-item span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Área de impressão */

@@ -511,6 +511,10 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body">
+            <p class="export-info" style="margin: 0 0 20px; padding: 12px; background: var(--crm-primary-bg); border-radius: 8px; font-size: 13px; color: var(--crm-primary-dark);">
+                <i class="fas fa-info-circle"></i>
+                <?php _e('A exportação respeitará os filtros aplicados atualmente.', 'crm-developer'); ?>
+            </p>
             <div class="form-group">
                 <label><?php _e('Formato de Exportação', 'crm-developer'); ?></label>
                 <div class="export-format-options">
@@ -532,7 +536,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
             <div class="form-group">
                 <label><?php _e('Campos para Exportar', 'crm-developer'); ?></label>
-                <div class="checkbox-group export-fields">
+                <div class="export-fields">
                     <?php
                     $export_fields = CRM_Dev_Import_Export::get_available_fields();
                     $default_fields = array('nome_completo', 'email', 'telefone', 'whatsapp', 'estado', 'municipio', 'score_engajamento', 'status');
