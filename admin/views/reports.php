@@ -544,7 +544,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                         $checked = in_array($field, $default_fields) ? 'checked' : '';
                     ?>
                         <label class="checkbox-item">
-                            <input type="checkbox" name="export_field[]" value="<?php echo esc_attr($field); ?>" <?php echo $checked; ?>>
+                            <input type="checkbox" name="export_field[]" value="<?php echo esc_attr($field); ?>" <?php echo esc_attr($checked); ?>>
                             <span><?php echo esc_html($label); ?></span>
                         </label>
                     <?php endforeach; ?>

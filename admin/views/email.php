@@ -39,27 +39,27 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
     <!-- Navegação por Abas -->
     <div class="crm-dev-tabs">
         <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=send')); ?>"
-           class="tab-item <?php echo $tab === 'send' ? 'active' : ''; ?>">
+           class="tab-item <?php echo esc_attr($tab === 'send' ? 'active' : ''); ?>">
             <i class="fas fa-paper-plane"></i>
             <?php esc_html_e('Enviar Email', 'crm-developer'); ?>
         </a>
         <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=templates')); ?>"
-           class="tab-item <?php echo $tab === 'templates' ? 'active' : ''; ?>">
+           class="tab-item <?php echo esc_attr($tab === 'templates' ? 'active' : ''); ?>">
             <i class="fas fa-file-alt"></i>
             <?php esc_html_e('Templates', 'crm-developer'); ?>
         </a>
         <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=campaigns')); ?>"
-           class="tab-item <?php echo $tab === 'campaigns' ? 'active' : ''; ?>">
+           class="tab-item <?php echo esc_attr($tab === 'campaigns' ? 'active' : ''); ?>">
             <i class="fas fa-bullhorn"></i>
             <?php esc_html_e('Campanhas', 'crm-developer'); ?>
         </a>
         <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=logs')); ?>"
-           class="tab-item <?php echo $tab === 'logs' ? 'active' : ''; ?>">
+           class="tab-item <?php echo esc_attr($tab === 'logs' ? 'active' : ''); ?>">
             <i class="fas fa-history"></i>
             <?php esc_html_e('Histórico', 'crm-developer'); ?>
         </a>
         <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=settings')); ?>"
-           class="tab-item <?php echo $tab === 'settings' ? 'active' : ''; ?>">
+           class="tab-item <?php echo esc_attr($tab === 'settings' ? 'active' : ''); ?>">
             <i class="fas fa-cog"></i>
             <?php esc_html_e('Configurações', 'crm-developer'); ?>
         </a>
@@ -285,7 +285,7 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                                 <tr data-id="<?php echo esc_attr($template['id']); ?>">
                                                     <td><strong><?php echo esc_html($template['nome'] ?? ''); ?></strong></td>
                                                     <td><?php echo esc_html($template['assunto'] ?? ''); ?></td>
-                                                    <td><?php echo CRM_Dev_Helpers::format_datetime($template['created_at'], 'd/m/Y'); ?></td>
+                                                    <td><?php echo esc_html(CRM_Dev_Helpers::format_datetime($template['created_at'], 'd/m/Y')); ?></td>
                                                     <td>
                                                         <button type="button" class="btn-icon btn-edit-template"
                                                                 data-id="<?php echo esc_attr($template['id']); ?>"

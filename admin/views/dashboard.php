@@ -39,7 +39,7 @@ $charts = $dashboard_data['charts'];
                 <i class="fas fa-users"></i>
             </div>
             <div class="stat-content">
-                <span class="stat-number"><?php echo number_format_i18n($stats['total']); ?></span>
+                <span class="stat-number"><?php echo esc_html(number_format_i18n($stats['total'])); ?></span>
                 <span class="stat-label"><?php esc_html_e('Total de Contatos', 'crm-developer'); ?></span>
             </div>
         </div>
@@ -49,7 +49,7 @@ $charts = $dashboard_data['charts'];
                 <i class="fas fa-user-plus"></i>
             </div>
             <div class="stat-content">
-                <span class="stat-number"><?php echo number_format_i18n($stats['novos_mes']); ?></span>
+                <span class="stat-number"><?php echo esc_html(number_format_i18n($stats['novos_mes'])); ?></span>
                 <span class="stat-label"><?php esc_html_e('Novos este mês', 'crm-developer'); ?></span>
             </div>
         </div>
@@ -59,7 +59,7 @@ $charts = $dashboard_data['charts'];
                 <i class="fas fa-star"></i>
             </div>
             <div class="stat-content">
-                <span class="stat-number"><?php echo number_format_i18n($stats['score_alto']); ?></span>
+                <span class="stat-number"><?php echo esc_html(number_format_i18n($stats['score_alto'])); ?></span>
                 <span class="stat-label"><?php esc_html_e('Alto Engajamento', 'crm-developer'); ?></span>
             </div>
         </div>
@@ -69,7 +69,7 @@ $charts = $dashboard_data['charts'];
                 <i class="fas fa-chart-line"></i>
             </div>
             <div class="stat-content">
-                <span class="stat-number"><?php echo round($stats['score_medio_valor'] ?? 0); ?></span>
+                <span class="stat-number"><?php echo esc_html(round($stats['score_medio_valor'] ?? 0)); ?></span>
                 <span class="stat-label"><?php esc_html_e('Score Médio', 'crm-developer'); ?></span>
             </div>
         </div>
@@ -140,11 +140,11 @@ $charts = $dashboard_data['charts'];
                                         <td><?php echo esc_html($contact['email'] ?: '-'); ?></td>
                                         <td><?php echo esc_html($contact['estado'] ?: '-'); ?></td>
                                         <td>
-                                            <span class="score-badge" style="background-color: <?php echo CRM_Dev_Helpers::get_score_color($contact['score_engajamento']); ?>">
-                                                <?php echo $contact['score_engajamento']; ?>
+                                            <span class="score-badge" style="background-color: <?php echo esc_attr(CRM_Dev_Helpers::get_score_color($contact['score_engajamento'])); ?>">
+                                                <?php echo esc_html($contact['score_engajamento']); ?>
                                             </span>
                                         </td>
-                                        <td><?php echo CRM_Dev_Helpers::format_datetime($contact['created_at'], 'd/m/Y'); ?></td>
+                                        <td><?php echo esc_html(CRM_Dev_Helpers::format_datetime($contact['created_at'], 'd/m/Y')); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -237,9 +237,9 @@ $charts = $dashboard_data['charts'];
                             foreach (array_slice($all_actions, 0, 5) as $action) :
                                 $is_overdue = !empty($action['overdue']);
                             ?>
-                                <div class="action-item <?php echo $is_overdue ? 'overdue' : ''; ?>">
+                                <div class="action-item <?php echo esc_attr($is_overdue ? 'overdue' : ''); ?>">
                                     <div class="action-date">
-                                        <?php echo CRM_Dev_Helpers::format_date($action['data_proxima_acao']); ?>
+                                        <?php echo esc_html(CRM_Dev_Helpers::format_date($action['data_proxima_acao'])); ?>
                                         <?php if ($is_overdue) : ?>
                                             <span class="overdue-badge"><?php esc_html_e('Atrasado', 'crm-developer'); ?></span>
                                         <?php endif; ?>

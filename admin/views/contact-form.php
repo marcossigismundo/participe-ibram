@@ -54,13 +54,13 @@ function is_checked($contact, $field, $value) {
         <div class="header-title-row">
             <div>
                 <h1>
-                    <i class="fas fa-<?php echo $is_edit ? 'user-edit' : 'user-plus'; ?>"></i>
-                    <?php echo $is_edit ? __('Editar Contato', 'crm-developer') : __('Novo Contato', 'crm-developer'); ?>
+                    <i class="fas fa-<?php echo esc_attr($is_edit ? 'user-edit' : 'user-plus'); ?>"></i>
+                    <?php echo esc_html($is_edit ? __('Editar Contato', 'crm-developer') : __('Novo Contato', 'crm-developer')); ?>
                 </h1>
                 <p class="crm-dev-subtitle">
-                    <?php echo $is_edit
+                    <?php echo esc_html($is_edit
                         ? __('Atualize as informações do contato abaixo', 'crm-developer')
-                        : __('Preencha as informações do novo contato', 'crm-developer'); ?>
+                        : __('Preencha as informações do novo contato', 'crm-developer')); ?>
                 </p>
             </div>
             <?php crm_dev_render_help_button('contact-form'); ?>
@@ -97,7 +97,7 @@ function is_checked($contact, $field, $value) {
         </div>
 
         <form id="contact-form" class="crm-dev-form">
-            <input type="hidden" name="id" value="<?php echo $contact_id; ?>">
+            <input type="hidden" name="id" value="<?php echo esc_attr($contact_id); ?>">
 
             <!-- Etapa 1: Dados Pessoais -->
             <div class="form-step active" data-step="1">
@@ -461,7 +461,7 @@ function is_checked($contact, $field, $value) {
                             <label><input type="radio" name="consentimento_lgpd" value="sim" <?php checked(get_value($contact, 'consentimento_lgpd'), 'sim'); ?>> <?php esc_html_e('Obtido', 'crm-developer'); ?></label>
                         </div>
                         <?php if (get_value($contact, 'data_consentimento')) : ?>
-                            <span class="field-help"><?php esc_html_e('Consentido em:', 'crm-developer'); ?> <?php echo CRM_Dev_Helpers::format_datetime(get_value($contact, 'data_consentimento')); ?></span>
+                            <span class="field-help"><?php esc_html_e('Consentido em:', 'crm-developer'); ?> <?php echo esc_html(CRM_Dev_Helpers::format_datetime(get_value($contact, 'data_consentimento'))); ?></span>
                         <?php endif; ?>
                     </div>
 
@@ -665,7 +665,7 @@ jQuery(document).ready(function($) {
         }, function(response) {
             if (response.success) {
                 alert(response.data.message);
-                window.location.href = '<?php echo esc_url(admin_url(\)); ?>' + response.data.id;
+                window.location.href = '<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts&action=view&id=')); ?>' + response.data.id;
             } else {
                 alert(response.data.message || 'Erro ao salvar');
                 $btn.html(originalText).prop('disabled', false);

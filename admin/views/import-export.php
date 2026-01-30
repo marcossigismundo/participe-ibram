@@ -33,13 +33,13 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
 
     <!-- Tabs -->
     <nav class="crm-dev-tabs">
-        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=import')); ?>" class="tab <?php echo $tab === 'import' ? 'active' : ''; ?>">
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=import')); ?>" class="tab <?php echo esc_attr($tab === 'import' ? 'active' : ''); ?>">
             <i class="fas fa-file-import"></i> <?php esc_html_e('Importar', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=export')); ?>" class="tab <?php echo $tab === 'export' ? 'active' : ''; ?>">
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=export')); ?>" class="tab <?php echo esc_attr($tab === 'export' ? 'active' : ''); ?>">
             <i class="fas fa-file-export"></i> <?php esc_html_e('Exportar', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=history')); ?>" class="tab <?php echo $tab === 'history' ? 'active' : ''; ?>">
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=history')); ?>" class="tab <?php echo esc_attr($tab === 'history' ? 'active' : ''); ?>">
             <i class="fas fa-history"></i> <?php esc_html_e('Histórico', 'crm-developer'); ?>
         </a>
     </nav>
@@ -282,11 +282,11 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                         <tbody>
                             <?php foreach ($import_history as $log) : ?>
                                 <tr>
-                                    <td><?php echo CRM_Dev_Helpers::format_datetime($log['created_at']); ?></td>
+                                    <td><?php echo esc_html(CRM_Dev_Helpers::format_datetime($log['created_at'])); ?></td>
                                     <td><?php echo esc_html($log['arquivo']); ?></td>
-                                    <td><?php echo number_format_i18n($log['total_linhas']); ?></td>
-                                    <td class="text-success"><?php echo number_format_i18n($log['importados']); ?></td>
-                                    <td class="text-danger"><?php echo number_format_i18n($log['erros']); ?></td>
+                                    <td><?php echo esc_html(number_format_i18n($log['total_linhas'])); ?></td>
+                                    <td class="text-success"><?php echo esc_html(number_format_i18n($log['importados'])); ?></td>
+                                    <td class="text-danger"><?php echo esc_html(number_format_i18n($log['erros'])); ?></td>
                                     <td><?php echo esc_html($log['user_name']); ?></td>
                                 </tr>
                             <?php endforeach; ?>

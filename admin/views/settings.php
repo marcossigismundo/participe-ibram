@@ -242,7 +242,7 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
                             <?php
                             global $wpdb;
                             $tables = CRM_Dev_Database::get_tables();
-                            echo number_format_i18n($wpdb->get_var("SELECT COUNT(*) FROM {$tables['contacts']}"));
+                            echo esc_html(number_format_i18n($wpdb->get_var("SELECT COUNT(*) FROM {$tables['contacts']}")));
                             ?>
                         </td>
                     </tr>
@@ -250,7 +250,7 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
                         <th><?php esc_html_e('Total de Interações', 'crm-developer'); ?></th>
                         <td>
                             <?php
-                            echo number_format_i18n($wpdb->get_var("SELECT COUNT(*) FROM {$tables['interactions']}"));
+                            echo esc_html(number_format_i18n($wpdb->get_var("SELECT COUNT(*) FROM {$tables['interactions']}")));
                             ?>
                         </td>
                     </tr>
