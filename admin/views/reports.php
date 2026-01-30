@@ -27,9 +27,9 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div>
                 <h1>
                     <i class="fas fa-chart-bar"></i>
-                    <?php _e('Relatórios e Análises', 'crm-developer'); ?>
+                    <?php esc_html_e('Relatórios e Análises', 'crm-developer'); ?>
                 </h1>
-                <p class="crm-dev-subtitle"><?php _e('Análise detalhada com filtros avançados e múltiplas visualizações', 'crm-developer'); ?></p>
+                <p class="crm-dev-subtitle"><?php esc_html_e('Análise detalhada com filtros avançados e múltiplas visualizações', 'crm-developer'); ?></p>
             </div>
             <?php crm_dev_render_help_button('reports'); ?>
         </div>
@@ -38,7 +38,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
     <!-- Painel de Filtros Avançados -->
     <div class="crm-dev-card">
         <div class="card-header">
-            <h3><i class="fas fa-filter"></i> <?php _e('Filtros Avançados', 'crm-developer'); ?></h3>
+            <h3><i class="fas fa-filter"></i> <?php esc_html_e('Filtros Avançados', 'crm-developer'); ?></h3>
             <button type="button" class="button" id="btn-toggle-filters">
                 <i class="fas fa-chevron-down"></i>
             </button>
@@ -47,38 +47,38 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="advanced-filters">
                 <div class="filters-row">
                     <div class="filter-group">
-                        <label><?php _e('Período', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Período', 'crm-developer'); ?></label>
                         <select id="filter-period">
-                            <option value="all"><?php _e('Todo o período', 'crm-developer'); ?></option>
-                            <option value="7"><?php _e('Últimos 7 dias', 'crm-developer'); ?></option>
-                            <option value="30" selected><?php _e('Últimos 30 dias', 'crm-developer'); ?></option>
-                            <option value="90"><?php _e('Últimos 90 dias', 'crm-developer'); ?></option>
-                            <option value="180"><?php _e('Últimos 6 meses', 'crm-developer'); ?></option>
-                            <option value="365"><?php _e('Último ano', 'crm-developer'); ?></option>
-                            <option value="custom"><?php _e('Personalizado', 'crm-developer'); ?></option>
+                            <option value="all"><?php esc_html_e('Todo o período', 'crm-developer'); ?></option>
+                            <option value="7"><?php esc_html_e('Últimos 7 dias', 'crm-developer'); ?></option>
+                            <option value="30" selected><?php esc_html_e('Últimos 30 dias', 'crm-developer'); ?></option>
+                            <option value="90"><?php esc_html_e('Últimos 90 dias', 'crm-developer'); ?></option>
+                            <option value="180"><?php esc_html_e('Últimos 6 meses', 'crm-developer'); ?></option>
+                            <option value="365"><?php esc_html_e('Último ano', 'crm-developer'); ?></option>
+                            <option value="custom"><?php esc_html_e('Personalizado', 'crm-developer'); ?></option>
                         </select>
                     </div>
                     <div class="filter-group date-range" style="display: none;">
-                        <label><?php _e('De', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('De', 'crm-developer'); ?></label>
                         <input type="date" id="filter-date-from">
                     </div>
                     <div class="filter-group date-range" style="display: none;">
-                        <label><?php _e('Até', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Até', 'crm-developer'); ?></label>
                         <input type="date" id="filter-date-to">
                     </div>
                     <div class="filter-group">
-                        <label><?php _e('Região', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Região', 'crm-developer'); ?></label>
                         <select id="filter-regiao">
-                            <option value=""><?php _e('Todas as regiões', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Todas as regiões', 'crm-developer'); ?></option>
                             <?php foreach ($regioes as $regiao) : ?>
                                 <option value="<?php echo esc_attr($regiao); ?>"><?php echo esc_html($regiao); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label><?php _e('Estado', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Estado', 'crm-developer'); ?></label>
                         <select id="filter-estado">
-                            <option value=""><?php _e('Todos os estados', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Todos os estados', 'crm-developer'); ?></option>
                             <?php foreach ($estados as $uf => $nome) : ?>
                                 <option value="<?php echo esc_attr($uf); ?>"><?php echo esc_html($nome); ?></option>
                             <?php endforeach; ?>
@@ -87,45 +87,45 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="filters-row">
                     <div class="filter-group">
-                        <label><?php _e('Status', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Status', 'crm-developer'); ?></label>
                         <select id="filter-status">
-                            <option value=""><?php _e('Todos os status', 'crm-developer'); ?></option>
-                            <option value="ativo"><?php _e('Ativo', 'crm-developer'); ?></option>
-                            <option value="inativo"><?php _e('Inativo', 'crm-developer'); ?></option>
-                            <option value="pendente"><?php _e('Pendente', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Todos os status', 'crm-developer'); ?></option>
+                            <option value="ativo"><?php esc_html_e('Ativo', 'crm-developer'); ?></option>
+                            <option value="inativo"><?php esc_html_e('Inativo', 'crm-developer'); ?></option>
+                            <option value="pendente"><?php esc_html_e('Pendente', 'crm-developer'); ?></option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label><?php _e('Engajamento', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Engajamento', 'crm-developer'); ?></label>
                         <select id="filter-engajamento">
-                            <option value=""><?php _e('Todos os níveis', 'crm-developer'); ?></option>
-                            <option value="alto"><?php _e('Alto (70+)', 'crm-developer'); ?></option>
-                            <option value="medio"><?php _e('Médio (40-69)', 'crm-developer'); ?></option>
-                            <option value="baixo"><?php _e('Baixo (<40)', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Todos os níveis', 'crm-developer'); ?></option>
+                            <option value="alto"><?php esc_html_e('Alto (70+)', 'crm-developer'); ?></option>
+                            <option value="medio"><?php esc_html_e('Médio (40-69)', 'crm-developer'); ?></option>
+                            <option value="baixo"><?php esc_html_e('Baixo (<40)', 'crm-developer'); ?></option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label><?php _e('Gênero', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Gênero', 'crm-developer'); ?></label>
                         <select id="filter-genero">
-                            <option value=""><?php _e('Todos os gêneros', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Todos os gêneros', 'crm-developer'); ?></option>
                             <?php foreach ($generos as $key => $label) : ?>
                                 <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label><?php _e('Raça/Etnia', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Raça/Etnia', 'crm-developer'); ?></label>
                         <select id="filter-raca">
-                            <option value=""><?php _e('Todas', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Todas', 'crm-developer'); ?></option>
                             <?php foreach ($racas as $key => $label) : ?>
                                 <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label><?php _e('Eixo Temático', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Eixo Temático', 'crm-developer'); ?></label>
                         <select id="filter-eixo">
-                            <option value=""><?php _e('Todos os eixos', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Todos os eixos', 'crm-developer'); ?></option>
                             <?php foreach ($eixos as $key => $label) : ?>
                                 <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
                             <?php endforeach; ?>
@@ -134,16 +134,16 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="filters-actions">
                     <button type="button" class="button button-primary" id="btn-apply-filters">
-                        <i class="fas fa-search"></i> <?php _e('Aplicar Filtros', 'crm-developer'); ?>
+                        <i class="fas fa-search"></i> <?php esc_html_e('Aplicar Filtros', 'crm-developer'); ?>
                     </button>
                     <button type="button" class="button" id="btn-clear-filters">
-                        <i class="fas fa-times"></i> <?php _e('Limpar Filtros', 'crm-developer'); ?>
+                        <i class="fas fa-times"></i> <?php esc_html_e('Limpar Filtros', 'crm-developer'); ?>
                     </button>
                     <button type="button" class="button" id="btn-export-report">
-                        <i class="fas fa-download"></i> <?php _e('Exportar Relatório', 'crm-developer'); ?>
+                        <i class="fas fa-download"></i> <?php esc_html_e('Exportar Relatório', 'crm-developer'); ?>
                     </button>
                     <button type="button" class="button" id="btn-print-report">
-                        <i class="fas fa-print"></i> <?php _e('Imprimir', 'crm-developer'); ?>
+                        <i class="fas fa-print"></i> <?php esc_html_e('Imprimir', 'crm-developer'); ?>
                     </button>
                 </div>
             </div>
@@ -158,7 +158,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-total">0</span>
-                <span class="stat-label"><?php _e('Contatos Filtrados', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Contatos Filtrados', 'crm-developer'); ?></span>
             </div>
         </div>
         <div class="crm-dev-stat-card">
@@ -167,7 +167,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-estados">0</span>
-                <span class="stat-label"><?php _e('Estados', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Estados', 'crm-developer'); ?></span>
             </div>
         </div>
         <div class="crm-dev-stat-card">
@@ -176,7 +176,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-engajamento">0%</span>
-                <span class="stat-label"><?php _e('Score Médio', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Score Médio', 'crm-developer'); ?></span>
             </div>
         </div>
         <div class="crm-dev-stat-card">
@@ -185,7 +185,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-lgpd">0%</span>
-                <span class="stat-label"><?php _e('Com Consentimento LGPD', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Com Consentimento LGPD', 'crm-developer'); ?></span>
             </div>
         </div>
     </div>
@@ -193,27 +193,27 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
     <!-- Seletor de Visualização -->
     <div class="crm-dev-card">
         <div class="card-header">
-            <h3><i class="fas fa-eye"></i> <?php _e('Tipo de Visualização', 'crm-developer'); ?></h3>
+            <h3><i class="fas fa-eye"></i> <?php esc_html_e('Tipo de Visualização', 'crm-developer'); ?></h3>
         </div>
         <div class="card-body">
             <div class="visualization-tabs">
                 <button type="button" class="viz-tab active" data-viz="geografico">
-                    <i class="fas fa-map"></i> <?php _e('Geográfico', 'crm-developer'); ?>
+                    <i class="fas fa-map"></i> <?php esc_html_e('Geográfico', 'crm-developer'); ?>
                 </button>
                 <button type="button" class="viz-tab" data-viz="demografico">
-                    <i class="fas fa-users"></i> <?php _e('Demográfico', 'crm-developer'); ?>
+                    <i class="fas fa-users"></i> <?php esc_html_e('Demográfico', 'crm-developer'); ?>
                 </button>
                 <button type="button" class="viz-tab" data-viz="participacao">
-                    <i class="fas fa-calendar-check"></i> <?php _e('Participação', 'crm-developer'); ?>
+                    <i class="fas fa-calendar-check"></i> <?php esc_html_e('Participação', 'crm-developer'); ?>
                 </button>
                 <button type="button" class="viz-tab" data-viz="engajamento">
-                    <i class="fas fa-chart-line"></i> <?php _e('Engajamento', 'crm-developer'); ?>
+                    <i class="fas fa-chart-line"></i> <?php esc_html_e('Engajamento', 'crm-developer'); ?>
                 </button>
                 <button type="button" class="viz-tab" data-viz="mobilizacao">
-                    <i class="fas fa-bullhorn"></i> <?php _e('Mobilização', 'crm-developer'); ?>
+                    <i class="fas fa-bullhorn"></i> <?php esc_html_e('Mobilização', 'crm-developer'); ?>
                 </button>
                 <button type="button" class="viz-tab" data-viz="temporal">
-                    <i class="fas fa-clock"></i> <?php _e('Temporal', 'crm-developer'); ?>
+                    <i class="fas fa-clock"></i> <?php esc_html_e('Temporal', 'crm-developer'); ?>
                 </button>
             </div>
         </div>
@@ -226,7 +226,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="reports-grid">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-globe-americas"></i> <?php _e('Distribuição por Região', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-globe-americas"></i> <?php esc_html_e('Distribuição por Região', 'crm-developer'); ?></h3>
                         <div class="chart-type-selector">
                             <button type="button" class="chart-btn active" data-chart="geo-region" data-type="bar"><i class="fas fa-chart-bar"></i></button>
                             <button type="button" class="chart-btn" data-chart="geo-region" data-type="pie"><i class="fas fa-chart-pie"></i></button>
@@ -239,7 +239,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-map-marked-alt"></i> <?php _e('Top 15 Estados', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-map-marked-alt"></i> <?php esc_html_e('Top 15 Estados', 'crm-developer'); ?></h3>
                         <div class="chart-type-selector">
                             <button type="button" class="chart-btn active" data-chart="geo-state" data-type="horizontalBar"><i class="fas fa-align-left"></i></button>
                             <button type="button" class="chart-btn" data-chart="geo-state" data-type="bar"><i class="fas fa-chart-bar"></i></button>
@@ -252,7 +252,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
             <div class="crm-dev-card full-width">
                 <div class="card-header">
-                    <h3><i class="fas fa-exclamation-triangle"></i> <?php _e('Lacunas Territoriais', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-exclamation-triangle"></i> <?php esc_html_e('Lacunas Territoriais', 'crm-developer'); ?></h3>
                 </div>
                 <div class="card-body">
                     <div id="territorial-gaps"></div>
@@ -265,7 +265,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="reports-grid">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-venus-mars"></i> <?php _e('Distribuição por Gênero', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-venus-mars"></i> <?php esc_html_e('Distribuição por Gênero', 'crm-developer'); ?></h3>
                         <div class="chart-type-selector">
                             <button type="button" class="chart-btn active" data-chart="demo-gender" data-type="doughnut"><i class="fas fa-circle-notch"></i></button>
                             <button type="button" class="chart-btn" data-chart="demo-gender" data-type="pie"><i class="fas fa-chart-pie"></i></button>
@@ -278,7 +278,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-palette"></i> <?php _e('Distribuição por Raça/Etnia', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-palette"></i> <?php esc_html_e('Distribuição por Raça/Etnia', 'crm-developer'); ?></h3>
                         <div class="chart-type-selector">
                             <button type="button" class="chart-btn active" data-chart="demo-race" data-type="doughnut"><i class="fas fa-circle-notch"></i></button>
                             <button type="button" class="chart-btn" data-chart="demo-race" data-type="pie"><i class="fas fa-chart-pie"></i></button>
@@ -292,7 +292,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
             <div class="crm-dev-card full-width">
                 <div class="card-header">
-                    <h3><i class="fas fa-birthday-cake"></i> <?php _e('Distribuição por Faixa Etária', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-birthday-cake"></i> <?php esc_html_e('Distribuição por Faixa Etária', 'crm-developer'); ?></h3>
                 </div>
                 <div class="card-body">
                     <canvas id="chart-demo-age" height="200"></canvas>
@@ -305,7 +305,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="reports-grid">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-layer-group"></i> <?php _e('Etapas de Participação', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-layer-group"></i> <?php esc_html_e('Etapas de Participação', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-part-etapas" height="280"></canvas>
@@ -313,7 +313,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-user-tag"></i> <?php _e('Tipos de Participação', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-user-tag"></i> <?php esc_html_e('Tipos de Participação', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-part-tipos" height="280"></canvas>
@@ -323,7 +323,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="reports-grid">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-sitemap"></i> <?php _e('Categorias de Representação', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-sitemap"></i> <?php esc_html_e('Categorias de Representação', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-part-categorias" height="280"></canvas>
@@ -331,7 +331,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-book"></i> <?php _e('Eixos Temáticos', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-book"></i> <?php esc_html_e('Eixos Temáticos', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-part-eixos" height="280"></canvas>
@@ -344,7 +344,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
         <div class="viz-panel" id="viz-engajamento">
             <div class="crm-dev-card full-width">
                 <div class="card-header">
-                    <h3><i class="fas fa-thermometer-half"></i> <?php _e('Distribuição de Score de Engajamento', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-thermometer-half"></i> <?php esc_html_e('Distribuição de Score de Engajamento', 'crm-developer'); ?></h3>
                 </div>
                 <div class="card-body">
                     <div class="engagement-distribution">
@@ -352,9 +352,9 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                             <!-- Preenchido via JS -->
                         </div>
                         <div class="engagement-legend">
-                            <span class="legend-item"><span class="dot high"></span> <?php _e('Alto (70+)', 'crm-developer'); ?> - <span id="eng-alto">0</span></span>
-                            <span class="legend-item"><span class="dot medium"></span> <?php _e('Médio (40-69)', 'crm-developer'); ?> - <span id="eng-medio">0</span></span>
-                            <span class="legend-item"><span class="dot low"></span> <?php _e('Baixo (<40)', 'crm-developer'); ?> - <span id="eng-baixo">0</span></span>
+                            <span class="legend-item"><span class="dot high"></span> <?php esc_html_e('Alto (70+)', 'crm-developer'); ?> - <span id="eng-alto">0</span></span>
+                            <span class="legend-item"><span class="dot medium"></span> <?php esc_html_e('Médio (40-69)', 'crm-developer'); ?> - <span id="eng-medio">0</span></span>
+                            <span class="legend-item"><span class="dot low"></span> <?php esc_html_e('Baixo (<40)', 'crm-developer'); ?> - <span id="eng-baixo">0</span></span>
                         </div>
                     </div>
                 </div>
@@ -362,7 +362,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="reports-grid">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-chart-area"></i> <?php _e('Engajamento por Região', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-chart-area"></i> <?php esc_html_e('Engajamento por Região', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-eng-region" height="280"></canvas>
@@ -370,7 +370,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-trophy"></i> <?php _e('Top 10 Contatos por Score', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-trophy"></i> <?php esc_html_e('Top 10 Contatos por Score', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div id="top-contacts-list"></div>
@@ -383,7 +383,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
         <div class="viz-panel" id="viz-mobilizacao">
             <div class="crm-dev-card full-width">
                 <div class="card-header">
-                    <h3><i class="fas fa-hands-helping"></i> <?php _e('Potencial de Mobilização', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-hands-helping"></i> <?php esc_html_e('Potencial de Mobilização', 'crm-developer'); ?></h3>
                 </div>
                 <div class="card-body">
                     <div class="mobilization-grid" id="mobilization-grid">
@@ -394,7 +394,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="reports-grid">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-hand-paper"></i> <?php _e('Deseja Continuar Participando', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-hand-paper"></i> <?php esc_html_e('Deseja Continuar Participando', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-mob-continuar" height="250"></canvas>
@@ -402,7 +402,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-users-cog"></i> <?php _e('Participação em Coletivos', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-users-cog"></i> <?php esc_html_e('Participação em Coletivos', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-mob-coletivos" height="250"></canvas>
@@ -415,7 +415,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
         <div class="viz-panel" id="viz-temporal">
             <div class="crm-dev-card full-width">
                 <div class="card-header">
-                    <h3><i class="fas fa-calendar-alt"></i> <?php _e('Evolução de Cadastros', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-calendar-alt"></i> <?php esc_html_e('Evolução de Cadastros', 'crm-developer'); ?></h3>
                     <div class="chart-type-selector">
                         <button type="button" class="chart-btn active" data-chart="temp-monthly" data-type="line"><i class="fas fa-chart-line"></i></button>
                         <button type="button" class="chart-btn" data-chart="temp-monthly" data-type="bar"><i class="fas fa-chart-bar"></i></button>
@@ -429,7 +429,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             <div class="reports-grid">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-calendar-week"></i> <?php _e('Cadastros por Dia da Semana', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-calendar-week"></i> <?php esc_html_e('Cadastros por Dia da Semana', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-temp-weekday" height="250"></canvas>
@@ -437,7 +437,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-clock"></i> <?php _e('Cadastros por Hora do Dia', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-clock"></i> <?php esc_html_e('Cadastros por Hora do Dia', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-temp-hour" height="250"></canvas>
@@ -450,9 +450,9 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
     <!-- Tabela de Dados Detalhados -->
     <div class="crm-dev-card full-width">
         <div class="card-header">
-            <h3><i class="fas fa-table"></i> <?php _e('Dados Detalhados', 'crm-developer'); ?></h3>
+            <h3><i class="fas fa-table"></i> <?php esc_html_e('Dados Detalhados', 'crm-developer'); ?></h3>
             <button type="button" class="button" id="btn-export-table">
-                <i class="fas fa-file-excel"></i> <?php _e('Exportar Tabela', 'crm-developer'); ?>
+                <i class="fas fa-file-excel"></i> <?php esc_html_e('Exportar Tabela', 'crm-developer'); ?>
             </button>
         </div>
         <div class="card-body">
@@ -460,10 +460,10 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 <table class="crm-dev-table" id="report-data-table">
                     <thead>
                         <tr>
-                            <th><?php _e('Métrica', 'crm-developer'); ?></th>
-                            <th><?php _e('Valor', 'crm-developer'); ?></th>
-                            <th><?php _e('Percentual', 'crm-developer'); ?></th>
-                            <th><?php _e('Comparativo', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Métrica', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Valor', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Percentual', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Comparativo', 'crm-developer'); ?></th>
                         </tr>
                     </thead>
                     <tbody id="report-data-tbody">
@@ -477,7 +477,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
     <!-- Lista de Contatos Filtrados -->
     <div class="crm-dev-card full-width" id="filtered-contacts-card">
         <div class="card-header">
-            <h3><i class="fas fa-users"></i> <?php _e('Contatos Filtrados', 'crm-developer'); ?></h3>
+            <h3><i class="fas fa-users"></i> <?php esc_html_e('Contatos Filtrados', 'crm-developer'); ?></h3>
             <span class="badge" id="filtered-count">0</span>
         </div>
         <div class="card-body">
@@ -485,12 +485,12 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 <table class="crm-dev-table" id="filtered-contacts-table">
                     <thead>
                         <tr>
-                            <th><?php _e('Nome', 'crm-developer'); ?></th>
-                            <th><?php _e('Email', 'crm-developer'); ?></th>
-                            <th><?php _e('Telefone', 'crm-developer'); ?></th>
-                            <th><?php _e('Estado', 'crm-developer'); ?></th>
-                            <th><?php _e('Score', 'crm-developer'); ?></th>
-                            <th><?php _e('Status', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Nome', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Email', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Telefone', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Estado', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Score', 'crm-developer'); ?></th>
+                            <th><?php esc_html_e('Status', 'crm-developer'); ?></th>
                         </tr>
                     </thead>
                     <tbody id="filtered-contacts-tbody">
@@ -507,16 +507,16 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
 <div class="crm-dev-modal" id="export-modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3><i class="fas fa-download"></i> <?php _e('Exportar Relatório', 'crm-developer'); ?></h3>
+            <h3><i class="fas fa-download"></i> <?php esc_html_e('Exportar Relatório', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body">
             <p class="export-info" style="margin: 0 0 20px; padding: 12px; background: var(--crm-primary-bg); border-radius: 8px; font-size: 13px; color: var(--crm-primary-dark);">
                 <i class="fas fa-info-circle"></i>
-                <?php _e('A exportação respeitará os filtros aplicados atualmente.', 'crm-developer'); ?>
+                <?php esc_html_e('A exportação respeitará os filtros aplicados atualmente.', 'crm-developer'); ?>
             </p>
             <div class="form-group">
-                <label><?php _e('Formato de Exportação', 'crm-developer'); ?></label>
+                <label><?php esc_html_e('Formato de Exportação', 'crm-developer'); ?></label>
                 <div class="export-format-options">
                     <label class="export-option">
                         <input type="radio" name="export_format" value="xlsx" checked>
@@ -535,7 +535,7 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
                 </div>
             </div>
             <div class="form-group">
-                <label><?php _e('Campos para Exportar', 'crm-developer'); ?></label>
+                <label><?php esc_html_e('Campos para Exportar', 'crm-developer'); ?></label>
                 <div class="export-fields">
                     <?php
                     $export_fields = CRM_Dev_Import_Export::get_available_fields();
@@ -552,9 +552,9 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="button" onclick="closeExportModal()"><?php _e('Cancelar', 'crm-developer'); ?></button>
+            <button type="button" class="button" onclick="closeExportModal()"><?php esc_html_e('Cancelar', 'crm-developer'); ?></button>
             <button type="button" class="button button-primary" id="btn-do-export">
-                <i class="fas fa-download"></i> <?php _e('Exportar', 'crm-developer'); ?>
+                <i class="fas fa-download"></i> <?php esc_html_e('Exportar', 'crm-developer'); ?>
             </button>
         </div>
     </div>
@@ -563,26 +563,26 @@ $etapas = CRM_Dev_Helpers::get_etapas_participacao();
 <!-- Área de Impressão -->
 <div id="print-area" style="display: none;">
     <div class="print-header">
-        <h1><?php _e('CRM Developer', 'crm-developer'); ?></h1>
-        <h2><?php _e('Relatório de Contatos', 'crm-developer'); ?></h2>
-        <p class="print-date"><?php _e('Gerado em:', 'crm-developer'); ?> <span id="print-date"></span></p>
+        <h1><?php esc_html_e('CRM Developer', 'crm-developer'); ?></h1>
+        <h2><?php esc_html_e('Relatório de Contatos', 'crm-developer'); ?></h2>
+        <p class="print-date"><?php esc_html_e('Gerado em:', 'crm-developer'); ?> <span id="print-date"></span></p>
         <p class="print-filters" id="print-filters"></p>
     </div>
     <div class="print-summary" id="print-summary"></div>
     <table class="print-table">
         <thead>
             <tr>
-                <th><?php _e('Nome', 'crm-developer'); ?></th>
-                <th><?php _e('Email', 'crm-developer'); ?></th>
-                <th><?php _e('Telefone', 'crm-developer'); ?></th>
-                <th><?php _e('Estado', 'crm-developer'); ?></th>
-                <th><?php _e('Score', 'crm-developer'); ?></th>
+                <th><?php esc_html_e('Nome', 'crm-developer'); ?></th>
+                <th><?php esc_html_e('Email', 'crm-developer'); ?></th>
+                <th><?php esc_html_e('Telefone', 'crm-developer'); ?></th>
+                <th><?php esc_html_e('Estado', 'crm-developer'); ?></th>
+                <th><?php esc_html_e('Score', 'crm-developer'); ?></th>
             </tr>
         </thead>
         <tbody id="print-contacts-tbody"></tbody>
     </table>
     <div class="print-footer">
-        <p><?php _e('Total de contatos:', 'crm-developer'); ?> <span id="print-total"></span></p>
+        <p><?php esc_html_e('Total de contatos:', 'crm-developer'); ?> <span id="print-total"></span></p>
     </div>
 </div>
 

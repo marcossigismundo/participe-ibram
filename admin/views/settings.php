@@ -34,9 +34,9 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
             <div>
                 <h1>
                     <i class="fas fa-cog"></i>
-                    <?php _e('Configurações', 'crm-developer'); ?>
+                    <?php esc_html_e('Configurações', 'crm-developer'); ?>
                 </h1>
-                <p class="crm-dev-subtitle"><?php _e('Configure o comportamento do plugin CRM', 'crm-developer'); ?></p>
+                <p class="crm-dev-subtitle"><?php esc_html_e('Configure o comportamento do plugin CRM', 'crm-developer'); ?></p>
             </div>
             <?php crm_dev_render_help_button('settings'); ?>
         </div>
@@ -48,31 +48,31 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
         <!-- Formulário Público -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-globe"></i> <?php _e('Formulário Público', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-globe"></i> <?php esc_html_e('Formulário Público', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php _e('Habilitar Formulário Público', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Habilitar Formulário Público', 'crm-developer'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="public_form_enabled" value="1" <?php checked($public_form_enabled, 1); ?>>
-                                <?php _e('Permitir que visitantes se cadastrem através do formulário público', 'crm-developer'); ?>
+                                <?php esc_html_e('Permitir que visitantes se cadastrem através do formulário público', 'crm-developer'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Shortcode', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Shortcode', 'crm-developer'); ?></th>
                         <td>
                             <code>[crm_cadastro]</code>
-                            <p class="description"><?php _e('Use este shortcode em qualquer página para exibir o formulário de auto-cadastro.', 'crm-developer'); ?></p>
+                            <p class="description"><?php esc_html_e('Use este shortcode em qualquer página para exibir o formulário de auto-cadastro.', 'crm-developer'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Dashboard Público', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Dashboard Público', 'crm-developer'); ?></th>
                         <td>
                             <code>[crm_dashboard_publico]</code>
-                            <p class="description"><?php _e('Exibe um painel público com dados agregados e anonimizados.', 'crm-developer'); ?></p>
+                            <p class="description"><?php esc_html_e('Exibe um painel público com dados agregados e anonimizados.', 'crm-developer'); ?></p>
                         </td>
                     </tr>
                 </table>
@@ -82,15 +82,15 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
         <!-- LGPD -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-shield-alt"></i> <?php _e('LGPD e Privacidade', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-shield-alt"></i> <?php esc_html_e('LGPD e Privacidade', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php _e('Texto de Consentimento', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Texto de Consentimento', 'crm-developer'); ?></th>
                         <td>
                             <textarea name="lgpd_text" rows="4" class="large-text"><?php echo esc_textarea($lgpd_text); ?></textarea>
-                            <p class="description"><?php _e('Texto exibido junto ao checkbox de consentimento no formulário público.', 'crm-developer'); ?></p>
+                            <p class="description"><?php esc_html_e('Texto exibido junto ao checkbox de consentimento no formulário público.', 'crm-developer'); ?></p>
                         </td>
                     </tr>
                 </table>
@@ -100,21 +100,21 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
         <!-- Notificações -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-bell"></i> <?php _e('Notificações', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-bell"></i> <?php esc_html_e('Notificações', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php _e('Notificações por Email', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Notificações por Email', 'crm-developer'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="email_notifications" value="1" <?php checked($email_notifications, 1); ?>>
-                                <?php _e('Receber email quando um novo contato se cadastrar pelo formulário público', 'crm-developer'); ?>
+                                <?php esc_html_e('Receber email quando um novo contato se cadastrar pelo formulário público', 'crm-developer'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Email para Notificações', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Email para Notificações', 'crm-developer'); ?></th>
                         <td>
                             <input type="email" name="notification_email" value="<?php echo esc_attr($notification_email); ?>" class="regular-text">
                         </td>
@@ -126,11 +126,11 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
         <!-- Sistema de Alertas -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-bell-exclamation"></i> <?php _e('Sistema de Alertas por Email', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-bell-exclamation"></i> <?php esc_html_e('Sistema de Alertas por Email', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <p class="description" style="margin-bottom: 20px;">
-                    <?php _e('Configure alertas automáticos por email para eventos importantes do CRM.', 'crm-developer'); ?>
+                    <?php esc_html_e('Configure alertas automáticos por email para eventos importantes do CRM.', 'crm-developer'); ?>
                 </p>
 
                 <?php
@@ -160,20 +160,20 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
                             </div>
                             <div class="alert-config-fields" style="<?php echo empty($setting['enabled']) ? 'display:none;' : ''; ?>">
                                 <div class="form-group">
-                                    <label><?php _e('Destinatários (separados por vírgula)', 'crm-developer'); ?></label>
+                                    <label><?php esc_html_e('Destinatários (separados por vírgula)', 'crm-developer'); ?></label>
                                     <input type="text" class="alert-recipients regular-text" data-alert="<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($setting['recipients']); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label><?php _e('Assunto do Email', 'crm-developer'); ?></label>
+                                    <label><?php esc_html_e('Assunto do Email', 'crm-developer'); ?></label>
                                     <input type="text" class="alert-subject regular-text" data-alert="<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($setting['subject']); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label><?php _e('Mensagem', 'crm-developer'); ?></label>
+                                    <label><?php esc_html_e('Mensagem', 'crm-developer'); ?></label>
                                     <textarea class="alert-message large-text" data-alert="<?php echo esc_attr($key); ?>" rows="4"><?php echo esc_textarea($setting['message']); ?></textarea>
-                                    <p class="description"><?php _e('Variáveis disponíveis: {{nome}}, {{email}}, {{telefone}}, {{estado}}, {{data_hora}}, {{site_name}}', 'crm-developer'); ?></p>
+                                    <p class="description"><?php esc_html_e('Variáveis disponíveis: {{nome}}, {{email}}, {{telefone}}, {{estado}}, {{data_hora}}, {{site_name}}', 'crm-developer'); ?></p>
                                 </div>
                                 <button type="button" class="button btn-test-alert" data-alert="<?php echo esc_attr($key); ?>">
-                                    <i class="fas fa-paper-plane"></i> <?php _e('Enviar Teste', 'crm-developer'); ?>
+                                    <i class="fas fa-paper-plane"></i> <?php esc_html_e('Enviar Teste', 'crm-developer'); ?>
                                 </button>
                             </div>
                         </div>
@@ -182,7 +182,7 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
 
                 <div class="alert-actions" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--crm-border);">
                     <button type="button" id="btn-save-alerts" class="button button-primary">
-                        <i class="fas fa-save"></i> <?php _e('Salvar Configurações de Alertas', 'crm-developer'); ?>
+                        <i class="fas fa-save"></i> <?php esc_html_e('Salvar Configurações de Alertas', 'crm-developer'); ?>
                     </button>
                 </div>
             </div>
@@ -191,26 +191,26 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
         <!-- Ferramentas -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-tools"></i> <?php _e('Ferramentas', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-tools"></i> <?php esc_html_e('Ferramentas', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php _e('Recalcular Scores', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Recalcular Scores', 'crm-developer'); ?></th>
                         <td>
                             <button type="button" class="button" id="btn-recalculate-scores">
-                                <i class="fas fa-calculator"></i> <?php _e('Recalcular Scores de Engajamento', 'crm-developer'); ?>
+                                <i class="fas fa-calculator"></i> <?php esc_html_e('Recalcular Scores de Engajamento', 'crm-developer'); ?>
                             </button>
-                            <p class="description"><?php _e('Recalcula o score de engajamento de todos os contatos.', 'crm-developer'); ?></p>
+                            <p class="description"><?php esc_html_e('Recalcula o score de engajamento de todos os contatos.', 'crm-developer'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php _e('Limpar Dados de Teste', 'crm-developer'); ?></th>
+                        <th scope="row"><?php esc_html_e('Limpar Dados de Teste', 'crm-developer'); ?></th>
                         <td>
                             <button type="button" class="button button-link-delete" id="btn-clear-test-data">
-                                <i class="fas fa-trash"></i> <?php _e('Excluir Contatos de Teste', 'crm-developer'); ?>
+                                <i class="fas fa-trash"></i> <?php esc_html_e('Excluir Contatos de Teste', 'crm-developer'); ?>
                             </button>
-                            <p class="description"><?php _e('Remove contatos marcados como origem "teste". Use com cuidado!', 'crm-developer'); ?></p>
+                            <p class="description"><?php esc_html_e('Remove contatos marcados como origem "teste". Use com cuidado!', 'crm-developer'); ?></p>
                         </td>
                     </tr>
                 </table>
@@ -220,24 +220,24 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
         <!-- Informações do Sistema -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-info-circle"></i> <?php _e('Informações do Sistema', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-info-circle"></i> <?php esc_html_e('Informações do Sistema', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <table class="form-table info-table">
                     <tr>
-                        <th><?php _e('Versão do Plugin', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Versão do Plugin', 'crm-developer'); ?></th>
                         <td><?php echo CRM_DEV_VERSION; ?></td>
                     </tr>
                     <tr>
-                        <th><?php _e('Versão do WordPress', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Versão do WordPress', 'crm-developer'); ?></th>
                         <td><?php echo get_bloginfo('version'); ?></td>
                     </tr>
                     <tr>
-                        <th><?php _e('Versão do PHP', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Versão do PHP', 'crm-developer'); ?></th>
                         <td><?php echo phpversion(); ?></td>
                     </tr>
                     <tr>
-                        <th><?php _e('Total de Contatos', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Total de Contatos', 'crm-developer'); ?></th>
                         <td>
                             <?php
                             global $wpdb;
@@ -247,7 +247,7 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
                         </td>
                     </tr>
                     <tr>
-                        <th><?php _e('Total de Interações', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Total de Interações', 'crm-developer'); ?></th>
                         <td>
                             <?php
                             echo number_format_i18n($wpdb->get_var("SELECT COUNT(*) FROM {$tables['interactions']}"));
@@ -260,7 +260,7 @@ $notification_email = get_option('crm_dev_notification_email', get_option('admin
 
         <p class="submit">
             <button type="submit" name="crm_dev_save_settings" class="button button-primary button-hero">
-                <i class="fas fa-save"></i> <?php _e('Salvar Configurações', 'crm-developer'); ?>
+                <i class="fas fa-save"></i> <?php esc_html_e('Salvar Configurações', 'crm-developer'); ?>
             </button>
         </p>
     </form>
@@ -326,11 +326,11 @@ jQuery(document).ready(function($) {
             settings: settings
         }, function(response) {
             if (response.success) {
-                alert('<?php _e('Configurações de alertas salvas!', 'crm-developer'); ?>');
+                alert('<?php esc_html_e('Configurações de alertas salvas!', 'crm-developer'); ?>');
             } else {
-                alert(response.data.message || '<?php _e('Erro ao salvar', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao salvar', 'crm-developer'); ?>');
             }
-            $btn.html('<i class="fas fa-save"></i> <?php _e('Salvar Configurações de Alertas', 'crm-developer'); ?>').prop('disabled', false);
+            $btn.html('<i class="fas fa-save"></i> <?php esc_html_e('Salvar Configurações de Alertas', 'crm-developer'); ?>').prop('disabled', false);
         });
     });
 
@@ -346,11 +346,11 @@ jQuery(document).ready(function($) {
             type: alertType
         }, function(response) {
             if (response.success) {
-                alert('<?php _e('Alerta de teste enviado!', 'crm-developer'); ?>');
+                alert('<?php esc_html_e('Alerta de teste enviado!', 'crm-developer'); ?>');
             } else {
-                alert(response.data.message || '<?php _e('Erro ao enviar teste', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao enviar teste', 'crm-developer'); ?>');
             }
-            $btn.html('<i class="fas fa-paper-plane"></i> <?php _e('Enviar Teste', 'crm-developer'); ?>').prop('disabled', false);
+            $btn.html('<i class="fas fa-paper-plane"></i> <?php esc_html_e('Enviar Teste', 'crm-developer'); ?>').prop('disabled', false);
         });
     });
 });

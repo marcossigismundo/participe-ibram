@@ -123,13 +123,13 @@ class CRM_Dev_Admin {
                         <i class="fas fa-users"></i>
                         <span>CRM Developer</span>
                     </div>
-                    <span class="sidebar-version">v<?php echo CRM_DEV_VERSION; ?></span>
+                    <span class="sidebar-version">v<?php echo esc_html(CRM_DEV_VERSION); ?></span>
                 </div>
 
                 <nav class="sidebar-nav">
                     <?php foreach (self::$sections as $key => $sec) : ?>
                         <?php if (current_user_can($sec['capability']) || current_user_can('manage_options')) : ?>
-                            <a href="<?php echo admin_url('admin.php?page=crm-developer&section=' . $key); ?>"
+                            <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=' . $key)); ?>"
                                class="nav-item <?php echo (self::$current_section === $key ||
                                    (self::$current_section === 'contact-edit' && $key === 'contacts') ||
                                    (self::$current_section === 'contact-view' && $key === 'contacts')) ? 'active' : ''; ?>">
@@ -149,8 +149,8 @@ class CRM_Dev_Admin {
                         $total = $table_exists ? $wpdb->get_var("SELECT COUNT(*) FROM {$tables['contacts']}") : 0;
                         ?>
                         <div class="stat-mini">
-                            <span class="stat-mini-value"><?php echo number_format_i18n($total); ?></span>
-                            <span class="stat-mini-label"><?php _e('Contatos', 'crm-developer'); ?></span>
+                            <span class="stat-mini-value"><?php echo esc_html(number_format_i18n($total)); ?></span>
+                            <span class="stat-mini-label"><?php esc_html_e('Contatos', 'crm-developer'); ?></span>
                         </div>
                     </div>
                 </div>

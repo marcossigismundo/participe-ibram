@@ -919,7 +919,7 @@ add_action('init', function () {
                 wp_die(
                     '<h2>Descadastro Confirmado</h2>' .
                     '<p>Você foi removido da nossa lista de emails.</p>' .
-                    '<p><a href="' . home_url() . '">Voltar ao site</a></p>',
+                    '<p><a href="' . esc_url(home_url()) . '">Voltar ao site</a></p>',
                     'Descadastro Confirmado',
                     array('response' => 200)
                 );

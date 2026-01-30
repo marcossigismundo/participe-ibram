@@ -29,12 +29,12 @@ if (isset($_GET['deleted'])) {
             <div>
                 <h1>
                     <i class="fas fa-address-book"></i>
-                    <?php _e('Contatos', 'crm-developer'); ?>
+                    <?php esc_html_e('Contatos', 'crm-developer'); ?>
                 </h1>
             </div>
             <div class="header-actions-with-help">
-                <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contact-new'); ?>" class="button button-primary">
-                    <i class="fas fa-plus"></i> <?php _e('Novo Contato', 'crm-developer'); ?>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contact-new')); ?>" class="button button-primary">
+                    <i class="fas fa-plus"></i> <?php esc_html_e('Novo Contato', 'crm-developer'); ?>
                 </a>
                 <?php crm_dev_render_help_button('contacts'); ?>
             </div>
@@ -47,12 +47,12 @@ if (isset($_GET['deleted'])) {
             <div class="filter-row">
                 <div class="filter-group search-group">
                     <label><i class="fas fa-search"></i></label>
-                    <input type="text" id="filter-search" placeholder="<?php _e('Buscar por nome, email, telefone...', 'crm-developer'); ?>">
+                    <input type="text" id="filter-search" placeholder="<?php esc_html_e('Buscar por nome, email, telefone...', 'crm-developer'); ?>">
                 </div>
 
                 <div class="filter-group">
                     <select id="filter-estado">
-                        <option value=""><?php _e('Todos os estados', 'crm-developer'); ?></option>
+                        <option value=""><?php esc_html_e('Todos os estados', 'crm-developer'); ?></option>
                         <?php foreach ($estados as $uf => $nome) : ?>
                             <option value="<?php echo esc_attr($uf); ?>"><?php echo esc_html($nome); ?></option>
                         <?php endforeach; ?>
@@ -61,7 +61,7 @@ if (isset($_GET['deleted'])) {
 
                 <div class="filter-group">
                     <select id="filter-regiao">
-                        <option value=""><?php _e('Todas as regiões', 'crm-developer'); ?></option>
+                        <option value=""><?php esc_html_e('Todas as regiões', 'crm-developer'); ?></option>
                         <?php foreach ($regioes as $regiao) : ?>
                             <option value="<?php echo esc_attr($regiao); ?>"><?php echo esc_html($regiao); ?></option>
                         <?php endforeach; ?>
@@ -70,16 +70,16 @@ if (isset($_GET['deleted'])) {
 
                 <div class="filter-group">
                     <select id="filter-status">
-                        <option value=""><?php _e('Todos os status', 'crm-developer'); ?></option>
-                        <option value="ativo"><?php _e('Ativo', 'crm-developer'); ?></option>
-                        <option value="inativo"><?php _e('Inativo', 'crm-developer'); ?></option>
-                        <option value="pendente"><?php _e('Pendente', 'crm-developer'); ?></option>
+                        <option value=""><?php esc_html_e('Todos os status', 'crm-developer'); ?></option>
+                        <option value="ativo"><?php esc_html_e('Ativo', 'crm-developer'); ?></option>
+                        <option value="inativo"><?php esc_html_e('Inativo', 'crm-developer'); ?></option>
+                        <option value="pendente"><?php esc_html_e('Pendente', 'crm-developer'); ?></option>
                     </select>
                 </div>
 
                 <div class="filter-group">
                     <select id="filter-eixo">
-                        <option value=""><?php _e('Todos os eixos', 'crm-developer'); ?></option>
+                        <option value=""><?php esc_html_e('Todos os eixos', 'crm-developer'); ?></option>
                         <?php foreach ($eixos as $key => $nome) : ?>
                             <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($nome); ?></option>
                         <?php endforeach; ?>
@@ -87,11 +87,11 @@ if (isset($_GET['deleted'])) {
                 </div>
 
                 <button type="button" id="btn-filter" class="button">
-                    <i class="fas fa-filter"></i> <?php _e('Filtrar', 'crm-developer'); ?>
+                    <i class="fas fa-filter"></i> <?php esc_html_e('Filtrar', 'crm-developer'); ?>
                 </button>
 
                 <button type="button" id="btn-clear-filters" class="button">
-                    <i class="fas fa-times"></i> <?php _e('Limpar', 'crm-developer'); ?>
+                    <i class="fas fa-times"></i> <?php esc_html_e('Limpar', 'crm-developer'); ?>
                 </button>
             </div>
         </div>
@@ -100,10 +100,10 @@ if (isset($_GET['deleted'])) {
         <div class="crm-dev-bulk-actions" style="display: none;">
             <span class="selected-count">0 selecionados</span>
             <button type="button" id="btn-bulk-delete" class="button button-link-delete">
-                <i class="fas fa-trash"></i> <?php _e('Excluir', 'crm-developer'); ?>
+                <i class="fas fa-trash"></i> <?php esc_html_e('Excluir', 'crm-developer'); ?>
             </button>
             <button type="button" id="btn-bulk-export" class="button">
-                <i class="fas fa-download"></i> <?php _e('Exportar selecionados', 'crm-developer'); ?>
+                <i class="fas fa-download"></i> <?php esc_html_e('Exportar selecionados', 'crm-developer'); ?>
             </button>
         </div>
 
@@ -115,13 +115,13 @@ if (isset($_GET['deleted'])) {
                         <th class="check-column">
                             <input type="checkbox" id="select-all">
                         </th>
-                        <th class="sortable" data-sort="nome_completo"><?php _e('Nome', 'crm-developer'); ?></th>
-                        <th><?php _e('Contato', 'crm-developer'); ?></th>
-                        <th><?php _e('Localização', 'crm-developer'); ?></th>
-                        <th class="sortable" data-sort="score_engajamento"><?php _e('Score', 'crm-developer'); ?></th>
-                        <th><?php _e('Status', 'crm-developer'); ?></th>
-                        <th class="sortable" data-sort="created_at"><?php _e('Cadastro', 'crm-developer'); ?></th>
-                        <th><?php _e('Ações', 'crm-developer'); ?></th>
+                        <th class="sortable" data-sort="nome_completo"><?php esc_html_e('Nome', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Contato', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Localização', 'crm-developer'); ?></th>
+                        <th class="sortable" data-sort="score_engajamento"><?php esc_html_e('Score', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Status', 'crm-developer'); ?></th>
+                        <th class="sortable" data-sort="created_at"><?php esc_html_e('Cadastro', 'crm-developer'); ?></th>
+                        <th><?php esc_html_e('Ações', 'crm-developer'); ?></th>
                     </tr>
                 </thead>
                 <tbody id="contacts-tbody">
@@ -129,7 +129,7 @@ if (isset($_GET['deleted'])) {
                         <td colspan="8">
                             <div class="crm-dev-loading">
                                 <i class="fas fa-spinner fa-spin"></i>
-                                <?php _e('Carregando contatos...', 'crm-developer'); ?>
+                                <?php esc_html_e('Carregando contatos...', 'crm-developer'); ?>
                             </div>
                         </td>
                     </tr>
@@ -158,7 +158,7 @@ if (isset($_GET['deleted'])) {
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <span><?php _e('por página', 'crm-developer'); ?></span>
+                <span><?php esc_html_e('por página', 'crm-developer'); ?></span>
             </div>
         </div>
     </div>
@@ -172,7 +172,7 @@ if (isset($_GET['deleted'])) {
         </td>
         <td>
             <div class="contact-name">
-                <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts&action=view&id='); ?>{{id}}">
+                <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts&action=view&id=')); ?>{{id}}">
                     <strong>{{nome_completo}}</strong>
                 </a>
                 {{#nome_social}}<br><small>{{nome_social}}</small>{{/nome_social}}
@@ -203,13 +203,13 @@ if (isset($_GET['deleted'])) {
         </td>
         <td>
             <div class="row-actions">
-                <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts&action=view&id='); ?>{{id}}" class="action-btn" title="<?php _e('Ver', 'crm-developer'); ?>">
+                <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts&action=view&id=')); ?>{{id}}" class="action-btn" title="<?php esc_html_e('Ver', 'crm-developer'); ?>">
                     <i class="fas fa-eye"></i>
                 </a>
-                <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts&action=edit&id='); ?>{{id}}" class="action-btn" title="<?php _e('Editar', 'crm-developer'); ?>">
+                <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts&action=edit&id=')); ?>{{id}}" class="action-btn" title="<?php esc_html_e('Editar', 'crm-developer'); ?>">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="#" class="action-btn delete-contact" data-id="{{id}}" title="<?php _e('Excluir', 'crm-developer'); ?>">
+                <a href="#" class="action-btn delete-contact" data-id="{{id}}" title="<?php esc_html_e('Excluir', 'crm-developer'); ?>">
                     <i class="fas fa-trash"></i>
                 </a>
             </div>

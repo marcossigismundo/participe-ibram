@@ -26,11 +26,11 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div>
                 <h1>
                     <i class="fas fa-envelope"></i>
-                    <?php _e('Comunicação por Email', 'crm-developer'); ?>
+                    <?php esc_html_e('Comunicação por Email', 'crm-developer'); ?>
                 </h1>
-                <p class="crm-dev-subtitle"><?php _e('Envie emails personalizados para seus contatos', 'crm-developer'); ?></p>
+                <p class="crm-dev-subtitle"><?php esc_html_e('Envie emails personalizados para seus contatos', 'crm-developer'); ?></p>
             </div>
-            <button type="button" class="btn-help-floating" id="btn-help-<?php echo esc_attr($tab); ?>" title="<?php _e('Ajuda', 'crm-developer'); ?>">
+            <button type="button" class="btn-help-floating" id="btn-help-<?php echo esc_attr($tab); ?>" title="<?php esc_html_e('Ajuda', 'crm-developer'); ?>">
                 <i class="fas fa-question-circle"></i>
             </button>
         </div>
@@ -38,30 +38,30 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 
     <!-- Navegação por Abas -->
     <div class="crm-dev-tabs">
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=email&tab=send'); ?>"
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=send')); ?>"
            class="tab-item <?php echo $tab === 'send' ? 'active' : ''; ?>">
             <i class="fas fa-paper-plane"></i>
-            <?php _e('Enviar Email', 'crm-developer'); ?>
+            <?php esc_html_e('Enviar Email', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=email&tab=templates'); ?>"
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=templates')); ?>"
            class="tab-item <?php echo $tab === 'templates' ? 'active' : ''; ?>">
             <i class="fas fa-file-alt"></i>
-            <?php _e('Templates', 'crm-developer'); ?>
+            <?php esc_html_e('Templates', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=email&tab=campaigns'); ?>"
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=campaigns')); ?>"
            class="tab-item <?php echo $tab === 'campaigns' ? 'active' : ''; ?>">
             <i class="fas fa-bullhorn"></i>
-            <?php _e('Campanhas', 'crm-developer'); ?>
+            <?php esc_html_e('Campanhas', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=email&tab=logs'); ?>"
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=logs')); ?>"
            class="tab-item <?php echo $tab === 'logs' ? 'active' : ''; ?>">
             <i class="fas fa-history"></i>
-            <?php _e('Histórico', 'crm-developer'); ?>
+            <?php esc_html_e('Histórico', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=email&tab=settings'); ?>"
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=settings')); ?>"
            class="tab-item <?php echo $tab === 'settings' ? 'active' : ''; ?>">
             <i class="fas fa-cog"></i>
-            <?php _e('Configurações', 'crm-developer'); ?>
+            <?php esc_html_e('Configurações', 'crm-developer'); ?>
         </a>
     </div>
 
@@ -75,14 +75,14 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                     <div class="crm-dev-col-8">
                         <div class="crm-dev-card">
                             <div class="card-header">
-                                <h3><i class="fas fa-edit"></i> <?php _e('Compor Email', 'crm-developer'); ?></h3>
+                                <h3><i class="fas fa-edit"></i> <?php esc_html_e('Compor Email', 'crm-developer'); ?></h3>
                             </div>
                             <div class="card-body">
                                 <form id="email-send-form">
                                     <div class="form-group">
-                                        <label for="email-template"><?php _e('Template', 'crm-developer'); ?></label>
+                                        <label for="email-template"><?php esc_html_e('Template', 'crm-developer'); ?></label>
                                         <select id="email-template" name="template_id" class="form-control">
-                                            <option value=""><?php _e('-- Selecionar template ou criar novo --', 'crm-developer'); ?></option>
+                                            <option value=""><?php esc_html_e('-- Selecionar template ou criar novo --', 'crm-developer'); ?></option>
                                             <?php foreach ($templates as $template) : ?>
                                                 <option value="<?php echo esc_attr($template['id']); ?>"
                                                         data-assunto="<?php echo esc_attr($template['assunto'] ?? ''); ?>"
@@ -94,12 +94,12 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="email-subject"><?php _e('Assunto', 'crm-developer'); ?> *</label>
+                                        <label for="email-subject"><?php esc_html_e('Assunto', 'crm-developer'); ?> *</label>
                                         <input type="text" id="email-subject" name="subject" class="form-control" required>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="email-content"><?php _e('Conteúdo', 'crm-developer'); ?> *</label>
+                                        <label for="email-content"><?php esc_html_e('Conteúdo', 'crm-developer'); ?> *</label>
                                         <div class="editor-toolbar">
                                             <button type="button" class="btn-toolbar" data-command="bold" title="Negrito">
                                                 <i class="fas fa-bold"></i>
@@ -124,17 +124,17 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                             <span class="toolbar-divider"></span>
                                             <div class="dropdown-toolbar">
                                                 <button type="button" class="btn-toolbar dropdown-toggle" id="btn-variables">
-                                                    <i class="fas fa-code"></i> <?php _e('Variáveis', 'crm-developer'); ?>
+                                                    <i class="fas fa-code"></i> <?php esc_html_e('Variáveis', 'crm-developer'); ?>
                                                 </button>
                                                 <div class="dropdown-menu" id="variables-menu">
-                                                    <a href="#" data-var="{{nome}}"><?php _e('Nome Completo', 'crm-developer'); ?></a>
-                                                    <a href="#" data-var="{{primeiro_nome}}"><?php _e('Primeiro Nome', 'crm-developer'); ?></a>
-                                                    <a href="#" data-var="{{email}}"><?php _e('Email', 'crm-developer'); ?></a>
-                                                    <a href="#" data-var="{{estado}}"><?php _e('Estado', 'crm-developer'); ?></a>
-                                                    <a href="#" data-var="{{municipio}}"><?php _e('Município', 'crm-developer'); ?></a>
-                                                    <a href="#" data-var="{{regiao}}"><?php _e('Região', 'crm-developer'); ?></a>
-                                                    <a href="#" data-var="{{data_cadastro}}"><?php _e('Data de Cadastro', 'crm-developer'); ?></a>
-                                                    <a href="#" data-var="{{link_descadastro}}"><?php _e('Link Descadastro', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{nome}}"><?php esc_html_e('Nome Completo', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{primeiro_nome}}"><?php esc_html_e('Primeiro Nome', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{email}}"><?php esc_html_e('Email', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{estado}}"><?php esc_html_e('Estado', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{municipio}}"><?php esc_html_e('Município', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{regiao}}"><?php esc_html_e('Região', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{data_cadastro}}"><?php esc_html_e('Data de Cadastro', 'crm-developer'); ?></a>
+                                                    <a href="#" data-var="{{link_descadastro}}"><?php esc_html_e('Link Descadastro', 'crm-developer'); ?></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -144,13 +144,13 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 
                                     <div class="form-actions">
                                         <button type="button" id="btn-preview-email" class="btn btn-secondary">
-                                            <i class="fas fa-eye"></i> <?php _e('Visualizar', 'crm-developer'); ?>
+                                            <i class="fas fa-eye"></i> <?php esc_html_e('Visualizar', 'crm-developer'); ?>
                                         </button>
                                         <button type="button" id="btn-save-template" class="btn btn-outline">
-                                            <i class="fas fa-save"></i> <?php _e('Salvar como Template', 'crm-developer'); ?>
+                                            <i class="fas fa-save"></i> <?php esc_html_e('Salvar como Template', 'crm-developer'); ?>
                                         </button>
                                         <button type="submit" id="btn-send-email" class="btn btn-primary">
-                                            <i class="fas fa-paper-plane"></i> <?php _e('Enviar Emails', 'crm-developer'); ?>
+                                            <i class="fas fa-paper-plane"></i> <?php esc_html_e('Enviar Emails', 'crm-developer'); ?>
                                         </button>
                                     </div>
                                 </form>
@@ -162,13 +162,13 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                     <div class="crm-dev-col-4">
                         <div class="crm-dev-card">
                             <div class="card-header">
-                                <h3><i class="fas fa-filter"></i> <?php _e('Filtrar Destinatários', 'crm-developer'); ?></h3>
+                                <h3><i class="fas fa-filter"></i> <?php esc_html_e('Filtrar Destinatários', 'crm-developer'); ?></h3>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="filter-region"><?php _e('Região', 'crm-developer'); ?></label>
+                                    <label for="filter-region"><?php esc_html_e('Região', 'crm-developer'); ?></label>
                                     <select id="filter-region" name="filter_region" class="form-control filter-recipients">
-                                        <option value=""><?php _e('Todas', 'crm-developer'); ?></option>
+                                        <option value=""><?php esc_html_e('Todas', 'crm-developer'); ?></option>
                                         <?php foreach ($regioes as $regiao) : ?>
                                             <option value="<?php echo esc_attr($regiao); ?>"><?php echo esc_html($regiao); ?></option>
                                         <?php endforeach; ?>
@@ -176,9 +176,9 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="filter-state"><?php _e('Estado', 'crm-developer'); ?></label>
+                                    <label for="filter-state"><?php esc_html_e('Estado', 'crm-developer'); ?></label>
                                     <select id="filter-state" name="filter_state" class="form-control filter-recipients">
-                                        <option value=""><?php _e('Todos', 'crm-developer'); ?></option>
+                                        <option value=""><?php esc_html_e('Todos', 'crm-developer'); ?></option>
                                         <?php foreach ($estados as $estado) : ?>
                                             <option value="<?php echo esc_attr($estado); ?>"><?php echo esc_html($estado); ?></option>
                                         <?php endforeach; ?>
@@ -186,40 +186,40 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="filter-engagement"><?php _e('Engajamento', 'crm-developer'); ?></label>
+                                    <label for="filter-engagement"><?php esc_html_e('Engajamento', 'crm-developer'); ?></label>
                                     <select id="filter-engagement" name="filter_engagement" class="form-control filter-recipients">
-                                        <option value=""><?php _e('Todos', 'crm-developer'); ?></option>
-                                        <option value="alto"><?php _e('Alto (70-100)', 'crm-developer'); ?></option>
-                                        <option value="medio"><?php _e('Médio (40-69)', 'crm-developer'); ?></option>
-                                        <option value="baixo"><?php _e('Baixo (0-39)', 'crm-developer'); ?></option>
+                                        <option value=""><?php esc_html_e('Todos', 'crm-developer'); ?></option>
+                                        <option value="alto"><?php esc_html_e('Alto (70-100)', 'crm-developer'); ?></option>
+                                        <option value="medio"><?php esc_html_e('Médio (40-69)', 'crm-developer'); ?></option>
+                                        <option value="baixo"><?php esc_html_e('Baixo (0-39)', 'crm-developer'); ?></option>
                                     </select>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="filter-status"><?php _e('Status', 'crm-developer'); ?></label>
+                                    <label for="filter-status"><?php esc_html_e('Status', 'crm-developer'); ?></label>
                                     <select id="filter-status" name="filter_status" class="form-control filter-recipients">
-                                        <option value=""><?php _e('Todos', 'crm-developer'); ?></option>
-                                        <option value="ativo"><?php _e('Ativo', 'crm-developer'); ?></option>
-                                        <option value="inativo"><?php _e('Inativo', 'crm-developer'); ?></option>
+                                        <option value=""><?php esc_html_e('Todos', 'crm-developer'); ?></option>
+                                        <option value="ativo"><?php esc_html_e('Ativo', 'crm-developer'); ?></option>
+                                        <option value="inativo"><?php esc_html_e('Inativo', 'crm-developer'); ?></option>
                                     </select>
                                 </div>
 
                                 <div class="form-group">
                                     <label>
                                         <input type="checkbox" id="filter-consent" name="filter_consent" value="1" checked>
-                                        <?php _e('Apenas com consentimento LGPD', 'crm-developer'); ?>
+                                        <?php esc_html_e('Apenas com consentimento LGPD', 'crm-developer'); ?>
                                     </label>
                                 </div>
 
                                 <div class="recipients-count">
                                     <div class="count-box">
                                         <span id="recipients-count">0</span>
-                                        <label><?php _e('Destinatários', 'crm-developer'); ?></label>
+                                        <label><?php esc_html_e('Destinatários', 'crm-developer'); ?></label>
                                     </div>
                                 </div>
 
                                 <button type="button" id="btn-refresh-count" class="btn btn-secondary btn-block">
-                                    <i class="fas fa-sync-alt"></i> <?php _e('Atualizar Contagem', 'crm-developer'); ?>
+                                    <i class="fas fa-sync-alt"></i> <?php esc_html_e('Atualizar Contagem', 'crm-developer'); ?>
                                 </button>
                             </div>
                         </div>
@@ -227,29 +227,29 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                         <!-- Informações de Envio -->
                         <div class="crm-dev-card">
                             <div class="card-header">
-                                <h3><i class="fas fa-info-circle"></i> <?php _e('Informações', 'crm-developer'); ?></h3>
+                                <h3><i class="fas fa-info-circle"></i> <?php esc_html_e('Informações', 'crm-developer'); ?></h3>
                             </div>
                             <div class="card-body">
                                 <div class="info-list">
                                     <div class="info-item">
                                         <i class="fas fa-user"></i>
-                                        <span><?php _e('Remetente:', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Remetente:', 'crm-developer'); ?></span>
                                         <strong><?php echo esc_html($settings['from_name'] ?: get_bloginfo('name')); ?></strong>
                                     </div>
                                     <div class="info-item">
                                         <i class="fas fa-at"></i>
-                                        <span><?php _e('Email:', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Email:', 'crm-developer'); ?></span>
                                         <strong><?php echo esc_html($settings['from_email'] ?: get_option('admin_email')); ?></strong>
                                     </div>
                                     <div class="info-item">
                                         <i class="fas fa-tachometer-alt"></i>
-                                        <span><?php _e('Limite:', 'crm-developer'); ?></span>
-                                        <strong><?php echo intval($settings['rate_limit'] ?: 50); ?> <?php _e('emails/hora', 'crm-developer'); ?></strong>
+                                        <span><?php esc_html_e('Limite:', 'crm-developer'); ?></span>
+                                        <strong><?php echo intval($settings['rate_limit'] ?: 50); ?> <?php esc_html_e('emails/hora', 'crm-developer'); ?></strong>
                                     </div>
                                 </div>
                                 <p class="info-note">
                                     <i class="fas fa-shield-alt"></i>
-                                    <?php _e('Emails são enviados em lotes para evitar bloqueios.', 'crm-developer'); ?>
+                                    <?php esc_html_e('Emails são enviados em lotes para evitar bloqueios.', 'crm-developer'); ?>
                                 </p>
                             </div>
                         </div>
@@ -264,9 +264,9 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                     <div class="crm-dev-col-8">
                         <div class="crm-dev-card">
                             <div class="card-header">
-                                <h3><i class="fas fa-file-alt"></i> <?php _e('Templates de Email', 'crm-developer'); ?></h3>
+                                <h3><i class="fas fa-file-alt"></i> <?php esc_html_e('Templates de Email', 'crm-developer'); ?></h3>
                                 <button type="button" id="btn-new-template" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-plus"></i> <?php _e('Novo Template', 'crm-developer'); ?>
+                                    <i class="fas fa-plus"></i> <?php esc_html_e('Novo Template', 'crm-developer'); ?>
                                 </button>
                             </div>
                             <div class="card-body">
@@ -274,10 +274,10 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                     <table class="crm-dev-table">
                                         <thead>
                                             <tr>
-                                                <th><?php _e('Nome', 'crm-developer'); ?></th>
-                                                <th><?php _e('Assunto', 'crm-developer'); ?></th>
-                                                <th><?php _e('Criado em', 'crm-developer'); ?></th>
-                                                <th width="120"><?php _e('Ações', 'crm-developer'); ?></th>
+                                                <th><?php esc_html_e('Nome', 'crm-developer'); ?></th>
+                                                <th><?php esc_html_e('Assunto', 'crm-developer'); ?></th>
+                                                <th><?php esc_html_e('Criado em', 'crm-developer'); ?></th>
+                                                <th width="120"><?php esc_html_e('Ações', 'crm-developer'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody id="templates-list">
@@ -292,12 +292,12 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                                                 data-nome="<?php echo esc_attr($template['nome'] ?? ''); ?>"
                                                                 data-assunto="<?php echo esc_attr($template['assunto'] ?? ''); ?>"
                                                                 data-conteudo="<?php echo esc_attr($template['conteudo'] ?? ''); ?>"
-                                                                title="<?php _e('Editar', 'crm-developer'); ?>">
+                                                                title="<?php esc_html_e('Editar', 'crm-developer'); ?>">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
                                                         <button type="button" class="btn-icon btn-delete-template"
                                                                 data-id="<?php echo esc_attr($template['id']); ?>"
-                                                                title="<?php _e('Excluir', 'crm-developer'); ?>">
+                                                                title="<?php esc_html_e('Excluir', 'crm-developer'); ?>">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </td>
@@ -308,9 +308,9 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                 <?php else : ?>
                                     <div class="crm-dev-empty">
                                         <i class="fas fa-file-alt"></i>
-                                        <p><?php _e('Nenhum template criado ainda.', 'crm-developer'); ?></p>
+                                        <p><?php esc_html_e('Nenhum template criado ainda.', 'crm-developer'); ?></p>
                                         <button type="button" id="btn-new-template-empty" class="btn btn-primary">
-                                            <i class="fas fa-plus"></i> <?php _e('Criar Primeiro Template', 'crm-developer'); ?>
+                                            <i class="fas fa-plus"></i> <?php esc_html_e('Criar Primeiro Template', 'crm-developer'); ?>
                                         </button>
                                     </div>
                                 <?php endif; ?>
@@ -321,41 +321,41 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                     <div class="crm-dev-col-4">
                         <div class="crm-dev-card">
                             <div class="card-header">
-                                <h3><i class="fas fa-code"></i> <?php _e('Variáveis Disponíveis', 'crm-developer'); ?></h3>
+                                <h3><i class="fas fa-code"></i> <?php esc_html_e('Variáveis Disponíveis', 'crm-developer'); ?></h3>
                             </div>
                             <div class="card-body">
                                 <div class="variables-list">
                                     <div class="variable-item">
                                         <code>{{nome}}</code>
-                                        <span><?php _e('Nome completo do contato', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Nome completo do contato', 'crm-developer'); ?></span>
                                     </div>
                                     <div class="variable-item">
                                         <code>{{primeiro_nome}}</code>
-                                        <span><?php _e('Primeiro nome do contato', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Primeiro nome do contato', 'crm-developer'); ?></span>
                                     </div>
                                     <div class="variable-item">
                                         <code>{{email}}</code>
-                                        <span><?php _e('Email do contato', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Email do contato', 'crm-developer'); ?></span>
                                     </div>
                                     <div class="variable-item">
                                         <code>{{estado}}</code>
-                                        <span><?php _e('Estado do contato', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Estado do contato', 'crm-developer'); ?></span>
                                     </div>
                                     <div class="variable-item">
                                         <code>{{municipio}}</code>
-                                        <span><?php _e('Município do contato', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Município do contato', 'crm-developer'); ?></span>
                                     </div>
                                     <div class="variable-item">
                                         <code>{{regiao}}</code>
-                                        <span><?php _e('Região do contato', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Região do contato', 'crm-developer'); ?></span>
                                     </div>
                                     <div class="variable-item">
                                         <code>{{data_cadastro}}</code>
-                                        <span><?php _e('Data de cadastro', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Data de cadastro', 'crm-developer'); ?></span>
                                     </div>
                                     <div class="variable-item">
                                         <code>{{link_descadastro}}</code>
-                                        <span><?php _e('Link para cancelar inscrição', 'crm-developer'); ?></span>
+                                        <span><?php esc_html_e('Link para cancelar inscrição', 'crm-developer'); ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -369,25 +369,25 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div class="crm-dev-email-campaigns">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-bullhorn"></i> <?php _e('Campanhas de Email', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-bullhorn"></i> <?php esc_html_e('Campanhas de Email', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div id="campaigns-list">
-                            <p class="loading"><i class="fas fa-spinner fa-spin"></i> <?php _e('Carregando...', 'crm-developer'); ?></p>
+                            <p class="loading"><i class="fas fa-spinner fa-spin"></i> <?php esc_html_e('Carregando...', 'crm-developer'); ?></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-clock"></i> <?php _e('Fila de Envio', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-clock"></i> <?php esc_html_e('Fila de Envio', 'crm-developer'); ?></h3>
                         <button type="button" id="btn-refresh-queue" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-sync-alt"></i> <?php _e('Atualizar', 'crm-developer'); ?>
+                            <i class="fas fa-sync-alt"></i> <?php esc_html_e('Atualizar', 'crm-developer'); ?>
                         </button>
                     </div>
                     <div class="card-body">
                         <div id="queue-status">
-                            <p class="loading"><i class="fas fa-spinner fa-spin"></i> <?php _e('Carregando...', 'crm-developer'); ?></p>
+                            <p class="loading"><i class="fas fa-spinner fa-spin"></i> <?php esc_html_e('Carregando...', 'crm-developer'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -398,13 +398,13 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div class="crm-dev-email-logs">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-history"></i> <?php _e('Histórico de Emails', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-history"></i> <?php esc_html_e('Histórico de Emails', 'crm-developer'); ?></h3>
                         <div class="header-actions">
                             <select id="log-filter-status" class="form-control form-control-sm">
-                                <option value=""><?php _e('Todos os Status', 'crm-developer'); ?></option>
-                                <option value="sent"><?php _e('Enviados', 'crm-developer'); ?></option>
-                                <option value="failed"><?php _e('Falhas', 'crm-developer'); ?></option>
-                                <option value="opened"><?php _e('Abertos', 'crm-developer'); ?></option>
+                                <option value=""><?php esc_html_e('Todos os Status', 'crm-developer'); ?></option>
+                                <option value="sent"><?php esc_html_e('Enviados', 'crm-developer'); ?></option>
+                                <option value="failed"><?php esc_html_e('Falhas', 'crm-developer'); ?></option>
+                                <option value="opened"><?php esc_html_e('Abertos', 'crm-developer'); ?></option>
                             </select>
                             <button type="button" id="btn-refresh-logs" class="btn btn-secondary btn-sm">
                                 <i class="fas fa-sync-alt"></i>
@@ -413,7 +413,7 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                     </div>
                     <div class="card-body">
                         <div id="email-logs">
-                            <p class="loading"><i class="fas fa-spinner fa-spin"></i> <?php _e('Carregando...', 'crm-developer'); ?></p>
+                            <p class="loading"><i class="fas fa-spinner fa-spin"></i> <?php esc_html_e('Carregando...', 'crm-developer'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -427,54 +427,54 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                         <div class="crm-dev-col-6">
                             <div class="crm-dev-card">
                                 <div class="card-header">
-                                    <h3><i class="fas fa-user"></i> <?php _e('Remetente', 'crm-developer'); ?></h3>
+                                    <h3><i class="fas fa-user"></i> <?php esc_html_e('Remetente', 'crm-developer'); ?></h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="from_name"><?php _e('Nome do Remetente', 'crm-developer'); ?></label>
+                                        <label for="from_name"><?php esc_html_e('Nome do Remetente', 'crm-developer'); ?></label>
                                         <input type="text" id="from_name" name="from_name" class="form-control"
                                                value="<?php echo esc_attr($settings['from_name'] ?: get_bloginfo('name')); ?>">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="from_email"><?php _e('Email do Remetente', 'crm-developer'); ?></label>
+                                        <label for="from_email"><?php esc_html_e('Email do Remetente', 'crm-developer'); ?></label>
                                         <input type="email" id="from_email" name="from_email" class="form-control"
                                                value="<?php echo esc_attr($settings['from_email'] ?: get_option('admin_email')); ?>">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="reply_to"><?php _e('Responder Para', 'crm-developer'); ?></label>
+                                        <label for="reply_to"><?php esc_html_e('Responder Para', 'crm-developer'); ?></label>
                                         <input type="email" id="reply_to" name="reply_to" class="form-control"
                                                value="<?php echo esc_attr($settings['reply_to'] ?? ''); ?>"
-                                               placeholder="<?php _e('Deixe vazio para usar o email do remetente', 'crm-developer'); ?>">
+                                               placeholder="<?php esc_html_e('Deixe vazio para usar o email do remetente', 'crm-developer'); ?>">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="crm-dev-card">
                                 <div class="card-header">
-                                    <h3><i class="fas fa-tachometer-alt"></i> <?php _e('Limites de Envio', 'crm-developer'); ?></h3>
+                                    <h3><i class="fas fa-tachometer-alt"></i> <?php esc_html_e('Limites de Envio', 'crm-developer'); ?></h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="rate_limit"><?php _e('Limite por Hora', 'crm-developer'); ?></label>
+                                        <label for="rate_limit"><?php esc_html_e('Limite por Hora', 'crm-developer'); ?></label>
                                         <input type="number" id="rate_limit" name="rate_limit" class="form-control"
                                                value="<?php echo intval($settings['rate_limit'] ?: 50); ?>" min="1" max="500">
-                                        <p class="form-help"><?php _e('Quantidade máxima de emails enviados por hora.', 'crm-developer'); ?></p>
+                                        <p class="form-help"><?php esc_html_e('Quantidade máxima de emails enviados por hora.', 'crm-developer'); ?></p>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="batch_size"><?php _e('Tamanho do Lote', 'crm-developer'); ?></label>
+                                        <label for="batch_size"><?php esc_html_e('Tamanho do Lote', 'crm-developer'); ?></label>
                                         <input type="number" id="batch_size" name="batch_size" class="form-control"
                                                value="<?php echo intval($settings['batch_size'] ?: 10); ?>" min="1" max="50">
-                                        <p class="form-help"><?php _e('Quantidade de emails enviados por lote.', 'crm-developer'); ?></p>
+                                        <p class="form-help"><?php esc_html_e('Quantidade de emails enviados por lote.', 'crm-developer'); ?></p>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="batch_delay"><?php _e('Intervalo entre Lotes (segundos)', 'crm-developer'); ?></label>
+                                        <label for="batch_delay"><?php esc_html_e('Intervalo entre Lotes (segundos)', 'crm-developer'); ?></label>
                                         <input type="number" id="batch_delay" name="batch_delay" class="form-control"
                                                value="<?php echo intval($settings['batch_delay'] ?: 60); ?>" min="10" max="300">
-                                        <p class="form-help"><?php _e('Tempo de espera entre cada lote de envios.', 'crm-developer'); ?></p>
+                                        <p class="form-help"><?php esc_html_e('Tempo de espera entre cada lote de envios.', 'crm-developer'); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -483,20 +483,20 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                         <div class="crm-dev-col-6">
                             <div class="crm-dev-card">
                                 <div class="card-header">
-                                    <h3><i class="fas fa-server"></i> <?php _e('Configuração SMTP', 'crm-developer'); ?></h3>
+                                    <h3><i class="fas fa-server"></i> <?php esc_html_e('Configuração SMTP', 'crm-developer'); ?></h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>
                                             <input type="checkbox" id="smtp_enabled" name="smtp_enabled" value="1"
                                                    <?php checked(!empty($settings['smtp_enabled'])); ?>>
-                                            <?php _e('Usar servidor SMTP personalizado', 'crm-developer'); ?>
+                                            <?php esc_html_e('Usar servidor SMTP personalizado', 'crm-developer'); ?>
                                         </label>
                                     </div>
 
                                     <div id="smtp-settings" style="<?php echo empty($settings['smtp_enabled']) ? 'display:none;' : ''; ?>">
                                         <div class="form-group">
-                                            <label for="smtp_host"><?php _e('Servidor SMTP', 'crm-developer'); ?></label>
+                                            <label for="smtp_host"><?php esc_html_e('Servidor SMTP', 'crm-developer'); ?></label>
                                             <input type="text" id="smtp_host" name="smtp_host" class="form-control"
                                                    value="<?php echo esc_attr($settings['smtp_host'] ?? ''); ?>"
                                                    placeholder="smtp.gmail.com">
@@ -504,15 +504,15 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 
                                         <div class="form-row">
                                             <div class="form-group col-6">
-                                                <label for="smtp_port"><?php _e('Porta', 'crm-developer'); ?></label>
+                                                <label for="smtp_port"><?php esc_html_e('Porta', 'crm-developer'); ?></label>
                                                 <input type="number" id="smtp_port" name="smtp_port" class="form-control"
                                                        value="<?php echo intval($settings['smtp_port'] ?? 587); ?>">
                                             </div>
 
                                             <div class="form-group col-6">
-                                                <label for="smtp_secure"><?php _e('Segurança', 'crm-developer'); ?></label>
+                                                <label for="smtp_secure"><?php esc_html_e('Segurança', 'crm-developer'); ?></label>
                                                 <select id="smtp_secure" name="smtp_secure" class="form-control">
-                                                    <option value="" <?php selected(empty($settings['smtp_secure'])); ?>><?php _e('Nenhum', 'crm-developer'); ?></option>
+                                                    <option value="" <?php selected(empty($settings['smtp_secure'])); ?>><?php esc_html_e('Nenhum', 'crm-developer'); ?></option>
                                                     <option value="tls" <?php selected(($settings['smtp_secure'] ?? '') === 'tls'); ?>>TLS</option>
                                                     <option value="ssl" <?php selected(($settings['smtp_secure'] ?? '') === 'ssl'); ?>>SSL</option>
                                                 </select>
@@ -520,20 +520,20 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="smtp_user"><?php _e('Usuário SMTP', 'crm-developer'); ?></label>
+                                            <label for="smtp_user"><?php esc_html_e('Usuário SMTP', 'crm-developer'); ?></label>
                                             <input type="text" id="smtp_user" name="smtp_user" class="form-control"
                                                    value="<?php echo esc_attr($settings['smtp_user'] ?? ''); ?>">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="smtp_pass"><?php _e('Senha SMTP', 'crm-developer'); ?></label>
+                                            <label for="smtp_pass"><?php esc_html_e('Senha SMTP', 'crm-developer'); ?></label>
                                             <input type="password" id="smtp_pass" name="smtp_pass" class="form-control"
                                                    value="<?php echo esc_attr($settings['smtp_pass'] ?? ''); ?>"
                                                    placeholder="<?php echo !empty($settings['smtp_pass']) ? '••••••••' : ''; ?>">
                                         </div>
 
                                         <button type="button" id="btn-test-smtp" class="btn btn-secondary">
-                                            <i class="fas fa-vial"></i> <?php _e('Testar Conexão', 'crm-developer'); ?>
+                                            <i class="fas fa-vial"></i> <?php esc_html_e('Testar Conexão', 'crm-developer'); ?>
                                         </button>
                                         <span id="smtp-test-result"></span>
                                     </div>
@@ -542,22 +542,22 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 
                             <div class="crm-dev-card">
                                 <div class="card-header">
-                                    <h3><i class="fas fa-signature"></i> <?php _e('Rodapé Padrão', 'crm-developer'); ?></h3>
+                                    <h3><i class="fas fa-signature"></i> <?php esc_html_e('Rodapé Padrão', 'crm-developer'); ?></h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="email_footer"><?php _e('Texto do Rodapé', 'crm-developer'); ?></label>
+                                        <label for="email_footer"><?php esc_html_e('Texto do Rodapé', 'crm-developer'); ?></label>
                                         <textarea id="email_footer" name="email_footer" class="form-control" rows="4"
-                                                  placeholder="<?php _e('Adicione informações de contato, redes sociais, etc.', 'crm-developer'); ?>"><?php echo esc_textarea($settings['email_footer'] ?? ''); ?></textarea>
+                                                  placeholder="<?php esc_html_e('Adicione informações de contato, redes sociais, etc.', 'crm-developer'); ?>"><?php echo esc_textarea($settings['email_footer'] ?? ''); ?></textarea>
                                     </div>
 
                                     <div class="form-group">
                                         <label>
                                             <input type="checkbox" id="include_unsubscribe" name="include_unsubscribe" value="1"
                                                    <?php checked(!isset($settings['include_unsubscribe']) || $settings['include_unsubscribe']); ?>>
-                                            <?php _e('Incluir link de descadastro automaticamente', 'crm-developer'); ?>
+                                            <?php esc_html_e('Incluir link de descadastro automaticamente', 'crm-developer'); ?>
                                         </label>
-                                        <p class="form-help"><?php _e('Recomendado para conformidade com LGPD.', 'crm-developer'); ?></p>
+                                        <p class="form-help"><?php esc_html_e('Recomendado para conformidade com LGPD.', 'crm-developer'); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -566,7 +566,7 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 
                     <div class="form-actions-fixed">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-save"></i> <?php _e('Salvar Configurações', 'crm-developer'); ?>
+                            <i class="fas fa-save"></i> <?php esc_html_e('Salvar Configurações', 'crm-developer'); ?>
                         </button>
                     </div>
                 </form>
@@ -579,7 +579,7 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 <div id="modal-template" class="crm-dev-modal">
     <div class="modal-content modal-lg">
         <div class="modal-header">
-            <h3 id="modal-template-title"><?php _e('Novo Template', 'crm-developer'); ?></h3>
+            <h3 id="modal-template-title"><?php esc_html_e('Novo Template', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body">
@@ -589,66 +589,66 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
                         <input type="hidden" name="template_id" id="template-id">
 
                         <div class="form-group">
-                            <label for="template-nome"><?php _e('Nome do Template', 'crm-developer'); ?> *</label>
+                            <label for="template-nome"><?php esc_html_e('Nome do Template', 'crm-developer'); ?> *</label>
                             <input type="text" id="template-nome" name="nome" class="form-control" required
-                                   placeholder="<?php _e('Ex: Boas-vindas, Newsletter, Convite...', 'crm-developer'); ?>">
+                                   placeholder="<?php esc_html_e('Ex: Boas-vindas, Newsletter, Convite...', 'crm-developer'); ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="template-assunto"><?php _e('Assunto do Email', 'crm-developer'); ?> *</label>
+                            <label for="template-assunto"><?php esc_html_e('Assunto do Email', 'crm-developer'); ?> *</label>
                             <input type="text" id="template-assunto" name="assunto" class="form-control" required
-                                   placeholder="<?php _e('Ex: Olá {{primeiro_nome}}, temos novidades!', 'crm-developer'); ?>">
+                                   placeholder="<?php esc_html_e('Ex: Olá {{primeiro_nome}}, temos novidades!', 'crm-developer'); ?>">
                         </div>
 
                         <div class="form-group">
-                            <label for="template-conteudo"><?php _e('Conteúdo', 'crm-developer'); ?> *</label>
+                            <label for="template-conteudo"><?php esc_html_e('Conteúdo', 'crm-developer'); ?> *</label>
                             <textarea id="template-conteudo" name="conteudo" class="form-control" rows="12" required
-                                      placeholder="<?php _e('Digite o conteúdo do email. Use as variáveis ao lado para personalizar...', 'crm-developer'); ?>"></textarea>
+                                      placeholder="<?php esc_html_e('Digite o conteúdo do email. Use as variáveis ao lado para personalizar...', 'crm-developer'); ?>"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="template-vars-area">
                     <div class="vars-panel">
-                        <h4><i class="fas fa-code"></i> <?php _e('Variáveis Disponíveis', 'crm-developer'); ?></h4>
-                        <p class="vars-help"><?php _e('Clique para inserir no conteúdo:', 'crm-developer'); ?></p>
+                        <h4><i class="fas fa-code"></i> <?php esc_html_e('Variáveis Disponíveis', 'crm-developer'); ?></h4>
+                        <p class="vars-help"><?php esc_html_e('Clique para inserir no conteúdo:', 'crm-developer'); ?></p>
                         <div class="vars-buttons">
-                            <button type="button" class="var-btn" data-var="{{nome}}" title="<?php _e('Nome completo', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{nome}}" title="<?php esc_html_e('Nome completo', 'crm-developer'); ?>">
                                 <i class="fas fa-user"></i> {{nome}}
                             </button>
-                            <button type="button" class="var-btn" data-var="{{primeiro_nome}}" title="<?php _e('Primeiro nome', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{primeiro_nome}}" title="<?php esc_html_e('Primeiro nome', 'crm-developer'); ?>">
                                 <i class="fas fa-user-tag"></i> {{primeiro_nome}}
                             </button>
-                            <button type="button" class="var-btn" data-var="{{email}}" title="<?php _e('Email', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{email}}" title="<?php esc_html_e('Email', 'crm-developer'); ?>">
                                 <i class="fas fa-at"></i> {{email}}
                             </button>
-                            <button type="button" class="var-btn" data-var="{{estado}}" title="<?php _e('Estado', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{estado}}" title="<?php esc_html_e('Estado', 'crm-developer'); ?>">
                                 <i class="fas fa-map-marker-alt"></i> {{estado}}
                             </button>
-                            <button type="button" class="var-btn" data-var="{{municipio}}" title="<?php _e('Município', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{municipio}}" title="<?php esc_html_e('Município', 'crm-developer'); ?>">
                                 <i class="fas fa-city"></i> {{municipio}}
                             </button>
-                            <button type="button" class="var-btn" data-var="{{regiao}}" title="<?php _e('Região', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{regiao}}" title="<?php esc_html_e('Região', 'crm-developer'); ?>">
                                 <i class="fas fa-globe-americas"></i> {{regiao}}
                             </button>
-                            <button type="button" class="var-btn" data-var="{{data_cadastro}}" title="<?php _e('Data de cadastro', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{data_cadastro}}" title="<?php esc_html_e('Data de cadastro', 'crm-developer'); ?>">
                                 <i class="fas fa-calendar"></i> {{data_cadastro}}
                             </button>
-                            <button type="button" class="var-btn" data-var="{{link_descadastro}}" title="<?php _e('Link descadastro', 'crm-developer'); ?>">
+                            <button type="button" class="var-btn" data-var="{{link_descadastro}}" title="<?php esc_html_e('Link descadastro', 'crm-developer'); ?>">
                                 <i class="fas fa-unlink"></i> {{link_descadastro}}
                             </button>
                         </div>
                         <div class="vars-tip">
                             <i class="fas fa-lightbulb"></i>
-                            <span><?php _e('As variáveis serão substituídas pelos dados de cada contato no momento do envio.', 'crm-developer'); ?></span>
+                            <span><?php esc_html_e('As variáveis serão substituídas pelos dados de cada contato no momento do envio.', 'crm-developer'); ?></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary modal-close-btn"><?php _e('Cancelar', 'crm-developer'); ?></button>
+            <button type="button" class="btn btn-secondary modal-close-btn"><?php esc_html_e('Cancelar', 'crm-developer'); ?></button>
             <button type="button" id="btn-save-template-modal" class="btn btn-primary">
-                <i class="fas fa-save"></i> <?php _e('Salvar Template', 'crm-developer'); ?>
+                <i class="fas fa-save"></i> <?php esc_html_e('Salvar Template', 'crm-developer'); ?>
             </button>
         </div>
     </div>
@@ -658,14 +658,14 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
 <div id="modal-preview" class="crm-dev-modal">
     <div class="modal-content modal-lg">
         <div class="modal-header">
-            <h3><?php _e('Visualização do Email', 'crm-developer'); ?></h3>
+            <h3><?php esc_html_e('Visualização do Email', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body">
             <div id="email-preview-content"></div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary modal-close-btn"><?php _e('Fechar', 'crm-developer'); ?></button>
+            <button type="button" class="btn btn-secondary modal-close-btn"><?php esc_html_e('Fechar', 'crm-developer'); ?></button>
         </div>
     </div>
 </div>
@@ -677,41 +677,41 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div class="help-header-icon">
                 <i class="fas fa-paper-plane"></i>
             </div>
-            <h3><?php _e('Enviar Email', 'crm-developer'); ?></h3>
+            <h3><?php esc_html_e('Enviar Email', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body help-body">
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-edit"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Compor Email', 'crm-developer'); ?></h4>
-                    <p><?php _e('Crie emails personalizados usando templates prontos ou escrevendo do zero. Use o editor visual para formatar seu texto com negrito, itálico, listas e links.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Compor Email', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Crie emails personalizados usando templates prontos ou escrevendo do zero. Use o editor visual para formatar seu texto com negrito, itálico, listas e links.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-code"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Variáveis Personalizadas', 'crm-developer'); ?></h4>
-                    <p><?php _e('Insira variáveis como {{nome}}, {{primeiro_nome}} ou {{email}} para personalizar cada mensagem automaticamente. O sistema substituirá pelos dados de cada contato.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Variáveis Personalizadas', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Insira variáveis como {{nome}}, {{primeiro_nome}} ou {{email}} para personalizar cada mensagem automaticamente. O sistema substituirá pelos dados de cada contato.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-filter"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Filtrar Destinatários', 'crm-developer'); ?></h4>
-                    <p><?php _e('Selecione os contatos por região, estado, nível de engajamento ou status. O sistema mostra quantos destinatários serão atingidos em tempo real.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Filtrar Destinatários', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Selecione os contatos por região, estado, nível de engajamento ou status. O sistema mostra quantos destinatários serão atingidos em tempo real.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-shield-alt"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Conformidade LGPD', 'crm-developer'); ?></h4>
-                    <p><?php _e('Por padrão, apenas contatos com consentimento recebem emails. Um link de descadastro é incluído automaticamente em todas as mensagens.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Conformidade LGPD', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Por padrão, apenas contatos com consentimento recebem emails. Um link de descadastro é incluído automaticamente em todas as mensagens.', 'crm-developer'); ?></p>
                 </div>
             </div>
         </div>
         <div class="modal-footer help-footer">
-            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+            <button type="button" class="btn btn-primary modal-close-btn"><?php esc_html_e('Entendi!', 'crm-developer'); ?></button>
         </div>
     </div>
 </div>
@@ -723,34 +723,34 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div class="help-header-icon">
                 <i class="fas fa-file-alt"></i>
             </div>
-            <h3><?php _e('Templates de Email', 'crm-developer'); ?></h3>
+            <h3><?php esc_html_e('Templates de Email', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body help-body">
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-save"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('O que são Templates?', 'crm-developer'); ?></h4>
-                    <p><?php _e('Templates são modelos de email pré-formatados que você pode reutilizar. Crie uma vez e use sempre que precisar enviar mensagens similares.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('O que são Templates?', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Templates são modelos de email pré-formatados que você pode reutilizar. Crie uma vez e use sempre que precisar enviar mensagens similares.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-plus-circle"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Criar Templates', 'crm-developer'); ?></h4>
-                    <p><?php _e('Clique em "Novo Template" para criar um modelo. Dê um nome descritivo, defina o assunto e escreva o conteúdo com as variáveis desejadas.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Criar Templates', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Clique em "Novo Template" para criar um modelo. Dê um nome descritivo, defina o assunto e escreva o conteúdo com as variáveis desejadas.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-magic"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Dicas de Uso', 'crm-developer'); ?></h4>
-                    <p><?php _e('Use {{primeiro_nome}} para saudações pessoais. Mantenha templates organizados por tipo: boas-vindas, newsletters, convites, etc.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Dicas de Uso', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Use {{primeiro_nome}} para saudações pessoais. Mantenha templates organizados por tipo: boas-vindas, newsletters, convites, etc.', 'crm-developer'); ?></p>
                 </div>
             </div>
         </div>
         <div class="modal-footer help-footer">
-            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+            <button type="button" class="btn btn-primary modal-close-btn"><?php esc_html_e('Entendi!', 'crm-developer'); ?></button>
         </div>
     </div>
 </div>
@@ -762,34 +762,34 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div class="help-header-icon">
                 <i class="fas fa-bullhorn"></i>
             </div>
-            <h3><?php _e('Campanhas de Email', 'crm-developer'); ?></h3>
+            <h3><?php esc_html_e('Campanhas de Email', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body help-body">
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-list-alt"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Acompanhar Campanhas', 'crm-developer'); ?></h4>
-                    <p><?php _e('Visualize todas as campanhas de email criadas, com estatísticas de envio, quantidade de destinatários e status atual.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Acompanhar Campanhas', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Visualize todas as campanhas de email criadas, com estatísticas de envio, quantidade de destinatários e status atual.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-clock"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Fila de Envio', 'crm-developer'); ?></h4>
-                    <p><?php _e('Os emails são enviados em lotes para evitar bloqueios de spam. Acompanhe em tempo real quantos estão pendentes, processando, enviados ou com falha.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Fila de Envio', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Os emails são enviados em lotes para evitar bloqueios de spam. Acompanhe em tempo real quantos estão pendentes, processando, enviados ou com falha.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-tachometer-alt"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Limites de Envio', 'crm-developer'); ?></h4>
-                    <p><?php _e('O sistema respeita limites configuráveis por hora para garantir boa reputação do seu servidor e evitar que emails caiam em spam.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Limites de Envio', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('O sistema respeita limites configuráveis por hora para garantir boa reputação do seu servidor e evitar que emails caiam em spam.', 'crm-developer'); ?></p>
                 </div>
             </div>
         </div>
         <div class="modal-footer help-footer">
-            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+            <button type="button" class="btn btn-primary modal-close-btn"><?php esc_html_e('Entendi!', 'crm-developer'); ?></button>
         </div>
     </div>
 </div>
@@ -801,34 +801,34 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div class="help-header-icon">
                 <i class="fas fa-history"></i>
             </div>
-            <h3><?php _e('Histórico de Emails', 'crm-developer'); ?></h3>
+            <h3><?php esc_html_e('Histórico de Emails', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body help-body">
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-search"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Rastrear Envios', 'crm-developer'); ?></h4>
-                    <p><?php _e('Consulte o histórico completo de todos os emails enviados, incluindo destinatário, assunto, data e status de entrega.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Rastrear Envios', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Consulte o histórico completo de todos os emails enviados, incluindo destinatário, assunto, data e status de entrega.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-filter"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Filtrar por Status', 'crm-developer'); ?></h4>
-                    <p><?php _e('Use os filtros para visualizar apenas emails enviados com sucesso, falhas de envio ou mensagens abertas pelo destinatário.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Filtrar por Status', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Use os filtros para visualizar apenas emails enviados com sucesso, falhas de envio ou mensagens abertas pelo destinatário.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-bug"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Identificar Problemas', 'crm-developer'); ?></h4>
-                    <p><?php _e('Analise as falhas de envio para identificar emails inválidos ou problemas de configuração do servidor.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Identificar Problemas', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Analise as falhas de envio para identificar emails inválidos ou problemas de configuração do servidor.', 'crm-developer'); ?></p>
                 </div>
             </div>
         </div>
         <div class="modal-footer help-footer">
-            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+            <button type="button" class="btn btn-primary modal-close-btn"><?php esc_html_e('Entendi!', 'crm-developer'); ?></button>
         </div>
     </div>
 </div>
@@ -840,41 +840,41 @@ $regioes = $wpdb->get_col("SELECT DISTINCT regiao FROM {$tables['contacts']} WHE
             <div class="help-header-icon">
                 <i class="fas fa-cog"></i>
             </div>
-            <h3><?php _e('Configurações de Email', 'crm-developer'); ?></h3>
+            <h3><?php esc_html_e('Configurações de Email', 'crm-developer'); ?></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <div class="modal-body help-body">
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-user"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Remetente', 'crm-developer'); ?></h4>
-                    <p><?php _e('Defina o nome e email que aparecerão como remetente das mensagens. Use um email válido do seu domínio para melhor entregabilidade.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Remetente', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Defina o nome e email que aparecerão como remetente das mensagens. Use um email válido do seu domínio para melhor entregabilidade.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-server"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Configuração SMTP', 'crm-developer'); ?></h4>
-                    <p><?php _e('Para melhor confiabilidade, configure um servidor SMTP externo (Gmail, SendGrid, etc). Isso melhora a taxa de entrega e evita bloqueios.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Configuração SMTP', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Para melhor confiabilidade, configure um servidor SMTP externo (Gmail, SendGrid, etc). Isso melhora a taxa de entrega e evita bloqueios.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-tachometer-alt"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Limites de Envio', 'crm-developer'); ?></h4>
-                    <p><?php _e('Configure a quantidade máxima de emails por hora e o tamanho dos lotes. Valores menores são mais seguros, valores maiores são mais rápidos.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Limites de Envio', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Configure a quantidade máxima de emails por hora e o tamanho dos lotes. Valores menores são mais seguros, valores maiores são mais rápidos.', 'crm-developer'); ?></p>
                 </div>
             </div>
             <div class="help-section">
                 <div class="help-icon"><i class="fas fa-signature"></i></div>
                 <div class="help-content">
-                    <h4><?php _e('Rodapé Padrão', 'crm-developer'); ?></h4>
-                    <p><?php _e('Adicione informações de contato, redes sociais ou avisos legais que serão incluídos automaticamente em todos os emails.', 'crm-developer'); ?></p>
+                    <h4><?php esc_html_e('Rodapé Padrão', 'crm-developer'); ?></h4>
+                    <p><?php esc_html_e('Adicione informações de contato, redes sociais ou avisos legais que serão incluídos automaticamente em todos os emails.', 'crm-developer'); ?></p>
                 </div>
             </div>
         </div>
         <div class="modal-footer help-footer">
-            <button type="button" class="btn btn-primary modal-close-btn"><?php _e('Entendi!', 'crm-developer'); ?></button>
+            <button type="button" class="btn btn-primary modal-close-btn"><?php esc_html_e('Entendi!', 'crm-developer'); ?></button>
         </div>
     </div>
 </div>
@@ -961,7 +961,7 @@ jQuery(document).ready(function($) {
         const content = $('#email-content').html();
 
         if (!subject || !content) {
-            alert('<?php _e('Preencha o assunto e conteúdo do email.', 'crm-developer'); ?>');
+            alert('<?php esc_html_e('Preencha o assunto e conteúdo do email.', 'crm-developer'); ?>');
             return;
         }
 
@@ -987,22 +987,22 @@ jQuery(document).ready(function($) {
         $('#email-content-hidden').val(content);
 
         if (!subject || !content) {
-            alert('<?php _e('Preencha todos os campos obrigatórios.', 'crm-developer'); ?>');
+            alert('<?php esc_html_e('Preencha todos os campos obrigatórios.', 'crm-developer'); ?>');
             return;
         }
 
         const recipientsCount = parseInt($('#recipients-count').text());
         if (recipientsCount === 0) {
-            alert('<?php _e('Nenhum destinatário encontrado com os filtros selecionados.', 'crm-developer'); ?>');
+            alert('<?php esc_html_e('Nenhum destinatário encontrado com os filtros selecionados.', 'crm-developer'); ?>');
             return;
         }
 
-        if (!confirm('<?php _e('Tem certeza que deseja enviar o email para', 'crm-developer'); ?> ' + recipientsCount + ' <?php _e('destinatários?', 'crm-developer'); ?>')) {
+        if (!confirm('<?php esc_html_e('Tem certeza que deseja enviar o email para', 'crm-developer'); ?> ' + recipientsCount + ' <?php esc_html_e('destinatários?', 'crm-developer'); ?>')) {
             return;
         }
 
         const $btn = $('#btn-send-email');
-        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> <?php _e('Enviando...', 'crm-developer'); ?>');
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> <?php esc_html_e('Enviando...', 'crm-developer'); ?>');
 
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_send_mass_email',
@@ -1015,14 +1015,14 @@ jQuery(document).ready(function($) {
             status: $('#filter-status').val(),
             consent: $('#filter-consent').is(':checked') ? 1 : 0
         }, function(response) {
-            $btn.prop('disabled', false).html('<i class="fas fa-paper-plane"></i> <?php _e('Enviar Emails', 'crm-developer'); ?>');
+            $btn.prop('disabled', false).html('<i class="fas fa-paper-plane"></i> <?php esc_html_e('Enviar Emails', 'crm-developer'); ?>');
 
             if (response.success) {
                 alert(response.data.message);
                 // Redirecionar para campanhas
-                window.location.href = '<?php echo admin_url('admin.php?page=crm-developer&section=email&tab=campaigns'); ?>';
+                window.location.href = '<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=email&tab=campaigns')); ?>';
             } else {
-                alert(response.data.message || '<?php _e('Erro ao enviar emails.', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao enviar emails.', 'crm-developer'); ?>');
             }
         });
     });
@@ -1033,7 +1033,7 @@ jQuery(document).ready(function($) {
 
     // Abrir modal de novo template
     $('#btn-new-template, #btn-new-template-empty').on('click', function() {
-        $('#modal-template-title').text('<?php _e('Novo Template', 'crm-developer'); ?>');
+        $('#modal-template-title').text('<?php esc_html_e('Novo Template', 'crm-developer'); ?>');
         $('#template-form')[0].reset();
         $('#template-id').val('');
         $('#template-nome').val('');
@@ -1057,7 +1057,7 @@ jQuery(document).ready(function($) {
     // Editar template
     $(document).on('click', '.btn-edit-template', function() {
         const $btn = $(this);
-        $('#modal-template-title').text('<?php _e('Editar Template', 'crm-developer'); ?>');
+        $('#modal-template-title').text('<?php esc_html_e('Editar Template', 'crm-developer'); ?>');
         $('#template-id').val($btn.data('id'));
         $('#template-nome').val($btn.data('nome'));
         $('#template-assunto').val($btn.data('assunto'));
@@ -1087,19 +1087,19 @@ jQuery(document).ready(function($) {
                 conteudo: $('#template-conteudo').val()
             }
         }, function(response) {
-            $btn.prop('disabled', false).html('<i class="fas fa-save"></i> <?php _e('Salvar Template', 'crm-developer'); ?>');
+            $btn.prop('disabled', false).html('<i class="fas fa-save"></i> <?php esc_html_e('Salvar Template', 'crm-developer'); ?>');
 
             if (response.success) {
                 location.reload();
             } else {
-                alert(response.data.message || '<?php _e('Erro ao salvar template.', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao salvar template.', 'crm-developer'); ?>');
             }
         });
     });
 
     // Excluir template
     $(document).on('click', '.btn-delete-template', function() {
-        if (!confirm('<?php _e('Tem certeza que deseja excluir este template?', 'crm-developer'); ?>')) {
+        if (!confirm('<?php esc_html_e('Tem certeza que deseja excluir este template?', 'crm-developer'); ?>')) {
             return;
         }
 
@@ -1116,7 +1116,7 @@ jQuery(document).ready(function($) {
                     $(this).remove();
                 });
             } else {
-                alert(response.data.message || '<?php _e('Erro ao excluir template.', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao excluir template.', 'crm-developer'); ?>');
             }
         });
     });
@@ -1127,11 +1127,11 @@ jQuery(document).ready(function($) {
         const conteudo = $('#email-content').html();
 
         if (!assunto || !conteudo) {
-            alert('<?php _e('Preencha o assunto e conteúdo antes de salvar.', 'crm-developer'); ?>');
+            alert('<?php esc_html_e('Preencha o assunto e conteúdo antes de salvar.', 'crm-developer'); ?>');
             return;
         }
 
-        const nome = prompt('<?php _e('Digite o nome do template:', 'crm-developer'); ?>');
+        const nome = prompt('<?php esc_html_e('Digite o nome do template:', 'crm-developer'); ?>');
         if (!nome) return;
 
         $.post(crmDevAdmin.ajaxUrl, {
@@ -1144,9 +1144,9 @@ jQuery(document).ready(function($) {
             }
         }, function(response) {
             if (response.success) {
-                alert('<?php _e('Template salvo com sucesso!', 'crm-developer'); ?>');
+                alert('<?php esc_html_e('Template salvo com sucesso!', 'crm-developer'); ?>');
             } else {
-                alert(response.data.message || '<?php _e('Erro ao salvar template.', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao salvar template.', 'crm-developer'); ?>');
             }
         });
     });
@@ -1165,11 +1165,11 @@ jQuery(document).ready(function($) {
                 let html = '';
                 if (response.data.campaigns.length > 0) {
                     html = '<table class="crm-dev-table"><thead><tr>';
-                    html += '<th><?php _e('Campanha', 'crm-developer'); ?></th>';
-                    html += '<th><?php _e('Status', 'crm-developer'); ?></th>';
-                    html += '<th><?php _e('Enviados', 'crm-developer'); ?></th>';
-                    html += '<th><?php _e('Falhas', 'crm-developer'); ?></th>';
-                    html += '<th><?php _e('Data', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Campanha', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Status', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Enviados', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Falhas', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Data', 'crm-developer'); ?></th>';
                     html += '</tr></thead><tbody>';
 
                     response.data.campaigns.forEach(function(c) {
@@ -1184,7 +1184,7 @@ jQuery(document).ready(function($) {
 
                     html += '</tbody></table>';
                 } else {
-                    html = '<p class="crm-dev-empty"><?php _e('Nenhuma campanha encontrada.', 'crm-developer'); ?></p>';
+                    html = '<p class="crm-dev-empty"><?php esc_html_e('Nenhuma campanha encontrada.', 'crm-developer'); ?></p>';
                 }
                 $('#campaigns-list').html(html);
             }
@@ -1201,13 +1201,13 @@ jQuery(document).ready(function($) {
                 let html = '';
                 if (response.data.queue && response.data.queue.pending > 0) {
                     html = '<div class="queue-stats">';
-                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.pending + '</span><span class="label"><?php _e('Pendentes', 'crm-developer'); ?></span></div>';
-                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.processing + '</span><span class="label"><?php _e('Processando', 'crm-developer'); ?></span></div>';
-                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.sent + '</span><span class="label"><?php _e('Enviados', 'crm-developer'); ?></span></div>';
-                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.failed + '</span><span class="label"><?php _e('Falhas', 'crm-developer'); ?></span></div>';
+                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.pending + '</span><span class="label"><?php esc_html_e('Pendentes', 'crm-developer'); ?></span></div>';
+                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.processing + '</span><span class="label"><?php esc_html_e('Processando', 'crm-developer'); ?></span></div>';
+                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.sent + '</span><span class="label"><?php esc_html_e('Enviados', 'crm-developer'); ?></span></div>';
+                    html += '<div class="queue-stat"><span class="value">' + response.data.queue.failed + '</span><span class="label"><?php esc_html_e('Falhas', 'crm-developer'); ?></span></div>';
                     html += '</div>';
                 } else {
-                    html = '<p class="crm-dev-empty"><i class="fas fa-check-circle"></i> <?php _e('Fila de envio vazia.', 'crm-developer'); ?></p>';
+                    html = '<p class="crm-dev-empty"><i class="fas fa-check-circle"></i> <?php esc_html_e('Fila de envio vazia.', 'crm-developer'); ?></p>';
                 }
                 $('#queue-status').html(html);
             }
@@ -1238,10 +1238,10 @@ jQuery(document).ready(function($) {
                 let html = '';
                 if (response.data.logs.length > 0) {
                     html = '<table class="crm-dev-table"><thead><tr>';
-                    html += '<th><?php _e('Destinatário', 'crm-developer'); ?></th>';
-                    html += '<th><?php _e('Assunto', 'crm-developer'); ?></th>';
-                    html += '<th><?php _e('Status', 'crm-developer'); ?></th>';
-                    html += '<th><?php _e('Data', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Destinatário', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Assunto', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Status', 'crm-developer'); ?></th>';
+                    html += '<th><?php esc_html_e('Data', 'crm-developer'); ?></th>';
                     html += '</tr></thead><tbody>';
 
                     response.data.logs.forEach(function(log) {
@@ -1255,7 +1255,7 @@ jQuery(document).ready(function($) {
 
                     html += '</tbody></table>';
                 } else {
-                    html = '<p class="crm-dev-empty"><?php _e('Nenhum registro encontrado.', 'crm-developer'); ?></p>';
+                    html = '<p class="crm-dev-empty"><?php esc_html_e('Nenhum registro encontrado.', 'crm-developer'); ?></p>';
                 }
                 $('#email-logs').html(html);
             }
@@ -1289,7 +1289,7 @@ jQuery(document).ready(function($) {
         const $result = $('#smtp-test-result');
 
         $btn.prop('disabled', true);
-        $result.html('<i class="fas fa-spinner fa-spin"></i> <?php _e('Testando...', 'crm-developer'); ?>');
+        $result.html('<i class="fas fa-spinner fa-spin"></i> <?php esc_html_e('Testando...', 'crm-developer'); ?>');
 
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_test_smtp',
@@ -1302,9 +1302,9 @@ jQuery(document).ready(function($) {
         }, function(response) {
             $btn.prop('disabled', false);
             if (response.success) {
-                $result.html('<span class="text-success"><i class="fas fa-check"></i> <?php _e('Conexão OK!', 'crm-developer'); ?></span>');
+                $result.html('<span class="text-success"><i class="fas fa-check"></i> <?php esc_html_e('Conexão OK!', 'crm-developer'); ?></span>');
             } else {
-                $result.html('<span class="text-danger"><i class="fas fa-times"></i> ' + (response.data.message || '<?php _e('Erro na conexão', 'crm-developer'); ?>') + '</span>');
+                $result.html('<span class="text-danger"><i class="fas fa-times"></i> ' + (response.data.message || '<?php esc_html_e('Erro na conexão', 'crm-developer'); ?>') + '</span>');
             }
         });
     });
@@ -1314,19 +1314,19 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         const $btn = $(this).find('button[type="submit"]');
-        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> <?php _e('Salvando...', 'crm-developer'); ?>');
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> <?php esc_html_e('Salvando...', 'crm-developer'); ?>');
 
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_save_email_settings',
             nonce: crmDevAdmin.nonce,
             settings: $(this).serialize()
         }, function(response) {
-            $btn.prop('disabled', false).html('<i class="fas fa-save"></i> <?php _e('Salvar Configurações', 'crm-developer'); ?>');
+            $btn.prop('disabled', false).html('<i class="fas fa-save"></i> <?php esc_html_e('Salvar Configurações', 'crm-developer'); ?>');
 
             if (response.success) {
-                alert('<?php _e('Configurações salvas com sucesso!', 'crm-developer'); ?>');
+                alert('<?php esc_html_e('Configurações salvas com sucesso!', 'crm-developer'); ?>');
             } else {
-                alert(response.data.message || '<?php _e('Erro ao salvar configurações.', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao salvar configurações.', 'crm-developer'); ?>');
             }
         });
     });

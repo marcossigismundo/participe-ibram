@@ -23,9 +23,9 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
             <div>
                 <h1>
                     <i class="fas fa-exchange-alt"></i>
-                    <?php _e('Importar / Exportar', 'crm-developer'); ?>
+                    <?php esc_html_e('Importar / Exportar', 'crm-developer'); ?>
                 </h1>
-                <p class="crm-dev-subtitle"><?php _e('Gerencie a importação e exportação de contatos', 'crm-developer'); ?></p>
+                <p class="crm-dev-subtitle"><?php esc_html_e('Gerencie a importação e exportação de contatos', 'crm-developer'); ?></p>
             </div>
             <?php crm_dev_render_help_button('import-export'); ?>
         </div>
@@ -33,14 +33,14 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
 
     <!-- Tabs -->
     <nav class="crm-dev-tabs">
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=import-export&tab=import'); ?>" class="tab <?php echo $tab === 'import' ? 'active' : ''; ?>">
-            <i class="fas fa-file-import"></i> <?php _e('Importar', 'crm-developer'); ?>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=import')); ?>" class="tab <?php echo $tab === 'import' ? 'active' : ''; ?>">
+            <i class="fas fa-file-import"></i> <?php esc_html_e('Importar', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=import-export&tab=export'); ?>" class="tab <?php echo $tab === 'export' ? 'active' : ''; ?>">
-            <i class="fas fa-file-export"></i> <?php _e('Exportar', 'crm-developer'); ?>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=export')); ?>" class="tab <?php echo $tab === 'export' ? 'active' : ''; ?>">
+            <i class="fas fa-file-export"></i> <?php esc_html_e('Exportar', 'crm-developer'); ?>
         </a>
-        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=import-export&tab=history'); ?>" class="tab <?php echo $tab === 'history' ? 'active' : ''; ?>">
-            <i class="fas fa-history"></i> <?php _e('Histórico', 'crm-developer'); ?>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=history')); ?>" class="tab <?php echo $tab === 'history' ? 'active' : ''; ?>">
+            <i class="fas fa-history"></i> <?php esc_html_e('Histórico', 'crm-developer'); ?>
         </a>
     </nav>
 
@@ -48,7 +48,7 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
         <!-- Importação -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-file-import"></i> <?php _e('Importar Contatos', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-file-import"></i> <?php esc_html_e('Importar Contatos', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <div class="import-steps">
@@ -56,17 +56,17 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                     <div class="import-step active" id="step-upload">
                         <div class="step-header">
                             <span class="step-number">1</span>
-                            <h4><?php _e('Selecione o arquivo', 'crm-developer'); ?></h4>
+                            <h4><?php esc_html_e('Selecione o arquivo', 'crm-developer'); ?></h4>
                         </div>
                         <div class="step-content">
                             <p class="step-description">
-                                <?php _e('Selecione um arquivo CSV ou Excel (.xlsx) com os dados dos contatos. O arquivo deve ter uma linha de cabeçalho com os nomes das colunas.', 'crm-developer'); ?>
+                                <?php esc_html_e('Selecione um arquivo CSV ou Excel (.xlsx) com os dados dos contatos. O arquivo deve ter uma linha de cabeçalho com os nomes das colunas.', 'crm-developer'); ?>
                             </p>
 
                             <div class="file-upload-area" id="drop-zone">
                                 <i class="fas fa-cloud-upload-alt"></i>
-                                <p><?php _e('Arraste o arquivo aqui ou clique para selecionar', 'crm-developer'); ?></p>
-                                <span><?php _e('Formatos aceitos: CSV, XLSX', 'crm-developer'); ?></span>
+                                <p><?php esc_html_e('Arraste o arquivo aqui ou clique para selecionar', 'crm-developer'); ?></p>
+                                <span><?php esc_html_e('Formatos aceitos: CSV, XLSX', 'crm-developer'); ?></span>
                                 <input type="file" id="import-file" accept=".csv,.xlsx,.xls" style="display: none;">
                             </div>
 
@@ -79,9 +79,9 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                             </div>
 
                             <div class="import-template">
-                                <p><i class="fas fa-info-circle"></i> <?php _e('Baixe o modelo de importação:', 'crm-developer'); ?></p>
+                                <p><i class="fas fa-info-circle"></i> <?php esc_html_e('Baixe o modelo de importação:', 'crm-developer'); ?></p>
                                 <button type="button" class="button" id="btn-download-template">
-                                    <i class="fas fa-download"></i> <?php _e('Baixar Modelo CSV', 'crm-developer'); ?>
+                                    <i class="fas fa-download"></i> <?php esc_html_e('Baixar Modelo CSV', 'crm-developer'); ?>
                                 </button>
                             </div>
                         </div>
@@ -91,24 +91,24 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                     <div class="import-step" id="step-mapping" style="display: none;">
                         <div class="step-header">
                             <span class="step-number">2</span>
-                            <h4><?php _e('Mapeamento de Colunas', 'crm-developer'); ?></h4>
+                            <h4><?php esc_html_e('Mapeamento de Colunas', 'crm-developer'); ?></h4>
                         </div>
                         <div class="step-content">
                             <p class="step-description">
-                                <?php _e('Relacione as colunas do seu arquivo com os campos do CRM. Colunas com fundo verde foram mapeadas automaticamente.', 'crm-developer'); ?>
+                                <?php esc_html_e('Relacione as colunas do seu arquivo com os campos do CRM. Colunas com fundo verde foram mapeadas automaticamente.', 'crm-developer'); ?>
                             </p>
 
                             <div class="preview-stats">
-                                <span><i class="fas fa-file-alt"></i> <span id="total-rows">0</span> <?php _e('linhas encontradas', 'crm-developer'); ?></span>
-                                <span><i class="fas fa-columns"></i> <span id="total-cols">0</span> <?php _e('colunas', 'crm-developer'); ?></span>
+                                <span><i class="fas fa-file-alt"></i> <span id="total-rows">0</span> <?php esc_html_e('linhas encontradas', 'crm-developer'); ?></span>
+                                <span><i class="fas fa-columns"></i> <span id="total-cols">0</span> <?php esc_html_e('colunas', 'crm-developer'); ?></span>
                             </div>
 
                             <table class="crm-dev-table" id="mapping-table">
                                 <thead>
                                     <tr>
-                                        <th><?php _e('Coluna do Arquivo', 'crm-developer'); ?></th>
-                                        <th><?php _e('Campo do CRM', 'crm-developer'); ?></th>
-                                        <th><?php _e('Exemplo', 'crm-developer'); ?></th>
+                                        <th><?php esc_html_e('Coluna do Arquivo', 'crm-developer'); ?></th>
+                                        <th><?php esc_html_e('Campo do CRM', 'crm-developer'); ?></th>
+                                        <th><?php esc_html_e('Exemplo', 'crm-developer'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody id="mapping-tbody">
@@ -121,33 +121,33 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                     <div class="import-step" id="step-options" style="display: none;">
                         <div class="step-header">
                             <span class="step-number">3</span>
-                            <h4><?php _e('Opções de Importação', 'crm-developer'); ?></h4>
+                            <h4><?php esc_html_e('Opções de Importação', 'crm-developer'); ?></h4>
                         </div>
                         <div class="step-content">
                             <div class="import-options">
                                 <label class="checkbox-option">
                                     <input type="checkbox" id="opt-skip-duplicates" checked>
-                                    <span><?php _e('Ignorar contatos duplicados (email, telefone, WhatsApp ou nome+estado)', 'crm-developer'); ?></span>
+                                    <span><?php esc_html_e('Ignorar contatos duplicados (email, telefone, WhatsApp ou nome+estado)', 'crm-developer'); ?></span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" id="opt-update-existing">
-                                    <span><?php _e('Atualizar contatos existentes ao invés de ignorar', 'crm-developer'); ?></span>
+                                    <span><?php esc_html_e('Atualizar contatos existentes ao invés de ignorar', 'crm-developer'); ?></span>
                                 </label>
                             </div>
 
                             <div class="import-info-box">
                                 <i class="fas fa-info-circle"></i>
                                 <div>
-                                    <strong><?php _e('Detecção de Duplicatas', 'crm-developer'); ?></strong>
-                                    <p><?php _e('O sistema verifica duplicatas por: Email, WhatsApp, Telefone e combinação Nome + Estado. Se qualquer um desses dados já existir, o contato será considerado duplicado.', 'crm-developer'); ?></p>
+                                    <strong><?php esc_html_e('Detecção de Duplicatas', 'crm-developer'); ?></strong>
+                                    <p><?php esc_html_e('O sistema verifica duplicatas por: Email, WhatsApp, Telefone e combinação Nome + Estado. Se qualquer um desses dados já existir, o contato será considerado duplicado.', 'crm-developer'); ?></p>
                                 </div>
                             </div>
 
                             <div class="import-summary">
-                                <h5><?php _e('Resumo da Importação', 'crm-developer'); ?></h5>
+                                <h5><?php esc_html_e('Resumo da Importação', 'crm-developer'); ?></h5>
                                 <ul>
-                                    <li><strong id="summary-total">0</strong> <?php _e('registros serão processados', 'crm-developer'); ?></li>
-                                    <li><strong id="summary-mapped">0</strong> <?php _e('campos mapeados', 'crm-developer'); ?></li>
+                                    <li><strong id="summary-total">0</strong> <?php esc_html_e('registros serão processados', 'crm-developer'); ?></li>
+                                    <li><strong id="summary-mapped">0</strong> <?php esc_html_e('campos mapeados', 'crm-developer'); ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -157,7 +157,7 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                     <div class="import-step" id="step-result" style="display: none;">
                         <div class="step-header">
                             <span class="step-number">4</span>
-                            <h4><?php _e('Resultado da Importação', 'crm-developer'); ?></h4>
+                            <h4><?php esc_html_e('Resultado da Importação', 'crm-developer'); ?></h4>
                         </div>
                         <div class="step-content">
                             <div class="import-result" id="import-result">
@@ -169,16 +169,16 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                 <!-- Botões de Navegação -->
                 <div class="import-navigation">
                     <button type="button" class="button" id="btn-import-prev" style="display: none;">
-                        <i class="fas fa-arrow-left"></i> <?php _e('Voltar', 'crm-developer'); ?>
+                        <i class="fas fa-arrow-left"></i> <?php esc_html_e('Voltar', 'crm-developer'); ?>
                     </button>
                     <button type="button" class="button button-primary" id="btn-import-next" disabled>
-                        <?php _e('Próximo', 'crm-developer'); ?> <i class="fas fa-arrow-right"></i>
+                        <?php esc_html_e('Próximo', 'crm-developer'); ?> <i class="fas fa-arrow-right"></i>
                     </button>
                     <button type="button" class="button button-primary" id="btn-import-start" style="display: none;">
-                        <i class="fas fa-play"></i> <?php _e('Iniciar Importação', 'crm-developer'); ?>
+                        <i class="fas fa-play"></i> <?php esc_html_e('Iniciar Importação', 'crm-developer'); ?>
                     </button>
                     <button type="button" class="button button-primary" id="btn-import-new" style="display: none;">
-                        <i class="fas fa-plus"></i> <?php _e('Nova Importação', 'crm-developer'); ?>
+                        <i class="fas fa-plus"></i> <?php esc_html_e('Nova Importação', 'crm-developer'); ?>
                     </button>
                 </div>
             </div>
@@ -188,11 +188,11 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
         <!-- Exportação -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-file-export"></i> <?php _e('Exportar Contatos', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-file-export"></i> <?php esc_html_e('Exportar Contatos', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <div class="export-options">
-                    <h4><?php _e('Formato de Exportação', 'crm-developer'); ?></h4>
+                    <h4><?php esc_html_e('Formato de Exportação', 'crm-developer'); ?></h4>
                     <div class="format-options">
                         <label class="format-option selected">
                             <input type="radio" name="export_format" value="xlsx" checked>
@@ -206,10 +206,10 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                         </label>
                     </div>
 
-                    <h4><?php _e('Campos para Exportar', 'crm-developer'); ?></h4>
+                    <h4><?php esc_html_e('Campos para Exportar', 'crm-developer'); ?></h4>
                     <div class="export-field-controls">
-                        <button type="button" class="button" id="btn-select-all-fields"><?php _e('Selecionar Todos', 'crm-developer'); ?></button>
-                        <button type="button" class="button" id="btn-deselect-all-fields"><?php _e('Desmarcar Todos', 'crm-developer'); ?></button>
+                        <button type="button" class="button" id="btn-select-all-fields"><?php esc_html_e('Selecionar Todos', 'crm-developer'); ?></button>
+                        <button type="button" class="button" id="btn-deselect-all-fields"><?php esc_html_e('Desmarcar Todos', 'crm-developer'); ?></button>
                     </div>
                     <div class="export-fields">
                         <?php foreach ($available_fields as $key => $label) : ?>
@@ -220,40 +220,40 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                         <?php endforeach; ?>
                     </div>
 
-                    <h4><?php _e('Filtros (opcional)', 'crm-developer'); ?></h4>
+                    <h4><?php esc_html_e('Filtros (opcional)', 'crm-developer'); ?></h4>
                     <div class="export-filters">
                         <div class="filter-group">
-                            <label><?php _e('Estado', 'crm-developer'); ?></label>
+                            <label><?php esc_html_e('Estado', 'crm-developer'); ?></label>
                             <select id="export-estado">
-                                <option value=""><?php _e('Todos', 'crm-developer'); ?></option>
+                                <option value=""><?php esc_html_e('Todos', 'crm-developer'); ?></option>
                                 <?php foreach (CRM_Dev_Helpers::get_estados() as $uf => $nome) : ?>
                                     <option value="<?php echo esc_attr($uf); ?>"><?php echo esc_html($nome); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label><?php _e('Região', 'crm-developer'); ?></label>
+                            <label><?php esc_html_e('Região', 'crm-developer'); ?></label>
                             <select id="export-regiao">
-                                <option value=""><?php _e('Todas', 'crm-developer'); ?></option>
+                                <option value=""><?php esc_html_e('Todas', 'crm-developer'); ?></option>
                                 <?php foreach (CRM_Dev_Helpers::get_regioes() as $regiao) : ?>
                                     <option value="<?php echo esc_attr($regiao); ?>"><?php echo esc_html($regiao); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label><?php _e('Status', 'crm-developer'); ?></label>
+                            <label><?php esc_html_e('Status', 'crm-developer'); ?></label>
                             <select id="export-status">
-                                <option value=""><?php _e('Todos', 'crm-developer'); ?></option>
-                                <option value="ativo"><?php _e('Ativo', 'crm-developer'); ?></option>
-                                <option value="inativo"><?php _e('Inativo', 'crm-developer'); ?></option>
-                                <option value="pendente"><?php _e('Pendente', 'crm-developer'); ?></option>
+                                <option value=""><?php esc_html_e('Todos', 'crm-developer'); ?></option>
+                                <option value="ativo"><?php esc_html_e('Ativo', 'crm-developer'); ?></option>
+                                <option value="inativo"><?php esc_html_e('Inativo', 'crm-developer'); ?></option>
+                                <option value="pendente"><?php esc_html_e('Pendente', 'crm-developer'); ?></option>
                             </select>
                         </div>
                     </div>
 
                     <div class="export-actions">
                         <button type="button" class="button button-primary button-hero" id="btn-export">
-                            <i class="fas fa-download"></i> <?php _e('Exportar Contatos', 'crm-developer'); ?>
+                            <i class="fas fa-download"></i> <?php esc_html_e('Exportar Contatos', 'crm-developer'); ?>
                         </button>
                     </div>
                 </div>
@@ -264,19 +264,19 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
         <!-- Histórico -->
         <div class="crm-dev-card">
             <div class="card-header">
-                <h3><i class="fas fa-history"></i> <?php _e('Histórico de Importações', 'crm-developer'); ?></h3>
+                <h3><i class="fas fa-history"></i> <?php esc_html_e('Histórico de Importações', 'crm-developer'); ?></h3>
             </div>
             <div class="card-body">
                 <?php if (!empty($import_history)) : ?>
                     <table class="crm-dev-table">
                         <thead>
                             <tr>
-                                <th><?php _e('Data', 'crm-developer'); ?></th>
-                                <th><?php _e('Arquivo', 'crm-developer'); ?></th>
-                                <th><?php _e('Total', 'crm-developer'); ?></th>
-                                <th><?php _e('Importados', 'crm-developer'); ?></th>
-                                <th><?php _e('Erros', 'crm-developer'); ?></th>
-                                <th><?php _e('Usuário', 'crm-developer'); ?></th>
+                                <th><?php esc_html_e('Data', 'crm-developer'); ?></th>
+                                <th><?php esc_html_e('Arquivo', 'crm-developer'); ?></th>
+                                <th><?php esc_html_e('Total', 'crm-developer'); ?></th>
+                                <th><?php esc_html_e('Importados', 'crm-developer'); ?></th>
+                                <th><?php esc_html_e('Erros', 'crm-developer'); ?></th>
+                                <th><?php esc_html_e('Usuário', 'crm-developer'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -293,7 +293,7 @@ $import_history = CRM_Dev_Import_Export::get_import_history(10);
                         </tbody>
                     </table>
                 <?php else : ?>
-                    <p class="crm-dev-empty"><?php _e('Nenhuma importação realizada ainda.', 'crm-developer'); ?></p>
+                    <p class="crm-dev-empty"><?php esc_html_e('Nenhuma importação realizada ainda.', 'crm-developer'); ?></p>
                 <?php endif; ?>
             </div>
         </div>

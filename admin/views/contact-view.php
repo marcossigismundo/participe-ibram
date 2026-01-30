@@ -57,16 +57,16 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
 <div class="wrap crm-dev-wrap">
     <div class="crm-dev-header">
         <div class="header-back">
-            <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts'); ?>" class="back-link">
-                <i class="fas fa-arrow-left"></i> <?php _e('Voltar para lista', 'crm-developer'); ?>
+            <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts')); ?>" class="back-link">
+                <i class="fas fa-arrow-left"></i> <?php esc_html_e('Voltar para lista', 'crm-developer'); ?>
             </a>
         </div>
         <div class="header-actions">
-            <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts&action=edit&id=' . $contact_id); ?>" class="button button-primary">
-                <i class="fas fa-edit"></i> <?php _e('Editar', 'crm-developer'); ?>
+            <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts&action=edit&id=' . $contact_id)); ?>" class="button button-primary">
+                <i class="fas fa-edit"></i> <?php esc_html_e('Editar', 'crm-developer'); ?>
             </a>
-            <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=crm-developer&section=contacts&action=delete&id=' . $contact_id), 'delete_contact_' . $contact_id); ?>" class="button button-link-delete" onclick="return confirm('<?php _e('Tem certeza que deseja excluir este contato?', 'crm-developer'); ?>')">
-                <i class="fas fa-trash"></i> <?php _e('Excluir', 'crm-developer'); ?>
+            <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=crm-developer&section=contacts&action=delete&id=' . $contact_id), 'delete_contact_' . $contact_id)); ?>" class="button button-link-delete" onclick="return confirm('<?php esc_html_e('Tem certeza que deseja excluir este contato?', 'crm-developer'); ?>')">
+                <i class="fas fa-trash"></i> <?php esc_html_e('Excluir', 'crm-developer'); ?>
             </a>
         </div>
     </div>
@@ -118,12 +118,12 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <!-- Dados Pessoais -->
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-user"></i> <?php _e('Dados Pessoais', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-user"></i> <?php esc_html_e('Dados Pessoais', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div class="info-grid">
                             <div class="info-item">
-                                <label><?php _e('Data de Nascimento', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Data de Nascimento', 'crm-developer'); ?></label>
                                 <span>
                                     <?php
                                     echo CRM_Dev_Helpers::format_date($contact['data_nascimento']);
@@ -133,15 +133,15 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                                 </span>
                             </div>
                             <div class="info-item">
-                                <label><?php _e('Gênero', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Gênero', 'crm-developer'); ?></label>
                                 <span><?php echo display_field($contact, 'genero', $generos); ?></span>
                             </div>
                             <div class="info-item">
-                                <label><?php _e('Raça/Etnia', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Raça/Etnia', 'crm-developer'); ?></label>
                                 <span><?php echo display_field($contact, 'raca_etnia', $racas); ?></span>
                             </div>
                             <div class="info-item">
-                                <label><?php _e('Pessoa com Deficiência', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Pessoa com Deficiência', 'crm-developer'); ?></label>
                                 <span>
                                     <?php echo $contact['pessoa_deficiencia'] === 'sim' ? 'Sim' : 'Não'; ?>
                                     <?php if ($contact['deficiencia_descricao']) echo ' - ' . esc_html($contact['deficiencia_descricao']); ?>
@@ -154,24 +154,24 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <!-- Participação -->
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-calendar-check"></i> <?php _e('Participação em Conferência', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-calendar-check"></i> <?php esc_html_e('Participação em Conferência', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div class="info-grid">
                             <div class="info-item full">
-                                <label><?php _e('Etapa de Participação', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Etapa de Participação', 'crm-developer'); ?></label>
                                 <span><?php echo display_array_field($contact['etapa_participacao'], $etapas); ?></span>
                             </div>
                             <div class="info-item full">
-                                <label><?php _e('Tipo de Participação', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Tipo de Participação', 'crm-developer'); ?></label>
                                 <span><?php echo display_array_field($contact['tipo_participacao'], $tipos_part); ?></span>
                             </div>
                             <div class="info-item full">
-                                <label><?php _e('Categoria de Representação', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Categoria de Representação', 'crm-developer'); ?></label>
                                 <span><?php echo display_array_field($contact['categoria_representacao'], $categorias); ?></span>
                             </div>
                             <div class="info-item full">
-                                <label><?php _e('Eixo Temático', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Eixo Temático', 'crm-developer'); ?></label>
                                 <span><?php echo display_array_field($contact['eixo_tematico'], $eixos); ?></span>
                             </div>
                         </div>
@@ -181,31 +181,31 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <!-- Perfil Sociopolítico -->
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-users-cog"></i> <?php _e('Perfil Sociopolítico', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-users-cog"></i> <?php esc_html_e('Perfil Sociopolítico', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div class="info-grid">
                             <div class="info-item full">
-                                <label><?php _e('Comunidade/Território', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Comunidade/Território', 'crm-developer'); ?></label>
                                 <span><?php echo display_field($contact, 'comunidade_territorio'); ?></span>
                             </div>
                             <div class="info-item">
-                                <label><?php _e('Participa de Coletivos', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Participa de Coletivos', 'crm-developer'); ?></label>
                                 <span>
                                     <?php echo $contact['participa_coletivos'] === 'sim' ? 'Sim' : 'Não'; ?>
                                     <?php if ($contact['coletivos_descricao']) echo ' - ' . esc_html($contact['coletivos_descricao']); ?>
                                 </span>
                             </div>
                             <div class="info-item">
-                                <label><?php _e('Tempo de Atuação Ambiental', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Tempo de Atuação Ambiental', 'crm-developer'); ?></label>
                                 <span><?php echo display_field($contact, 'tempo_atuacao_ambiental'); ?></span>
                             </div>
                             <div class="info-item">
-                                <label><?php _e('Atua com Justiça Climática', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Atua com Justiça Climática', 'crm-developer'); ?></label>
                                 <span><?php echo $contact['atua_justica_climatica'] === 'sim' ? 'Sim' : 'Não'; ?></span>
                             </div>
                             <div class="info-item">
-                                <label><?php _e('Papel de Liderança', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Papel de Liderança', 'crm-developer'); ?></label>
                                 <span>
                                     <?php echo $contact['papel_lideranca'] === 'sim' ? 'Sim' : 'Não'; ?>
                                     <?php if ($contact['lideranca_descricao']) echo ' - ' . esc_html($contact['lideranca_descricao']); ?>
@@ -218,9 +218,9 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <!-- Histórico de Interações -->
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-history"></i> <?php _e('Histórico de Interações', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-history"></i> <?php esc_html_e('Histórico de Interações', 'crm-developer'); ?></h3>
                         <button type="button" class="button" id="btn-new-interaction">
-                            <i class="fas fa-plus"></i> <?php _e('Nova Interação', 'crm-developer'); ?>
+                            <i class="fas fa-plus"></i> <?php esc_html_e('Nova Interação', 'crm-developer'); ?>
                         </button>
                     </div>
                     <div class="card-body">
@@ -243,12 +243,12 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                                             <?php endif; ?>
                                             <?php if ($interaction['resultado']) : ?>
                                                 <div class="timeline-result resultado-<?php echo $interaction['resultado']; ?>">
-                                                    <?php _e('Resultado:', 'crm-developer'); ?> <?php echo isset($resultados_interacao[$interaction['resultado']]) ? $resultados_interacao[$interaction['resultado']] : $interaction['resultado']; ?>
+                                                    <?php esc_html_e('Resultado:', 'crm-developer'); ?> <?php echo isset($resultados_interacao[$interaction['resultado']]) ? $resultados_interacao[$interaction['resultado']] : $interaction['resultado']; ?>
                                                 </div>
                                             <?php endif; ?>
                                             <?php if ($interaction['proxima_acao']) : ?>
                                                 <div class="timeline-next-action">
-                                                    <strong><?php _e('Próxima ação:', 'crm-developer'); ?></strong>
+                                                    <strong><?php esc_html_e('Próxima ação:', 'crm-developer'); ?></strong>
                                                     <?php echo esc_html($interaction['proxima_acao']); ?>
                                                     <?php if ($interaction['data_proxima_acao']) : ?>
                                                         <span class="next-action-date">
@@ -263,7 +263,7 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                                             if (!empty($anexos)) :
                                             ?>
                                                 <div class="timeline-attachments">
-                                                    <strong><i class="fas fa-paperclip"></i> <?php _e('Anexos:', 'crm-developer'); ?></strong>
+                                                    <strong><i class="fas fa-paperclip"></i> <?php esc_html_e('Anexos:', 'crm-developer'); ?></strong>
                                                     <div class="attachments-list">
                                                         <?php foreach ($anexos as $attachment_id) :
                                                             $attachment_url = wp_get_attachment_url($attachment_id);
@@ -289,7 +289,7 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                                                 </div>
                                             <?php endif; ?>
                                             <div class="timeline-meta">
-                                                <?php _e('Por', 'crm-developer'); ?> <?php echo esc_html($interaction['user_name']); ?>
+                                                <?php esc_html_e('Por', 'crm-developer'); ?> <?php echo esc_html($interaction['user_name']); ?>
                                             </div>
                                             <div class="timeline-actions">
                                                 <button type="button" class="btn-edit-interaction"
@@ -301,12 +301,12 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                                                     data-proxima_acao="<?php echo esc_attr($interaction['proxima_acao']); ?>"
                                                     data-data_proxima_acao="<?php echo esc_attr($interaction['data_proxima_acao']); ?>"
                                                     data-anexos="<?php echo esc_attr($interaction['anexos']); ?>"
-                                                    title="<?php _e('Editar', 'crm-developer'); ?>">
+                                                    title="<?php esc_html_e('Editar', 'crm-developer'); ?>">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button type="button" class="btn-delete-interaction"
                                                     data-id="<?php echo $interaction['id']; ?>"
-                                                    title="<?php _e('Excluir', 'crm-developer'); ?>">
+                                                    title="<?php esc_html_e('Excluir', 'crm-developer'); ?>">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -315,7 +315,7 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                                 <?php endforeach; ?>
                             </div>
                         <?php else : ?>
-                            <p class="crm-dev-empty"><?php _e('Nenhuma interação registrada ainda.', 'crm-developer'); ?></p>
+                            <p class="crm-dev-empty"><?php esc_html_e('Nenhuma interação registrada ainda.', 'crm-developer'); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -326,38 +326,38 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <!-- Status e Controle -->
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-info-circle"></i> <?php _e('Informações', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-info-circle"></i> <?php esc_html_e('Informações', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div class="sidebar-info">
                             <div class="info-row">
-                                <label><?php _e('Status', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Status', 'crm-developer'); ?></label>
                                 <span class="status-badge status-<?php echo $contact['status']; ?>">
                                     <?php echo ucfirst($contact['status']); ?>
                                 </span>
                             </div>
                             <div class="info-row">
-                                <label><?php _e('LGPD', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('LGPD', 'crm-developer'); ?></label>
                                 <span class="status-badge status-<?php echo $contact['consentimento_lgpd'] === 'sim' ? 'ativo' : 'inativo'; ?>">
                                     <?php echo $contact['consentimento_lgpd'] === 'sim' ? 'Consentido' : 'Pendente'; ?>
                                 </span>
                             </div>
                             <div class="info-row">
-                                <label><?php _e('Cadastrado em', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Cadastrado em', 'crm-developer'); ?></label>
                                 <span><?php echo CRM_Dev_Helpers::format_datetime($contact['created_at']); ?></span>
                             </div>
                             <div class="info-row">
-                                <label><?php _e('Última atualização', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Última atualização', 'crm-developer'); ?></label>
                                 <span><?php echo CRM_Dev_Helpers::format_datetime($contact['updated_at']); ?></span>
                             </div>
                             <?php if ($contact['ultima_interacao']) : ?>
                                 <div class="info-row">
-                                    <label><?php _e('Última interação', 'crm-developer'); ?></label>
+                                    <label><?php esc_html_e('Última interação', 'crm-developer'); ?></label>
                                     <span><?php echo CRM_Dev_Helpers::format_datetime($contact['ultima_interacao']); ?></span>
                                 </div>
                             <?php endif; ?>
                             <div class="info-row">
-                                <label><?php _e('Origem', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Origem', 'crm-developer'); ?></label>
                                 <span><?php echo ucfirst($contact['origem'] ?: 'Manual'); ?></span>
                             </div>
                         </div>
@@ -367,12 +367,12 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <!-- Interesses de Mobilização -->
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-bullhorn"></i> <?php _e('Mobilização', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-bullhorn"></i> <?php esc_html_e('Mobilização', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div class="interests-display">
                             <div class="interest-row">
-                                <label><?php _e('Continuar participando', 'crm-developer'); ?></label>
+                                <label><?php esc_html_e('Continuar participando', 'crm-developer'); ?></label>
                                 <span class="interest-value <?php echo $contact['continuar_participando']; ?>">
                                     <?php echo $contact['continuar_participando'] === 'sim' ? 'Sim' : ($contact['continuar_participando'] === 'nao' ? 'Não' : 'Talvez'); ?>
                                 </span>
@@ -405,18 +405,18 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <?php if ($contact['cargo_publico'] || $contact['vinculacao_institucional']) : ?>
                     <div class="crm-dev-card">
                         <div class="card-header">
-                            <h3><i class="fas fa-briefcase"></i> <?php _e('Dados Complementares', 'crm-developer'); ?></h3>
+                            <h3><i class="fas fa-briefcase"></i> <?php esc_html_e('Dados Complementares', 'crm-developer'); ?></h3>
                         </div>
                         <div class="card-body">
                             <?php if ($contact['cargo_publico']) : ?>
                                 <div class="info-row">
-                                    <label><?php _e('Cargo Público', 'crm-developer'); ?></label>
+                                    <label><?php esc_html_e('Cargo Público', 'crm-developer'); ?></label>
                                     <span><?php echo esc_html($contact['cargo_publico']); ?></span>
                                 </div>
                             <?php endif; ?>
                             <?php if ($contact['vinculacao_institucional']) : ?>
                                 <div class="info-row">
-                                    <label><?php _e('Vinculação Institucional', 'crm-developer'); ?></label>
+                                    <label><?php esc_html_e('Vinculação Institucional', 'crm-developer'); ?></label>
                                     <span><?php echo esc_html($contact['vinculacao_institucional']); ?></span>
                                 </div>
                             <?php endif; ?>
@@ -428,7 +428,7 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
                 <?php if ($contact['observacoes']) : ?>
                     <div class="crm-dev-card">
                         <div class="card-header">
-                            <h3><i class="fas fa-sticky-note"></i> <?php _e('Observações', 'crm-developer'); ?></h3>
+                            <h3><i class="fas fa-sticky-note"></i> <?php esc_html_e('Observações', 'crm-developer'); ?></h3>
                         </div>
                         <div class="card-body">
                             <p><?php echo nl2br(esc_html($contact['observacoes'])); ?></p>
@@ -444,7 +444,7 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
 <div id="modal-interaction" class="crm-dev-modal" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
-            <h3><i class="fas fa-plus" id="modal-icon"></i> <span id="modal-title"><?php _e('Nova Interação', 'crm-developer'); ?></span></h3>
+            <h3><i class="fas fa-plus" id="modal-icon"></i> <span id="modal-title"><?php esc_html_e('Nova Interação', 'crm-developer'); ?></span></h3>
             <button type="button" class="modal-close">&times;</button>
         </div>
         <form id="interaction-form">
@@ -452,7 +452,7 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
             <input type="hidden" name="id" id="int-id" value="">
 
             <div class="form-group">
-                <label for="int-tipo"><?php _e('Tipo de Interação', 'crm-developer'); ?> *</label>
+                <label for="int-tipo"><?php esc_html_e('Tipo de Interação', 'crm-developer'); ?> *</label>
                 <select id="int-tipo" name="tipo" required>
                     <?php foreach ($tipos_interacao as $key => $label) : ?>
                         <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
@@ -461,20 +461,20 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
             </div>
 
             <div class="form-group">
-                <label for="int-titulo"><?php _e('Título', 'crm-developer'); ?> *</label>
+                <label for="int-titulo"><?php esc_html_e('Título', 'crm-developer'); ?> *</label>
                 <input type="text" id="int-titulo" name="titulo" required>
             </div>
 
             <div class="form-group">
-                <label for="int-descricao"><?php _e('Descrição', 'crm-developer'); ?></label>
+                <label for="int-descricao"><?php esc_html_e('Descrição', 'crm-developer'); ?></label>
                 <textarea id="int-descricao" name="descricao" rows="3"></textarea>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="int-resultado"><?php _e('Resultado', 'crm-developer'); ?></label>
+                    <label for="int-resultado"><?php esc_html_e('Resultado', 'crm-developer'); ?></label>
                     <select id="int-resultado" name="resultado">
-                        <option value=""><?php _e('Selecione...', 'crm-developer'); ?></option>
+                        <option value=""><?php esc_html_e('Selecione...', 'crm-developer'); ?></option>
                         <?php foreach ($resultados_interacao as $key => $label) : ?>
                             <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
                         <?php endforeach; ?>
@@ -483,30 +483,30 @@ $score_label = CRM_Dev_Helpers::get_score_label($score);
             </div>
 
             <div class="form-group">
-                <label for="int-proxima-acao"><?php _e('Próxima Ação', 'crm-developer'); ?></label>
+                <label for="int-proxima-acao"><?php esc_html_e('Próxima Ação', 'crm-developer'); ?></label>
                 <textarea id="int-proxima-acao" name="proxima_acao" rows="2"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="int-data-proxima"><?php _e('Data da Próxima Ação', 'crm-developer'); ?></label>
+                <label for="int-data-proxima"><?php esc_html_e('Data da Próxima Ação', 'crm-developer'); ?></label>
                 <input type="date" id="int-data-proxima" name="data_proxima_acao">
             </div>
 
             <div class="form-group">
-                <label><?php _e('Anexos', 'crm-developer'); ?></label>
+                <label><?php esc_html_e('Anexos', 'crm-developer'); ?></label>
                 <div class="attachments-area">
                     <div id="attachments-preview" class="attachments-preview"></div>
                     <input type="hidden" name="anexos" id="int-anexos" value="">
                     <button type="button" class="button" id="btn-add-attachment">
-                        <i class="fas fa-paperclip"></i> <?php _e('Adicionar Anexo', 'crm-developer'); ?>
+                        <i class="fas fa-paperclip"></i> <?php esc_html_e('Adicionar Anexo', 'crm-developer'); ?>
                     </button>
-                    <span class="field-help"><?php _e('Imagens, PDFs, documentos (máx. 10MB cada)', 'crm-developer'); ?></span>
+                    <span class="field-help"><?php esc_html_e('Imagens, PDFs, documentos (máx. 10MB cada)', 'crm-developer'); ?></span>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="button modal-close"><?php _e('Cancelar', 'crm-developer'); ?></button>
-                <button type="submit" class="button button-primary"><?php _e('Salvar Interação', 'crm-developer'); ?></button>
+                <button type="button" class="button modal-close"><?php esc_html_e('Cancelar', 'crm-developer'); ?></button>
+                <button type="submit" class="button button-primary"><?php esc_html_e('Salvar Interação', 'crm-developer'); ?></button>
             </div>
         </form>
     </div>
@@ -562,7 +562,7 @@ jQuery(document).ready(function($) {
         attachmentIds = [];
         $('#attachments-preview').empty();
         $('#int-anexos').val('');
-        $('#modal-title').text('<?php _e('Nova Interação', 'crm-developer'); ?>');
+        $('#modal-title').text('<?php esc_html_e('Nova Interação', 'crm-developer'); ?>');
         $('#modal-icon').removeClass('fa-edit').addClass('fa-plus');
     }
 
@@ -602,7 +602,7 @@ jQuery(document).ready(function($) {
         renderAttachmentPreviews();
 
         // Atualizar título do modal
-        $('#modal-title').text('<?php _e('Editar Interação', 'crm-developer'); ?>');
+        $('#modal-title').text('<?php esc_html_e('Editar Interação', 'crm-developer'); ?>');
         $('#modal-icon').removeClass('fa-plus').addClass('fa-edit');
 
         $('#modal-interaction').show();
@@ -614,14 +614,14 @@ jQuery(document).ready(function($) {
 
         // Se a Media Library já está aberta, não abrir novamente
         if (typeof wp === 'undefined' || !wp.media) {
-            alert('<?php _e('Biblioteca de mídia não disponível', 'crm-developer'); ?>');
+            alert('<?php esc_html_e('Biblioteca de mídia não disponível', 'crm-developer'); ?>');
             return;
         }
 
         const mediaUploader = wp.media({
-            title: '<?php _e('Selecionar Anexos', 'crm-developer'); ?>',
+            title: '<?php esc_html_e('Selecionar Anexos', 'crm-developer'); ?>',
             button: {
-                text: '<?php _e('Adicionar Anexo(s)', 'crm-developer'); ?>'
+                text: '<?php esc_html_e('Adicionar Anexo(s)', 'crm-developer'); ?>'
             },
             multiple: true
         });
@@ -668,7 +668,7 @@ jQuery(document).ready(function($) {
 
     // Excluir interação
     $(document).on('click', '.btn-delete-interaction', function() {
-        if (!confirm('<?php _e('Tem certeza que deseja excluir esta interação?', 'crm-developer'); ?>')) {
+        if (!confirm('<?php esc_html_e('Tem certeza que deseja excluir esta interação?', 'crm-developer'); ?>')) {
             return;
         }
 
@@ -686,12 +686,12 @@ jQuery(document).ready(function($) {
                     // Se não houver mais interações, mostrar mensagem vazia
                     if ($('.timeline-item').length === 0) {
                         $('.interactions-timeline').replaceWith(
-                            '<p class="crm-dev-empty"><?php _e('Nenhuma interação registrada ainda.', 'crm-developer'); ?></p>'
+                            '<p class="crm-dev-empty"><?php esc_html_e('Nenhuma interação registrada ainda.', 'crm-developer'); ?></p>'
                         );
                     }
                 });
             } else {
-                alert(response.data.message || '<?php _e('Erro ao excluir', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao excluir', 'crm-developer'); ?>');
             }
         });
     });
@@ -721,7 +721,7 @@ jQuery(document).ready(function($) {
 
         const $submitBtn = $(this).find('button[type="submit"]');
         const originalText = $submitBtn.html();
-        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> <?php _e('Salvando...', 'crm-developer'); ?>');
+        $submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> <?php esc_html_e('Salvando...', 'crm-developer'); ?>');
 
         $.post(crmDevAdmin.ajaxUrl, {
             action: 'crm_dev_save_interaction',
@@ -731,11 +731,11 @@ jQuery(document).ready(function($) {
             if (response.success) {
                 location.reload();
             } else {
-                alert(response.data.message || '<?php _e('Erro ao salvar', 'crm-developer'); ?>');
+                alert(response.data.message || '<?php esc_html_e('Erro ao salvar', 'crm-developer'); ?>');
                 $submitBtn.prop('disabled', false).html(originalText);
             }
         }).fail(function() {
-            alert('<?php _e('Erro de conexão', 'crm-developer'); ?>');
+            alert('<?php esc_html_e('Erro de conexão', 'crm-developer'); ?>');
             $submitBtn.prop('disabled', false).html(originalText);
         });
     });

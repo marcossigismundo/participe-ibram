@@ -24,9 +24,9 @@ $charts = $dashboard_data['charts'];
             <div>
                 <h1>
                     <i class="fas fa-chart-pie"></i>
-                    <?php _e('Dashboard CRM', 'crm-developer'); ?>
+                    <?php esc_html_e('Dashboard CRM', 'crm-developer'); ?>
                 </h1>
-                <p class="crm-dev-subtitle"><?php _e('Visão geral da sua base de contatos e indicadores de gestão', 'crm-developer'); ?></p>
+                <p class="crm-dev-subtitle"><?php esc_html_e('Visão geral da sua base de contatos e indicadores de gestão', 'crm-developer'); ?></p>
             </div>
             <?php crm_dev_render_help_button('dashboard'); ?>
         </div>
@@ -40,7 +40,7 @@ $charts = $dashboard_data['charts'];
             </div>
             <div class="stat-content">
                 <span class="stat-number"><?php echo number_format_i18n($stats['total']); ?></span>
-                <span class="stat-label"><?php _e('Total de Contatos', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Total de Contatos', 'crm-developer'); ?></span>
             </div>
         </div>
 
@@ -50,7 +50,7 @@ $charts = $dashboard_data['charts'];
             </div>
             <div class="stat-content">
                 <span class="stat-number"><?php echo number_format_i18n($stats['novos_mes']); ?></span>
-                <span class="stat-label"><?php _e('Novos este mês', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Novos este mês', 'crm-developer'); ?></span>
             </div>
         </div>
 
@@ -60,7 +60,7 @@ $charts = $dashboard_data['charts'];
             </div>
             <div class="stat-content">
                 <span class="stat-number"><?php echo number_format_i18n($stats['score_alto']); ?></span>
-                <span class="stat-label"><?php _e('Alto Engajamento', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Alto Engajamento', 'crm-developer'); ?></span>
             </div>
         </div>
 
@@ -70,7 +70,7 @@ $charts = $dashboard_data['charts'];
             </div>
             <div class="stat-content">
                 <span class="stat-number"><?php echo round($stats['score_medio_valor'] ?? 0); ?></span>
-                <span class="stat-label"><?php _e('Score Médio', 'crm-developer'); ?></span>
+                <span class="stat-label"><?php esc_html_e('Score Médio', 'crm-developer'); ?></span>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@ $charts = $dashboard_data['charts'];
             <!-- Gráfico de Cadastros Mensais -->
             <div class="crm-dev-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-chart-area"></i> <?php _e('Cadastros por Mês', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-chart-area"></i> <?php esc_html_e('Cadastros por Mês', 'crm-developer'); ?></h3>
                 </div>
                 <div class="card-body">
                     <canvas id="chart-monthly" height="100"></canvas>
@@ -92,7 +92,7 @@ $charts = $dashboard_data['charts'];
             <div class="crm-dev-charts-row">
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-map-marked-alt"></i> <?php _e('Por Região', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-map-marked-alt"></i> <?php esc_html_e('Por Região', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-region" height="200"></canvas>
@@ -101,7 +101,7 @@ $charts = $dashboard_data['charts'];
 
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-thermometer-half"></i> <?php _e('Por Engajamento', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-thermometer-half"></i> <?php esc_html_e('Por Engajamento', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <canvas id="chart-score" height="200"></canvas>
@@ -112,9 +112,9 @@ $charts = $dashboard_data['charts'];
             <!-- Contatos Recentes -->
             <div class="crm-dev-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-clock"></i> <?php _e('Contatos Recentes', 'crm-developer'); ?></h3>
-                    <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts'); ?>" class="btn-link">
-                        <?php _e('Ver todos', 'crm-developer'); ?> <i class="fas fa-arrow-right"></i>
+                    <h3><i class="fas fa-clock"></i> <?php esc_html_e('Contatos Recentes', 'crm-developer'); ?></h3>
+                    <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts')); ?>" class="btn-link">
+                        <?php esc_html_e('Ver todos', 'crm-developer'); ?> <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
                 <div class="card-body">
@@ -122,18 +122,18 @@ $charts = $dashboard_data['charts'];
                         <table class="crm-dev-table">
                             <thead>
                                 <tr>
-                                    <th><?php _e('Nome', 'crm-developer'); ?></th>
-                                    <th><?php _e('Email', 'crm-developer'); ?></th>
-                                    <th><?php _e('Estado', 'crm-developer'); ?></th>
-                                    <th><?php _e('Score', 'crm-developer'); ?></th>
-                                    <th><?php _e('Data', 'crm-developer'); ?></th>
+                                    <th><?php esc_html_e('Nome', 'crm-developer'); ?></th>
+                                    <th><?php esc_html_e('Email', 'crm-developer'); ?></th>
+                                    <th><?php esc_html_e('Estado', 'crm-developer'); ?></th>
+                                    <th><?php esc_html_e('Score', 'crm-developer'); ?></th>
+                                    <th><?php esc_html_e('Data', 'crm-developer'); ?></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($dashboard_data['recent_contacts'] as $contact) : ?>
                                     <tr>
                                         <td>
-                                            <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts&action=view&id=' . $contact['id']); ?>">
+                                            <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts&action=view&id=' . $contact['id'])); ?>">
                                                 <?php echo esc_html($contact['nome_completo']); ?>
                                             </a>
                                         </td>
@@ -150,7 +150,7 @@ $charts = $dashboard_data['charts'];
                             </tbody>
                         </table>
                     <?php else : ?>
-                        <p class="crm-dev-empty"><?php _e('Nenhum contato cadastrado ainda.', 'crm-developer'); ?></p>
+                        <p class="crm-dev-empty"><?php esc_html_e('Nenhum contato cadastrado ainda.', 'crm-developer'); ?></p>
                     <?php endif; ?>
                 </div>
             </div>
@@ -161,25 +161,25 @@ $charts = $dashboard_data['charts'];
             <!-- Ações Rápidas -->
             <div class="crm-dev-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-bolt"></i> <?php _e('Ações Rápidas', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-bolt"></i> <?php esc_html_e('Ações Rápidas', 'crm-developer'); ?></h3>
                 </div>
                 <div class="card-body">
                     <div class="quick-actions">
-                        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contact-new'); ?>" class="quick-action-btn primary">
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contact-new')); ?>" class="quick-action-btn primary">
                             <i class="fas fa-user-plus"></i>
-                            <?php _e('Novo Contato', 'crm-developer'); ?>
+                            <?php esc_html_e('Novo Contato', 'crm-developer'); ?>
                         </a>
-                        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=import-export'); ?>" class="quick-action-btn">
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export')); ?>" class="quick-action-btn">
                             <i class="fas fa-file-import"></i>
-                            <?php _e('Importar', 'crm-developer'); ?>
+                            <?php esc_html_e('Importar', 'crm-developer'); ?>
                         </a>
-                        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=import-export&tab=export'); ?>" class="quick-action-btn">
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=import-export&tab=export')); ?>" class="quick-action-btn">
                             <i class="fas fa-file-export"></i>
-                            <?php _e('Exportar', 'crm-developer'); ?>
+                            <?php esc_html_e('Exportar', 'crm-developer'); ?>
                         </a>
-                        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=reports'); ?>" class="quick-action-btn">
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=reports')); ?>" class="quick-action-btn">
                             <i class="fas fa-chart-bar"></i>
-                            <?php _e('Relatórios', 'crm-developer'); ?>
+                            <?php esc_html_e('Relatórios', 'crm-developer'); ?>
                         </a>
                     </div>
                 </div>
@@ -188,7 +188,7 @@ $charts = $dashboard_data['charts'];
             <!-- Sugestões de Melhoria -->
             <div class="crm-dev-card">
                 <div class="card-header">
-                    <h3><i class="fas fa-lightbulb"></i> <?php _e('Sugestões Inteligentes', 'crm-developer'); ?></h3>
+                    <h3><i class="fas fa-lightbulb"></i> <?php esc_html_e('Sugestões Inteligentes', 'crm-developer'); ?></h3>
                 </div>
                 <div class="card-body">
                     <?php if (!empty($suggestions)) : ?>
@@ -212,7 +212,7 @@ $charts = $dashboard_data['charts'];
                     <?php else : ?>
                         <p class="crm-dev-success">
                             <i class="fas fa-check-circle"></i>
-                            <?php _e('Ótimo! Sua base está bem estruturada.', 'crm-developer'); ?>
+                            <?php esc_html_e('Ótimo! Sua base está bem estruturada.', 'crm-developer'); ?>
                         </p>
                     <?php endif; ?>
                 </div>
@@ -222,7 +222,7 @@ $charts = $dashboard_data['charts'];
             <?php if (!empty($dashboard_data['pending_actions']) || !empty($dashboard_data['overdue_actions'])) : ?>
                 <div class="crm-dev-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-tasks"></i> <?php _e('Próximas Ações', 'crm-developer'); ?></h3>
+                        <h3><i class="fas fa-tasks"></i> <?php esc_html_e('Próximas Ações', 'crm-developer'); ?></h3>
                     </div>
                     <div class="card-body">
                         <div class="actions-list">
@@ -241,11 +241,11 @@ $charts = $dashboard_data['charts'];
                                     <div class="action-date">
                                         <?php echo CRM_Dev_Helpers::format_date($action['data_proxima_acao']); ?>
                                         <?php if ($is_overdue) : ?>
-                                            <span class="overdue-badge"><?php _e('Atrasado', 'crm-developer'); ?></span>
+                                            <span class="overdue-badge"><?php esc_html_e('Atrasado', 'crm-developer'); ?></span>
                                         <?php endif; ?>
                                     </div>
                                     <div class="action-content">
-                                        <a href="<?php echo admin_url('admin.php?page=crm-developer&section=contacts&action=view&id=' . $action['contact_id']); ?>">
+                                        <a href="<?php echo esc_url(admin_url('admin.php?page=crm-developer&section=contacts&action=view&id=' . $action['contact_id'])); ?>">
                                             <?php echo esc_html($action['nome_completo']); ?>
                                         </a>
                                         <p><?php echo esc_html(wp_trim_words($action['proxima_acao'], 10)); ?></p>

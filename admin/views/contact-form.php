@@ -72,27 +72,27 @@ function is_checked($contact, $field, $value) {
         <div class="crm-dev-steps">
             <div class="step active" data-step="1">
                 <span class="step-number">1</span>
-                <span class="step-title"><?php _e('Dados Pessoais', 'crm-developer'); ?></span>
+                <span class="step-title"><?php esc_html_e('Dados Pessoais', 'crm-developer'); ?></span>
             </div>
             <div class="step" data-step="2">
                 <span class="step-number">2</span>
-                <span class="step-title"><?php _e('Contato e Localização', 'crm-developer'); ?></span>
+                <span class="step-title"><?php esc_html_e('Contato e Localização', 'crm-developer'); ?></span>
             </div>
             <div class="step" data-step="3">
                 <span class="step-number">3</span>
-                <span class="step-title"><?php _e('Participação', 'crm-developer'); ?></span>
+                <span class="step-title"><?php esc_html_e('Participação', 'crm-developer'); ?></span>
             </div>
             <div class="step" data-step="4">
                 <span class="step-number">4</span>
-                <span class="step-title"><?php _e('Perfil Sociopolítico', 'crm-developer'); ?></span>
+                <span class="step-title"><?php esc_html_e('Perfil Sociopolítico', 'crm-developer'); ?></span>
             </div>
             <div class="step" data-step="5">
                 <span class="step-number">5</span>
-                <span class="step-title"><?php _e('Mobilização', 'crm-developer'); ?></span>
+                <span class="step-title"><?php esc_html_e('Mobilização', 'crm-developer'); ?></span>
             </div>
             <div class="step" data-step="6">
                 <span class="step-number">6</span>
-                <span class="step-title"><?php _e('Dados Complementares', 'crm-developer'); ?></span>
+                <span class="step-title"><?php esc_html_e('Dados Complementares', 'crm-developer'); ?></span>
             </div>
         </div>
 
@@ -102,16 +102,16 @@ function is_checked($contact, $field, $value) {
             <!-- Etapa 1: Dados Pessoais -->
             <div class="form-step active" data-step="1">
                 <div class="step-header">
-                    <h2><i class="fas fa-user"></i> <?php _e('Dados Pessoais', 'crm-developer'); ?></h2>
+                    <h2><i class="fas fa-user"></i> <?php esc_html_e('Dados Pessoais', 'crm-developer'); ?></h2>
                     <p class="step-description">
-                        <?php _e('Informações básicas de identificação do contato. O nome completo é obrigatório.', 'crm-developer'); ?>
+                        <?php esc_html_e('Informações básicas de identificação do contato. O nome completo é obrigatório.', 'crm-developer'); ?>
                     </p>
                 </div>
 
                 <div class="form-grid">
                     <!-- Foto do Contato -->
                     <div class="form-group full-width">
-                        <label><?php _e('Foto do Contato', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Foto do Contato', 'crm-developer'); ?></label>
                         <div class="contact-photo-upload">
                             <div class="photo-preview" id="photo-preview">
                                 <?php
@@ -120,7 +120,7 @@ function is_checked($contact, $field, $value) {
                                 if ($foto_url) :
                                 ?>
                                     <img src="<?php echo esc_url($foto_url); ?>" alt="">
-                                    <button type="button" class="btn-remove-photo" title="<?php _e('Remover foto', 'crm-developer'); ?>">&times;</button>
+                                    <button type="button" class="btn-remove-photo" title="<?php esc_html_e('Remover foto', 'crm-developer'); ?>">&times;</button>
                                 <?php else : ?>
                                     <div class="photo-placeholder">
                                         <i class="fas fa-user"></i>
@@ -130,34 +130,34 @@ function is_checked($contact, $field, $value) {
                             <div class="photo-actions">
                                 <input type="hidden" name="foto_id" id="foto_id" value="<?php echo esc_attr($foto_id); ?>">
                                 <button type="button" class="button" id="btn-select-photo">
-                                    <i class="fas fa-camera"></i> <?php _e('Selecionar Foto', 'crm-developer'); ?>
+                                    <i class="fas fa-camera"></i> <?php esc_html_e('Selecionar Foto', 'crm-developer'); ?>
                                 </button>
-                                <span class="field-help"><?php _e('Opcional. Imagem de perfil do contato.', 'crm-developer'); ?></span>
+                                <span class="field-help"><?php esc_html_e('Opcional. Imagem de perfil do contato.', 'crm-developer'); ?></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group full-width">
-                        <label for="nome_completo"><?php _e('Nome Completo', 'crm-developer'); ?> <span class="required">*</span></label>
+                        <label for="nome_completo"><?php esc_html_e('Nome Completo', 'crm-developer'); ?> <span class="required">*</span></label>
                         <input type="text" id="nome_completo" name="nome_completo" value="<?php echo esc_attr(get_value($contact, 'nome_completo')); ?>" required>
-                        <span class="field-help"><?php _e('Nome civil completo conforme documento', 'crm-developer'); ?></span>
+                        <span class="field-help"><?php esc_html_e('Nome civil completo conforme documento', 'crm-developer'); ?></span>
                     </div>
 
                     <div class="form-group full-width">
-                        <label for="nome_social"><?php _e('Nome Social', 'crm-developer'); ?></label>
+                        <label for="nome_social"><?php esc_html_e('Nome Social', 'crm-developer'); ?></label>
                         <input type="text" id="nome_social" name="nome_social" value="<?php echo esc_attr(get_value($contact, 'nome_social')); ?>">
-                        <span class="field-help"><?php _e('Nome pelo qual a pessoa prefere ser chamada (se diferente do nome civil)', 'crm-developer'); ?></span>
+                        <span class="field-help"><?php esc_html_e('Nome pelo qual a pessoa prefere ser chamada (se diferente do nome civil)', 'crm-developer'); ?></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="data_nascimento"><?php _e('Data de Nascimento', 'crm-developer'); ?></label>
+                        <label for="data_nascimento"><?php esc_html_e('Data de Nascimento', 'crm-developer'); ?></label>
                         <input type="date" id="data_nascimento" name="data_nascimento" value="<?php echo esc_attr(get_value($contact, 'data_nascimento')); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label for="genero"><?php _e('Gênero', 'crm-developer'); ?></label>
+                        <label for="genero"><?php esc_html_e('Gênero', 'crm-developer'); ?></label>
                         <select id="genero" name="genero">
-                            <option value=""><?php _e('Selecione...', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Selecione...', 'crm-developer'); ?></option>
                             <?php foreach ($generos as $key => $label) : ?>
                                 <option value="<?php echo esc_attr($key); ?>" <?php selected(get_value($contact, 'genero'), $key); ?>><?php echo esc_html($label); ?></option>
                             <?php endforeach; ?>
@@ -165,9 +165,9 @@ function is_checked($contact, $field, $value) {
                     </div>
 
                     <div class="form-group">
-                        <label for="raca_etnia"><?php _e('Raça/Etnia (Padrão IBGE)', 'crm-developer'); ?></label>
+                        <label for="raca_etnia"><?php esc_html_e('Raça/Etnia (Padrão IBGE)', 'crm-developer'); ?></label>
                         <select id="raca_etnia" name="raca_etnia">
-                            <option value=""><?php _e('Selecione...', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Selecione...', 'crm-developer'); ?></option>
                             <?php foreach ($racas as $key => $label) : ?>
                                 <option value="<?php echo esc_attr($key); ?>" <?php selected(get_value($contact, 'raca_etnia'), $key); ?>><?php echo esc_html($label); ?></option>
                             <?php endforeach; ?>
@@ -175,15 +175,15 @@ function is_checked($contact, $field, $value) {
                     </div>
 
                     <div class="form-group">
-                        <label><?php _e('Pessoa com Deficiência?', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Pessoa com Deficiência?', 'crm-developer'); ?></label>
                         <div class="radio-group">
-                            <label><input type="radio" name="pessoa_deficiencia" value="nao" <?php checked(get_value($contact, 'pessoa_deficiencia', 'nao'), 'nao'); ?>> <?php _e('Não', 'crm-developer'); ?></label>
-                            <label><input type="radio" name="pessoa_deficiencia" value="sim" <?php checked(get_value($contact, 'pessoa_deficiencia'), 'sim'); ?>> <?php _e('Sim', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="pessoa_deficiencia" value="nao" <?php checked(get_value($contact, 'pessoa_deficiencia', 'nao'), 'nao'); ?>> <?php esc_html_e('Não', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="pessoa_deficiencia" value="sim" <?php checked(get_value($contact, 'pessoa_deficiencia'), 'sim'); ?>> <?php esc_html_e('Sim', 'crm-developer'); ?></label>
                         </div>
                     </div>
 
                     <div class="form-group full-width" id="deficiencia-desc-group" style="<?php echo get_value($contact, 'pessoa_deficiencia') === 'sim' ? '' : 'display:none;'; ?>">
-                        <label for="deficiencia_descricao"><?php _e('Descrição da Deficiência', 'crm-developer'); ?></label>
+                        <label for="deficiencia_descricao"><?php esc_html_e('Descrição da Deficiência', 'crm-developer'); ?></label>
                         <textarea id="deficiencia_descricao" name="deficiencia_descricao" rows="2"><?php echo esc_textarea(get_value($contact, 'deficiencia_descricao')); ?></textarea>
                     </div>
                 </div>
@@ -192,33 +192,33 @@ function is_checked($contact, $field, $value) {
             <!-- Etapa 2: Contato e Localização -->
             <div class="form-step" data-step="2">
                 <div class="step-header">
-                    <h2><i class="fas fa-map-marker-alt"></i> <?php _e('Contato e Localização', 'crm-developer'); ?></h2>
+                    <h2><i class="fas fa-map-marker-alt"></i> <?php esc_html_e('Contato e Localização', 'crm-developer'); ?></h2>
                     <p class="step-description">
-                        <?php _e('Informações de contato e endereço. Pelo menos um meio de contato (email ou telefone) é recomendado.', 'crm-developer'); ?>
+                        <?php esc_html_e('Informações de contato e endereço. Pelo menos um meio de contato (email ou telefone) é recomendado.', 'crm-developer'); ?>
                     </p>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="email"><?php _e('Email', 'crm-developer'); ?></label>
+                        <label for="email"><?php esc_html_e('Email', 'crm-developer'); ?></label>
                         <input type="email" id="email" name="email" value="<?php echo esc_attr(get_value($contact, 'email')); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label for="telefone"><?php _e('Telefone', 'crm-developer'); ?></label>
+                        <label for="telefone"><?php esc_html_e('Telefone', 'crm-developer'); ?></label>
                         <input type="tel" id="telefone" name="telefone" value="<?php echo esc_attr(get_value($contact, 'telefone')); ?>" placeholder="(00) 00000-0000">
                     </div>
 
                     <div class="form-group">
-                        <label for="whatsapp"><?php _e('WhatsApp', 'crm-developer'); ?></label>
+                        <label for="whatsapp"><?php esc_html_e('WhatsApp', 'crm-developer'); ?></label>
                         <input type="tel" id="whatsapp" name="whatsapp" value="<?php echo esc_attr(get_value($contact, 'whatsapp')); ?>" placeholder="(00) 00000-0000">
-                        <span class="field-help"><?php _e('Número com DDD para contato via WhatsApp', 'crm-developer'); ?></span>
+                        <span class="field-help"><?php esc_html_e('Número com DDD para contato via WhatsApp', 'crm-developer'); ?></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="estado"><?php _e('Estado', 'crm-developer'); ?></label>
+                        <label for="estado"><?php esc_html_e('Estado', 'crm-developer'); ?></label>
                         <select id="estado" name="estado">
-                            <option value=""><?php _e('Selecione...', 'crm-developer'); ?></option>
+                            <option value=""><?php esc_html_e('Selecione...', 'crm-developer'); ?></option>
                             <?php foreach ($estados as $uf => $nome) : ?>
                                 <option value="<?php echo esc_attr($uf); ?>" <?php selected(get_value($contact, 'estado'), $uf); ?>><?php echo esc_html($nome); ?></option>
                             <?php endforeach; ?>
@@ -226,14 +226,14 @@ function is_checked($contact, $field, $value) {
                     </div>
 
                     <div class="form-group">
-                        <label for="municipio"><?php _e('Município', 'crm-developer'); ?></label>
+                        <label for="municipio"><?php esc_html_e('Município', 'crm-developer'); ?></label>
                         <input type="text" id="municipio" name="municipio" value="<?php echo esc_attr(get_value($contact, 'municipio')); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label for="regiao"><?php _e('Região', 'crm-developer'); ?></label>
+                        <label for="regiao"><?php esc_html_e('Região', 'crm-developer'); ?></label>
                         <input type="text" id="regiao" name="regiao" value="<?php echo esc_attr(get_value($contact, 'regiao')); ?>" readonly>
-                        <span class="field-help"><?php _e('Preenchido automaticamente com base no estado', 'crm-developer'); ?></span>
+                        <span class="field-help"><?php esc_html_e('Preenchido automaticamente com base no estado', 'crm-developer'); ?></span>
                     </div>
                 </div>
             </div>
@@ -241,15 +241,15 @@ function is_checked($contact, $field, $value) {
             <!-- Etapa 3: Participação em Conferência -->
             <div class="form-step" data-step="3">
                 <div class="step-header">
-                    <h2><i class="fas fa-calendar-check"></i> <?php _e('Participação em Conferência', 'crm-developer'); ?></h2>
+                    <h2><i class="fas fa-calendar-check"></i> <?php esc_html_e('Participação em Conferência', 'crm-developer'); ?></h2>
                     <p class="step-description">
-                        <?php _e('Registre as informações sobre a participação em conferências e eventos. Múltiplas opções podem ser selecionadas.', 'crm-developer'); ?>
+                        <?php esc_html_e('Registre as informações sobre a participação em conferências e eventos. Múltiplas opções podem ser selecionadas.', 'crm-developer'); ?>
                     </p>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group full-width">
-                        <label><?php _e('Etapa de Participação', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Etapa de Participação', 'crm-developer'); ?></label>
                         <div class="checkbox-group">
                             <?php foreach ($etapas as $key => $label) : ?>
                                 <label>
@@ -261,7 +261,7 @@ function is_checked($contact, $field, $value) {
                     </div>
 
                     <div class="form-group full-width">
-                        <label><?php _e('Tipo de Participação', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Tipo de Participação', 'crm-developer'); ?></label>
                         <div class="checkbox-group">
                             <?php foreach ($tipos_part as $key => $label) : ?>
                                 <label>
@@ -273,7 +273,7 @@ function is_checked($contact, $field, $value) {
                     </div>
 
                     <div class="form-group full-width">
-                        <label><?php _e('Categoria de Representação', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Categoria de Representação', 'crm-developer'); ?></label>
                         <div class="checkbox-group">
                             <?php foreach ($categorias as $key => $label) : ?>
                                 <label>
@@ -285,7 +285,7 @@ function is_checked($contact, $field, $value) {
                     </div>
 
                     <div class="form-group full-width">
-                        <label><?php _e('Eixo Temático de Interesse Principal', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Eixo Temático de Interesse Principal', 'crm-developer'); ?></label>
                         <div class="checkbox-group">
                             <?php foreach ($eixos as $key => $label) : ?>
                                 <label>
@@ -301,55 +301,55 @@ function is_checked($contact, $field, $value) {
             <!-- Etapa 4: Perfil Sociopolítico -->
             <div class="form-step" data-step="4">
                 <div class="step-header">
-                    <h2><i class="fas fa-users-cog"></i> <?php _e('Perfil Sociopolítico e Territorial', 'crm-developer'); ?></h2>
+                    <h2><i class="fas fa-users-cog"></i> <?php esc_html_e('Perfil Sociopolítico e Territorial', 'crm-developer'); ?></h2>
                     <p class="step-description">
-                        <?php _e('Informações sobre atuação social, política e territorial do contato.', 'crm-developer'); ?>
+                        <?php esc_html_e('Informações sobre atuação social, política e territorial do contato.', 'crm-developer'); ?>
                     </p>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group full-width">
-                        <label for="comunidade_territorio"><?php _e('Comunidade/Território Tradicional', 'crm-developer'); ?></label>
+                        <label for="comunidade_territorio"><?php esc_html_e('Comunidade/Território Tradicional', 'crm-developer'); ?></label>
                         <input type="text" id="comunidade_territorio" name="comunidade_territorio" value="<?php echo esc_attr(get_value($contact, 'comunidade_territorio')); ?>">
-                        <span class="field-help"><?php _e('Se pertence a alguma comunidade ou território tradicional', 'crm-developer'); ?></span>
+                        <span class="field-help"><?php esc_html_e('Se pertence a alguma comunidade ou território tradicional', 'crm-developer'); ?></span>
                     </div>
 
                     <div class="form-group">
-                        <label><?php _e('Participa de coletivos ou movimentos?', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Participa de coletivos ou movimentos?', 'crm-developer'); ?></label>
                         <div class="radio-group">
-                            <label><input type="radio" name="participa_coletivos" value="nao" <?php checked(get_value($contact, 'participa_coletivos'), 'nao'); ?>> <?php _e('Não', 'crm-developer'); ?></label>
-                            <label><input type="radio" name="participa_coletivos" value="sim" <?php checked(get_value($contact, 'participa_coletivos'), 'sim'); ?>> <?php _e('Sim', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="participa_coletivos" value="nao" <?php checked(get_value($contact, 'participa_coletivos'), 'nao'); ?>> <?php esc_html_e('Não', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="participa_coletivos" value="sim" <?php checked(get_value($contact, 'participa_coletivos'), 'sim'); ?>> <?php esc_html_e('Sim', 'crm-developer'); ?></label>
                         </div>
                     </div>
 
                     <div class="form-group" id="coletivos-desc-group" style="<?php echo get_value($contact, 'participa_coletivos') === 'sim' ? '' : 'display:none;'; ?>">
-                        <label for="coletivos_descricao"><?php _e('Quais coletivos/movimentos?', 'crm-developer'); ?></label>
+                        <label for="coletivos_descricao"><?php esc_html_e('Quais coletivos/movimentos?', 'crm-developer'); ?></label>
                         <textarea id="coletivos_descricao" name="coletivos_descricao" rows="2"><?php echo esc_textarea(get_value($contact, 'coletivos_descricao')); ?></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="tempo_atuacao_ambiental"><?php _e('Atua com temas ambientais há quanto tempo?', 'crm-developer'); ?></label>
+                        <label for="tempo_atuacao_ambiental"><?php esc_html_e('Atua com temas ambientais há quanto tempo?', 'crm-developer'); ?></label>
                         <input type="text" id="tempo_atuacao_ambiental" name="tempo_atuacao_ambiental" value="<?php echo esc_attr(get_value($contact, 'tempo_atuacao_ambiental')); ?>" placeholder="Ex: 5 anos">
                     </div>
 
                     <div class="form-group">
-                        <label><?php _e('Atua com justiça social ou climática?', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Atua com justiça social ou climática?', 'crm-developer'); ?></label>
                         <div class="radio-group">
-                            <label><input type="radio" name="atua_justica_climatica" value="nao" <?php checked(get_value($contact, 'atua_justica_climatica'), 'nao'); ?>> <?php _e('Não', 'crm-developer'); ?></label>
-                            <label><input type="radio" name="atua_justica_climatica" value="sim" <?php checked(get_value($contact, 'atua_justica_climatica'), 'sim'); ?>> <?php _e('Sim', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="atua_justica_climatica" value="nao" <?php checked(get_value($contact, 'atua_justica_climatica'), 'nao'); ?>> <?php esc_html_e('Não', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="atua_justica_climatica" value="sim" <?php checked(get_value($contact, 'atua_justica_climatica'), 'sim'); ?>> <?php esc_html_e('Sim', 'crm-developer'); ?></label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label><?php _e('Possui papel de liderança?', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Possui papel de liderança?', 'crm-developer'); ?></label>
                         <div class="radio-group">
-                            <label><input type="radio" name="papel_lideranca" value="nao" <?php checked(get_value($contact, 'papel_lideranca'), 'nao'); ?>> <?php _e('Não', 'crm-developer'); ?></label>
-                            <label><input type="radio" name="papel_lideranca" value="sim" <?php checked(get_value($contact, 'papel_lideranca'), 'sim'); ?>> <?php _e('Sim', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="papel_lideranca" value="nao" <?php checked(get_value($contact, 'papel_lideranca'), 'nao'); ?>> <?php esc_html_e('Não', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="papel_lideranca" value="sim" <?php checked(get_value($contact, 'papel_lideranca'), 'sim'); ?>> <?php esc_html_e('Sim', 'crm-developer'); ?></label>
                         </div>
                     </div>
 
                     <div class="form-group" id="lideranca-desc-group" style="<?php echo get_value($contact, 'papel_lideranca') === 'sim' ? '' : 'display:none;'; ?>">
-                        <label for="lideranca_descricao"><?php _e('Descreva o papel de liderança', 'crm-developer'); ?></label>
+                        <label for="lideranca_descricao"><?php esc_html_e('Descreva o papel de liderança', 'crm-developer'); ?></label>
                         <textarea id="lideranca_descricao" name="lideranca_descricao" rows="2"><?php echo esc_textarea(get_value($contact, 'lideranca_descricao')); ?></textarea>
                     </div>
                 </div>
@@ -358,65 +358,65 @@ function is_checked($contact, $field, $value) {
             <!-- Etapa 5: Mobilização Futura -->
             <div class="form-step" data-step="5">
                 <div class="step-header">
-                    <h2><i class="fas fa-bullhorn"></i> <?php _e('Possibilidades de Mobilização Futura', 'crm-developer'); ?></h2>
+                    <h2><i class="fas fa-bullhorn"></i> <?php esc_html_e('Possibilidades de Mobilização Futura', 'crm-developer'); ?></h2>
                     <p class="step-description">
-                        <?php _e('Interesses e disponibilidade para participação em ações futuras.', 'crm-developer'); ?>
+                        <?php esc_html_e('Interesses e disponibilidade para participação em ações futuras.', 'crm-developer'); ?>
                     </p>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group full-width">
-                        <label><?php _e('Deseja continuar participando das agendas?', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Deseja continuar participando das agendas?', 'crm-developer'); ?></label>
                         <div class="radio-group">
-                            <label><input type="radio" name="continuar_participando" value="sim" <?php checked(get_value($contact, 'continuar_participando'), 'sim'); ?>> <?php _e('Sim', 'crm-developer'); ?></label>
-                            <label><input type="radio" name="continuar_participando" value="nao" <?php checked(get_value($contact, 'continuar_participando'), 'nao'); ?>> <?php _e('Não', 'crm-developer'); ?></label>
-                            <label><input type="radio" name="continuar_participando" value="talvez" <?php checked(get_value($contact, 'continuar_participando'), 'talvez'); ?>> <?php _e('Talvez', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="continuar_participando" value="sim" <?php checked(get_value($contact, 'continuar_participando'), 'sim'); ?>> <?php esc_html_e('Sim', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="continuar_participando" value="nao" <?php checked(get_value($contact, 'continuar_participando'), 'nao'); ?>> <?php esc_html_e('Não', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="continuar_participando" value="talvez" <?php checked(get_value($contact, 'continuar_participando'), 'talvez'); ?>> <?php esc_html_e('Talvez', 'crm-developer'); ?></label>
                         </div>
                     </div>
 
                     <div class="form-group full-width">
-                        <label><?php _e('Interesses em:', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Interesses em:', 'crm-developer'); ?></label>
                         <div class="interests-grid">
                             <div class="interest-item">
                                 <label>
                                     <input type="checkbox" name="interesse_formacao" value="sim" <?php checked(get_value($contact, 'interesse_formacao'), 'sim'); ?>>
                                     <span class="interest-icon"><i class="fas fa-graduation-cap"></i></span>
-                                    <span class="interest-label"><?php _e('Formação técnica ou política', 'crm-developer'); ?></span>
+                                    <span class="interest-label"><?php esc_html_e('Formação técnica ou política', 'crm-developer'); ?></span>
                                 </label>
                             </div>
                             <div class="interest-item">
                                 <label>
                                     <input type="checkbox" name="interesse_conteudo" value="sim" <?php checked(get_value($contact, 'interesse_conteudo'), 'sim'); ?>>
                                     <span class="interest-icon"><i class="fas fa-pen"></i></span>
-                                    <span class="interest-label"><?php _e('Produção de conteúdo', 'crm-developer'); ?></span>
+                                    <span class="interest-label"><?php esc_html_e('Produção de conteúdo', 'crm-developer'); ?></span>
                                 </label>
                             </div>
                             <div class="interest-item">
                                 <label>
                                     <input type="checkbox" name="interesse_incidencia" value="sim" <?php checked(get_value($contact, 'interesse_incidencia'), 'sim'); ?>>
                                     <span class="interest-icon"><i class="fas fa-landmark"></i></span>
-                                    <span class="interest-label"><?php _e('Incidência política', 'crm-developer'); ?></span>
+                                    <span class="interest-label"><?php esc_html_e('Incidência política', 'crm-developer'); ?></span>
                                 </label>
                             </div>
                             <div class="interest-item">
                                 <label>
                                     <input type="checkbox" name="interesse_mobilizacao" value="sim" <?php checked(get_value($contact, 'interesse_mobilizacao'), 'sim'); ?>>
                                     <span class="interest-icon"><i class="fas fa-bullhorn"></i></span>
-                                    <span class="interest-label"><?php _e('Mobilização territorial', 'crm-developer'); ?></span>
+                                    <span class="interest-label"><?php esc_html_e('Mobilização territorial', 'crm-developer'); ?></span>
                                 </label>
                             </div>
                             <div class="interest-item">
                                 <label>
                                     <input type="checkbox" name="interesse_voluntariado" value="sim" <?php checked(get_value($contact, 'interesse_voluntariado'), 'sim'); ?>>
                                     <span class="interest-icon"><i class="fas fa-hands-helping"></i></span>
-                                    <span class="interest-label"><?php _e('Voluntariado', 'crm-developer'); ?></span>
+                                    <span class="interest-label"><?php esc_html_e('Voluntariado', 'crm-developer'); ?></span>
                                 </label>
                             </div>
                             <div class="interest-item">
                                 <label>
                                     <input type="checkbox" name="interesse_foruns" value="sim" <?php checked(get_value($contact, 'interesse_foruns'), 'sim'); ?>>
                                     <span class="interest-icon"><i class="fas fa-comments"></i></span>
-                                    <span class="interest-label"><?php _e('Participação em fóruns temáticos', 'crm-developer'); ?></span>
+                                    <span class="interest-label"><?php esc_html_e('Participação em fóruns temáticos', 'crm-developer'); ?></span>
                                 </label>
                             </div>
                         </div>
@@ -427,74 +427,74 @@ function is_checked($contact, $field, $value) {
             <!-- Etapa 6: Dados Complementares -->
             <div class="form-step" data-step="6">
                 <div class="step-header">
-                    <h2><i class="fas fa-clipboard-list"></i> <?php _e('Dados Complementares', 'crm-developer'); ?></h2>
+                    <h2><i class="fas fa-clipboard-list"></i> <?php esc_html_e('Dados Complementares', 'crm-developer'); ?></h2>
                     <p class="step-description">
-                        <?php _e('Informações adicionais para gestão pública e controle interno.', 'crm-developer'); ?>
+                        <?php esc_html_e('Informações adicionais para gestão pública e controle interno.', 'crm-developer'); ?>
                     </p>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="cargo_publico"><?php _e('Cargo Público (se aplicável)', 'crm-developer'); ?></label>
+                        <label for="cargo_publico"><?php esc_html_e('Cargo Público (se aplicável)', 'crm-developer'); ?></label>
                         <input type="text" id="cargo_publico" name="cargo_publico" value="<?php echo esc_attr(get_value($contact, 'cargo_publico')); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label for="vinculacao_institucional"><?php _e('Vinculação Institucional', 'crm-developer'); ?></label>
+                        <label for="vinculacao_institucional"><?php esc_html_e('Vinculação Institucional', 'crm-developer'); ?></label>
                         <input type="text" id="vinculacao_institucional" name="vinculacao_institucional" value="<?php echo esc_attr(get_value($contact, 'vinculacao_institucional')); ?>">
-                        <span class="field-help"><?php _e('Órgão, secretaria ou instituição', 'crm-developer'); ?></span>
+                        <span class="field-help"><?php esc_html_e('Órgão, secretaria ou instituição', 'crm-developer'); ?></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="status"><?php _e('Status do Contato', 'crm-developer'); ?></label>
+                        <label for="status"><?php esc_html_e('Status do Contato', 'crm-developer'); ?></label>
                         <select id="status" name="status">
-                            <option value="ativo" <?php selected(get_value($contact, 'status', 'ativo'), 'ativo'); ?>><?php _e('Ativo', 'crm-developer'); ?></option>
-                            <option value="inativo" <?php selected(get_value($contact, 'status'), 'inativo'); ?>><?php _e('Inativo', 'crm-developer'); ?></option>
-                            <option value="pendente" <?php selected(get_value($contact, 'status'), 'pendente'); ?>><?php _e('Pendente', 'crm-developer'); ?></option>
+                            <option value="ativo" <?php selected(get_value($contact, 'status', 'ativo'), 'ativo'); ?>><?php esc_html_e('Ativo', 'crm-developer'); ?></option>
+                            <option value="inativo" <?php selected(get_value($contact, 'status'), 'inativo'); ?>><?php esc_html_e('Inativo', 'crm-developer'); ?></option>
+                            <option value="pendente" <?php selected(get_value($contact, 'status'), 'pendente'); ?>><?php esc_html_e('Pendente', 'crm-developer'); ?></option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label><?php _e('Consentimento LGPD', 'crm-developer'); ?></label>
+                        <label><?php esc_html_e('Consentimento LGPD', 'crm-developer'); ?></label>
                         <div class="radio-group">
-                            <label><input type="radio" name="consentimento_lgpd" value="nao" <?php checked(get_value($contact, 'consentimento_lgpd', 'nao'), 'nao'); ?>> <?php _e('Não obtido', 'crm-developer'); ?></label>
-                            <label><input type="radio" name="consentimento_lgpd" value="sim" <?php checked(get_value($contact, 'consentimento_lgpd'), 'sim'); ?>> <?php _e('Obtido', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="consentimento_lgpd" value="nao" <?php checked(get_value($contact, 'consentimento_lgpd', 'nao'), 'nao'); ?>> <?php esc_html_e('Não obtido', 'crm-developer'); ?></label>
+                            <label><input type="radio" name="consentimento_lgpd" value="sim" <?php checked(get_value($contact, 'consentimento_lgpd'), 'sim'); ?>> <?php esc_html_e('Obtido', 'crm-developer'); ?></label>
                         </div>
                         <?php if (get_value($contact, 'data_consentimento')) : ?>
-                            <span class="field-help"><?php _e('Consentido em:', 'crm-developer'); ?> <?php echo CRM_Dev_Helpers::format_datetime(get_value($contact, 'data_consentimento')); ?></span>
+                            <span class="field-help"><?php esc_html_e('Consentido em:', 'crm-developer'); ?> <?php echo CRM_Dev_Helpers::format_datetime(get_value($contact, 'data_consentimento')); ?></span>
                         <?php endif; ?>
                     </div>
 
                     <div class="form-group full-width">
-                        <label for="observacoes"><?php _e('Observações', 'crm-developer'); ?></label>
+                        <label for="observacoes"><?php esc_html_e('Observações', 'crm-developer'); ?></label>
                         <textarea id="observacoes" name="observacoes" rows="4"><?php echo esc_textarea(get_value($contact, 'observacoes')); ?></textarea>
-                        <span class="field-help"><?php _e('Anotações internas sobre o contato', 'crm-developer'); ?></span>
+                        <span class="field-help"><?php esc_html_e('Anotações internas sobre o contato', 'crm-developer'); ?></span>
                     </div>
                 </div>
 
                 <!-- Resumo -->
                 <div class="form-summary">
-                    <h3><i class="fas fa-check-circle"></i> <?php _e('Pronto para salvar!', 'crm-developer'); ?></h3>
-                    <p><?php _e('Revise as informações nas etapas anteriores se necessário. Clique em Salvar para concluir.', 'crm-developer'); ?></p>
+                    <h3><i class="fas fa-check-circle"></i> <?php esc_html_e('Pronto para salvar!', 'crm-developer'); ?></h3>
+                    <p><?php esc_html_e('Revise as informações nas etapas anteriores se necessário. Clique em Salvar para concluir.', 'crm-developer'); ?></p>
                 </div>
             </div>
 
             <!-- Navegação do formulário -->
             <div class="form-navigation">
                 <button type="button" id="btn-prev-step" class="button" style="display: none;">
-                    <i class="fas fa-arrow-left"></i> <?php _e('Anterior', 'crm-developer'); ?>
+                    <i class="fas fa-arrow-left"></i> <?php esc_html_e('Anterior', 'crm-developer'); ?>
                 </button>
 
                 <div class="form-nav-info">
-                    <span id="current-step-label"><?php _e('Etapa 1 de 6', 'crm-developer'); ?></span>
+                    <span id="current-step-label"><?php esc_html_e('Etapa 1 de 6', 'crm-developer'); ?></span>
                 </div>
 
                 <button type="button" id="btn-next-step" class="button button-primary">
-                    <?php _e('Próxima', 'crm-developer'); ?> <i class="fas fa-arrow-right"></i>
+                    <?php esc_html_e('Próxima', 'crm-developer'); ?> <i class="fas fa-arrow-right"></i>
                 </button>
 
                 <button type="submit" id="btn-save" class="button button-primary" style="display: none;">
-                    <i class="fas fa-save"></i> <?php _e('Salvar Contato', 'crm-developer'); ?>
+                    <i class="fas fa-save"></i> <?php esc_html_e('Salvar Contato', 'crm-developer'); ?>
                 </button>
             </div>
         </form>
@@ -526,13 +526,13 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         if (typeof wp === 'undefined' || !wp.media) {
-            alert('<?php _e('Biblioteca de mídia não disponível', 'crm-developer'); ?>');
+            alert('<?php esc_html_e('Biblioteca de mídia não disponível', 'crm-developer'); ?>');
             return;
         }
 
         const mediaUploader = wp.media({
-            title: '<?php _e('Selecionar Foto do Contato', 'crm-developer'); ?>',
-            button: { text: '<?php _e('Usar esta Foto', 'crm-developer'); ?>' },
+            title: '<?php esc_html_e('Selecionar Foto do Contato', 'crm-developer'); ?>',
+            button: { text: '<?php esc_html_e('Usar esta Foto', 'crm-developer'); ?>' },
             library: { type: 'image' },
             multiple: false
         });
@@ -546,7 +546,7 @@ jQuery(document).ready(function($) {
             $('#foto_id').val(attachment.id);
             $('#photo-preview').html(
                 '<img src="' + thumbUrl + '" alt="">' +
-                '<button type="button" class="btn-remove-photo" title="<?php _e('Remover foto', 'crm-developer'); ?>">&times;</button>'
+                '<button type="button" class="btn-remove-photo" title="<?php esc_html_e('Remover foto', 'crm-developer'); ?>">&times;</button>'
             );
         });
 
@@ -665,7 +665,7 @@ jQuery(document).ready(function($) {
         }, function(response) {
             if (response.success) {
                 alert(response.data.message);
-                window.location.href = '<?php echo admin_url('admin.php?page=crm-developer&section=contacts&action=view&id='); ?>' + response.data.id;
+                window.location.href = '<?php echo esc_url(admin_url(\)); ?>' + response.data.id;
             } else {
                 alert(response.data.message || 'Erro ao salvar');
                 $btn.html(originalText).prop('disabled', false);
