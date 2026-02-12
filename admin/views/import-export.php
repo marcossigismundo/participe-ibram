@@ -464,7 +464,9 @@ jQuery(document).ready(function($) {
             'estado': ['estado', 'uf', 'state'],
             'data_nascimento': ['nascimento', 'birth', 'data nascimento', 'data_nascimento'],
             'genero': ['genero', 'gender', 'sexo', 'gênero'],
-            'raca_etnia': ['raca', 'etnia', 'race', 'raça', 'cor', 'raca_etnia']
+            'raca_etnia': ['raca', 'etnia', 'race', 'raça', 'cor', 'raca_etnia'],
+            'consentimento_lgpd': ['consentimento', 'lgpd', 'consent', 'consentimento lgpd', 'consentimento_lgpd', 'gdpr'],
+            'data_consentimento': ['data consentimento', 'data do consentimento', 'consent date', 'data lgpd', 'data_consentimento']
         };
 
         header.forEach((col, index) => {
