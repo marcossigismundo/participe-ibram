@@ -50,6 +50,8 @@ class CRM_Dev_Import_Export {
             'cargo_publico' => 'Cargo Público',
             'vinculacao_institucional' => 'Vinculação Institucional',
             'observacoes' => 'Observações',
+            'consentimento_lgpd' => 'Consentimento LGPD',
+            'data_consentimento' => 'Data do Consentimento',
             'status' => 'Status',
             'score_engajamento' => 'Score de Engajamento',
             'created_at' => 'Data de Cadastro',
@@ -72,6 +74,8 @@ class CRM_Dev_Import_Export {
             'municipio' => array('municipio', 'cidade', 'city', 'município'),
             'estado' => array('estado', 'uf', 'state'),
             'regiao' => array('regiao', 'região', 'region'),
+            'consentimento_lgpd' => array('consentimento', 'lgpd', 'consent', 'consentimento lgpd', 'gdpr'),
+            'data_consentimento' => array('data consentimento', 'data do consentimento', 'consent date', 'data lgpd'),
         );
     }
 
@@ -384,6 +388,16 @@ class CRM_Dev_Import_Export {
                     // Normaliza email
                     if ($field === 'email') {
                         $value = strtolower(trim($value));
+                    }
+
+                    // Normaliza consentimento LGPD
+                    if ($field === 'consentimento_lgpd') {
+                        $value_lower = strtolower(trim($value));
+                        if (in_array($value_lower, array('sim', 's', 'yes', 'y', '1', 'obtido', 'true'))) {
+                            $value = 'sim';
+                        } else {
+                            $value = 'nao';
+                        }
                     }
 
                     $contact_data[$field] = $value;
