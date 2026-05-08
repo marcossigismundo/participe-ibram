@@ -1,0 +1,566 @@
+// =============================================================================
+// Component — Votacao publica (W6-B)
+// -----------------------------------------------------------------------------
+// Layout, estados e impressao para a UI publica de votacao Participe Ibram.
+//
+// Conformidade:
+//  - WCAG 2.4.7 Focus Visible: outline 3px com contraste alto
+//  - WCAG 1.4.11 Non-text contrast: bordas e estados >= 3:1
+//  - WCAG 1.4.3 Contrast: textos >= 4.5:1
+//  - Modo alto contraste explicito via @media (forced-colors)
+//  - prefers-reduced-motion
+//
+// Tokens DSGov vindos de tokens/* (Wave 3).
+// =============================================================================
+
+.participe-ibram-scope {
+
+    // --- App container --------------------------------------------------------
+    .pi-votacao-app {
+        display: block;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: var(--pi-spacing-4, 1rem);
+
+        &__main {
+            outline: 0;
+        }
+
+        &__header {
+            margin-bottom: var(--pi-spacing-6, 1.5rem);
+            padding-bottom: var(--pi-spacing-4, 1rem);
+            border-bottom: 1px solid var(--pi-color-border, #c5c5c5);
+        }
+
+        &__titulo {
+            margin: 0 0 var(--pi-spacing-3, 0.75rem);
+            font-size: var(--pi-font-size-2xl, 1.75rem);
+            font-weight: var(--pi-font-weight-bold, 700);
+            color: var(--pi-color-primary-darker, #071d41);
+        }
+
+        &__info {
+            margin-bottom: var(--pi-spacing-3, 0.75rem);
+        }
+
+        &__datas {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: var(--pi-spacing-1, 0.25rem) var(--pi-spacing-3, 0.75rem);
+            margin: 0 0 var(--pi-spacing-2, 0.5rem);
+
+            dt {
+                font-weight: var(--pi-font-weight-semibold, 600);
+                color: var(--pi-color-text-muted, #555);
+            }
+
+            dd {
+                margin: 0;
+                color: var(--pi-color-text, #1c1c1c);
+            }
+        }
+
+        &__countdown {
+            margin: 0;
+            font-weight: var(--pi-font-weight-semibold, 600);
+            color: var(--pi-color-warning-darker, #a16207);
+
+            &:empty {
+                display: none;
+            }
+        }
+
+        &__loading {
+            display: flex;
+            align-items: center;
+            gap: var(--pi-spacing-2, 0.5rem);
+            padding: var(--pi-spacing-4, 1rem);
+            color: var(--pi-color-text-muted, #555);
+        }
+
+        &--encerrada {
+            .pi-aviso {
+                margin-top: var(--pi-spacing-6, 1.5rem);
+            }
+        }
+    }
+
+    // --- Aviso de irreversibilidade ------------------------------------------
+    .pi-aviso--importante {
+        background-color: var(--pi-color-warning-bg, #fff4e5);
+        border: 2px solid var(--pi-color-warning, #d97706);
+        color: var(--pi-color-warning-darker, #92400e);
+        padding: var(--pi-spacing-3, 0.75rem) var(--pi-spacing-4, 1rem);
+        border-radius: var(--pi-radius-md, 4px);
+
+        strong {
+            display: inline-block;
+            margin-right: var(--pi-spacing-1, 0.25rem);
+        }
+    }
+
+    // --- Categoria fieldset --------------------------------------------------
+    .pi-votacao-categoria {
+        border: 1px solid var(--pi-color-border, #c5c5c5);
+        border-radius: var(--pi-radius-md, 4px);
+        padding: var(--pi-spacing-4, 1rem);
+        margin-bottom: var(--pi-spacing-5, 1.25rem);
+        background-color: var(--pi-color-bg, #fff);
+
+        &__legenda {
+            font-size: var(--pi-font-size-lg, 1.125rem);
+            font-weight: var(--pi-font-weight-semibold, 600);
+            color: var(--pi-color-primary, #1351b4);
+            padding: 0 var(--pi-spacing-2, 0.5rem);
+        }
+
+        &__status {
+            margin: 0 0 var(--pi-spacing-3, 0.75rem);
+            color: var(--pi-color-text-muted, #555);
+
+            &--votado {
+                color: var(--pi-color-success-darker, #166534);
+                font-weight: var(--pi-font-weight-semibold, 600);
+
+                &::before {
+                    content: "\2713";
+                    margin-right: var(--pi-spacing-1, 0.25rem);
+                    font-weight: 700;
+                }
+            }
+        }
+
+        &.is-voted {
+            background-color: var(--pi-color-success-bg, #f0fdf4);
+            border-color: var(--pi-color-success, #16a34a);
+        }
+
+        [role="radiogroup"] {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--pi-spacing-3, 0.75rem);
+        }
+
+        &.is-voted [role="radiogroup"] {
+            opacity: 0.6;
+        }
+    }
+
+    // --- Card de candidato ---------------------------------------------------
+    .pi-candidato-card {
+        display: flex;
+        flex-direction: column;
+        gap: var(--pi-spacing-2, 0.5rem);
+        padding: var(--pi-spacing-3, 0.75rem);
+        border: 2px solid var(--pi-color-border, #c5c5c5);
+        border-radius: var(--pi-radius-md, 4px);
+        background-color: var(--pi-color-bg, #fff);
+        cursor: pointer;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+        &:hover:not(.is-disabled) {
+            border-color: var(--pi-color-primary, #1351b4);
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--pi-color-focus, #fbbf24);
+            outline-offset: 2px;
+        }
+
+        &[aria-checked="true"],
+        &.is-selected {
+            border-color: var(--pi-color-primary, #1351b4);
+            box-shadow: inset 0 0 0 2px var(--pi-color-primary, #1351b4);
+        }
+
+        &.is-disabled,
+        &[aria-disabled="true"] {
+            cursor: not-allowed;
+            opacity: 0.55;
+            background-color: var(--pi-color-gray-2, #f5f5f5);
+        }
+
+        &__foto {
+            width: 96px;
+            height: 96px;
+            object-fit: cover;
+            border-radius: var(--pi-radius-pill, 999px);
+            background-color: var(--pi-color-gray-2, #f5f5f5);
+        }
+
+        &__corpo {
+            flex: 1;
+        }
+
+        &__nome {
+            font-weight: var(--pi-font-weight-semibold, 600);
+            font-size: var(--pi-font-size-md, 1rem);
+            color: var(--pi-color-text, #1c1c1c);
+        }
+
+        &__numero {
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            color: var(--pi-color-text-muted, #555);
+        }
+
+        &__numero-label {
+            font-weight: var(--pi-font-weight-semibold, 600);
+        }
+
+        &__voto-btn {
+            margin-top: var(--pi-spacing-2, 0.5rem);
+            width: 100%;
+        }
+    }
+
+    // --- Modal de confirmacao (warning) --------------------------------------
+    .pi-confirmacao-modal--warning {
+        .pi-modal__dialog {
+            border-top: 4px solid var(--pi-color-danger, #dc2626);
+        }
+    }
+
+    .pi-confirmacao-voto {
+        &__pergunta {
+            margin: 0 0 var(--pi-spacing-2, 0.5rem);
+            font-size: var(--pi-font-size-md, 1rem);
+        }
+
+        &__detalhes {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: var(--pi-spacing-1, 0.25rem) var(--pi-spacing-3, 0.75rem);
+            margin: 0 0 var(--pi-spacing-3, 0.75rem);
+
+            dt {
+                font-weight: var(--pi-font-weight-semibold, 600);
+                color: var(--pi-color-text-muted, #555);
+            }
+
+            dd {
+                margin: 0;
+            }
+        }
+
+        &__numero {
+            display: inline-block;
+            margin-left: var(--pi-spacing-2, 0.5rem);
+            color: var(--pi-color-text-muted, #555);
+            font-size: var(--pi-font-size-sm, 0.875rem);
+        }
+
+        &__alerta {
+            background-color: var(--pi-color-danger-bg, #fef2f2);
+            border-left: 4px solid var(--pi-color-danger, #dc2626);
+            color: var(--pi-color-danger-darker, #991b1b);
+            padding: var(--pi-spacing-3, 0.75rem) var(--pi-spacing-4, 1rem);
+            border-radius: var(--pi-radius-sm, 2px);
+            margin: 0 0 var(--pi-spacing-3, 0.75rem);
+            font-weight: var(--pi-font-weight-semibold, 600);
+
+            strong {
+                display: inline-block;
+                margin-right: var(--pi-spacing-1, 0.25rem);
+            }
+        }
+
+        &__countdown {
+            margin: 0;
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            color: var(--pi-color-warning-darker, #92400e);
+            font-weight: var(--pi-font-weight-semibold, 600);
+            text-align: right;
+
+            &:empty {
+                display: none;
+            }
+        }
+    }
+
+    // --- Botao perigo --------------------------------------------------------
+    .pi-btn--perigo {
+        background-color: var(--pi-color-danger, #dc2626);
+        color: #fff;
+        border-color: var(--pi-color-danger, #dc2626);
+
+        &:hover:not(:disabled) {
+            background-color: var(--pi-color-danger-darker, #991b1b);
+            border-color: var(--pi-color-danger-darker, #991b1b);
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--pi-color-focus, #fbbf24);
+            outline-offset: 2px;
+        }
+
+        &:disabled,
+        &[aria-disabled="true"] {
+            background-color: var(--pi-color-gray-3, #d4d4d4);
+            border-color: var(--pi-color-gray-3, #d4d4d4);
+            color: var(--pi-color-text-muted, #555);
+            cursor: not-allowed;
+        }
+    }
+
+    // --- Recibo --------------------------------------------------------------
+    .pi-recibo {
+        margin-top: var(--pi-spacing-6, 1.5rem);
+        padding: var(--pi-spacing-5, 1.25rem);
+        border: 2px solid var(--pi-color-success, #16a34a);
+        border-radius: var(--pi-radius-md, 4px);
+        background-color: var(--pi-color-success-bg, #f0fdf4);
+
+        &__titulo {
+            margin: 0 0 var(--pi-spacing-2, 0.5rem);
+            font-size: var(--pi-font-size-xl, 1.25rem);
+            color: var(--pi-color-success-darker, #166534);
+
+            &::before {
+                content: "\2713 ";
+                font-weight: 700;
+                margin-right: var(--pi-spacing-1, 0.25rem);
+            }
+        }
+
+        &__aviso {
+            margin: 0 0 var(--pi-spacing-3, 0.75rem);
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            color: var(--pi-color-text, #1c1c1c);
+        }
+
+        &__dados {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: var(--pi-spacing-1, 0.25rem) var(--pi-spacing-3, 0.75rem);
+            margin: 0 0 var(--pi-spacing-3, 0.75rem);
+
+            dt {
+                font-weight: var(--pi-font-weight-semibold, 600);
+                color: var(--pi-color-text-muted, #555);
+            }
+
+            dd {
+                margin: 0;
+            }
+        }
+
+        &__hash-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: var(--pi-spacing-1, 0.25rem);
+            margin-bottom: var(--pi-spacing-3, 0.75rem);
+        }
+
+        &__hash-label {
+            font-weight: var(--pi-font-weight-semibold, 600);
+            color: var(--pi-color-text, #1c1c1c);
+        }
+
+        &__hash {
+            width: 100%;
+            font-family: var(--pi-font-family-mono, "Courier New", monospace);
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            padding: var(--pi-spacing-2, 0.5rem) var(--pi-spacing-3, 0.75rem);
+            border: 1px solid var(--pi-color-border, #c5c5c5);
+            border-radius: var(--pi-radius-sm, 2px);
+            background-color: #fff;
+            word-break: break-all;
+        }
+
+        &__acoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--pi-spacing-2, 0.5rem);
+        }
+    }
+
+    // --- Spinner -------------------------------------------------------------
+    .pi-spinner {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border: 2px solid currentColor;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: pi-spinner-rot 0.8s linear infinite;
+    }
+
+    @keyframes pi-spinner-rot {
+        to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .pi-spinner {
+            animation: none;
+        }
+    }
+
+    // --- Modo alto contraste (forced-colors / Windows High Contrast) ---------
+    @media (forced-colors: active) {
+        .pi-candidato-card {
+            border: 2px solid CanvasText;
+
+            &:focus-visible {
+                outline: 3px solid Highlight;
+            }
+
+            &[aria-checked="true"],
+            &.is-selected {
+                border-color: Highlight;
+                box-shadow: inset 0 0 0 2px Highlight;
+                forced-color-adjust: none;
+            }
+
+            &.is-disabled,
+            &[aria-disabled="true"] {
+                color: GrayText;
+                border-color: GrayText;
+            }
+        }
+
+        .pi-confirmacao-voto__alerta {
+            border: 2px solid CanvasText;
+            background: Canvas;
+            color: CanvasText;
+        }
+
+        .pi-btn--perigo {
+            background: Canvas;
+            color: CanvasText;
+            border: 2px solid CanvasText;
+        }
+
+        .pi-recibo {
+            border: 2px solid CanvasText;
+        }
+    }
+}
+
+// =============================================================================
+// Print stylesheet — comprovante de voto
+// -----------------------------------------------------------------------------
+// Aplicado a votacao-comprovante-print.php e tambem ao .pi-recibo.is-printing
+// quando o usuario clica em "Imprimir" no recibo inline.
+// =============================================================================
+
+@media print {
+    @page {
+        size: A4;
+        margin: 1.5cm;
+    }
+
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11pt;
+        line-height: 1.4;
+    }
+
+    // Esconder o resto do site quando imprimindo recibo inline
+    .pi-recibo.is-printing {
+        ~ * { display: none !important; }
+    }
+
+    // Esconder navegacao/header/footer do tema durante impressao
+    nav, header.site-header, footer.site-footer,
+    .pi-skip-link, .pi-modal,
+    [data-pi-votacao-loading],
+    [data-pi-votacao-error]:not([hidden]),
+    [data-pi-votacao-categorias],
+    .pi-recibo__acoes,
+    .pi-recibo__link-auditoria,
+    .pi-votacao-app__aviso {
+        display: none !important;
+    }
+
+    .pi-comprovante-print,
+    .pi-recibo.is-printing,
+    .pi-recibo {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0 !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+
+    .pi-comprovante-print {
+        &__header {
+            border-bottom: 1.5pt solid #000;
+            margin-bottom: 1cm;
+            padding-bottom: 0.5cm;
+        }
+
+        &__org {
+            font-size: 10pt;
+            color: #555;
+            margin: 0;
+        }
+
+        &__titulo {
+            font-size: 18pt;
+            margin: 0.2cm 0 0.1cm;
+        }
+
+        &__edital {
+            font-size: 12pt;
+            font-style: italic;
+            margin: 0;
+        }
+
+        &__dados dl {
+            display: grid;
+            grid-template-columns: 5cm 1fr;
+            gap: 0.2cm 0.5cm;
+            margin: 0;
+
+            dt { font-weight: 700; }
+            dd { margin: 0; }
+        }
+
+        &__hash {
+            margin-top: 1cm;
+            padding: 0.5cm;
+            border: 1pt solid #000;
+
+            h2 {
+                font-size: 12pt;
+                margin: 0 0 0.2cm;
+            }
+        }
+
+        &__hash-valor {
+            margin: 0 0 0.3cm;
+            text-align: center;
+
+            code {
+                font-family: "Courier New", Courier, monospace;
+                font-size: 11pt;
+                font-weight: 700;
+                letter-spacing: 0.05em;
+                word-break: break-all;
+            }
+        }
+
+        &__hash-aviso,
+        &__auditoria {
+            font-size: 10pt;
+            color: #333;
+        }
+
+        &__url {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 9pt;
+            word-break: break-all;
+        }
+
+        &__footer {
+            margin-top: 1.5cm;
+            font-size: 9pt;
+            color: #555;
+            border-top: 0.5pt solid #999;
+            padding-top: 0.3cm;
+        }
+    }
+}

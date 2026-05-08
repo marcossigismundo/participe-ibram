@@ -1,0 +1,4 @@
+- [Participe Ibram refactor](participe-ibram-project.md) — refactor federal do crm-developer para plataforma do IBRAM (Portaria 3230/2024)
+- [Subagent orchestration](feedback-subagent-orchestration.md) — usuário prefere ondas de subagentes para tarefas grandes
+- [IBRAM sources & spec](reference-ibram-sources.md) — paths dos documentos normativos e da spec ativa do refactor
+- [Wave 5 with Sonnet](project-wave5-sonnet.md) — Onda 5 feita com Sonnet 4.6; requer auditoria reforçada na Onda 10 (Opus)
