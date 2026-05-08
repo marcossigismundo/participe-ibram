@@ -1,0 +1,13 @@
+Ola {nome},
+
+Apos analise tecnica, seu cadastro no Participe Ibram foi INDEFERIDO.
+
+O parecer fundamentado da analise esta disponivel para consulta no seu painel. Voce tem direito a apresentar recurso.
+
+Prazo para recurso: {prazo_recurso}
+Data limite: {data_limite_recurso}
+
+Ver parecer e protocolar recurso: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

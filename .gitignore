@@ -31,3 +31,19 @@ npm-debug.log*
 
 # WordPress
 wp-config.php
+
+# Composer / PHP tooling
+vendor/
+.phpunit.result.cache
+.phpcs-cache
+.phpstan-cache/
+coverage/
+
+# Build output
+dist/
+build/
+
+# Exception: assets/dist/ contains hand-compiled CSS/JS (not from build pipeline)
+# until npm/postcss is wired in Wave 10. Track these distribution files.
+!assets/dist/
+!assets/dist/**

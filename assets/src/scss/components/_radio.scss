@@ -1,0 +1,70 @@
+// =============================================================================
+// Component — Radio acessível
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-radio {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pi-spacing-2);
+    margin-bottom: var(--pi-spacing-2);
+    cursor: pointer;
+
+    input[type="radio"] {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin: 2px 0 0;
+      appearance: none;
+      background-color: var(--pi-color-bg);
+      border: 2px solid var(--pi-color-border-strong);
+      border-radius: 50%;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.15s ease;
+
+      &:hover:not(:disabled) {
+        border-color: var(--pi-color-primary);
+      }
+
+      &:checked {
+        border-color: var(--pi-color-primary);
+
+        &::after {
+          content: "";
+          position: absolute;
+          inset: 3px;
+          background-color: var(--pi-color-primary);
+          border-radius: 50%;
+        }
+      }
+
+      &:disabled {
+        background-color: var(--pi-color-bg-disabled);
+        border-color: var(--pi-color-gray-30);
+        cursor: not-allowed;
+      }
+    }
+
+    label,
+    .pi-radio__label {
+      cursor: pointer;
+      font-size: var(--pi-font-size-base);
+      color: var(--pi-color-text);
+    }
+  }
+
+  .pi-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-1);
+    margin-bottom: var(--pi-spacing-4);
+
+    > legend {
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      margin-bottom: var(--pi-spacing-2);
+      padding: 0;
+    }
+  }
+}

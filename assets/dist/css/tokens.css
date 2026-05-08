@@ -1,0 +1,156 @@
+/*!
+ * Participe Ibram — Design Tokens (DSGov v3.7.0)
+ * Version: 1.0.0
+ * License: GPL-2.0-or-later
+ * NOTA: validar valores contra @govbr-ds/core@3.7.0/dist/core.css em produção.
+ */
+
+:root {
+  /* ===== Cores ===== */
+  --pi-color-primary:           #1351b4;
+  --pi-color-primary-dark:      #0c326f;
+  --pi-color-primary-darker:    #071d41;
+  --pi-color-primary-light:     #2670e8;
+  --pi-color-primary-lighter:   #c5d4eb;
+
+  --pi-color-secondary:         #fed447;
+  --pi-color-secondary-dark:    #ffcd07;
+
+  --pi-color-tertiary:          #168821;
+  --pi-color-tertiary-dark:     #0d6b18;
+
+  --pi-color-success:           #168821;
+  --pi-color-success-bg:        #e6f4ea;
+  --pi-color-warning:           #e6741b;
+  --pi-color-warning-bg:        #fff5e6;
+  --pi-color-danger:            #e52207;
+  --pi-color-danger-bg:         #fff5f5;
+  --pi-color-info:              #155bcb;
+  --pi-color-info-bg:           #e8f0fe;
+
+  --pi-color-pure-0:            #ffffff;
+  --pi-color-pure-100:          #000000;
+  --pi-color-gray-2:            #f8f8f8;
+  --pi-color-gray-10:           #e6e6e6;
+  --pi-color-gray-20:           #cccccc;
+  --pi-color-gray-30:           #b3b3b3;
+  --pi-color-gray-40:           #9e9e9e;
+  --pi-color-gray-60:           #636363;
+  --pi-color-gray-70:           #555555;
+  --pi-color-gray-80:           #333333;
+  --pi-color-gray-90:           #1b1b1b;
+
+  --pi-color-text:              #1b1b1b;
+  --pi-color-text-secondary:    #333333;
+  --pi-color-text-muted:        #636363;
+  --pi-color-text-inverse:      #ffffff;
+
+  --pi-color-bg:                #ffffff;
+  --pi-color-bg-page:           #f8f8f8;
+  --pi-color-bg-disabled:       #e6e6e6;
+
+  --pi-color-border:            #cccccc;
+  --pi-color-border-strong:     #9e9e9e;
+  --pi-color-border-focus:      #1351b4;
+
+  --pi-color-interactive:       #1351b4;
+  --pi-color-hover:             rgba(0, 0, 0, 0.08);
+  --pi-color-pressed:           rgba(0, 0, 0, 0.16);
+
+  --pi-focus-color:             #1351b4;
+  --pi-focus-style:             solid;
+  --pi-focus-width:             3px;
+  --pi-focus-offset:            2px;
+
+  /* ===== Tipografia ===== */
+  --pi-font-family-base:        "Rawline", "Raleway", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --pi-font-family-secondary:   "Raleway", "Rawline", system-ui, sans-serif;
+  --pi-font-family-mono:        ui-monospace, SFMono-Regular, "Cascadia Mono", Menlo, monospace;
+
+  --pi-font-size-xs:            0.75rem;
+  --pi-font-size-sm:            0.875rem;
+  --pi-font-size-base:          1rem;
+  --pi-font-size-md:            1.125rem;
+  --pi-font-size-lg:            1.25rem;
+  --pi-font-size-xl:            1.5rem;
+  --pi-font-size-2xl:           1.875rem;
+  --pi-font-size-3xl:           2.25rem;
+  --pi-font-size-4xl:           3rem;
+
+  --pi-font-weight-light:       300;
+  --pi-font-weight-regular:     400;
+  --pi-font-weight-medium:      500;
+  --pi-font-weight-semibold:    600;
+  --pi-font-weight-bold:        700;
+
+  --pi-line-height-tight:       1.15;
+  --pi-line-height-snug:        1.3;
+  --pi-line-height-normal:      1.45;
+  --pi-line-height-relaxed:     1.6;
+  --pi-line-height-loose:       1.75;
+
+  --pi-letter-spacing-tight:    -0.01em;
+  --pi-letter-spacing-normal:   0;
+  --pi-letter-spacing-wide:     0.05em;
+
+  /* ===== Espaçamento ===== */
+  --pi-spacing-0:    0;
+  --pi-spacing-1:    0.25rem;
+  --pi-spacing-2:    0.5rem;
+  --pi-spacing-3:    0.75rem;
+  --pi-spacing-4:    1rem;
+  --pi-spacing-5:    1.25rem;
+  --pi-spacing-6:    1.5rem;
+  --pi-spacing-7:    1.75rem;
+  --pi-spacing-8:    2rem;
+  --pi-spacing-9:    2.25rem;
+  --pi-spacing-10:   2.5rem;
+  --pi-spacing-11:   2.75rem;
+  --pi-spacing-12:   3rem;
+  --pi-spacing-14:   3.5rem;
+  --pi-spacing-16:   4rem;
+  --pi-spacing-18:   4.5rem;
+  --pi-spacing-20:   5rem;
+
+  --pi-gap-xs:       0.25rem;
+  --pi-gap-sm:       0.5rem;
+  --pi-gap-md:       1rem;
+  --pi-gap-lg:       1.5rem;
+  --pi-gap-xl:       2rem;
+
+  /* ===== Breakpoints (referência) ===== */
+  --pi-breakpoint-xs:  0;
+  --pi-breakpoint-sm:  576px;
+  --pi-breakpoint-md:  768px;
+  --pi-breakpoint-lg:  992px;
+  --pi-breakpoint-xl:  1280px;
+  --pi-breakpoint-2xl: 1600px;
+
+  /* ===== Radius ===== */
+  --pi-radius-none:  0;
+  --pi-radius-sm:    4px;
+  --pi-radius-md:    8px;
+  --pi-radius-lg:    16px;
+  --pi-radius-xl:    24px;
+  --pi-radius-pill:  100em;
+  --pi-radius-full:  9999px;
+
+  /* ===== Sombras ===== */
+  --pi-shadow-none:   none;
+  --pi-shadow-sm:     0 1px 4px rgba(0, 0, 0, 0.16);
+  --pi-shadow-md:     0 3px 6px rgba(0, 0, 0, 0.16);
+  --pi-shadow-lg:     0 6px 12px rgba(0, 0, 0, 0.16);
+  --pi-shadow-xl:     0 12px 24px rgba(0, 0, 0, 0.18);
+  --pi-shadow-focus:  0 0 0 3px rgba(19, 81, 180, 0.35);
+
+  /* ===== z-index ===== */
+  --pi-z-base:        0;
+  --pi-z-dropdown:    100;
+  --pi-z-sticky:      200;
+  --pi-z-overlay:     300;
+  --pi-z-modal:       400;
+  --pi-z-popover:     500;
+  --pi-z-tooltip:     600;
+  --pi-z-toast:       700;
+  --pi-z-skip-link:   9999;
+}

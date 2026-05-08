@@ -1,0 +1,46 @@
+// =============================================================================
+// Base — Tipografia
+// =============================================================================
+
+.participe-ibram-scope {
+  font-family: var(--pi-font-family-base);
+  font-size: var(--pi-font-size-base);
+  line-height: var(--pi-line-height-normal);
+  color: var(--pi-color-text);
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--pi-font-family-secondary);
+    font-weight: var(--pi-font-weight-semibold);
+    line-height: var(--pi-line-height-tight);
+    margin: 0 0 var(--pi-spacing-4);
+    color: var(--pi-color-primary-darker);
+  }
+
+  h1 { font-size: var(--pi-font-size-4xl); font-weight: var(--pi-font-weight-bold); }
+  h2 { font-size: var(--pi-font-size-3xl); }
+  h3 { font-size: var(--pi-font-size-2xl); }
+  h4 { font-size: var(--pi-font-size-xl); }
+  h5 { font-size: var(--pi-font-size-lg); }
+  h6 { font-size: var(--pi-font-size-md); }
+
+  p {
+    margin: 0 0 var(--pi-spacing-4);
+  }
+
+  small,
+  .pi-text-sm {
+    font-size: var(--pi-font-size-sm);
+  }
+
+  .pi-text-xs {
+    font-size: var(--pi-font-size-xs);
+  }
+
+  .pi-text-muted {
+    color: var(--pi-color-text-muted);
+  }
+
+  strong, b {
+    font-weight: var(--pi-font-weight-bold);
+  }
+}

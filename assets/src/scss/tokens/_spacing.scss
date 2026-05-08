@@ -1,0 +1,32 @@
+// =============================================================================
+// Tokens — Espaçamento (escala de 4px)
+// -----------------------------------------------------------------------------
+// Referência: R1-dsgov.md §3.3
+// =============================================================================
+
+:root {
+  --pi-spacing-0:    0;
+  --pi-spacing-1:    0.25rem;  /* 4px */
+  --pi-spacing-2:    0.5rem;   /* 8px */
+  --pi-spacing-3:    0.75rem;  /* 12px */
+  --pi-spacing-4:    1rem;     /* 16px */
+  --pi-spacing-5:    1.25rem;  /* 20px */
+  --pi-spacing-6:    1.5rem;   /* 24px */
+  --pi-spacing-7:    1.75rem;  /* 28px */
+  --pi-spacing-8:    2rem;     /* 32px */
+  --pi-spacing-9:    2.25rem;  /* 36px */
+  --pi-spacing-10:   2.5rem;   /* 40px */
+  --pi-spacing-11:   2.75rem;  /* 44px */
+  --pi-spacing-12:   3rem;     /* 48px */
+  --pi-spacing-14:   3.5rem;   /* 56px */
+  --pi-spacing-16:   4rem;     /* 64px */
+  --pi-spacing-18:   4.5rem;   /* 72px */
+  --pi-spacing-20:   5rem;     /* 80px */
+
+  /* Aliases semânticos */
+  --pi-gap-xs:       var(--pi-spacing-1);
+  --pi-gap-sm:       var(--pi-spacing-2);
+  --pi-gap-md:       var(--pi-spacing-4);
+  --pi-gap-lg:       var(--pi-spacing-6);
+  --pi-gap-xl:       var(--pi-spacing-8);
+}

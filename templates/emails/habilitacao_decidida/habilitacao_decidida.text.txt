@@ -1,0 +1,12 @@
+Ola {nome},
+
+Houve decisao sobre sua inscricao no edital: {edital_titulo}.
+
+Decisao: {decisao}
+
+O parecer fundamentado esta disponivel no seu painel. Em caso de inabilitacao, voce tem direito a apresentar recurso conforme prazos do edital.
+
+Ver detalhes: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

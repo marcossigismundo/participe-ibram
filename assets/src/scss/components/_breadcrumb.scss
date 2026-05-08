@@ -1,0 +1,48 @@
+// =============================================================================
+// Component — Breadcrumb
+// -----------------------------------------------------------------------------
+// eMAG R17 (localização do usuário); usar <nav aria-label="Você está em">.
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-breadcrumb {
+    margin-bottom: var(--pi-spacing-4);
+    font-size: var(--pi-font-size-sm);
+
+    &__list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--pi-spacing-1);
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    &__item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--pi-spacing-1);
+      color: var(--pi-color-text-muted);
+
+      a {
+        color: var(--pi-color-primary);
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; }
+      }
+
+      &[aria-current="page"] {
+        color: var(--pi-color-text);
+        font-weight: var(--pi-font-weight-semibold);
+      }
+
+      &:not(:last-child)::after {
+        content: "\203A"; /* › */
+        margin: 0 var(--pi-spacing-1);
+        color: var(--pi-color-gray-40);
+        font-weight: var(--pi-font-weight-bold);
+      }
+    }
+  }
+}

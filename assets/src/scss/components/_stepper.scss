@@ -1,0 +1,98 @@
+// =============================================================================
+// Component — Stepper / Wizard nav
+// -----------------------------------------------------------------------------
+// Pattern WAI-ARIA: <nav><ol> com aria-current="step" no passo atual.
+// Referência: R4-acessibilidade.md §4.3
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-stepper {
+    margin-bottom: var(--pi-spacing-6);
+
+    &__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--pi-spacing-3);
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      counter-reset: pi-step;
+    }
+
+    .wizard-step,
+    &__item {
+      flex: 1 1 8rem;
+      min-width: 8rem;
+      padding: var(--pi-spacing-3);
+      background-color: var(--pi-color-bg);
+      border: 2px solid var(--pi-color-gray-40);
+      border-radius: var(--pi-radius-md);
+      text-align: center;
+      counter-increment: pi-step;
+      position: relative;
+
+      .pi-stepper__num,
+      .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        margin-right: var(--pi-spacing-2);
+        font-weight: var(--pi-font-weight-bold);
+        background-color: var(--pi-color-gray-40);
+        color: var(--pi-color-text-inverse);
+        border-radius: 50%;
+      }
+
+      .pi-stepper__label,
+      .step-label {
+        font-size: var(--pi-font-size-sm);
+        font-weight: var(--pi-font-weight-semibold);
+        color: var(--pi-color-text);
+      }
+
+      /* Estado: completo */
+      &.is-complete {
+        border-color: var(--pi-color-tertiary);
+        background-color: var(--pi-color-success-bg);
+
+        .pi-stepper__num,
+        .step-num {
+          background-color: var(--pi-color-tertiary);
+        }
+      }
+
+      /* Estado: atual (eMAG R17 | WCAG 2.4.8) */
+      &.is-current,
+      &[aria-current="step"] {
+        border-color: var(--pi-color-primary);
+        background-color: var(--pi-color-primary);
+        color: var(--pi-color-text-inverse);
+
+        .pi-stepper__num,
+        .step-num {
+          background-color: var(--pi-color-text-inverse);
+          color: var(--pi-color-primary);
+        }
+
+        .pi-stepper__label,
+        .step-label {
+          color: var(--pi-color-text-inverse);
+        }
+      }
+    }
+
+    /* Reflow 320px — empilha em mobile */
+    @media (max-width: 575px) {
+      &__list {
+        flex-direction: column;
+      }
+
+      .wizard-step,
+      &__item {
+        flex: 1 1 auto;
+      }
+    }
+  }
+}

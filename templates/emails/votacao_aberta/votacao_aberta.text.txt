@@ -1,0 +1,14 @@
+Ola,
+
+Esta aberta a votacao no Participe Ibram.
+
+Titulo: {edital_titulo}
+
+Periodo de votacao: {periodo_votacao}
+
+Sua participacao e essencial para legitimar a representacao social no Ibram.
+
+Acessar votacao: {votar_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

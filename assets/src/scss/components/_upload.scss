@@ -1,0 +1,116 @@
+// =============================================================================
+// Component — File Upload acessível
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-upload {
+    margin-bottom: var(--pi-spacing-4);
+
+    &__field {
+      position: relative;
+
+      input[type="file"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      input[type="file"]:focus-visible + label {
+        outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+        outline-offset: var(--pi-focus-offset);
+      }
+    }
+
+    &__label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--pi-spacing-2);
+      padding: var(--pi-spacing-3) var(--pi-spacing-5);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-primary);
+      background-color: var(--pi-color-bg);
+      border: 2px dashed var(--pi-color-primary);
+      border-radius: var(--pi-radius-md);
+      cursor: pointer;
+
+      &::before {
+        content: "\2191";
+        font-size: var(--pi-font-size-md);
+      }
+
+      &:hover {
+        background-color: var(--pi-color-primary-lighter);
+      }
+    }
+
+    &__hint {
+      display: block;
+      margin-top: var(--pi-spacing-1);
+      font-size: var(--pi-font-size-xs);
+      color: var(--pi-color-text-muted);
+    }
+
+    &__list {
+      margin-top: var(--pi-spacing-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--pi-spacing-2);
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: var(--pi-spacing-3);
+      padding: var(--pi-spacing-2) var(--pi-spacing-3);
+      background-color: var(--pi-color-gray-2);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-sm);
+
+      &__name {
+        flex: 1;
+        font-size: var(--pi-font-size-sm);
+        word-break: break-word;
+      }
+
+      &__size {
+        font-size: var(--pi-font-size-xs);
+        color: var(--pi-color-text-muted);
+      }
+
+      &__remove {
+        background: transparent;
+        border: 0;
+        color: var(--pi-color-danger);
+        cursor: pointer;
+        font-weight: var(--pi-font-weight-bold);
+      }
+    }
+
+    &__progress {
+      width: 100%;
+      height: 6px;
+      background-color: var(--pi-color-gray-10);
+      border-radius: var(--pi-radius-pill);
+      overflow: hidden;
+      margin-top: var(--pi-spacing-2);
+
+      &-bar {
+        height: 100%;
+        background-color: var(--pi-color-primary);
+        transition: width 0.2s ease;
+      }
+    }
+
+    &__preview {
+      max-width: 80px;
+      max-height: 80px;
+      border-radius: var(--pi-radius-sm);
+      object-fit: cover;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+Ola {nome},
+
+Houve decisao sobre seu recurso.
+
+Decisao: {decisao}
+Instancia: {instancia}
+Numero de registro: {numero_registro}
+
+O parecer fundamentado da decisao esta disponivel no seu painel.
+
+Ver detalhes: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

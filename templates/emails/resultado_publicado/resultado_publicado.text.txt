@@ -1,0 +1,10 @@
+Ola,
+
+Foi publicado o resultado oficial do processo {edital_titulo} no Participe Ibram.
+
+Voce pode consultar o resultado completo (lista de aprovados/eleitos) no link abaixo. A publicacao oficial atende ao Despacho 98/2025 do IBRAM.
+
+Ver resultado completo: {resultado_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

@@ -1,0 +1,42 @@
+// =============================================================================
+// Participe Ibram — Public stylesheet (entry point)
+// -----------------------------------------------------------------------------
+// Compile target: assets/dist/css/participe-ibram-public.css
+// Wrapper: TODO conteúdo público envolvido em .participe-ibram-scope
+// =============================================================================
+
+// Tokens
+@import "tokens/colors";
+@import "tokens/typography";
+@import "tokens/spacing";
+@import "tokens/breakpoints";
+@import "tokens/radius";
+@import "tokens/shadow";
+@import "tokens/zindex";
+
+// Base
+@import "base/reset";
+@import "base/typography";
+@import "base/accessibility";
+
+// Components
+@import "components/button";
+@import "components/input";
+@import "components/select";
+@import "components/checkbox";
+@import "components/radio";
+@import "components/modal";
+@import "components/stepper";
+@import "components/alert";
+@import "components/card";
+@import "components/breadcrumb";
+@import "components/upload";
+@import "components/govbr-bar";
+@import "components/consent-form";
+
+// Layouts
+@import "layouts/wizard";
+@import "layouts/minha-conta";
+
+// Wave 5 — Edital público
+@import "components/edital-publico";

@@ -1,0 +1,118 @@
+// =============================================================================
+// Component — Input (text/email/tel/...)
+// -----------------------------------------------------------------------------
+// eMAG R39 (label associado), R42 (instruções), R43 (descrição de erro).
+// WCAG 1.3.1, 3.3.1, 3.3.2.
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-input {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-1);
+    margin-bottom: var(--pi-spacing-4);
+
+    label {
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-text);
+    }
+
+    .pi-input__required {
+      color: var(--pi-color-danger);
+      margin-left: var(--pi-spacing-1);
+    }
+
+    input {
+      width: 100%;
+      min-height: 40px;
+      padding: var(--pi-spacing-2) var(--pi-spacing-3);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-base);
+      color: var(--pi-color-text);
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-sm);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+      &::placeholder {
+        color: var(--pi-color-text-muted);
+      }
+
+      &:hover:not(:disabled):not([readonly]) {
+        border-color: var(--pi-color-border-strong);
+      }
+
+      &:disabled,
+      &[readonly] {
+        background-color: var(--pi-color-bg-disabled);
+        cursor: not-allowed;
+      }
+
+      /* eMAG R43 | WCAG 3.3.1 — estado de erro com cor + ícone + texto */
+      &[aria-invalid="true"] {
+        border: 2px solid var(--pi-color-danger);
+        background-color: var(--pi-color-danger-bg);
+      }
+    }
+
+    .pi-input__helper {
+      font-size: var(--pi-font-size-xs);
+      color: var(--pi-color-text-muted);
+    }
+
+    /* eMAG R24 | WCAG 1.4.1 — erro = cor + ícone + texto */
+    .pi-input__error {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--pi-spacing-1);
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-danger);
+
+      &::before {
+        content: "\26A0";
+        font-size: var(--pi-font-size-base);
+        line-height: 1;
+        flex-shrink: 0;
+      }
+    }
+
+    .pi-input__counter {
+      font-size: var(--pi-font-size-xs);
+      color: var(--pi-color-text-muted);
+      text-align: right;
+
+      &.is-near-limit {
+        color: var(--pi-color-warning);
+      }
+
+      &.is-over-limit {
+        color: var(--pi-color-danger);
+      }
+    }
+
+    /* Variantes de status */
+    &--success input { border-color: var(--pi-color-success); }
+    &--warning input { border-color: var(--pi-color-warning); }
+    &--error input,
+    &--danger input {
+      border: 2px solid var(--pi-color-danger);
+      background-color: var(--pi-color-danger-bg);
+    }
+  }
+
+  /* Textarea compartilha estilo */
+  .pi-input textarea {
+    width: 100%;
+    min-height: 96px;
+    padding: var(--pi-spacing-2) var(--pi-spacing-3);
+    font-family: var(--pi-font-family-base);
+    font-size: var(--pi-font-size-base);
+    color: var(--pi-color-text);
+    background-color: var(--pi-color-bg);
+    border: 1px solid var(--pi-color-border);
+    border-radius: var(--pi-radius-sm);
+    resize: vertical;
+  }
+}

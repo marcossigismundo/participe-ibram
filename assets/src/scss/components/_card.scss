@@ -1,0 +1,65 @@
+// =============================================================================
+// Component — Card
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-card {
+    background-color: var(--pi-color-bg);
+    border: 1px solid var(--pi-color-border);
+    border-radius: var(--pi-radius-md);
+    box-shadow: var(--pi-shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+      padding: var(--pi-spacing-4);
+      border-bottom: 1px solid var(--pi-color-border);
+    }
+
+    &__title {
+      margin: 0;
+      font-size: var(--pi-font-size-md);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-primary-darker);
+    }
+
+    &__subtitle {
+      margin: var(--pi-spacing-1) 0 0;
+      font-size: var(--pi-font-size-sm);
+      color: var(--pi-color-text-muted);
+    }
+
+    &__body {
+      padding: var(--pi-spacing-4);
+      flex: 1;
+    }
+
+    &__footer {
+      padding: var(--pi-spacing-3) var(--pi-spacing-4);
+      border-top: 1px solid var(--pi-color-border);
+      background-color: var(--pi-color-gray-2);
+      display: flex;
+      gap: var(--pi-spacing-2);
+      flex-wrap: wrap;
+    }
+
+    &__metric {
+      display: flex;
+      flex-direction: column;
+      gap: var(--pi-spacing-1);
+    }
+
+    &__metric-value {
+      font-size: var(--pi-font-size-3xl);
+      font-weight: var(--pi-font-weight-bold);
+      color: var(--pi-color-primary);
+      line-height: var(--pi-line-height-tight);
+    }
+
+    &__metric-label {
+      font-size: var(--pi-font-size-sm);
+      color: var(--pi-color-text-muted);
+    }
+  }
+}

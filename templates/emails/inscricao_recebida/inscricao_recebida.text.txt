@@ -1,0 +1,12 @@
+Ola {nome},
+
+Confirmamos sua inscricao no edital: {edital_titulo}.
+
+Vaga: {vaga}
+
+Sua inscricao sera analisada conforme as etapas previstas no edital. Voce sera notificado por e-mail sobre o resultado da habilitacao.
+
+Acompanhar no painel: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

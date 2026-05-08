@@ -1,0 +1,122 @@
+// =============================================================================
+// _habilitacao.scss — Estilos de Habilitação + Recurso de Inabilitação (W5-C)
+// Escopo: .participe-ibram-scope
+// =============================================================================
+
+.participe-ibram-scope {
+    // -------------------------------------------------------------------------
+    // Listagem de inscrições (habilitacao)
+    // -------------------------------------------------------------------------
+    .pi-habilitacao-lista {
+        .pi-list-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--pi-spacing-sm, 8px);
+            align-items: flex-end;
+
+            input[type="number"],
+            input[type="date"],
+            select {
+                min-width: 120px;
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Detalhe da inscrição
+    // -------------------------------------------------------------------------
+    .pi-inscricao-detalhes {
+        &__header {
+            margin-bottom: var(--pi-spacing-lg, 24px);
+
+            h1 {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: var(--pi-spacing-xs, 4px);
+            }
+        }
+
+        &__meta {
+            margin-top: var(--pi-spacing-sm, 8px);
+        }
+
+        &__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--pi-spacing-sm, 8px);
+            margin-bottom: var(--pi-spacing-md, 16px);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Botões de ação de habilitação
+    // -------------------------------------------------------------------------
+    .pi-btn--habilitar {
+        background-color: var(--pi-color-success, #2e7d32);
+        border-color: var(--pi-color-success, #2e7d32);
+        color: #fff;
+
+        &:hover,
+        &:focus-visible {
+            background-color: var(--pi-color-success-dark, #1b5e20);
+            border-color: var(--pi-color-success-dark, #1b5e20);
+        }
+    }
+
+    .pi-btn--inabilitar {
+        background-color: var(--pi-color-danger, #c62828);
+        border-color: var(--pi-color-danger, #c62828);
+        color: #fff;
+
+        &:hover,
+        &:focus-visible {
+            background-color: var(--pi-color-danger-dark, #8e0000);
+            border-color: var(--pi-color-danger-dark, #8e0000);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Prazo countdown (admin + público)
+    // -------------------------------------------------------------------------
+    .pi-prazo-countdown {
+        display: flex;
+        align-items: center;
+        gap: var(--pi-spacing-sm, 8px);
+        margin-bottom: var(--pi-spacing-md, 16px);
+        padding: var(--pi-spacing-sm, 8px) var(--pi-spacing-md, 16px);
+        border-radius: var(--pi-radius-md, 4px);
+        background-color: var(--pi-color-bg-info, #e3f2fd);
+        border: 1px solid var(--pi-color-border-info, #90caf9);
+
+        time {
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Formulário público — protocolar recurso
+    // -------------------------------------------------------------------------
+    .pi-protocolar-recurso {
+        max-width: 760px;
+
+        .pi-prazo-aviso {
+            margin-bottom: var(--pi-spacing-md, 16px);
+        }
+
+        .pi-countdown {
+            font-variant-numeric: tabular-nums;
+            font-weight: bold;
+        }
+
+        .pi-form {
+            margin-top: var(--pi-spacing-md, 16px);
+        }
+
+        #pi-fundamentacao-md {
+            width: 100%;
+            font-family: inherit;
+            resize: vertical;
+        }
+    }
+}

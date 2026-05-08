@@ -1,0 +1,176 @@
+// =============================================================================
+// Component — Consent Form (UI granular LGPD)
+// -----------------------------------------------------------------------------
+// Pattern: caixas separadas por finalidade, base legal em texto secundário,
+// obrigatórias em destaque, opcionais não pré-marcadas.
+// Referência: R2-lgpd.md §3, LGPD.md §3.
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-consent-form {
+    background-color: var(--pi-color-bg);
+    border: 1px solid var(--pi-color-border);
+    border-radius: var(--pi-radius-md);
+    padding: var(--pi-spacing-5);
+    margin-bottom: var(--pi-spacing-6);
+
+    &__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--pi-spacing-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--pi-spacing-4);
+      padding-bottom: var(--pi-spacing-3);
+      border-bottom: 1px solid var(--pi-color-border);
+    }
+
+    &__title {
+      margin: 0;
+      font-size: var(--pi-font-size-xl);
+      color: var(--pi-color-primary-darker);
+    }
+
+    &__version {
+      font-size: var(--pi-font-size-xs);
+      color: var(--pi-color-text-muted);
+      font-family: var(--pi-font-family-mono);
+    }
+
+    &__intro {
+      margin-bottom: var(--pi-spacing-4);
+      color: var(--pi-color-text);
+    }
+
+    &__group {
+      margin-bottom: var(--pi-spacing-5);
+
+      &-title {
+        font-size: var(--pi-font-size-base);
+        font-weight: var(--pi-font-weight-bold);
+        color: var(--pi-color-primary-darker);
+        margin: 0 0 var(--pi-spacing-3);
+        padding-left: var(--pi-spacing-3);
+        border-left: 4px solid var(--pi-color-primary);
+      }
+
+      &--required .pi-consent-form__group-title {
+        border-left-color: var(--pi-color-tertiary);
+      }
+    }
+
+    &__purpose {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--pi-spacing-2) var(--pi-spacing-3);
+      align-items: start;
+      padding: var(--pi-spacing-3);
+      margin-bottom: var(--pi-spacing-2);
+      background-color: var(--pi-color-gray-2);
+      border-radius: var(--pi-radius-sm);
+      border-left: 4px solid var(--pi-color-border);
+
+      &--required {
+        border-left-color: var(--pi-color-tertiary);
+        background-color: var(--pi-color-success-bg);
+      }
+
+      &--optional {
+        border-left-color: var(--pi-color-primary);
+      }
+
+      input[type="checkbox"] {
+        margin-top: 4px;
+      }
+    }
+
+    &__purpose-meta {
+      grid-column: 2;
+    }
+
+    &__purpose-label {
+      display: block;
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-text);
+      margin-bottom: var(--pi-spacing-1);
+    }
+
+    &__purpose-tag {
+      display: inline-block;
+      margin-left: var(--pi-spacing-2);
+      padding: 0 var(--pi-spacing-2);
+      font-size: var(--pi-font-size-xs);
+      font-weight: var(--pi-font-weight-bold);
+      text-transform: uppercase;
+      border-radius: var(--pi-radius-pill);
+      vertical-align: middle;
+
+      &--required {
+        background-color: var(--pi-color-tertiary);
+        color: var(--pi-color-text-inverse);
+      }
+
+      &--optional {
+        background-color: var(--pi-color-primary-lighter);
+        color: var(--pi-color-primary-darker);
+      }
+    }
+
+    &__purpose-description {
+      font-size: var(--pi-font-size-sm);
+      color: var(--pi-color-text);
+      margin: 0 0 var(--pi-spacing-2);
+    }
+
+    &__legal-basis {
+      font-size: var(--pi-font-size-xs);
+      color: var(--pi-color-text-muted);
+      font-style: italic;
+
+      strong {
+        font-style: normal;
+        color: var(--pi-color-text-secondary);
+      }
+    }
+
+    &__termo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--pi-spacing-2);
+      margin-top: var(--pi-spacing-3);
+      padding: var(--pi-spacing-2) var(--pi-spacing-4);
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-primary);
+      border-radius: var(--pi-radius-sm);
+      color: var(--pi-color-primary);
+      text-decoration: none;
+      font-weight: var(--pi-font-weight-semibold);
+
+      &:hover {
+        background-color: var(--pi-color-primary-lighter);
+      }
+
+      &::before {
+        content: "\1F4C4"; /* document icon */
+      }
+    }
+
+    &__footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--pi-spacing-3);
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--pi-spacing-5);
+      padding-top: var(--pi-spacing-4);
+      border-top: 1px solid var(--pi-color-border);
+    }
+
+    &__dpo-info {
+      font-size: var(--pi-font-size-xs);
+      color: var(--pi-color-text-muted);
+
+      a { color: var(--pi-color-primary); }
+    }
+  }
+}

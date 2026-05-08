@@ -1,0 +1,396 @@
+/**
+ * _edital-publico.scss
+ *
+ * Estilos para cards de editais, timeline visual, badges de status e
+ * grid de categorias. Todos os seletores estão sob `.participe-ibram-scope`
+ * para evitar vazamento de estilos para o tema do WordPress.
+ *
+ * Tokens de design seguem DSGov (Wave 3):
+ *  --pi-color-primary, --pi-color-success, --pi-color-warning,
+ *  --pi-color-danger, --pi-color-neutral, --pi-space-*, --pi-radius-*
+ */
+
+.participe-ibram-scope {
+
+    // ─── Skip link ──────────────────────────────────────────────────────────
+    .pi-skip-link {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        z-index: 9999;
+
+        &:focus {
+            position: static;
+            width: auto;
+            height: auto;
+            padding: var(--pi-space-sm, 0.5rem) var(--pi-space-md, 1rem);
+            background: var(--pi-color-primary, #1351B4);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    }
+
+    // ─── Grid de editais ────────────────────────────────────────────────────
+    .pi-editais__header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--pi-space-md, 1rem);
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: var(--pi-space-lg, 1.5rem);
+    }
+
+    .pi-editais__filtros {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--pi-space-sm, 0.5rem);
+        align-items: flex-end;
+
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--pi-space-sm, 0.5rem);
+            align-items: flex-end;
+        }
+    }
+
+    .pi-editais__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--pi-space-md, 1rem);
+        margin-bottom: var(--pi-space-lg, 1.5rem);
+    }
+
+    // ─── Card de Edital ─────────────────────────────────────────────────────
+    .pi-edital-card {
+        background: #fff;
+        border: 1px solid var(--pi-color-border, #d9d9d9);
+        border-radius: var(--pi-radius-md, 8px);
+        padding: var(--pi-space-md, 1rem);
+        display: flex;
+        flex-direction: column;
+        gap: var(--pi-space-sm, 0.5rem);
+        transition: box-shadow 0.2s ease;
+
+        &:hover,
+        &:focus-within {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        &__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--pi-space-sm, 0.5rem);
+        }
+
+        &__titulo {
+            font-size: var(--pi-font-size-md, 1.1rem);
+            font-weight: 700;
+            color: var(--pi-color-primary, #1351B4);
+            margin: 0;
+            flex: 1;
+        }
+
+        &__datas {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.25rem 0.75rem;
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            color: var(--pi-color-text-secondary, #555);
+            margin: 0;
+
+            dt {
+                font-weight: 600;
+                color: var(--pi-color-text, #333);
+            }
+
+            dd {
+                margin: 0;
+            }
+        }
+
+        &__rodape {
+            margin-top: auto;
+            padding-top: var(--pi-space-sm, 0.5rem);
+            border-top: 1px solid var(--pi-color-border, #d9d9d9);
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    // ─── Badges de Status ───────────────────────────────────────────────────
+    .pi-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.2em 0.65em;
+        border-radius: 1em;
+        font-size: var(--pi-font-size-xs, 0.75rem);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+
+        &--info {
+            background: var(--pi-color-info-bg, #e8f4fd);
+            color: var(--pi-color-info, #1351B4);
+        }
+
+        &--sucesso {
+            background: var(--pi-color-success-bg, #e6f4ea);
+            color: var(--pi-color-success, #168821);
+        }
+
+        &--aviso {
+            background: var(--pi-color-warning-bg, #fff3cd);
+            color: var(--pi-color-warning, #b8860b);
+        }
+
+        &--destaque {
+            background: var(--pi-color-destaque-bg, #f0e6ff);
+            color: var(--pi-color-destaque, #7c3aed);
+        }
+
+        &--neutro {
+            background: var(--pi-color-neutral-bg, #f0f0f0);
+            color: var(--pi-color-neutral, #555);
+        }
+    }
+
+    // ─── Detalhe de Edital ──────────────────────────────────────────────────
+    .pi-edital-detalhe {
+        max-width: 900px;
+
+        &__header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--pi-space-sm, 0.5rem);
+            align-items: center;
+            margin-bottom: var(--pi-space-lg, 1.5rem);
+        }
+
+        &__titulo {
+            font-size: var(--pi-font-size-xl, 1.5rem);
+            font-weight: 700;
+            color: var(--pi-color-primary, #1351B4);
+            margin: 0;
+            flex: 1;
+        }
+
+        section {
+            margin-bottom: var(--pi-space-xl, 2rem);
+        }
+
+        &__cta {
+            padding: var(--pi-space-lg, 1.5rem);
+            background: var(--pi-color-success-bg, #e6f4ea);
+            border-radius: var(--pi-radius-md, 8px);
+            border: 1px solid var(--pi-color-success, #168821);
+        }
+
+        &__descricao {
+            h2 { font-size: var(--pi-font-size-lg, 1.25rem); margin-bottom: var(--pi-space-sm, 0.5rem); }
+        }
+    }
+
+    // ─── Timeline visual ────────────────────────────────────────────────────
+    .pi-timeline {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--pi-color-border, #d9d9d9);
+        }
+
+        &__item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: var(--pi-space-sm, 0.5rem) var(--pi-space-sm, 0.5rem) var(--pi-space-sm, 0.5rem) 52px;
+            position: relative;
+            margin-bottom: var(--pi-space-sm, 0.5rem);
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: 14px;
+                top: 14px;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: var(--pi-color-primary, #1351B4);
+                border: 2px solid #fff;
+                outline: 2px solid var(--pi-color-primary, #1351B4);
+            }
+        }
+
+        &__label {
+            font-weight: 600;
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            color: var(--pi-color-text, #333);
+        }
+
+        &__data {
+            font-size: var(--pi-font-size-md, 1rem);
+            color: var(--pi-color-primary, #1351B4);
+            font-weight: 700;
+        }
+    }
+
+    // ─── Categorias ─────────────────────────────────────────────────────────
+    .pi-categoria-card {
+        border: 1px solid var(--pi-color-border, #d9d9d9);
+        border-radius: var(--pi-radius-md, 8px);
+        padding: var(--pi-space-md, 1rem);
+        margin-bottom: var(--pi-space-md, 1rem);
+        background: var(--pi-color-surface, #fafafa);
+
+        &__nome {
+            font-size: var(--pi-font-size-md, 1.1rem);
+            font-weight: 700;
+            color: var(--pi-color-primary, #1351B4);
+            margin: 0 0 var(--pi-space-sm, 0.5rem);
+        }
+
+        &__info {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.25rem 0.75rem;
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            margin: 0 0 var(--pi-space-sm, 0.5rem);
+
+            dt { font-weight: 600; }
+            dd { margin: 0; }
+        }
+
+        &__criterios {
+            font-size: var(--pi-font-size-sm, 0.875rem);
+            color: var(--pi-color-text-secondary, #555);
+            padding-top: var(--pi-space-sm, 0.5rem);
+            border-top: 1px solid var(--pi-color-border, #d9d9d9);
+        }
+    }
+
+    // ─── Tabela de resultados ───────────────────────────────────────────────
+    .pi-tabela {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: var(--pi-space-lg, 1.5rem);
+        font-size: var(--pi-font-size-sm, 0.875rem);
+
+        th,
+        td {
+            padding: var(--pi-space-sm, 0.5rem) var(--pi-space-md, 1rem);
+            text-align: left;
+            border-bottom: 1px solid var(--pi-color-border, #d9d9d9);
+        }
+
+        thead th {
+            background: var(--pi-color-primary, #1351B4);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        tbody tr {
+            &:nth-child(even) { background: var(--pi-color-surface, #fafafa); }
+
+            &:hover { background: var(--pi-color-info-bg, #e8f4fd); }
+
+            &:focus-within { outline: 2px solid var(--pi-color-primary, #1351B4); }
+        }
+
+        &--resultados {
+            // Tabela pública: nunca exibe coluna de CPF ou email.
+            // Apenas numero_registro, nome_publico, categoria.
+        }
+    }
+
+    // ─── Aviso LGPD ─────────────────────────────────────────────────────────
+    .pi-aviso--lgpd {
+        padding: var(--pi-space-sm, 0.5rem) var(--pi-space-md, 1rem);
+        background: var(--pi-color-info-bg, #e8f4fd);
+        border-left: 4px solid var(--pi-color-info, #1351B4);
+        border-radius: 0 var(--pi-radius-sm, 4px) var(--pi-radius-sm, 4px) 0;
+        font-size: var(--pi-font-size-sm, 0.875rem);
+        margin-bottom: var(--pi-space-md, 1rem);
+    }
+
+    // ─── Paginação ──────────────────────────────────────────────────────────
+    .pi-paginacao {
+        display: flex;
+        align-items: center;
+        gap: var(--pi-space-sm, 0.5rem);
+        justify-content: center;
+        margin-top: var(--pi-space-md, 1rem);
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    }
+
+    // ─── Utilitários ────────────────────────────────────────────────────────
+    .pi-carregando {
+        text-align: center;
+        padding: var(--pi-space-xl, 2rem);
+        color: var(--pi-color-text-secondary, #666);
+    }
+
+    .pi-sem-resultados {
+        text-align: center;
+        padding: var(--pi-space-xl, 2rem);
+        color: var(--pi-color-text-secondary, #666);
+        font-style: italic;
+    }
+
+    .pi-protocolo {
+        font-size: var(--pi-font-size-lg, 1.25rem);
+        font-weight: 700;
+        color: var(--pi-color-success, #168821);
+        padding: var(--pi-space-md, 1rem);
+        border: 2px solid var(--pi-color-success, #168821);
+        border-radius: var(--pi-radius-md, 8px);
+        text-align: center;
+        letter-spacing: 0.08em;
+    }
+
+    // ─── Responsividade ─────────────────────────────────────────────────────
+    @media (max-width: 640px) {
+        .pi-editais__grid {
+            grid-template-columns: 1fr;
+        }
+
+        .pi-edital-card__header {
+            flex-direction: column;
+        }
+
+        .pi-tabela {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .pi-timeline::before {
+            display: none;
+        }
+
+        .pi-timeline__item {
+            padding-left: var(--pi-space-md, 1rem);
+        }
+    }
+}

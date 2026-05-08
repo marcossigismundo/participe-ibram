@@ -1,0 +1,263 @@
+// =============================================================================
+// Admin — Página de detalhes do agente
+// -----------------------------------------------------------------------------
+// Componentes específicos da Wave 4-A: tabs ARIA, accordions, badges de status,
+// timeline de histórico. Todos sob `.participe-ibram-scope` para isolar do CSS
+// global do WordPress (R3 §4 escopo de estilos).
+// =============================================================================
+
+.participe-ibram-scope {
+
+  /* ----- Cadastros: layout principal ----- */
+  .pi-admin-cadastros__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--pi-space-6, 1.5rem);
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+  }
+
+  .pi-admin-cadastros__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-space-4, 1rem);
+  }
+
+  .pi-card--sm {
+    padding: var(--pi-space-3, .75rem) var(--pi-space-4, 1rem);
+
+    .pi-card__metric-value {
+      font-size: var(--pi-font-size-xl, 1.5rem);
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  /* ----- Detalhes header ----- */
+  .pi-admin-detalhes__header h1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pi-space-3, .75rem);
+  }
+
+  .pi-admin-detalhes__numero {
+    margin-top: var(--pi-space-2, .5rem);
+    color: var(--pi-color-text-muted, #555);
+  }
+
+  .pi-admin-detalhes__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pi-space-3, .75rem);
+    margin: var(--pi-space-4, 1rem) 0;
+  }
+
+  /* ----- Badges ----- */
+  .pi-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+    border-radius: 999px;
+    background: #eee;
+    color: #222;
+
+    & + .pi-badge {
+      margin-left: 0.25rem;
+    }
+  }
+
+  .pi-badge--tipo-pf { background: #d0e8ff; color: #0a3d6b; }
+  .pi-badge--tipo-or { background: #ffe5cc; color: #6b2a00; }
+  .pi-badge--tipo-sm { background: #e2e0ff; color: #2c1f80; }
+
+  .pi-badge--status-info    { background: #d6e9ff; color: #0a3d6b; }
+  .pi-badge--status-success { background: #d4edda; color: #155724; }
+  .pi-badge--status-warning { background: #fff3cd; color: #856404; }
+  .pi-badge--status-danger  { background: #f8d7da; color: #721c24; }
+  .pi-badge--status-draft   { background: #e7e7e7; color: #555; }
+
+  /* ----- Tabs ARIA ----- */
+  .pi-tabs__list {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--pi-color-border, #ddd);
+    margin-bottom: var(--pi-space-4, 1rem);
+  }
+
+  .pi-tabs__tab {
+    padding: var(--pi-space-3, .75rem) var(--pi-space-4, 1rem);
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--pi-color-text, #1f2933);
+
+    &:focus-visible {
+      outline: 2px solid var(--pi-color-focus, #0073aa);
+      outline-offset: 2px;
+    }
+
+    &[aria-selected="true"] {
+      border-bottom-color: var(--pi-color-primary, #1351b4);
+      color: var(--pi-color-primary, #1351b4);
+    }
+  }
+
+  .pi-tabs__panel {
+    padding: var(--pi-space-4, 1rem) 0;
+  }
+
+  /* ----- Definitions list ----- */
+  .pi-defs {
+    display: grid;
+    grid-template-columns: minmax(180px, 240px) 1fr;
+    gap: var(--pi-space-2, .5rem) var(--pi-space-4, 1rem);
+    margin: 0;
+  }
+
+  .pi-defs__row {
+    display: contents;
+
+    dt {
+      font-weight: 600;
+      color: var(--pi-color-text-muted, #555);
+    }
+
+    dd {
+      margin: 0;
+    }
+
+    &--block {
+      display: block;
+      grid-column: 1 / -1;
+
+      dt {
+        margin-bottom: var(--pi-space-1, .25rem);
+      }
+    }
+  }
+
+  /* ----- Sensitive masking ----- */
+  [data-pi-sensitive] {
+    font-family: var(--pi-font-mono, ui-monospace, monospace);
+    background: #fafafa;
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--pi-radius-sm, 4px);
+
+    &[data-pi-revealed="true"] {
+      background: #fff8e1;
+    }
+  }
+
+  /* ----- Timeline ----- */
+  .pi-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 2px solid var(--pi-color-border, #ddd);
+  }
+
+  .pi-timeline__item {
+    position: relative;
+    margin-left: var(--pi-space-4, 1rem);
+    padding-left: var(--pi-space-4, 1rem);
+    padding-bottom: var(--pi-space-3, .75rem);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      background: var(--pi-color-primary, #1351b4);
+      border-radius: 50%;
+    }
+  }
+
+  .pi-timeline__date {
+    font-weight: 600;
+    color: var(--pi-color-text-muted, #555);
+    font-size: 0.9rem;
+  }
+
+  .pi-timeline__transition {
+    margin: 0.25rem 0;
+
+    code {
+      padding: 0.05rem 0.35rem;
+      background: #f3f3f3;
+      border-radius: var(--pi-radius-sm, 4px);
+    }
+  }
+
+  .pi-timeline__obs {
+    color: var(--pi-color-text-muted, #555);
+    font-size: 0.95rem;
+    margin: 0.25rem 0 0 0;
+  }
+
+  /* ----- Modal scoped overrides ----- */
+  .pi-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--pi-z-modal, 1000);
+
+    &[hidden] {
+      display: none;
+    }
+
+    .pi-modal__dialog {
+      background: #fff;
+      border-radius: var(--pi-radius-lg, 8px);
+      max-width: 540px;
+      width: calc(100% - var(--pi-space-6, 1.5rem));
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--pi-shadow-lg, 0 10px 30px rgba(0,0,0,.2));
+    }
+
+    .pi-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--pi-space-4, 1rem);
+      border-bottom: 1px solid var(--pi-color-border, #eee);
+    }
+
+    .pi-modal__close {
+      background: transparent;
+      border: 0;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: 2px solid var(--pi-color-focus, #0073aa);
+        outline-offset: 2px;
+      }
+    }
+
+    .pi-modal__body {
+      padding: var(--pi-space-4, 1rem);
+    }
+
+    .pi-modal__footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--pi-space-3, .75rem);
+      padding: var(--pi-space-4, 1rem);
+      border-top: 1px solid var(--pi-color-border, #eee);
+    }
+  }
+}

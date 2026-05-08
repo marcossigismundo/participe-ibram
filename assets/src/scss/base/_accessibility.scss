@@ -1,0 +1,107 @@
+// =============================================================================
+// Base — Acessibilidade
+// -----------------------------------------------------------------------------
+// eMAG R5 (skip link), R9/R26 (foco visível), R31 (reduced motion).
+// WCAG 2.1.1, 2.4.3, 2.4.7, 1.4.11.
+// Referência: R4-acessibilidade.md §4.3
+// =============================================================================
+
+/* eMAG R5 | WCAG 2.4.1 — Skip link */
+.participe-ibram-scope .pi-skip-link,
+.pi-skip-link {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+
+  &:focus,
+  &:focus-visible {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    width: auto;
+    height: auto;
+    padding: var(--pi-spacing-3) var(--pi-spacing-4);
+    background: var(--pi-color-primary-darker);
+    color: var(--pi-color-text-inverse);
+    text-decoration: none;
+    font-weight: var(--pi-font-weight-bold);
+    z-index: var(--pi-z-skip-link);
+    outline: 3px solid var(--pi-color-secondary);
+    outline-offset: 2px;
+    border-radius: var(--pi-radius-sm);
+    clip: auto;
+  }
+}
+
+/* WCAG 1.3.1 — Texto somente para leitores de tela */
+.participe-ibram-scope .pi-sr-only,
+.pi-sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* eMAG R9 | WCAG 2.4.7 — Foco visível em todos os elementos interativos */
+.participe-ibram-scope {
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+    outline-offset: var(--pi-focus-offset);
+    border-radius: var(--pi-radius-sm);
+  }
+}
+
+/* eMAG R31 | WCAG 2.3.3 — prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .participe-ibram-scope,
+  .participe-ibram-scope *,
+  .participe-ibram-scope *::before,
+  .participe-ibram-scope *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* eMAG R23 | WCAG 1.4.6 — Alto contraste / forced-colors */
+@media (forced-colors: active) {
+  .participe-ibram-scope {
+    .pi-button,
+    .pi-input input,
+    .pi-select select {
+      border: 1px solid CanvasText;
+    }
+
+    :where(a, button):focus-visible {
+      outline: 3px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+}
+
+/* WCAG 1.4.10 — Reflow (320px) */
+@media (max-width: 480px) {
+  .participe-ibram-scope {
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* WCAG 1.4.12 — Text spacing acomoda ajustes do usuário */
+.participe-ibram-scope {
+  p, li {
+    line-height: var(--pi-line-height-relaxed);
+  }
+}

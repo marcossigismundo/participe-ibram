@@ -1,0 +1,13 @@
+Ola {nome},
+
+AVISO: o prazo para recurso encerra em breve.
+
+Dias restantes: {dias_restantes}
+Data limite: {data_limite}
+
+Voce ainda pode protocolar recurso para o indeferimento do seu cadastro. Apos o encerramento do prazo, a decisao se torna definitiva.
+
+Protocolar recurso: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

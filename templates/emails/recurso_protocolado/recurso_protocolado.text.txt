@@ -1,0 +1,13 @@
+Ola {nome},
+
+Confirmamos o recebimento do seu recurso. Ele sera analisado conforme os prazos e procedimentos estabelecidos na Portaria IBRAM 3230/2024.
+
+Protocolo: {numero_protocolo}
+Data: {data_protocolo}
+
+Voce sera notificado por e-mail quando houver decisao.
+
+Acompanhar no painel: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

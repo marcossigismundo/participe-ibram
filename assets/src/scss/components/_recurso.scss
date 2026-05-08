@@ -1,0 +1,300 @@
+/**
+ * _recurso.scss — Wave 4-B
+ *
+ * Estilos para a Admin UI de Recursos:
+ *  - timeline de fases (retratacao -> presidencia)
+ *  - countdown de prazo com severidade
+ *  - indicadores visuais de urgencia (KPI cards + linhas da list table)
+ *  - layout grid (main + sidebar)
+ *
+ * Tudo aplicado dentro de .participe-ibram-scope (DSGov tokens).
+ */
+
+.participe-ibram-scope {
+
+    // -----------------------------------------------------------------------
+    // Cabecalho do recurso (titulo + badge de status)
+    // -----------------------------------------------------------------------
+    .pi-recurso-header {
+        display: flex;
+        align-items: center;
+        gap: var(--pi-spacing-md, 1rem);
+        flex-wrap: wrap;
+        margin-bottom: var(--pi-spacing-md, 1rem);
+
+        h1 {
+            margin: 0;
+        }
+    }
+
+    .pi-status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--pi-radius-full, 999px);
+        font-weight: 600;
+        font-size: 0.875rem;
+        background: var(--pi-color-info-bg, #e8f4fd);
+        color: var(--pi-color-info-fg, #0c5460);
+
+        &--em-retratacao {
+            background: var(--pi-color-warning-bg, #fff3cd);
+            color: var(--pi-color-warning-fg, #856404);
+        }
+        &--em-presidencia {
+            background: var(--pi-color-info-bg, #d1ecf1);
+            color: var(--pi-color-info-fg, #0c5460);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Grid principal (main + sidebar)
+    // -----------------------------------------------------------------------
+    .pi-recurso-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--pi-spacing-md, 1rem);
+
+        @media (min-width: 992px) {
+            grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+        }
+
+        &__main {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--pi-spacing-md, 1rem);
+        }
+
+        &__sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--pi-spacing-md, 1rem);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Countdown de prazo
+    // -----------------------------------------------------------------------
+    .pi-prazo-countdown {
+        font-size: 1.25rem;
+        margin: 0 0 var(--pi-spacing-sm, 0.5rem);
+        padding: 0.5rem 0.75rem;
+        border-radius: var(--pi-radius-sm, 4px);
+    }
+
+    // Severity classes — usadas no countdown e nas linhas da list table.
+    .pi-prazo {
+        font-weight: 600;
+        padding: 0.125rem 0.5rem;
+        border-radius: var(--pi-radius-sm, 4px);
+        display: inline-block;
+
+        &--ok {
+            background: var(--pi-color-success-bg, #d4edda);
+            color: var(--pi-color-success-fg, #155724);
+        }
+        &--atencao {
+            background: var(--pi-color-warning-bg, #fff3cd);
+            color: var(--pi-color-warning-fg, #856404);
+        }
+        &--urgente {
+            background: var(--pi-color-warning-bg, #ffe1b3);
+            color: var(--pi-color-warning-fg-strong, #7a3e00);
+            border: 1px solid var(--pi-color-warning-fg, #856404);
+        }
+        &--vencido {
+            background: var(--pi-color-danger-bg, #f8d7da);
+            color: var(--pi-color-danger-fg, #721c24);
+            border: 1px solid currentColor;
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // KPI cards na pagina de prazos
+    // -----------------------------------------------------------------------
+    .pi-card--kpi {
+        border-left: 4px solid var(--pi-color-border, #ccc);
+
+        .pi-card__metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+    }
+    .pi-card--urgente { border-left-color: var(--pi-color-warning, #f0ad4e); }
+    .pi-card--vencido { border-left-color: var(--pi-color-danger, #d9534f); }
+    .pi-card--ok { border-left-color: var(--pi-color-success, #5cb85c); }
+
+    // -----------------------------------------------------------------------
+    // Timeline (sidebar do detalhe)
+    // -----------------------------------------------------------------------
+    .pi-timeline {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0.4rem;
+            top: 0.5rem;
+            bottom: 0.5rem;
+            width: 2px;
+            background: var(--pi-color-border, #d0d0d0);
+        }
+
+        &__item {
+            position: relative;
+            padding-left: 1.5rem;
+            padding-bottom: var(--pi-spacing-sm, 0.5rem);
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0.35rem;
+                width: 0.85rem;
+                height: 0.85rem;
+                border-radius: 50%;
+                background: var(--pi-color-border, #ccc);
+                border: 2px solid var(--pi-color-bg, #fff);
+                z-index: 1;
+            }
+
+            time {
+                display: block;
+                font-size: 0.85rem;
+                color: var(--pi-color-text-muted, #666);
+            }
+
+            &--done::before {
+                background: var(--pi-color-success, #28a745);
+            }
+            &--current::before {
+                background: var(--pi-color-info, #17a2b8);
+                box-shadow: 0 0 0 3px var(--pi-color-info-bg, #d1ecf1);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Filtros das list tables de recurso
+    // -----------------------------------------------------------------------
+    .pi-list-filters {
+        display: inline-flex;
+        gap: var(--pi-spacing-sm, 0.5rem);
+        align-items: center;
+        flex-wrap: wrap;
+
+        select {
+            min-width: 180px;
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Meta list (pares dt/dd)
+    // -----------------------------------------------------------------------
+    .pi-meta-list {
+        margin: 0;
+
+        &__row {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--pi-spacing-sm, 0.5rem);
+            padding: 0.25rem 0;
+            border-bottom: 1px solid var(--pi-color-border-light, #eaeaea);
+
+            &:last-child { border-bottom: none; }
+
+            dt { font-weight: 600; color: var(--pi-color-text-muted, #555); }
+            dd { margin: 0; text-align: right; }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Form actions e fieldset
+    // -----------------------------------------------------------------------
+    .pi-fieldset {
+        border: 1px solid var(--pi-color-border, #ccc);
+        padding: var(--pi-spacing-md, 1rem);
+        margin: 0 0 var(--pi-spacing-md, 1rem);
+        border-radius: var(--pi-radius-sm, 4px);
+
+        legend {
+            font-weight: 600;
+            padding: 0 var(--pi-spacing-sm, 0.5rem);
+        }
+    }
+
+    .pi-radio {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--pi-spacing-sm, 0.5rem);
+        padding: var(--pi-spacing-sm, 0.5rem) 0;
+
+        label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+            cursor: pointer;
+
+            .description {
+                color: var(--pi-color-text-muted, #555);
+                font-weight: 400;
+                font-size: 0.875rem;
+            }
+        }
+    }
+
+    .pi-form-row {
+        margin-bottom: var(--pi-spacing-md, 1rem);
+
+        textarea {
+            width: 100%;
+            min-height: 8rem;
+            font-family: inherit;
+        }
+    }
+
+    .pi-form-actions {
+        display: flex;
+        gap: var(--pi-spacing-sm, 0.5rem);
+        margin-top: var(--pi-spacing-md, 1rem);
+    }
+
+    // -----------------------------------------------------------------------
+    // Prose (markdown renderizado)
+    // -----------------------------------------------------------------------
+    .pi-prose {
+        max-width: 70ch;
+        line-height: 1.6;
+
+        p { margin: 0 0 1rem; }
+        h1, h2, h3, h4 { margin-top: 1.25rem; }
+        ul, ol { padding-left: 1.5rem; }
+        code {
+            background: var(--pi-color-bg-muted, #f4f4f4);
+            padding: 0.1rem 0.3rem;
+            border-radius: 2px;
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Skip link
+    // -----------------------------------------------------------------------
+    .pi-skip-link {
+        position: absolute;
+        left: -9999px;
+
+        &:focus {
+            position: static;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--pi-color-focus-bg, #ffe1b3);
+            color: var(--pi-color-focus-fg, #000);
+            outline: 2px solid currentColor;
+        }
+    }
+}

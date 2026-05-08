@@ -1,0 +1,12 @@
+Ola {nome},
+
+Recebemos sua submissao ao Cadastro de Agentes para Participacao Social do Instituto Brasileiro de Museus (Ibram).
+
+Data da submissao: {data_submissao}
+
+Sua submissao sera analisada conforme a Portaria IBRAM 3230/2024. Voce sera notificado por e-mail sobre o resultado da analise. Nao e necessario reenviar o formulario.
+
+Acessar meu painel: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

@@ -1,0 +1,73 @@
+// =============================================================================
+// Tokens — Cores DSGov v3.7.0
+// -----------------------------------------------------------------------------
+// Espelha @govbr-ds/core@3.7.0 (validar contra core.css em produção).
+// Referência: R1-dsgov.md §3.1
+// =============================================================================
+
+:root {
+  /* Paleta primária (azul institucional) */
+  --pi-color-primary:           #1351b4; /* blue-warm-vivid-70 — botões, links */
+  --pi-color-primary-dark:      #0c326f; /* blue-warm-vivid-80 — hover */
+  --pi-color-primary-darker:    #071d41; /* blue-warm-vivid-90 — destaque */
+  --pi-color-primary-light:     #2670e8; /* blue-warm-vivid-60 — focus suave */
+  --pi-color-primary-lighter:   #c5d4eb; /* blue-warm-20 — fundo info claro */
+
+  /* Paleta secundária (amarela) */
+  --pi-color-secondary:         #fed447; /* amarelo institucional */
+  --pi-color-secondary-dark:    #ffcd07; /* yellow-vivid-20 */
+
+  /* Paleta terciária (verde) */
+  --pi-color-tertiary:          #168821; /* green-cool-vivid-50 */
+  --pi-color-tertiary-dark:     #0d6b18;
+
+  /* Status semânticos */
+  --pi-color-success:           #168821;
+  --pi-color-success-bg:        #e6f4ea;
+  --pi-color-warning:           #e6741b; /* orange-vivid-40 */
+  --pi-color-warning-bg:        #fff5e6;
+  --pi-color-danger:            #e52207; /* red-vivid-50 */
+  --pi-color-danger-bg:         #fff5f5;
+  --pi-color-info:              #155bcb;
+  --pi-color-info-bg:           #e8f0fe;
+
+  /* Neutros (escala gray DSGov) */
+  --pi-color-pure-0:            #ffffff;
+  --pi-color-pure-100:          #000000;
+  --pi-color-gray-2:            #f8f8f8;
+  --pi-color-gray-10:           #e6e6e6;
+  --pi-color-gray-20:           #cccccc;
+  --pi-color-gray-30:           #b3b3b3;
+  --pi-color-gray-40:           #9e9e9e;
+  --pi-color-gray-60:           #636363;
+  --pi-color-gray-70:           #555555;
+  --pi-color-gray-80:           #333333;
+  --pi-color-gray-90:           #1b1b1b;
+
+  /* Texto */
+  --pi-color-text:              var(--pi-color-gray-90);
+  --pi-color-text-secondary:    var(--pi-color-gray-80);
+  --pi-color-text-muted:        var(--pi-color-gray-60);
+  --pi-color-text-inverse:      var(--pi-color-pure-0);
+
+  /* Background */
+  --pi-color-bg:                var(--pi-color-pure-0);
+  --pi-color-bg-page:           var(--pi-color-gray-2);
+  --pi-color-bg-disabled:       var(--pi-color-gray-10);
+
+  /* Bordas */
+  --pi-color-border:            var(--pi-color-gray-20);
+  --pi-color-border-strong:     var(--pi-color-gray-40);
+  --pi-color-border-focus:      var(--pi-color-primary);
+
+  /* Estados interativos */
+  --pi-color-interactive:       var(--pi-color-primary);
+  --pi-color-hover:             rgba(0, 0, 0, 0.08);
+  --pi-color-pressed:           rgba(0, 0, 0, 0.16);
+
+  /* Foco visível (eMAG R26 | WCAG 2.4.7) */
+  --pi-focus-color:             var(--pi-color-primary);
+  --pi-focus-style:             solid;
+  --pi-focus-width:             3px;
+  --pi-focus-offset:            2px;
+}

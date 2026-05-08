@@ -1,0 +1,75 @@
+// =============================================================================
+// Layout — Minha conta (área autenticada do agente)
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-minha-conta {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: var(--pi-spacing-6);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--pi-spacing-4);
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    &__nav {
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-md);
+      padding: var(--pi-spacing-3);
+      align-self: start;
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        display: block;
+        padding: var(--pi-spacing-2) var(--pi-spacing-3);
+        color: var(--pi-color-text);
+        text-decoration: none;
+        border-radius: var(--pi-radius-sm);
+
+        &:hover {
+          background-color: var(--pi-color-gray-2);
+        }
+
+        &[aria-current="page"] {
+          background-color: var(--pi-color-primary);
+          color: var(--pi-color-text-inverse);
+          font-weight: var(--pi-font-weight-semibold);
+        }
+      }
+    }
+
+    &__main {
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-md);
+      padding: var(--pi-spacing-6);
+    }
+
+    &__header {
+      margin-bottom: var(--pi-spacing-5);
+      padding-bottom: var(--pi-spacing-3);
+      border-bottom: 1px solid var(--pi-color-border);
+    }
+
+    &__title {
+      margin: 0;
+      font-size: var(--pi-font-size-2xl);
+      color: var(--pi-color-primary-darker);
+    }
+
+    &__subtitle {
+      margin: var(--pi-spacing-1) 0 0;
+      color: var(--pi-color-text-muted);
+      font-size: var(--pi-font-size-sm);
+    }
+  }
+}

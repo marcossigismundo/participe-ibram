@@ -1,0 +1,114 @@
+// =============================================================================
+// Component — Modal
+// -----------------------------------------------------------------------------
+// WCAG 2.1.2 (no keyboard trap fora do modal); 4.1.2 (name/role/value).
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--pi-z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--pi-spacing-4);
+    background-color: rgba(7, 29, 65, 0.55);
+    animation: pi-modal-fade 0.18s ease-out;
+
+    &[hidden] {
+      display: none;
+    }
+
+    &__dialog {
+      width: 100%;
+      max-width: 640px;
+      max-height: calc(100vh - 2 * var(--pi-spacing-4));
+      background-color: var(--pi-color-bg);
+      border-radius: var(--pi-radius-md);
+      box-shadow: var(--pi-shadow-xl);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: pi-modal-slide 0.22s ease-out;
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--pi-spacing-4);
+      padding: var(--pi-spacing-4) var(--pi-spacing-6);
+      border-bottom: 1px solid var(--pi-color-border);
+    }
+
+    &__title {
+      margin: 0;
+      font-size: var(--pi-font-size-xl);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-primary-darker);
+    }
+
+    &__close {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      border-radius: var(--pi-radius-pill);
+      cursor: pointer;
+      color: var(--pi-color-text-muted);
+
+      &:hover {
+        background-color: var(--pi-color-hover);
+        color: var(--pi-color-text);
+      }
+    }
+
+    &__body {
+      padding: var(--pi-spacing-6);
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    &__footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--pi-spacing-2);
+      padding: var(--pi-spacing-4) var(--pi-spacing-6);
+      border-top: 1px solid var(--pi-color-border);
+      background-color: var(--pi-color-gray-2);
+    }
+
+    /* Reflow */
+    @media (max-width: 575px) {
+      padding: 0;
+
+      &__dialog {
+        max-height: 100vh;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+@keyframes pi-modal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pi-modal-slide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* eMAG R31 — respeita reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .participe-ibram-scope .pi-modal,
+  .participe-ibram-scope .pi-modal__dialog {
+    animation: none;
+  }
+}

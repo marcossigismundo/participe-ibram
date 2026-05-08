@@ -1,0 +1,45 @@
+// =============================================================================
+// Component — Select nativo estilizado
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-select {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-1);
+    margin-bottom: var(--pi-spacing-4);
+
+    label {
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-text);
+    }
+
+    select {
+      width: 100%;
+      min-height: 40px;
+      padding: var(--pi-spacing-2) var(--pi-spacing-8) var(--pi-spacing-2) var(--pi-spacing-3);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-base);
+      color: var(--pi-color-text);
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-sm);
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='%23636363' d='M6 8 0 0h12z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right var(--pi-spacing-3) center;
+      background-size: 12px 8px;
+
+      &:disabled {
+        background-color: var(--pi-color-bg-disabled);
+        cursor: not-allowed;
+      }
+
+      &[aria-invalid="true"] {
+        border: 2px solid var(--pi-color-danger);
+        background-color: var(--pi-color-danger-bg);
+      }
+    }
+  }
+}

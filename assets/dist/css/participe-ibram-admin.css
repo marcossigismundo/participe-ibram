@@ -1,0 +1,343 @@
+/*!
+ * Participe Ibram — Admin stylesheet (DSGov-aligned)
+ * Version: 1.0.0
+ * License: GPL-2.0-or-later
+ * Wrapper: .participe-ibram-scope (carregado APENAS em telas do plugin)
+ *
+ * Compiled manually from assets/src/scss/participe-ibram-admin.scss
+ */
+
+/* ============================================================================
+ * Reset escopado
+ * ============================================================================ */
+
+.participe-ibram-scope *,
+.participe-ibram-scope *::before,
+.participe-ibram-scope *::after { box-sizing: border-box; }
+
+.participe-ibram-scope ol,
+.participe-ibram-scope ul { padding: 0; margin: 0; list-style: none; }
+
+.participe-ibram-scope img,
+.participe-ibram-scope svg { display: block; max-width: 100%; height: auto; }
+
+.participe-ibram-scope button { background: none; border: 0; cursor: pointer; font: inherit; color: inherit; }
+
+.participe-ibram-scope a { color: var(--pi-color-primary); text-decoration: underline; }
+.participe-ibram-scope a:hover { color: var(--pi-color-primary-dark); }
+
+.participe-ibram-scope table { border-collapse: collapse; width: 100%; }
+
+/* ============================================================================
+ * Tipografia base
+ * ============================================================================ */
+
+.participe-ibram-scope {
+  font-family: var(--pi-font-family-base);
+  font-size: var(--pi-font-size-base);
+  line-height: var(--pi-line-height-normal);
+  color: var(--pi-color-text);
+}
+
+.participe-ibram-scope h1, .participe-ibram-scope h2,
+.participe-ibram-scope h3, .participe-ibram-scope h4,
+.participe-ibram-scope h5, .participe-ibram-scope h6 {
+  font-family: var(--pi-font-family-secondary);
+  font-weight: var(--pi-font-weight-semibold);
+  line-height: var(--pi-line-height-tight);
+  margin: 0 0 var(--pi-spacing-4);
+  color: var(--pi-color-primary-darker);
+}
+.participe-ibram-scope h1 { font-size: var(--pi-font-size-4xl); font-weight: var(--pi-font-weight-bold); }
+.participe-ibram-scope h2 { font-size: var(--pi-font-size-3xl); }
+.participe-ibram-scope h3 { font-size: var(--pi-font-size-2xl); }
+.participe-ibram-scope h4 { font-size: var(--pi-font-size-xl); }
+.participe-ibram-scope h5 { font-size: var(--pi-font-size-lg); }
+.participe-ibram-scope h6 { font-size: var(--pi-font-size-md); }
+.participe-ibram-scope p { margin: 0 0 var(--pi-spacing-4); }
+
+/* ============================================================================
+ * Acessibilidade
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-sr-only,
+.pi-sr-only {
+  position: absolute !important; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.participe-ibram-scope :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+  outline-offset: var(--pi-focus-offset);
+  border-radius: var(--pi-radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .participe-ibram-scope,
+  .participe-ibram-scope *,
+  .participe-ibram-scope *::before,
+  .participe-ibram-scope *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============================================================================
+ * Button
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--pi-spacing-2);
+  min-height: 40px;
+  padding: var(--pi-spacing-2) var(--pi-spacing-5);
+  font-family: var(--pi-font-family-base);
+  font-size: var(--pi-font-size-base);
+  font-weight: var(--pi-font-weight-semibold);
+  line-height: var(--pi-line-height-tight);
+  background: transparent; color: var(--pi-color-primary);
+  border: 1px solid transparent; border-radius: var(--pi-radius-pill);
+  cursor: pointer; white-space: nowrap;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+.participe-ibram-scope .pi-button:hover:not(:disabled) { background-color: var(--pi-color-hover); }
+.participe-ibram-scope .pi-button:disabled { opacity: 0.55; cursor: not-allowed; }
+.participe-ibram-scope .pi-button--primary { background-color: var(--pi-color-primary); color: var(--pi-color-text-inverse); }
+.participe-ibram-scope .pi-button--primary:hover:not(:disabled) { background-color: var(--pi-color-primary-dark); }
+.participe-ibram-scope .pi-button--secondary { border-color: var(--pi-color-primary); color: var(--pi-color-primary); }
+.participe-ibram-scope .pi-button--danger { background-color: var(--pi-color-danger); color: var(--pi-color-text-inverse); }
+.participe-ibram-scope .pi-button--sm { min-height: 32px; padding: var(--pi-spacing-1) var(--pi-spacing-3); font-size: var(--pi-font-size-sm); }
+
+/* ============================================================================
+ * Input/Select/Checkbox/Radio (formulários admin)
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-input,
+.participe-ibram-scope .pi-select {
+  display: flex; flex-direction: column; gap: var(--pi-spacing-1);
+  margin-bottom: var(--pi-spacing-4);
+}
+.participe-ibram-scope .pi-input label,
+.participe-ibram-scope .pi-select label {
+  font-size: var(--pi-font-size-sm); font-weight: var(--pi-font-weight-semibold);
+}
+.participe-ibram-scope .pi-input input,
+.participe-ibram-scope .pi-input textarea,
+.participe-ibram-scope .pi-select select {
+  width: 100%; min-height: 40px;
+  padding: var(--pi-spacing-2) var(--pi-spacing-3);
+  font-family: var(--pi-font-family-base); font-size: var(--pi-font-size-base);
+  color: var(--pi-color-text); background-color: var(--pi-color-bg);
+  border: 1px solid var(--pi-color-border); border-radius: var(--pi-radius-sm);
+}
+.participe-ibram-scope .pi-input input[aria-invalid="true"],
+.participe-ibram-scope .pi-input textarea[aria-invalid="true"] {
+  border: 2px solid var(--pi-color-danger); background-color: var(--pi-color-danger-bg);
+}
+.participe-ibram-scope .pi-input__error {
+  display: flex; gap: var(--pi-spacing-1);
+  font-size: var(--pi-font-size-sm); font-weight: var(--pi-font-weight-semibold);
+  color: var(--pi-color-danger);
+}
+.participe-ibram-scope .pi-input__error::before { content: "\26A0"; flex-shrink: 0; }
+.participe-ibram-scope .pi-input__helper { font-size: var(--pi-font-size-xs); color: var(--pi-color-text-muted); }
+
+.participe-ibram-scope .pi-checkbox,
+.participe-ibram-scope .pi-radio {
+  display: flex; align-items: flex-start; gap: var(--pi-spacing-2);
+  margin-bottom: var(--pi-spacing-2); cursor: pointer;
+}
+.participe-ibram-scope .pi-checkbox input,
+.participe-ibram-scope .pi-radio input {
+  flex-shrink: 0; width: 20px; height: 20px;
+  margin: 2px 0 0; appearance: none;
+  background-color: var(--pi-color-bg);
+  border: 2px solid var(--pi-color-border-strong);
+  cursor: pointer; position: relative;
+}
+.participe-ibram-scope .pi-checkbox input { border-radius: var(--pi-radius-sm); }
+.participe-ibram-scope .pi-radio input { border-radius: 50%; }
+.participe-ibram-scope .pi-checkbox input:checked {
+  background-color: var(--pi-color-primary); border-color: var(--pi-color-primary);
+}
+.participe-ibram-scope .pi-checkbox input:checked::after {
+  content: ""; position: absolute; left: 5px; top: 1px; width: 6px; height: 11px;
+  border: solid var(--pi-color-text-inverse); border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.participe-ibram-scope .pi-radio input:checked { border-color: var(--pi-color-primary); }
+.participe-ibram-scope .pi-radio input:checked::after {
+  content: ""; position: absolute; inset: 3px;
+  background-color: var(--pi-color-primary); border-radius: 50%;
+}
+
+/* ============================================================================
+ * Modal
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-modal {
+  position: fixed; inset: 0; z-index: var(--pi-z-modal);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--pi-spacing-4);
+  background-color: rgba(7, 29, 65, 0.55);
+}
+.participe-ibram-scope .pi-modal[hidden] { display: none; }
+.participe-ibram-scope .pi-modal__dialog {
+  width: 100%; max-width: 640px;
+  background-color: var(--pi-color-bg);
+  border-radius: var(--pi-radius-md);
+  box-shadow: var(--pi-shadow-xl);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.participe-ibram-scope .pi-modal__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--pi-spacing-4) var(--pi-spacing-6);
+  border-bottom: 1px solid var(--pi-color-border);
+}
+.participe-ibram-scope .pi-modal__title { margin: 0; font-size: var(--pi-font-size-xl); }
+.participe-ibram-scope .pi-modal__body { padding: var(--pi-spacing-6); overflow-y: auto; flex: 1; }
+.participe-ibram-scope .pi-modal__footer {
+  display: flex; justify-content: flex-end; gap: var(--pi-spacing-2);
+  padding: var(--pi-spacing-4) var(--pi-spacing-6);
+  border-top: 1px solid var(--pi-color-border);
+  background-color: var(--pi-color-gray-2);
+}
+
+/* ============================================================================
+ * Alert
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-alert {
+  display: flex; gap: var(--pi-spacing-3);
+  padding: var(--pi-spacing-4); margin-bottom: var(--pi-spacing-4);
+  border-left: 4px solid var(--pi-color-info);
+  background-color: var(--pi-color-info-bg);
+  border-radius: var(--pi-radius-sm);
+}
+.participe-ibram-scope .pi-alert__title { margin: 0 0 var(--pi-spacing-1); font-weight: var(--pi-font-weight-bold); }
+.participe-ibram-scope .pi-alert__body { margin: 0; font-size: var(--pi-font-size-sm); }
+.participe-ibram-scope .pi-alert--success { border-left-color: var(--pi-color-success); background-color: var(--pi-color-success-bg); }
+.participe-ibram-scope .pi-alert--warning { border-left-color: var(--pi-color-warning); background-color: var(--pi-color-warning-bg); }
+.participe-ibram-scope .pi-alert--danger  { border-left-color: var(--pi-color-danger);  background-color: var(--pi-color-danger-bg); }
+
+/* ============================================================================
+ * Card
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-card {
+  background-color: var(--pi-color-bg);
+  border: 1px solid var(--pi-color-border);
+  border-radius: var(--pi-radius-md);
+  box-shadow: var(--pi-shadow-sm);
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.participe-ibram-scope .pi-card__header { padding: var(--pi-spacing-4); border-bottom: 1px solid var(--pi-color-border); }
+.participe-ibram-scope .pi-card__title { margin: 0; font-size: var(--pi-font-size-md); color: var(--pi-color-primary-darker); }
+.participe-ibram-scope .pi-card__body { padding: var(--pi-spacing-4); flex: 1; }
+.participe-ibram-scope .pi-card__metric-value {
+  font-size: var(--pi-font-size-3xl); font-weight: var(--pi-font-weight-bold);
+  color: var(--pi-color-primary);
+}
+.participe-ibram-scope .pi-card__metric-label { font-size: var(--pi-font-size-sm); color: var(--pi-color-text-muted); }
+
+/* ============================================================================
+ * Breadcrumb
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-breadcrumb { margin-bottom: var(--pi-spacing-4); font-size: var(--pi-font-size-sm); }
+.participe-ibram-scope .pi-breadcrumb__list {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--pi-spacing-1); list-style: none;
+}
+.participe-ibram-scope .pi-breadcrumb__item:not(:last-child)::after {
+  content: "\203A"; margin: 0 var(--pi-spacing-1); color: var(--pi-color-gray-40);
+}
+
+/* ============================================================================
+ * Table (admin listagens)
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-table {
+  width: 100%; background-color: var(--pi-color-bg);
+  border: 1px solid var(--pi-color-border); border-radius: var(--pi-radius-md);
+  overflow: hidden; border-collapse: separate; border-spacing: 0;
+}
+.participe-ibram-scope .pi-table caption {
+  padding: var(--pi-spacing-3) var(--pi-spacing-4); text-align: left;
+  font-weight: var(--pi-font-weight-semibold);
+  background-color: var(--pi-color-gray-2);
+  border-bottom: 1px solid var(--pi-color-border);
+}
+.participe-ibram-scope .pi-table thead th {
+  text-align: left; padding: var(--pi-spacing-3) var(--pi-spacing-4);
+  font-size: var(--pi-font-size-sm); font-weight: var(--pi-font-weight-bold);
+  background-color: var(--pi-color-gray-10);
+  border-bottom: 2px solid var(--pi-color-border); white-space: nowrap;
+}
+.participe-ibram-scope .pi-table tbody td {
+  padding: var(--pi-spacing-3) var(--pi-spacing-4);
+  border-bottom: 1px solid var(--pi-color-border);
+  font-size: var(--pi-font-size-sm);
+}
+.participe-ibram-scope .pi-table tbody tr:last-child td { border-bottom: 0; }
+.participe-ibram-scope .pi-table tbody tr:hover { background-color: var(--pi-color-gray-2); }
+
+@media (max-width: 768px) {
+  .participe-ibram-scope .pi-table thead {
+    position: absolute; clip: rect(0, 0, 0, 0); width: 1px; height: 1px; overflow: hidden;
+  }
+  .participe-ibram-scope .pi-table tbody td {
+    display: flex; justify-content: space-between; gap: var(--pi-spacing-2);
+    padding: var(--pi-spacing-2) var(--pi-spacing-3);
+  }
+  .participe-ibram-scope .pi-table tbody td::before {
+    content: attr(data-label); font-weight: var(--pi-font-weight-bold);
+    color: var(--pi-color-text-muted);
+  }
+  .participe-ibram-scope .pi-table tbody tr {
+    display: block; margin-bottom: var(--pi-spacing-3);
+    border: 1px solid var(--pi-color-border); border-radius: var(--pi-radius-sm);
+  }
+}
+
+.participe-ibram-scope .pi-table-tag {
+  display: inline-block; padding: 0 var(--pi-spacing-2);
+  font-size: var(--pi-font-size-xs); font-weight: var(--pi-font-weight-semibold);
+  border-radius: var(--pi-radius-pill); text-transform: uppercase;
+}
+.participe-ibram-scope .pi-table-tag--info    { background: var(--pi-color-info-bg);    color: var(--pi-color-info); }
+.participe-ibram-scope .pi-table-tag--success { background: var(--pi-color-success-bg); color: var(--pi-color-success); }
+.participe-ibram-scope .pi-table-tag--warning { background: var(--pi-color-warning-bg); color: var(--pi-color-warning); }
+.participe-ibram-scope .pi-table-tag--danger  { background: var(--pi-color-danger-bg);  color: var(--pi-color-danger); }
+
+/* ============================================================================
+ * Layout — Minha conta (compartilhada com público; usada também em admin)
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-minha-conta {
+  display: grid; grid-template-columns: 240px 1fr;
+  gap: var(--pi-spacing-6);
+}
+@media (max-width: 768px) {
+  .participe-ibram-scope .pi-minha-conta { grid-template-columns: 1fr; }
+}
+.participe-ibram-scope .pi-minha-conta__nav,
+.participe-ibram-scope .pi-minha-conta__main {
+  background-color: var(--pi-color-bg);
+  border: 1px solid var(--pi-color-border);
+  border-radius: var(--pi-radius-md);
+  padding: var(--pi-spacing-3);
+}
+.participe-ibram-scope .pi-minha-conta__main { padding: var(--pi-spacing-6); }
+
+/* ============================================================================
+ * Admin dashboard helpers
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--pi-spacing-4);
+  margin-bottom: var(--pi-spacing-6);
+}

@@ -1,0 +1,12 @@
+Ola {nome},
+
+Seu cadastro no Participe Ibram foi DEFERIDO. Voce ja pode participar de editais e votacoes.
+
+Numero de registro: {numero_registro}
+
+Guarde este numero — ele e a sua identificacao publica como agente cadastrado.
+
+Acessar meu painel: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

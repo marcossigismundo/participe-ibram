@@ -1,0 +1,44 @@
+// =============================================================================
+// Tokens — Breakpoints (mobile-first)
+// -----------------------------------------------------------------------------
+// Referência: R1-dsgov.md §3.4
+// =============================================================================
+
+:root {
+  --pi-breakpoint-xs:  0;
+  --pi-breakpoint-sm:  576px;   /* mobile landscape */
+  --pi-breakpoint-md:  768px;   /* tablet */
+  --pi-breakpoint-lg:  992px;   /* desktop pequeno */
+  --pi-breakpoint-xl:  1280px;  /* desktop grande */
+  --pi-breakpoint-2xl: 1600px;  /* desktop XL */
+}
+
+// SCSS map para uso interno via @include media-up()
+$pi-breakpoints: (
+  xs:  0,
+  sm:  576px,
+  md:  768px,
+  lg:  992px,
+  xl:  1280px,
+  2xl: 1600px,
+);
+
+@mixin pi-media-up($name) {
+  $bp: map-get($pi-breakpoints, $name);
+  @if $bp and $bp > 0 {
+    @media (min-width: $bp) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin pi-media-down($name) {
+  $bp: map-get($pi-breakpoints, $name);
+  @if $bp and $bp > 0 {
+    @media (max-width: ($bp - 1px)) {
+      @content;
+    }
+  }
+}

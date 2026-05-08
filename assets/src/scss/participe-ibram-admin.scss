@@ -1,0 +1,35 @@
+// =============================================================================
+// Participe Ibram — Admin stylesheet (entry point)
+// -----------------------------------------------------------------------------
+// Compile target: assets/dist/css/participe-ibram-admin.css
+// Carregado APENAS em telas do plugin (hook prefix "pi_*").
+// =============================================================================
+
+@import "tokens/colors";
+@import "tokens/typography";
+@import "tokens/spacing";
+@import "tokens/breakpoints";
+@import "tokens/radius";
+@import "tokens/shadow";
+@import "tokens/zindex";
+
+@import "base/reset";
+@import "base/typography";
+@import "base/accessibility";
+
+@import "components/button";
+@import "components/input";
+@import "components/select";
+@import "components/checkbox";
+@import "components/radio";
+@import "components/modal";
+@import "components/alert";
+@import "components/card";
+@import "components/breadcrumb";
+@import "components/table";
+@import "components/recurso";
+@import "components/admin-detalhes";
+@import "components/habilitacao";
+@import "components/edital";
+
+@import "layouts/minha-conta";

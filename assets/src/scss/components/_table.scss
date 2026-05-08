@@ -1,0 +1,94 @@
+// =============================================================================
+// Component — Table (admin listagens)
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-table {
+    width: 100%;
+    background-color: var(--pi-color-bg);
+    border: 1px solid var(--pi-color-border);
+    border-radius: var(--pi-radius-md);
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    caption {
+      padding: var(--pi-spacing-3) var(--pi-spacing-4);
+      text-align: left;
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-text);
+      background-color: var(--pi-color-gray-2);
+      border-bottom: 1px solid var(--pi-color-border);
+    }
+
+    thead th {
+      text-align: left;
+      padding: var(--pi-spacing-3) var(--pi-spacing-4);
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-bold);
+      color: var(--pi-color-text);
+      background-color: var(--pi-color-gray-10);
+      border-bottom: 2px solid var(--pi-color-border);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: var(--pi-spacing-3) var(--pi-spacing-4);
+      border-bottom: 1px solid var(--pi-color-border);
+      font-size: var(--pi-font-size-sm);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background-color: var(--pi-color-gray-2);
+    }
+
+    /* Reflow — tabela vira cards em mobile */
+    @media (max-width: 768px) {
+      thead {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+        width: 1px; height: 1px;
+        overflow: hidden;
+      }
+
+      tbody td {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--pi-spacing-2);
+        padding: var(--pi-spacing-2) var(--pi-spacing-3);
+
+        &::before {
+          content: attr(data-label);
+          font-weight: var(--pi-font-weight-bold);
+          color: var(--pi-color-text-muted);
+        }
+      }
+
+      tbody tr {
+        display: block;
+        margin-bottom: var(--pi-spacing-3);
+        border: 1px solid var(--pi-color-border);
+        border-radius: var(--pi-radius-sm);
+      }
+    }
+  }
+
+  .pi-table-tag {
+    display: inline-block;
+    padding: 0 var(--pi-spacing-2);
+    font-size: var(--pi-font-size-xs);
+    font-weight: var(--pi-font-weight-semibold);
+    border-radius: var(--pi-radius-pill);
+    text-transform: uppercase;
+
+    &--info    { background: var(--pi-color-info-bg);    color: var(--pi-color-info); }
+    &--success { background: var(--pi-color-success-bg); color: var(--pi-color-success); }
+    &--warning { background: var(--pi-color-warning-bg); color: var(--pi-color-warning); }
+    &--danger  { background: var(--pi-color-danger-bg);  color: var(--pi-color-danger); }
+  }
+}

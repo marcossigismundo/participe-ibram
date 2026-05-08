@@ -1,0 +1,105 @@
+// =============================================================================
+// Layout — Wizard (sidebar com stepper + main)
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-wizard-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--pi-spacing-6);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--pi-spacing-4);
+
+    @media (max-width: 991px) {
+      grid-template-columns: 1fr;
+      gap: var(--pi-spacing-4);
+    }
+
+    &__sidebar {
+      position: sticky;
+      top: var(--pi-spacing-4);
+      align-self: start;
+
+      @media (max-width: 991px) {
+        position: static;
+      }
+    }
+
+    &__main {
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-md);
+      padding: var(--pi-spacing-6);
+      box-shadow: var(--pi-shadow-sm);
+
+      @media (max-width: 575px) {
+        padding: var(--pi-spacing-4);
+      }
+    }
+
+    &__panel {
+      &[hidden] {
+        display: none;
+      }
+
+      h2 {
+        outline: none;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--pi-spacing-2);
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--pi-spacing-6);
+      padding-top: var(--pi-spacing-4);
+      border-top: 1px solid var(--pi-color-border);
+
+      &-secondary {
+        display: flex;
+        gap: var(--pi-spacing-2);
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 575px) {
+        flex-direction: column;
+        align-items: stretch;
+
+        .pi-button {
+          width: 100%;
+        }
+      }
+    }
+
+    /* Sumário de erros (foco direto, role="alert") */
+    .erros-sumario,
+    &__error-summary {
+      padding: var(--pi-spacing-4);
+      margin-bottom: var(--pi-spacing-4);
+      background-color: var(--pi-color-danger-bg);
+      border: 2px solid var(--pi-color-danger);
+      border-radius: var(--pi-radius-sm);
+      color: var(--pi-color-danger);
+
+      h3 {
+        margin: 0 0 var(--pi-spacing-2);
+        color: var(--pi-color-danger);
+        font-size: var(--pi-font-size-md);
+      }
+
+      ul {
+        margin: 0;
+        padding-left: var(--pi-spacing-4);
+        list-style: disc;
+      }
+
+      a {
+        color: var(--pi-color-danger);
+        font-weight: var(--pi-font-weight-semibold);
+      }
+    }
+  }
+}

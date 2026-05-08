@@ -1,0 +1,14 @@
+Ola,
+
+Foi publicado um novo edital no Participe Ibram.
+
+Titulo: {edital_titulo}
+
+{edital_resumo}
+
+Periodo de inscricoes: {periodo_inscricao}
+
+Ver edital completo: {edital_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

@@ -1,0 +1,62 @@
+// =============================================================================
+// Component — Barra gov.br (IN SECOM nº 8/2014)
+// -----------------------------------------------------------------------------
+// Estilo da barra superior obrigatória; HTML servido em template.
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-govbr-bar {
+    width: 100%;
+    background-color: var(--pi-color-pure-100);
+    color: var(--pi-color-text-inverse);
+    font-size: var(--pi-font-size-xs);
+    line-height: 1;
+
+    &__container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--pi-spacing-3);
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--pi-spacing-2) var(--pi-spacing-4);
+    }
+
+    &__brand {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--pi-spacing-2);
+      color: var(--pi-color-text-inverse);
+      text-decoration: none;
+      font-weight: var(--pi-font-weight-bold);
+
+      &::before {
+        content: "gov.br";
+        font-size: var(--pi-font-size-base);
+      }
+    }
+
+    &__links {
+      display: flex;
+      gap: var(--pi-spacing-3);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      a {
+        color: var(--pi-color-text-inverse);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    @media (max-width: 575px) {
+      &__links {
+        display: none;
+      }
+    }
+  }
+}
