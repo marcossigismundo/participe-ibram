@@ -140,9 +140,72 @@ final class Activator
     {
         self::assertEnvironment();
         self::installRoles();
+        self::ensurePrivateStorage();
         self::runMigrations();
+        self::scheduleCrons();
 
         flush_rewrite_rules();
+    }
+
+    /**
+     * Cria o diretório privado para armazenar documentos sensíveis dos
+     * agentes (CPF anexado, etc.) e protege com .htaccess + web.config.
+     */
+    private static function ensurePrivateStorage(): void
+    {
+        if (!function_exists('wp_upload_dir')) {
+            return;
+        }
+        $uploads = wp_upload_dir(null, false);
+        if (!is_array($uploads) || empty($uploads['basedir'])) {
+            return;
+        }
+        $base = rtrim((string) $uploads['basedir'], "/\\") . '/participe-ibram-private';
+        if (!is_dir($base)) {
+            if (function_exists('wp_mkdir_p')) {
+                wp_mkdir_p($base);
+            } else {
+                @mkdir($base, 0755, true);
+            }
+        }
+        // Proteções Apache + IIS + listing silence.
+        $htaccess = $base . '/.htaccess';
+        if (!file_exists($htaccess)) {
+            @file_put_contents($htaccess, "Order deny,allow\nDeny from all\n");
+        }
+        $webconfig = $base . '/web.config';
+        if (!file_exists($webconfig)) {
+            @file_put_contents(
+                $webconfig,
+                '<?xml version="1.0"?><configuration><system.webServer><authorization>'
+                . '<deny users="*"/></authorization></system.webServer></configuration>'
+            );
+        }
+        $silence = $base . '/index.php';
+        if (!file_exists($silence)) {
+            @file_put_contents($silence, "<?php // Silence is golden.\n");
+        }
+    }
+
+    /**
+     * Agenda crons recorrentes do plugin (idempotente — só agenda o que falta).
+     */
+    private static function scheduleCrons(): void
+    {
+        if (!function_exists('wp_next_scheduled')) {
+            return;
+        }
+        $crons = [
+            'pi_email_queue_tick'    => 'every_five_minutes',
+            'pi_dpo_alerts_check'    => 'daily',
+            'pi_recurso_prazo_check' => 'daily',
+            'pi_votacao_auto_encerrar' => 'every_ten_minutes',
+        ];
+        foreach ($crons as $hook => $recurrence) {
+            if (!wp_next_scheduled($hook)) {
+                wp_schedule_event(time() + 60, $recurrence, $hook);
+            }
+        }
     }
 
     /**
@@ -229,28 +292,59 @@ final class Activator
     }
 
     /**
-     * Trigger the migrations runner if Wave I2 has shipped it.
+     * Trigger the migrations runner.
      *
-     * Graceful: this method must never break activation when the runner is
-     * not yet available.
+     * BUG FIX 2026-05-11: anteriormente esta função chamava
+     * `$runner::run()` estaticamente, mas `MigrationRunner::run()` é
+     * método de instância com construtor de 2-3 args. A chamada falhava
+     * silenciosamente no `catch \Throwable` → migrations 0/3 aplicadas.
+     *
+     * Agora instancia corretamente e registra o erro de forma visível ao
+     * admin via option `pi_activation_last_error`.
      */
     private static function runMigrations(): void
     {
-        $runner = 'Ibram\\ParticipeIbram\\Core\\Database\\MigrationRunner';
-        if (!class_exists($runner)) {
+        $runnerClass = 'Ibram\\ParticipeIbram\\Core\\Database\\MigrationRunner';
+        if (!class_exists($runnerClass)) {
+            update_option('pi_activation_last_error', 'MigrationRunner class not found (autoload issue?)');
             return;
         }
-        if (method_exists($runner, 'run')) {
-            try {
-                /** @psalm-suppress MixedMethodCall */
-                $runner::run();
-            } catch (\Throwable $e) {
-                // Activation should not fatal; log a sanitized message only.
-                if (function_exists('do_action')) {
-                    do_action('participe_ibram_activation_migration_failed', $e->getMessage());
-                }
+
+        global $wpdb;
+        if (!isset($wpdb)) {
+            update_option('pi_activation_last_error', 'wpdb not available during activation');
+            return;
+        }
+
+        $migrationsDir = defined('PI_PLUGIN_DIR') ? PI_PLUGIN_DIR . 'migrations' : __DIR__ . '/../../migrations';
+        if (!is_dir($migrationsDir)) {
+            update_option('pi_activation_last_error', sprintf('migrations directory not found: %s', $migrationsDir));
+            return;
+        }
+
+        try {
+            $runner  = new $runnerClass($wpdb, $migrationsDir);
+            $applied = $runner->run();
+            update_option('pi_activation_last_error', '');
+            update_option('pi_activation_last_applied', $applied);
+        } catch (\Throwable $e) {
+            // Visible to admin via Setup de Teste + admin notice.
+            update_option('pi_activation_last_error', $e->getMessage());
+            if (function_exists('do_action')) {
+                do_action('participe_ibram_activation_migration_failed', $e->getMessage());
             }
         }
+    }
+
+    /**
+     * Re-roda apenas as migrations (sem mexer em roles/storage).
+     *
+     * Útil para chamar via botão "Re-executar migrations" no Setup de Teste,
+     * quando a primeira ativação falhou por algum motivo.
+     */
+    public static function runMigrationsNow(): void
+    {
+        self::runMigrations();
     }
 
     /**

@@ -179,6 +179,52 @@ echo esc_html($snippet);
     </section>
 
     <?php /* ═══════════════════════════════════════════════════════════════
+           CARD 1.5: Re-executar Activator (bug fix 2026-05-11)
+           ═══════════════════════════════════════════════════════════════ */ ?>
+    <?php
+    $activationError = get_option('pi_activation_last_error', '');
+    $activationApplied = get_option('pi_activation_last_applied', []);
+    ?>
+    <section class="pi-card" role="region" aria-labelledby="card15-title">
+      <div class="pi-card__header">
+        <h2 class="pi-card__title" id="card15-title">
+          <?php esc_html_e('1.5. Re-executar Activator', 'participe-ibram'); ?>
+        </h2>
+        <p class="pi-card__subtitle">
+          <?php esc_html_e('Roda novamente: instala roles, cria diretório privado, aplica migrations, agenda crons. Idempotente — seguro executar quantas vezes precisar.', 'participe-ibram'); ?>
+        </p>
+      </div>
+      <div class="pi-card__body">
+        <?php if ($activationError !== ''): ?>
+          <div class="notice notice-error inline" role="alert">
+            <p><strong><?php esc_html_e('Última ativação reportou erro:', 'participe-ibram'); ?></strong></p>
+            <pre style="white-space:pre-wrap;background:#fff;padding:10px;border:1px solid #c00;"><?php echo esc_html($activationError); ?></pre>
+          </div>
+        <?php elseif (is_array($activationApplied) && !empty($activationApplied)): ?>
+          <p class="notice notice-success inline" style="padding:8px 12px;">
+            <?php
+            printf(
+                /* translators: %s = versões aplicadas (ex.: "V001, V002, V003") */
+                esc_html__('Última ativação aplicou: %s', 'participe-ibram'),
+                esc_html(implode(', ', $activationApplied))
+            );
+            ?>
+          </p>
+        <?php endif; ?>
+        <form method="post" action="">
+          <?php wp_nonce_field('pi_setup_teste_action'); ?>
+          <input type="hidden" name="pi_setup_action" value="reativar">
+          <button type="submit" class="button button-primary">
+            <?php esc_html_e('▶ Re-executar Activator agora', 'participe-ibram'); ?>
+          </button>
+          <span class="description" style="margin-left:10px;">
+            <?php esc_html_e('Use este botão se "Tabelas wp_pi_*" ou "Migrations" estão com erro acima.', 'participe-ibram'); ?>
+          </span>
+        </form>
+      </div>
+    </section>
+
+    <?php /* ═══════════════════════════════════════════════════════════════
            CARD 2: Criar usuários de teste
            ═══════════════════════════════════════════════════════════════ */ ?>
     <section class="pi-card" role="region" aria-labelledby="card2-title">

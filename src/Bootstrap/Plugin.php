@@ -68,11 +68,95 @@ final class Plugin
             }, 9);
         }
 
+        // CRÍTICO: wire admin menus during plugins_loaded (NOT admin_init).
+        // admin_menu fires BEFORE admin_init in WP admin lifecycle, então
+        // chamar add_action('admin_menu', ...) a partir de initAdmin() seria
+        // tarde demais. Isto roda agora porque boot() é invocado em
+        // plugins_loaded priority 5.
+        if (is_admin()) {
+            $this->wireAdminMenus();
+        }
+
         // Presentation entry points (admin, public, REST). They are stubs
         // for Wave 1 and will be filled by later waves.
         add_action('admin_init', [$this, 'initAdmin']);
         add_action('init', [$this, 'initPublic'], 20);
         add_action('rest_api_init', [$this, 'initRest']);
+    }
+
+    /**
+     * Wire admin menus before admin_menu fires.
+     *
+     * Registries com dependências de controllers (MenuRegistry, Edital, Recurso,
+     * Habilitacao, Votacao, Audit, Ajuda) precisam ser wireadas no Container
+     * primeiro — fica para Wave 10. Esta versão registra apenas o top-level menu
+     * + Setup de Teste (sem dependências).
+     */
+    private function wireAdminMenus(): void
+    {
+        // Top-level menu (parent slug 'participe-ibram') — outros submenus
+        // dependem deste. Capability mínima `pi_listar_cadastros` permite que
+        // todas as roles staff vejam o menu; pi_agente NÃO vê (acessa via
+        // shortcode `[pi_minha_conta]` no front-end).
+        add_action('admin_menu', [$this, 'registerTopLevelMenu'], 5);
+
+        // Wave 4-C: admin de e-mail (menu de submenu próprio + AJAX).
+        // Movido de initAdmin() para aqui — admin_menu callbacks precisam
+        // estar registrados antes do hook disparar.
+        if (class_exists(EmailRegistration::class)) {
+            EmailRegistration::bootAdmin($this->container);
+        }
+
+        // Wave 8.5: Setup de Teste (registry static, sem dependências).
+        if (class_exists('Ibram\\ParticipeIbram\\Presentation\\Admin\\SetupTeste\\SetupTesteMenuRegistry')) {
+            \Ibram\ParticipeIbram\Presentation\Admin\SetupTeste\SetupTesteMenuRegistry::register();
+        }
+    }
+
+    /**
+     * Registra o menu top-level "Participe Ibram" no WordPress admin.
+     */
+    public function registerTopLevelMenu(): void
+    {
+        if (!function_exists('add_menu_page')) {
+            return;
+        }
+
+        \add_menu_page(
+            __('Participe Ibram', 'participe-ibram'),
+            __('Participe Ibram', 'participe-ibram'),
+            'pi_listar_cadastros',
+            'participe-ibram',
+            [$this, 'renderRootStub'],
+            'dashicons-groups',
+            26
+        );
+
+        // Renomeia o primeiro submenu auto-criado para "Painel".
+        \add_submenu_page(
+            'participe-ibram',
+            __('Painel', 'participe-ibram'),
+            __('Painel', 'participe-ibram'),
+            'pi_listar_cadastros',
+            'participe-ibram',
+            [$this, 'renderRootStub']
+        );
+    }
+
+    /**
+     * Renderiza a página raiz "Painel". Stub que orienta o usuário até wave 10
+     * wirar os controllers completos.
+     */
+    public function renderRootStub(): void
+    {
+        if (!function_exists('current_user_can') || !current_user_can('pi_listar_cadastros')) {
+            wp_die(esc_html__('Sem permissão.', 'participe-ibram'), 403);
+        }
+        echo '<div class="wrap">';
+        echo '<h1>' . esc_html__('Participe Ibram', 'participe-ibram') . '</h1>';
+        echo '<p>' . esc_html__('Plataforma federal de Cadastro de Agentes para Participação Social do Ibram (Portaria 3230/2024).', 'participe-ibram') . '</p>';
+        echo '<div class="notice notice-info"><p><strong>' . esc_html__('Em desenvolvimento:', 'participe-ibram') . '</strong> ' . esc_html__('os painéis específicos (Cadastros, Editais, Recursos, Votações, Auditoria) serão wireados na Onda 10. Por enquanto, comece pelo "Setup de Teste" no submenu para popular dados de teste.', 'participe-ibram') . '</p></div>';
+        echo '</div>';
     }
 
     /**
@@ -107,15 +191,10 @@ final class Plugin
             return;
         }
 
-        // Wave 4-C: admin de e-mail (menu + AJAX).
-        if (class_exists(EmailRegistration::class)) {
-            EmailRegistration::bootAdmin($this->container);
-        }
-
-        // Wave 8.5: Setup de Teste (smoke test helper — admin only).
-        if (class_exists('Ibram\\ParticipeIbram\\Presentation\\Admin\\SetupTeste\\SetupTesteMenuRegistry')) {
-            \Ibram\ParticipeIbram\Presentation\Admin\SetupTeste\SetupTesteMenuRegistry::register();
-        }
+        // EmailRegistration::bootAdmin e SetupTesteMenuRegistry::register
+        // foram movidos para wireAdminMenus() (chamado em boot()) — admin_init
+        // dispara DEPOIS de admin_menu, então registrar callbacks aqui era
+        // tarde demais.
 
         /**
          * Fires when the admin layer is initialised.

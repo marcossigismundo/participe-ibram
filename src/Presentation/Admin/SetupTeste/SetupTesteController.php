@@ -92,6 +92,9 @@ final class SetupTesteController
         $action = sanitize_key(wp_unslash($_POST['pi_setup_action']));
 
         switch ($action) {
+            case 'reativar':
+                $this->actionReativar();
+                break;
             case 'criar_usuarios':
                 $this->actionCriarUsuarios();
                 break;
@@ -243,6 +246,65 @@ final class SetupTesteController
         ];
 
         return $checks;
+    }
+
+    // -----------------------------------------------------------------------
+    // Card 0: Re-executar activator (BUG FIX 2026-05-11)
+    // -----------------------------------------------------------------------
+
+    /**
+     * Re-roda o Activator inteiro (roles + diretório privado + migrations +
+     * crons). Útil quando a primeira ativação falhou silenciosamente.
+     */
+    private function actionReativar(): void
+    {
+        $activator = 'Ibram\\ParticipeIbram\\Bootstrap\\Activator';
+        if (!class_exists($activator)) {
+            $this->setFlash('error', __('Classe Activator não encontrada.', 'participe-ibram'));
+            return;
+        }
+
+        try {
+            $activator::activate();
+
+            $lastError = get_option('pi_activation_last_error', '');
+            if ($lastError !== '') {
+                $this->setFlash(
+                    'error',
+                    sprintf(
+                        /* translators: %s = mensagem técnica do erro */
+                        __('Activator rodou mas com erro: %s', 'participe-ibram'),
+                        $lastError
+                    )
+                );
+                return;
+            }
+
+            $applied = get_option('pi_activation_last_applied', []);
+            $count   = is_array($applied) ? count($applied) : 0;
+            $this->setFlash(
+                'success',
+                sprintf(
+                    /* translators: %d = número de migrations aplicadas */
+                    _n(
+                        'Activator executado com sucesso. %d migration aplicada.',
+                        'Activator executado com sucesso. %d migrations aplicadas.',
+                        $count,
+                        'participe-ibram'
+                    ),
+                    $count
+                )
+            );
+        } catch (\Throwable $e) {
+            $this->setFlash(
+                'error',
+                sprintf(
+                    /* translators: %s = mensagem técnica do erro */
+                    __('Falha ao executar Activator: %s', 'participe-ibram'),
+                    $e->getMessage()
+                )
+            );
+        }
     }
 
     // -----------------------------------------------------------------------
