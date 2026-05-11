@@ -1,0 +1,19 @@
+Anonimizacao concluida no Participe Ibram
+
+Ola,
+
+Sua solicitacao de anonimizacao foi executada com sucesso. Seus dados
+pessoais foram removidos ou substituidos por valores anonimos no sistema
+Participe Ibram, conforme previsto na LGPD (Lei 13.709/2018, Art. 18, IV).
+
+Numero da solicitacao: #{solicitacao_id}
+
+A trilha de auditoria foi preservada por obrigacao legal (LGPD Art. 16, II)
+e contera apenas o registro tecnico desta operacao, sem seus dados pessoais.
+
+Voce nao podera mais acessar o sistema com a conta anonimizada. Se desejar
+voltar a participar, sera necessario realizar novo cadastro.
+
+---
+DPO (Encarregado): {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

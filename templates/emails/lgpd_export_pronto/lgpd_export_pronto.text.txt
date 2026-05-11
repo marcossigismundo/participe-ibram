@@ -1,0 +1,21 @@
+Seu pacote de dados esta pronto — Participe Ibram
+
+Ola {nome},
+
+Geramos o pacote com seus dados pessoais (Portabilidade — LGPD Art. 18, V).
+O arquivo contem suas informacoes em formato JSON e CSV, alem do historico
+de consentimentos e a politica vigente.
+
+Validade do link: {expira_em}
+Tempo restante: ate 24 horas
+
+Para baixar, acesse:
+{download_url}
+
+IMPORTANTE: o link e pessoal e expira em 24 horas. Nao compartilhe.
+Apos a expiracao, voce podera solicitar um novo export pelo Painel
+"Minha conta".
+
+---
+DPO (Encarregado): {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

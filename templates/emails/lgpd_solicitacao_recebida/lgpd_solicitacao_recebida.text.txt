@@ -1,0 +1,17 @@
+Recebemos sua solicitacao LGPD — Participe Ibram
+
+Ola {nome},
+
+Sua solicitacao de direito do titular (LGPD Art. 18) foi protocolada com
+sucesso e sera analisada pelo Encarregado de Tratamento de Dados (DPO).
+
+Numero da solicitacao: #{solicitacao_id}
+Tipo: {tipo}
+Prazo legal de resposta: ate 15 dias corridos (Art. 19, LGPD)
+
+Acompanhe pelo Painel "Minha conta":
+{minha_conta_url}
+
+---
+DPO (Encarregado): {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

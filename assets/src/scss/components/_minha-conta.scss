@@ -1,0 +1,226 @@
+// =============================================================================
+// Component — Minha conta (Wave 8-A)
+// -----------------------------------------------------------------------------
+// Tabs ARIA, dashboard cards, edicao modal, badges de status.
+// Sob .participe-ibram-scope para evitar vazamento de estilos.
+// =============================================================================
+
+.participe-ibram-scope {
+
+  .pi-minha-conta {
+    &__tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--pi-spacing-1);
+      border-bottom: 2px solid var(--pi-color-border);
+      margin: var(--pi-spacing-4) 0;
+    }
+
+    &__tab {
+      display: inline-block;
+      padding: var(--pi-spacing-2) var(--pi-spacing-4);
+      color: var(--pi-color-text);
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-bottom: none;
+      border-top-left-radius: var(--pi-radius-sm);
+      border-top-right-radius: var(--pi-radius-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      background-color: transparent;
+
+      &:hover {
+        background-color: var(--pi-color-gray-2);
+      }
+
+      &:focus-visible {
+        outline: 3px solid var(--pi-color-focus, #f6c344);
+        outline-offset: 2px;
+      }
+
+      &.is-active,
+      &[aria-selected="true"] {
+        background-color: var(--pi-color-bg);
+        border-color: var(--pi-color-border);
+        color: var(--pi-color-primary-darker);
+        position: relative;
+        z-index: 1;
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0; right: 0; bottom: -2px;
+          height: 2px;
+          background-color: var(--pi-color-bg);
+        }
+      }
+    }
+
+    &__panel {
+      padding: var(--pi-spacing-4) 0;
+
+      &[hidden] { display: none; }
+
+      &:focus-visible {
+        outline: 3px solid var(--pi-color-focus, #f6c344);
+        outline-offset: 4px;
+      }
+    }
+
+    &__status-line {
+      margin-top: var(--pi-spacing-2);
+      font-size: var(--pi-font-size-sm);
+      color: var(--pi-color-text-muted);
+    }
+
+    &__empty {
+      padding: var(--pi-spacing-6);
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-md);
+      text-align: center;
+    }
+  }
+
+  // -----------------------------------------------------------------
+  // Dashboard cards
+  // -----------------------------------------------------------------
+  .pi-mc-dashboard__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--pi-spacing-4);
+  }
+
+  .pi-mc-status-badge {
+    font-weight: var(--pi-font-weight-bold);
+    font-size: var(--pi-font-size-lg);
+    padding: var(--pi-spacing-2) var(--pi-spacing-3);
+    border-radius: var(--pi-radius-sm);
+    display: inline-block;
+    background-color: var(--pi-color-gray-2);
+
+    &[data-status^="deferido"] {
+      background-color: var(--pi-color-success-soft, #d9f5e1);
+      color: var(--pi-color-success-strong, #1f6f3d);
+    }
+    &[data-status^="indeferido"] {
+      background-color: var(--pi-color-danger-soft, #fbdada);
+      color: var(--pi-color-danger-strong, #93231f);
+    }
+    &[data-status="submetido"],
+    &[data-status="em_analise"] {
+      background-color: var(--pi-color-info-soft, #e3f0fb);
+      color: var(--pi-color-info-strong, #1c5290);
+    }
+    &[data-status="rascunho"] {
+      background-color: var(--pi-color-warning-soft, #fff4d6);
+      color: var(--pi-color-warning-strong, #7a5c00);
+    }
+  }
+
+  .pi-mc-numero-registro {
+    margin-top: var(--pi-spacing-3);
+    font-family: var(--pi-font-family-mono);
+
+    &__label { font-weight: var(--pi-font-weight-semibold); }
+
+    code {
+      padding: 2px 6px;
+      background-color: var(--pi-color-gray-1);
+      border-radius: var(--pi-radius-sm);
+    }
+  }
+
+  .pi-mc-proximos,
+  .pi-mc-pendencias,
+  .pi-mc-timeline {
+    margin: 0;
+    padding-left: var(--pi-spacing-4);
+
+    li {
+      margin-bottom: var(--pi-spacing-2);
+    }
+
+    li.is-concluido {
+      color: var(--pi-color-text-muted);
+      text-decoration: line-through;
+    }
+
+    &__placeholder {
+      color: var(--pi-color-text-muted);
+      font-style: italic;
+    }
+  }
+
+  // -----------------------------------------------------------------
+  // Dados (Meus dados)
+  // -----------------------------------------------------------------
+  .pi-mc-dados {
+    &__toolbar {
+      display: flex;
+      align-items: center;
+      gap: var(--pi-spacing-3);
+      margin-bottom: var(--pi-spacing-4);
+      flex-wrap: wrap;
+    }
+
+    &__section-title {
+      margin-top: var(--pi-spacing-5);
+      margin-bottom: var(--pi-spacing-2);
+      font-size: var(--pi-font-size-lg);
+      color: var(--pi-color-primary-darker);
+    }
+
+    &__note {
+      color: var(--pi-color-text-muted);
+      font-size: var(--pi-font-size-sm);
+    }
+
+    &__estado-msg {
+      color: var(--pi-color-text-muted);
+      margin: 0;
+    }
+  }
+
+  .pi-mc-dl {
+    margin: 0;
+
+    &__row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: var(--pi-spacing-3);
+      padding: var(--pi-spacing-2) 0;
+      border-bottom: 1px solid var(--pi-color-gray-1);
+
+      @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
+
+      dt {
+        font-weight: var(--pi-font-weight-semibold);
+      }
+
+      dd {
+        margin: 0;
+        word-break: break-word;
+      }
+    }
+  }
+
+  // -----------------------------------------------------------------
+  // Form de edicao modal
+  // -----------------------------------------------------------------
+  .pi-mc-form__errors {
+    margin-top: var(--pi-spacing-3);
+    color: var(--pi-color-danger-strong, #93231f);
+    min-height: 1em;
+  }
+
+  // Botoes de reveal "Mostrar/Ocultar"
+  [data-pi-mc-reveal] {
+    margin-left: var(--pi-spacing-2);
+    &[aria-busy="true"] {
+      opacity: 0.6;
+      cursor: progress;
+    }
+  }
+}

@@ -46,3 +46,12 @@
 
 // Onda 6 (W6-C) — Transparência pública da votação
 @import "components/transparencia-publica";
+
+// Onda 8 (W8-C) — Aba Histórico da Minha Conta
+@import "components/historico";
+
+// Onda 8 (W8-A) — Minha conta (dashboard + edicao limitada por estado)
+@import "components/minha-conta";
+
+// Onda 8 (W8-B) — Aba Privacidade (LGPD self-service)
+@import "components/privacidade";

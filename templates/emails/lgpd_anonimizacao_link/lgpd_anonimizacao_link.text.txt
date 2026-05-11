@@ -1,0 +1,27 @@
+ACAO IRREVERSIVEL: Confirme a anonimizacao do seu cadastro
+
+Ola {nome},
+
+Recebemos seu pedido de anonimizacao do cadastro no Participe Ibram
+(LGPD Art. 18, IV). Esta acao e IRREVERSIVEL: apos a confirmacao, seus
+dados pessoais serao removidos ou substituidos por valores anonimos.
+
+Numero da solicitacao: #{solicitacao_id}
+Validade do link: {expira_em} (24 horas)
+
+Para confirmar, acesse:
+{confirmacao_url}
+
+O QUE SERA REMOVIDO OU SUBSTITUIDO
+- Nome, CPF/RG/Passaporte, telefone, email
+- Arquivos de documentos enviados
+
+O QUE SERA PRESERVADO POR OBRIGACAO LEGAL (LGPD Art. 16, II)
+- Trilha de auditoria (audit log) — exigida por lei
+- Registro de consentimentos pretérito (anonimizado)
+
+Se voce NAO solicitou esta acao, ignore este email — nada sera feito.
+
+---
+DPO (Encarregado): {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

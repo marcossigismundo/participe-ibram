@@ -1,0 +1,231 @@
+// =============================================================================
+// .pi-privacidade — Aba "Privacidade" da página Minha Conta (Wave 8 / W8-B)
+// -----------------------------------------------------------------------------
+// Escopo: SEMPRE dentro de .participe-ibram-scope (importado em participe-ibram-public).
+// Estilos para cards de consentimento, badges de status e área de aviso vermelha
+// para anonimização (LGPD Art. 18, IV).
+// =============================================================================
+
+.participe-ibram-scope {
+
+    .pi-privacidade {
+        display: block;
+
+        &__title {
+            margin: 0 0 12px;
+        }
+
+        &__intro {
+            margin: 0 0 16px;
+            color: #444;
+        }
+
+        &__section {
+            margin: 24px 0;
+            padding: 16px;
+            border: 1px solid #d6d6d6;
+            border-radius: 6px;
+            background: #fff;
+
+            > h3,
+            > h2 {
+                margin-top: 0;
+            }
+        }
+
+        &__section--danger {
+            border-color: #c00;
+            background: #fff7f7;
+        }
+
+        &__danger-title {
+            color: #c00;
+        }
+
+        &__hint {
+            color: #555;
+            font-size: 0.95rem;
+            margin: 4px 0 12px;
+        }
+
+        &__empty {
+            color: #666;
+            font-style: italic;
+        }
+
+        &__termo-content {
+            margin: 8px 0;
+
+            summary {
+                cursor: pointer;
+                font-weight: 600;
+                color: #1351b4;
+            }
+        }
+
+        &__termo-md {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f6f6f6;
+            border-radius: 4px;
+            max-height: 320px;
+            overflow-y: auto;
+            font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+            font-size: 0.9rem;
+        }
+    }
+
+    // ── Lista de consentimentos ──────────────────────────────────────────
+    .pi-consents-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+
+        &__item {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        &__head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        &__label {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #1351b4;
+        }
+
+        &__descricao {
+            margin: 6px 0;
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        &__meta {
+            margin: 6px 0;
+            font-size: 0.85rem;
+            color: #555;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        &__actions {
+            margin-top: 8px;
+        }
+
+        &__obrig-msg {
+            margin: 0;
+            font-style: italic;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    }
+
+    // ── Badges ───────────────────────────────────────────────────────────
+    .pi-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        line-height: 1.4;
+
+        &--ok {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        &--muted {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        &--warn {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        &--info {
+            background: #cce5ff;
+            color: #004085;
+        }
+    }
+
+    // ── Botão danger (revogar/anonimizar) ────────────────────────────────
+    .pi-btn--danger {
+        background: #c00;
+        color: #fff;
+        border: 1px solid #a00;
+
+        &:hover,
+        &:focus {
+            background: #a00;
+        }
+    }
+
+    .pi-btn--danger-outline {
+        background: transparent;
+        color: #c00;
+        border: 1px solid #c00;
+
+        &:hover,
+        &:focus {
+            background: #fff0f0;
+        }
+    }
+
+    // ── Página de confirmação de anonimização ────────────────────────────
+    .pi-privacidade--confirm-anon {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px;
+
+        .pi-anon-confirm__actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 24px 0;
+
+            // Cancelar primeiro (foco default), Confirmar à direita.
+            .pi-btn--secondary {
+                order: 0;
+            }
+            .pi-btn--danger {
+                order: 1;
+            }
+        }
+    }
+
+    // Foco visível (WCAG 2.4.7 — Focus Visible).
+    .pi-privacidade button:focus-visible,
+    .pi-privacidade a:focus-visible {
+        outline: 3px solid #fc0;
+        outline-offset: 2px;
+    }
+
+    // Anti-double click feedback (aria-busy).
+    .pi-privacidade [aria-busy="true"] {
+        opacity: 0.6;
+        cursor: progress;
+    }
+
+    // Print stylesheet do termo.
+    @media print {
+        .pi-privacidade__section:not(:first-of-type),
+        .pi-privacidade__intro,
+        button,
+        a[data-action] {
+            display: none !important;
+        }
+    }
+}

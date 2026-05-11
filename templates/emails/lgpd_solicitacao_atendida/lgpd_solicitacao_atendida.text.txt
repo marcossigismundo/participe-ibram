@@ -1,0 +1,17 @@
+Sua solicitacao LGPD foi respondida — Participe Ibram
+
+Ola {nome},
+
+Sua solicitacao foi analisada pelo Encarregado de Tratamento de Dados
+(DPO). Para garantir confidencialidade, a resposta completa esta
+disponivel apenas no Painel "Minha conta" — apos seu login.
+
+Numero da solicitacao: #{solicitacao_id}
+Tipo: {tipo}
+
+Acesse:
+{minha_conta_url}
+
+---
+DPO (Encarregado): {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.
