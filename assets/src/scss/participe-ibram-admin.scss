@@ -35,4 +35,11 @@
 // Onda 6 — Apuração e auditoria de votação
 @import "components/apuracao";
 
+// Onda 7 — Interface de auditoria do log IBRAM
+@import "components/audit";
+
+// Onda 7 W7-C — Dashboard e Ajuda
+@import "components/dashboard";
+@import "components/ajuda";
+
 @import "layouts/minha-conta";

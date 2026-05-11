@@ -1,0 +1,13 @@
+Votacao encerrada — acao necessaria
+
+Prezado(a) {nome},
+
+A votacao do edital "{edital_titulo}" foi encerrada e aguarda apuracao.
+
+Para iniciar a apuracao e publicar o resultado, acesse:
+{apuracao_url}
+
+Conforme Despacho 98/2025 IBRAM item 7, o resultado deve ser publicado
+apos a apuracao e comunicado a todos os cadastrados.
+
+Participe Ibram

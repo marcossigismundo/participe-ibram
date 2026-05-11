@@ -1,0 +1,21 @@
+Alerta de sistema — Falhas na fila de e-mail
+
+Sysadmin,
+
+Foram detectadas {total_falhas} falha(s) na fila de e-mail do Participe Ibram
+desde o ultimo monitoramento.
+
+Este relatorio contem apenas contagens. Nenhum dado pessoal esta incluido.
+
+Acesse o painel de e-mail para diagnosticar:
+{painel_url}
+
+Acoes recomendadas:
+1. Verificar configuracao SMTP (host, porta, credenciais)
+2. Verificar logs do servidor de e-mail
+3. Reenviar mensagens com falha pelo painel
+
+---
+Sistema Participe Ibram
+DPO: {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

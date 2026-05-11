@@ -1,0 +1,17 @@
+Alerta DPO — Recurso com prazo vencendo
+
+Encarregado(a),
+
+O recurso administrativo a seguir vence em {dias_restantes} dia(s) e ainda
+nao foi decidido.
+
+Numero do recurso: #{recurso_id}
+Dias restantes: {dias_restantes}
+
+Acesse o painel para verificar e decidir:
+{painel_url}
+
+---
+Equipe Tecnica — Participe Ibram
+DPO: {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

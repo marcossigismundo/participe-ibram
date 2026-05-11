@@ -1,0 +1,19 @@
+ATENCAO URGENTE — Solicitacao LGPD vencida
+
+Encarregado(a),
+
+A solicitacao de direito do titular (LGPD Art. 18) abaixo ESTA VENCIDA.
+
+Numero da solicitacao: #{solicitacao_id}
+Atraso: {dias_atraso} dia(s) apos o prazo legal de 15 dias uteis.
+
+O atraso no atendimento pode configurar infração administrativa (LGPD Art. 52)
+e deve ser registrado no relatorio de incidentes se aplicavel.
+
+Acesse o painel imediatamente:
+{painel_url}
+
+---
+Equipe Tecnica — Participe Ibram
+DPO: {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

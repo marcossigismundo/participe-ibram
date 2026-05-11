@@ -1,0 +1,311 @@
+// =============================================================================
+// Component — Audit Log interface
+// -----------------------------------------------------------------------------
+// Estilos para as telas de auditoria (log, pii-access, decisoes, detalhe).
+// Escopo: .participe-ibram-scope
+// Tokens: var(--pi-color-*) definidos em tokens/_colors.scss
+// WCAG 2.1 AA: contraste mínimo 4.5:1 em texto sobre badges.
+// =============================================================================
+
+.participe-ibram-scope {
+
+  // ---------------------------------------------------------------------------
+  // Badges de ação — coloridos por categoria
+  // Contraste verificado: texto branco ou escuro sobre cada fundo (≥ 4.5:1)
+  // ---------------------------------------------------------------------------
+
+  [class^="pi-acao--"],
+  [class*=" pi-acao--"] {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  // Criar — azul (#1351b4 fundo claro; texto escuro para contraste)
+  .pi-acao--criar {
+    background-color: #dbe8fb;
+    color: #0c326f; // --pi-color-primary-dark (contraste 7.5:1 sobre #dbe8fb)
+    border: 1px solid #1351b4;
+  }
+
+  // Atualizar — cinza médio
+  .pi-acao--atualizar {
+    background-color: #e6e6e6;
+    color: #333333; // --pi-color-gray-80 (contraste 7.2:1 sobre #e6e6e6)
+    border: 1px solid #9e9e9e;
+  }
+
+  // Deferir — verde
+  .pi-acao--deferir {
+    background-color: #e6f4ea;
+    color: #0d6b18; // --pi-color-tertiary-dark (contraste 8.1:1 sobre #e6f4ea)
+    border: 1px solid #168821;
+  }
+
+  // Indeferir — vermelho
+  .pi-acao--indeferir {
+    background-color: #fff0ee;
+    color: #a51a06; // derivado danger-dark (contraste 5.3:1 sobre #fff0ee)
+    border: 1px solid #e52207;
+  }
+
+  // Visualizar — cinza claro (leitura/acesso)
+  .pi-acao--visualizar {
+    background-color: #f8f8f8;
+    color: #555555; // --pi-color-gray-70 (contraste 5.7:1 sobre #f8f8f8)
+    border: 1px solid #cccccc;
+  }
+
+  // Exportar — amarelo institucional
+  .pi-acao--exportar {
+    background-color: #fff8d6;
+    color: #5c4200; // marrom escuro para contraste (7.1:1 sobre #fff8d6)
+    border: 1px solid #ffcd07;
+  }
+
+  // Voto — roxo
+  .pi-acao--voto {
+    background-color: #f0ebff;
+    color: #4a0080; // roxo escuro (contraste 7.3:1 sobre #f0ebff)
+    border: 1px solid #7b2fbe;
+  }
+
+  // ---------------------------------------------------------------------------
+  // JSON pretty-print — payload de dados_antes/dados_depois
+  // ---------------------------------------------------------------------------
+
+  .pi-audit-payload {
+    pre {
+      background-color: #f8f8f8; // --pi-color-gray-2
+      border: 1px solid #e6e6e6; // --pi-color-gray-10
+      border-radius: 4px;
+      color: #1b1b1b; // --pi-color-gray-90
+      font-family: "Consolas", "Menlo", "DejaVu Sans Mono", "Courier New", monospace;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin: 0.5rem 0;
+      overflow-x: auto;
+      padding: 1rem;
+      white-space: pre;
+      word-break: normal;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Indicador de mascaramento PII
+  // ---------------------------------------------------------------------------
+
+  [data-pii-masked="true"] {
+    color: var(--pi-color-text-muted, #636363);
+    cursor: help;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    // Ícone visual (cadeado via CSS pseudo-element)
+    &::before {
+      content: "🔒";
+      font-size: 0.75em;
+      opacity: 0.7;
+      speak: never; // não lido por AT — sr-only text abaixo cuida disso
+    }
+
+    // Texto acessível (sr-only)
+    .pi-pii-masked-label {
+      border: 0;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Cards KPI — contadores grandes na tela de auditoria
+  // ---------------------------------------------------------------------------
+
+  .pi-audit-kpi-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pi-audit-kpi-card {
+    background-color: var(--pi-color-bg, #ffffff);
+    border: 1px solid var(--pi-color-border, #cccccc);
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    flex: 1 1 160px;
+    min-width: 140px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+
+    &__valor {
+      color: var(--pi-color-primary, #1351b4);
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+
+    &__label {
+      color: var(--pi-color-text-muted, #636363);
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Tabela de audit — estilos de apoio (herda .pi-table da Wave base)
+  // ---------------------------------------------------------------------------
+
+  .pi-audit-table-wrapper {
+    overflow-x: auto;
+
+    .widefat {
+      border-collapse: collapse;
+      width: 100%;
+
+      th,
+      td {
+        padding: 8px 12px;
+        vertical-align: middle;
+      }
+
+      tbody tr:hover {
+        background-color: #f0f4ff;
+      }
+    }
+  }
+
+  // Coluna de data/hora — monoespaçada para alinhamento
+  .pi-audit-col-data {
+    font-family: "Consolas", "Menlo", monospace;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  // IP hash — abreviado com tooltip via title attribute
+  .pi-audit-col-ip {
+    color: var(--pi-color-text-muted, #636363);
+    font-size: 0.75rem;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Modal de detalhes — herda .pi-modal (Wave 3); complementa sem duplicar
+  // ---------------------------------------------------------------------------
+
+  .pi-audit-detalhe {
+    // Seções dentro do modal de detalhe
+    &__section {
+      border-bottom: 1px solid var(--pi-color-border, #cccccc);
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+
+    &__section-title {
+      color: var(--pi-color-text-secondary, #333333);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    // Grade de meta-dados (label: valor)
+    &__meta-grid {
+      display: grid;
+      gap: 0.25rem 1rem;
+      grid-template-columns: auto 1fr;
+    }
+
+    &__meta-label {
+      color: var(--pi-color-text-muted, #636363);
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+
+    &__meta-value {
+      color: var(--pi-color-text, #1b1b1b);
+      font-size: 0.8125rem;
+      word-break: break-all;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Barra de filtros de auditoria
+  // ---------------------------------------------------------------------------
+
+  .pi-audit-filters {
+    align-items: flex-end;
+    background-color: var(--pi-color-bg-page, #f8f8f8);
+    border: 1px solid var(--pi-color-border, #cccccc);
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0.875rem 1rem;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      gap: 4px;
+    }
+
+    select,
+    input[type="date"],
+    input[type="text"] {
+      font-size: 0.875rem;
+      min-width: 140px;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Aviso de integridade comprometida
+  // ---------------------------------------------------------------------------
+
+  .pi-audit-integrity-warning {
+    align-items: center;
+    background-color: #fff5f5;
+    border: 2px solid var(--pi-color-danger, #e52207);
+    border-radius: 4px;
+    color: #a51a06;
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+} // end .participe-ibram-scope

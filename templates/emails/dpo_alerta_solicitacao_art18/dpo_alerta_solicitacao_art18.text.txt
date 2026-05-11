@@ -1,0 +1,20 @@
+ALERTA LGPD — Solicitacao de direito do titular vencendo
+
+Encarregado(a),
+
+Existe uma solicitacao de direito do titular (LGPD Art. 18) que vence em
+{dias_restantes} dia(s).
+
+Numero da solicitacao: #{solicitacao_id}
+
+O prazo legal para atendimento e de 15 dias uteis (Art. 18 LGPD c/c ARCHITECTURE TD-08).
+
+Acesse o painel para atender a solicitacao:
+{painel_url}
+
+ATENCAO: o nao atendimento no prazo pode gerar penalidades administrativas (LGPD Art. 52).
+
+---
+Equipe Tecnica — Participe Ibram
+DPO: {dpo_email}
+Esta mensagem e automatica e nao deve ser respondida.

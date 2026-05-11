@@ -1,0 +1,20 @@
+Inscricoes abertas no Participe Ibram
+
+Ola,
+
+As inscricoes para o edital abaixo estao abertas.
+
+Edital: {edital_titulo}
+Periodo: {periodo}
+
+Acesse o sistema para verificar sua elegibilidade e se inscrever:
+{inscricao_url}
+
+Esta comunicacao e institucional conforme Despacho 98/2025 IBRAM item 7.
+
+Atenciosamente,
+Equipe do Participe Ibram
+
+---
+Para cancelar comunicacoes opcionais: {unsubscribe_url}
+DPO: {dpo_email}

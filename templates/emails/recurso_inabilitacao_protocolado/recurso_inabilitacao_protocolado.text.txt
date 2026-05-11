@@ -1,0 +1,13 @@
+Recurso de inabilitacao protocolado
+
+Prezado(a) {nome},
+
+Seu recurso de inabilitacao (n. {recurso_id}) referente ao edital
+"{edital_titulo}" foi protocolado com sucesso.
+
+Aguarde a analise e a comunicacao do resultado.
+
+Acompanhe pelo painel: {painel_url}
+
+Atenciosamente,
+Equipe do Participe Ibram

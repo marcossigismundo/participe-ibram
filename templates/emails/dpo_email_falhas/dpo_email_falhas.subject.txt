@@ -1,0 +1,1 @@
+Alerta sistema: {total_falhas} falha(s) de e-mail detectadas no Participe Ibram
