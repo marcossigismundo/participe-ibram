@@ -112,6 +112,11 @@ final class Plugin
             EmailRegistration::bootAdmin($this->container);
         }
 
+        // Wave 8.5: Setup de Teste (smoke test helper — admin only).
+        if (class_exists('Ibram\\ParticipeIbram\\Presentation\\Admin\\SetupTeste\\SetupTesteMenuRegistry')) {
+            \Ibram\ParticipeIbram\Presentation\Admin\SetupTeste\SetupTesteMenuRegistry::register();
+        }
+
         /**
          * Fires when the admin layer is initialised.
          *
