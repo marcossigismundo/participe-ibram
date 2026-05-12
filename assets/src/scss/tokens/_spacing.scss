@@ -23,6 +23,12 @@
   --pi-spacing-18:   4.5rem;   /* 72px */
   --pi-spacing-20:   5rem;     /* 80px */
 
+  /* Aliases curtos — compatibilidade com painel.php W11-A inline vars */
+  --pi-space-1:  var(--pi-spacing-2);   /* 0.5rem = 8px  (era --pi-space-1) */
+  --pi-space-2:  var(--pi-spacing-4);   /* 1rem   = 16px (era --pi-space-2) */
+  --pi-space-3:  var(--pi-spacing-6);   /* 1.5rem = 24px (era --pi-space-3) */
+  --pi-space-4:  var(--pi-spacing-8);   /* 2rem   = 32px (era --pi-space-4) */
+
   /* Aliases semânticos */
   --pi-gap-xs:       var(--pi-spacing-1);
   --pi-gap-sm:       var(--pi-spacing-2);

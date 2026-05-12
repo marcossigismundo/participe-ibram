@@ -9,4 +9,6 @@
   --pi-shadow-lg:     0 6px 12px rgba(0, 0, 0, 0.16);
   --pi-shadow-xl:     0 12px 24px rgba(0, 0, 0, 0.18);
   --pi-shadow-focus:  0 0 0 3px rgba(19, 81, 180, 0.35);
+  /* Alias sem sufixo — compatibilidade com painel.php W11-A inline vars */
+  --pi-shadow:        var(--pi-shadow-sm);
 }

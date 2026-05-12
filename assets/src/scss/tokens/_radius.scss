@@ -9,5 +9,7 @@
   --pi-radius-lg:    16px;
   --pi-radius-xl:    24px;
   --pi-radius-pill:  100em;
+  /* Alias sem sufixo — compatibilidade com painel.php W11-A inline vars */
+  --pi-radius:       var(--pi-radius-md);   /* 8px */
   --pi-radius-full:  9999px;
 }

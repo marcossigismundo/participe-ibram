@@ -1,0 +1,293 @@
+// =============================================================================
+// Layout — Form field groups
+// -----------------------------------------------------------------------------
+// Complementa _input.scss com grupos, grid, marcador de obrigatório e helper.
+// Escopo: .participe-ibram-scope dentro de .pi-admin-page ou standalone.
+//
+// Estrutura esperada:
+//   <div class="pi-field-group">
+//     <div class="pi-field-group__row">        ← grid de campos
+//       <div class="pi-field">                  ← 1 campo
+//         <label class="pi-field__label">
+//           Texto <abbr class="pi-field__required" title="…">*</abbr>
+//         </label>
+//         <input … aria-describedby="fld-help fld-error">
+//         <span class="pi-field__helper" id="fld-help">Texto de ajuda</span>
+//         <span class="pi-field__error"  id="fld-error" role="alert">Erro</span>
+//       </div>
+//     </div>
+//   </div>
+//
+// WCAG 2.1 AA: aria-required, aria-invalid, aria-describedby assumidos no HTML.
+// eMAG R39 (label obrigatório), R42 (instrução), R43 (erro acessível).
+// =============================================================================
+
+.participe-ibram-scope {
+  // ── Grupo de campos (form section) ───────────────────────────────────────
+  .pi-field-group {
+    margin-bottom: var(--pi-spacing-8);
+
+    &__legend,
+    &__title {
+      display: block;
+      font-size: var(--pi-font-size-md);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-text);
+      margin-bottom: var(--pi-spacing-4);
+      padding-bottom: var(--pi-spacing-2);
+      border-bottom: 1px solid var(--pi-color-border);
+    }
+
+    &__description {
+      font-size: var(--pi-font-size-sm);
+      color: var(--pi-color-text-muted);
+      margin-bottom: var(--pi-spacing-4);
+      margin-top: calc(-1 * var(--pi-spacing-2));
+    }
+
+    // Grade responsiva de campos
+    &__row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--pi-spacing-4);
+      margin-bottom: var(--pi-spacing-2);
+
+      // Linha de campo único (full width)
+      &--full {
+        grid-template-columns: 1fr;
+      }
+
+      // Linha de dois campos fixos
+      &--2col {
+        grid-template-columns: repeat(2, 1fr);
+
+        @media (max-width: 600px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      // Linha de três campos fixos
+      &--3col {
+        grid-template-columns: repeat(3, 1fr);
+
+        @media (max-width: 900px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 600px) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+
+  // ── Campo individual ──────────────────────────────────────────────────────
+  .pi-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-1);
+
+    &__label {
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-text);
+      display: flex;
+      align-items: baseline;
+      gap: var(--pi-spacing-1);
+    }
+
+    // Marcador de campo obrigatório
+    // <abbr class="pi-field__required" title="Campo obrigatório">*</abbr>
+    &__required {
+      color: var(--pi-color-danger);
+      text-decoration: none;
+      font-weight: var(--pi-font-weight-bold);
+      cursor: help;
+      border-bottom: 0;  // remove underline de <abbr> no reset WP
+    }
+
+    // Controles de input partilham dimensionamento
+    input:not([type="checkbox"]):not([type="radio"]),
+    textarea,
+    select {
+      width: 100%;
+      min-height: 40px;
+      padding: var(--pi-spacing-2) var(--pi-spacing-3);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-base);
+      color: var(--pi-color-text);
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-sm);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+      &::placeholder {
+        color: var(--pi-color-text-muted);
+      }
+
+      &:hover:not(:disabled):not([readonly]) {
+        border-color: var(--pi-color-border-strong);
+      }
+
+      &:disabled,
+      &[readonly] {
+        background-color: var(--pi-color-bg-disabled);
+        color: var(--pi-color-text-muted);
+        cursor: not-allowed;
+      }
+
+      // Estado de erro — cor + borda (eMAG R24 | WCAG 1.4.1, 3.3.1)
+      &[aria-invalid="true"] {
+        border: 2px solid var(--pi-color-danger);
+        background-color: var(--pi-color-danger-bg);
+
+        &:focus-visible {
+          outline-color: var(--pi-color-danger);
+        }
+      }
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    // Helper text (instrução não-erro)
+    &__helper {
+      font-size: var(--pi-font-size-xs);
+      color: var(--pi-color-text-muted);
+      line-height: var(--pi-line-height-normal);
+    }
+
+    // Mensagem de erro (exibida apenas quando presente | role="alert")
+    &__error {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--pi-spacing-1);
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      color: var(--pi-color-danger);
+      line-height: var(--pi-line-height-normal);
+
+      // Ícone ⚠ via CSS (eMAG R24 — ícone + cor + texto)
+      &::before {
+        content: "\26A0";  // ⚠
+        font-size: var(--pi-font-size-base);
+        line-height: 1;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+    }
+
+    // Variantes de estado no container do campo
+    &--error,
+    &--danger {
+      input:not([type="checkbox"]):not([type="radio"]),
+      textarea,
+      select {
+        border: 2px solid var(--pi-color-danger);
+        background-color: var(--pi-color-danger-bg);
+      }
+    }
+
+    &--success {
+      input:not([type="checkbox"]):not([type="radio"]),
+      textarea,
+      select {
+        border-color: var(--pi-color-success);
+      }
+    }
+
+    &--warning {
+      input:not([type="checkbox"]):not([type="radio"]),
+      textarea,
+      select {
+        border-color: var(--pi-color-warning);
+      }
+    }
+
+    &--disabled {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+
+  // ── Inline checkbox / radio group ─────────────────────────────────────────
+  .pi-field-check-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-2);
+
+    &--inline {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--pi-spacing-3);
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: var(--pi-spacing-2);
+      font-size: var(--pi-font-size-base);
+      color: var(--pi-color-text);
+      cursor: pointer;
+
+      input[type="checkbox"],
+      input[type="radio"] {
+        flex-shrink: 0;
+        width: 1.125rem;
+        height: 1.125rem;
+        accent-color: var(--pi-color-primary);
+        cursor: pointer;
+      }
+    }
+  }
+
+  // ── Caracteres restantes (counter) ────────────────────────────────────────
+  .pi-field__counter {
+    font-size: var(--pi-font-size-xs);
+    color: var(--pi-color-text-muted);
+    text-align: right;
+
+    &.is-near-limit {
+      color: var(--pi-color-warning);
+    }
+
+    &.is-over-limit {
+      color: var(--pi-color-danger);
+      font-weight: var(--pi-font-weight-semibold);
+    }
+  }
+
+  // ── Separador horizontal entre grupos ─────────────────────────────────────
+  .pi-field-divider {
+    border: 0;
+    border-top: 1px solid var(--pi-color-border);
+    margin: var(--pi-spacing-6) 0;
+  }
+
+  // ── Ações de formulário (submit / cancel) ──────────────────────────────────
+  .pi-form-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-3);
+    flex-wrap: wrap;
+    margin-top: var(--pi-spacing-6);
+    padding-top: var(--pi-spacing-4);
+    border-top: 1px solid var(--pi-color-border);
+
+    &--end {
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: stretch;
+
+      .pi-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}

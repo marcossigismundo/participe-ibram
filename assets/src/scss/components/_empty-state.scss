@@ -1,0 +1,145 @@
+// =============================================================================
+// Component — Empty State (.pi-empty-state)
+// -----------------------------------------------------------------------------
+// Exibido quando uma lista/tabela não tem itens ou um recurso não existe.
+// Aceita: ilustração opcional, título h3, mensagem e CTA.
+//
+// Estrutura:
+//   <div class="pi-empty-state [pi-empty-state--compact]">
+//     <!-- slot de ilustração (opcional) -->
+//     <div class="pi-empty-state__illustration" aria-hidden="true">
+//       <span class="dashicons dashicons-…"></span>  ← ou SVG
+//     </div>
+//     <h3 class="pi-empty-state__title">Título</h3>
+//     <p class="pi-empty-state__message">Mensagem descritiva.</p>
+//     <div class="pi-empty-state__cta">
+//       <a class="pi-button pi-button--primary" href="…">Ação</a>
+//     </div>
+//   </div>
+//
+// WCAG 2.1 AA: fundo branco + texto var(--pi-color-text-muted) ≥ 4.5:1;
+//               ícone decorativo aria-hidden="true".
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--pi-spacing-12) var(--pi-spacing-8);
+    gap: var(--pi-spacing-4);
+
+    // ── Slot de ilustração ─────────────────────────────────────────────────
+    &__illustration {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: var(--pi-radius-full);
+      background-color: var(--pi-color-primary-lighter);
+      color: var(--pi-color-primary);
+      flex-shrink: 0;
+
+      // Dashicons ou outro ícone de fonte
+      .dashicons,
+      [class*="dashicons-"] {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+      }
+
+      // SVG inline
+      svg {
+        width: 2.5rem;
+        height: 2.5rem;
+        fill: currentColor;
+      }
+    }
+
+    // ── Título ─────────────────────────────────────────────────────────────
+    &__title {
+      margin: 0;
+      font-size: var(--pi-font-size-xl);    // 1.5rem
+      font-weight: var(--pi-font-weight-semibold);
+      line-height: var(--pi-line-height-snug);
+      color: var(--pi-color-text);
+      max-width: 40ch;
+    }
+
+    // ── Mensagem ───────────────────────────────────────────────────────────
+    &__message {
+      margin: 0;
+      font-size: var(--pi-font-size-base);
+      color: var(--pi-color-text-muted);
+      line-height: var(--pi-line-height-relaxed);
+      max-width: 55ch;
+    }
+
+    // ── CTA ────────────────────────────────────────────────────────────────
+    &__cta {
+      margin-top: var(--pi-spacing-2);
+      display: flex;
+      gap: var(--pi-spacing-2);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    // ── Variante compacta (dentro de tabela) ──────────────────────────────
+    &--compact {
+      padding: var(--pi-spacing-8) var(--pi-spacing-4);
+      gap: var(--pi-spacing-2);
+
+      .pi-empty-state__illustration {
+        width: 56px;
+        height: 56px;
+
+        .dashicons,
+        [class*="dashicons-"] {
+          font-size: 1.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+
+      .pi-empty-state__title {
+        font-size: var(--pi-font-size-lg);
+      }
+
+      .pi-empty-state__message {
+        font-size: var(--pi-font-size-sm);
+      }
+    }
+
+    // ── Variante sem ilustração (apenas texto + CTA) ───────────────────────
+    &--minimal {
+      padding: var(--pi-spacing-6) var(--pi-spacing-4);
+
+      .pi-empty-state__illustration {
+        display: none;
+      }
+    }
+
+    // ── Variante "sucesso" (tarefa concluída) ──────────────────────────────
+    &--success {
+      .pi-empty-state__illustration {
+        background-color: var(--pi-color-success-bg);
+        color: var(--pi-color-success);
+      }
+    }
+
+    // ── Variante "erro" ────────────────────────────────────────────────────
+    &--error {
+      .pi-empty-state__illustration {
+        background-color: var(--pi-color-danger-bg);
+        color: var(--pi-color-danger);
+      }
+
+      .pi-empty-state__title {
+        color: var(--pi-color-danger);
+      }
+    }
+  }
+}

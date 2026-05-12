@@ -1,0 +1,341 @@
+// =============================================================================
+// Layout — WP_List_Table chrome (scoped to .pi-admin-page)
+// -----------------------------------------------------------------------------
+// Substitui o estilo padrão do core WP para tabelas geradas por WP_List_Table
+// dentro das telas do plugin. Opera sobre os seletores .wp-list-table,
+// .tablenav, .search-box, etc. emitidos pelo core.
+//
+// WCAG 2.1 AA: células th têm scope; focus-visible via base/_accessibility.
+// =============================================================================
+
+.participe-ibram-scope {
+  // ── Barra de ações acima/abaixo da tabela (.tablenav) ─────────────────────
+  .tablenav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--pi-spacing-2);
+    margin: var(--pi-spacing-4) 0;
+    padding: 0;
+    height: auto;      // remove a altura fixa do core WP
+
+    &.top {
+      margin-bottom: 0;
+    }
+
+    &.bottom {
+      margin-top: 0;
+    }
+  }
+
+  .tablenav-pages {
+    font-size: var(--pi-font-size-sm);
+    color: var(--pi-color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-1);
+    margin-left: auto;
+
+    .paging-input,
+    .total-pages {
+      font-size: var(--pi-font-size-sm);
+    }
+
+    a {
+      color: var(--pi-color-primary);
+      text-decoration: none;
+      padding: var(--pi-spacing-1) var(--pi-spacing-2);
+      border-radius: var(--pi-radius-sm);
+
+      &:hover {
+        background-color: var(--pi-color-hover);
+      }
+    }
+
+    .current-page {
+      width: 3rem;
+      text-align: center;
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-sm);
+      padding: var(--pi-spacing-1) var(--pi-spacing-2);
+      font-size: var(--pi-font-size-sm);
+    }
+  }
+
+  // ── Bulk actions ──────────────────────────────────────────────────────────
+  .bulkactions {
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-2);
+
+    select {
+      min-height: 32px;
+      padding: var(--pi-spacing-1) var(--pi-spacing-2);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-sm);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-sm);
+      background-color: var(--pi-color-bg);
+      color: var(--pi-color-text);
+
+      &:focus-visible {
+        outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+        outline-offset: var(--pi-focus-offset);
+      }
+    }
+
+    input[type="submit"],
+    button {
+      min-height: 32px;
+      padding: var(--pi-spacing-1) var(--pi-spacing-3);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      background-color: var(--pi-color-bg);
+      color: var(--pi-color-primary);
+      border: 1px solid var(--pi-color-primary);
+      border-radius: var(--pi-radius-pill);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+
+      &:hover:not(:disabled) {
+        background-color: var(--pi-color-primary-lighter);
+      }
+    }
+  }
+
+  // ── Search box ────────────────────────────────────────────────────────────
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-2);
+    margin-left: auto;
+
+    input[type="search"] {
+      min-height: 32px;
+      padding: var(--pi-spacing-1) var(--pi-spacing-3);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-sm);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-sm);
+      background-color: var(--pi-color-bg);
+      color: var(--pi-color-text);
+      transition: border-color 0.15s ease;
+
+      &:hover:not(:disabled) {
+        border-color: var(--pi-color-border-strong);
+      }
+
+      &:focus-visible {
+        outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+        outline-offset: var(--pi-focus-offset);
+        border-color: var(--pi-color-primary);
+      }
+    }
+
+    input[type="submit"] {
+      min-height: 32px;
+      padding: var(--pi-spacing-1) var(--pi-spacing-3);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-semibold);
+      background-color: var(--pi-color-primary);
+      color: var(--pi-color-text-inverse);
+      border: 0;
+      border-radius: var(--pi-radius-pill);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+
+      &:hover:not(:disabled) {
+        background-color: var(--pi-color-primary-dark);
+      }
+    }
+  }
+
+  // ── Tabela ────────────────────────────────────────────────────────────────
+  .wp-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--pi-font-size-sm);
+    background-color: var(--pi-color-bg);
+    border: 1px solid var(--pi-color-border);
+    border-radius: var(--pi-radius-md);
+    overflow: hidden;    // clip dos cantos arredondados
+
+    // Cabeçalho
+    thead {
+      background-color: var(--pi-color-gray-2);
+      border-bottom: 1px solid var(--pi-color-border);
+
+      th {
+        padding: var(--pi-spacing-3) var(--pi-spacing-4);
+        font-weight: var(--pi-font-weight-semibold);
+        font-size: var(--pi-font-size-sm);
+        color: var(--pi-color-text);
+        text-align: left;
+        white-space: nowrap;
+
+        // Links de ordenação
+        a {
+          color: var(--pi-color-text);
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: var(--pi-spacing-1);
+
+          &:hover {
+            color: var(--pi-color-primary);
+          }
+        }
+
+        &.sorted.asc,
+        &.sorted.desc {
+          a {
+            color: var(--pi-color-primary);
+          }
+        }
+
+        // Coluna de checkbox
+        &.check-column {
+          width: 2.5rem;
+          padding: var(--pi-spacing-3) var(--pi-spacing-2);
+        }
+      }
+    }
+
+    // Corpo
+    tbody {
+      tr {
+        border-bottom: 1px solid var(--pi-color-border);
+        transition: background-color 0.12s ease;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &:hover {
+          background-color: var(--pi-color-gray-2);
+        }
+
+        // Linha alternada (zebra suave)
+        &.alternate {
+          background-color: var(--pi-color-bg);
+        }
+      }
+
+      td {
+        padding: var(--pi-spacing-3) var(--pi-spacing-4);
+        vertical-align: middle;
+        color: var(--pi-color-text);
+
+        // Coluna de checkbox
+        &.check-column {
+          width: 2.5rem;
+          padding: var(--pi-spacing-3) var(--pi-spacing-2);
+        }
+
+        // Row actions (editar | excluir…) — visíveis no hover
+        .row-actions {
+          font-size: var(--pi-font-size-xs);
+          color: var(--pi-color-text-muted);
+          margin-top: var(--pi-spacing-1);
+          visibility: hidden;
+
+          span {
+            a {
+              color: var(--pi-color-primary);
+              text-decoration: none;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+
+            &.trash a,
+            &.delete a {
+              color: var(--pi-color-danger);
+            }
+          }
+        }
+      }
+
+      tr:hover td .row-actions {
+        visibility: visible;
+      }
+    }
+
+    // Rodapé da tabela (igual ao header)
+    tfoot {
+      background-color: var(--pi-color-gray-2);
+      border-top: 1px solid var(--pi-color-border);
+
+      th {
+        padding: var(--pi-spacing-3) var(--pi-spacing-4);
+        font-weight: var(--pi-font-weight-semibold);
+        font-size: var(--pi-font-size-sm);
+        color: var(--pi-color-text);
+      }
+    }
+
+    // Coluna "title" bold
+    td.column-title,
+    td.column-name {
+      font-weight: var(--pi-font-weight-semibold);
+
+      a {
+        color: var(--pi-color-primary);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  // ── Nenhum item (via tr.no-items) ──────────────────────────────────────────
+  .wp-list-table .no-items td {
+    text-align: center;
+    padding: var(--pi-spacing-10) var(--pi-spacing-4);
+    color: var(--pi-color-text-muted);
+    font-size: var(--pi-font-size-md);
+    font-style: italic;
+  }
+
+  // ── Status pills reutilizáveis na coluna status ─────────────────────────
+  .pi-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pi-spacing-1);
+    padding: var(--pi-spacing-1) var(--pi-spacing-2);
+    font-size: var(--pi-font-size-xs);
+    font-weight: var(--pi-font-weight-semibold);
+    border-radius: var(--pi-radius-pill);
+    white-space: nowrap;
+
+    &--success {
+      background-color: var(--pi-color-success-bg);
+      color: var(--pi-color-success);
+    }
+
+    &--warning {
+      background-color: var(--pi-color-warning-bg);
+      color: var(--pi-color-warning);
+    }
+
+    &--danger {
+      background-color: var(--pi-color-danger-bg);
+      color: var(--pi-color-danger);
+    }
+
+    &--info {
+      background-color: var(--pi-color-info-bg);
+      color: var(--pi-color-info);
+    }
+
+    &--neutral {
+      background-color: var(--pi-color-gray-10);
+      color: var(--pi-color-gray-70);
+    }
+  }
+}

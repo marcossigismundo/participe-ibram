@@ -1,0 +1,184 @@
+// =============================================================================
+// Component — Notice (.pi-notice)
+// -----------------------------------------------------------------------------
+// Alternativa ao .notice do WordPress core. Não interfere com .notice WP.
+// Variantes: info | success | warning | danger.
+// Dismissible: add .pi-notice--dismissible + botão com classe .pi-notice__close.
+//
+// Estrutura mínima:
+//   <div class="pi-notice pi-notice--info [pi-notice--dismissible]" role="alert">
+//     <span class="pi-notice__icon" aria-hidden="true"></span>
+//     <div class="pi-notice__body">
+//       <p class="pi-notice__message">Mensagem.</p>
+//     </div>
+//     <!-- se dismissível: -->
+//     <button class="pi-notice__close" aria-label="Fechar aviso">×</button>
+//   </div>
+//
+// WCAG 2.1 AA:
+//   - role="alert" para notices de aviso/erro (anunciado por leitores de tela)
+//   - role="status" para notices de info/sucesso (polido)
+//   - Contraste: todos acima de 4.5:1 contra fundo respectivo
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pi-spacing-3);
+    padding: var(--pi-spacing-4);
+    margin-bottom: var(--pi-spacing-4);
+    border-left: 4px solid var(--pi-color-info);
+    background-color: var(--pi-color-info-bg);
+    border-radius: var(--pi-radius-sm);
+    color: var(--pi-color-text);
+    position: relative;
+
+    // ── Ícone decorativo ─────────────────────────────────────────────────
+    &__icon {
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--pi-font-size-base);
+      line-height: 1;
+      margin-top: 1px;  // alinha visualmente com a primeira linha do texto
+
+      // Ícone default via CSS pseudo-element — substituível por dashicons
+      &::before {
+        content: "\2139";  // ℹ
+        font-style: normal;
+        font-weight: var(--pi-font-weight-bold);
+        color: var(--pi-color-info);
+      }
+
+      // Quando for dashicons/spans injetados por PHP, o ::before fica oculto
+      &:not(:empty)::before {
+        display: none;
+      }
+    }
+
+    // ── Corpo do notice ──────────────────────────────────────────────────
+    &__body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &__title {
+      margin: 0 0 var(--pi-spacing-1);
+      font-size: var(--pi-font-size-base);
+      font-weight: var(--pi-font-weight-bold);
+      color: inherit;
+    }
+
+    &__message {
+      margin: 0;
+      font-size: var(--pi-font-size-sm);
+      line-height: var(--pi-line-height-normal);
+
+      // Parágrafo sem título: sem margem extra
+      &:only-child {
+        font-size: var(--pi-font-size-base);
+      }
+
+      a {
+        color: var(--pi-color-primary);
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--pi-color-primary-dark);
+        }
+      }
+    }
+
+    // ── Botão fechar (dismissível) ───────────────────────────────────────
+    &__close {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      padding: 0;
+      margin: 0;
+      background: transparent;
+      border: 0;
+      border-radius: var(--pi-radius-sm);
+      cursor: pointer;
+      color: var(--pi-color-text-muted);
+      font-size: 1.1rem;
+      line-height: 1;
+      margin-left: auto;
+      transition: background-color 0.12s ease, color 0.12s ease;
+
+      &:hover {
+        background-color: var(--pi-color-hover);
+        color: var(--pi-color-text);
+      }
+
+      &:focus-visible {
+        outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+        outline-offset: var(--pi-focus-offset);
+      }
+    }
+
+    // ── Variante: info (default) ─────────────────────────────────────────
+    &--info {
+      border-left-color: var(--pi-color-info);
+      background-color: var(--pi-color-info-bg);
+
+      .pi-notice__icon::before {
+        content: "\2139";  // ℹ
+        color: var(--pi-color-info);
+      }
+    }
+
+    // ── Variante: success ────────────────────────────────────────────────
+    &--success {
+      border-left-color: var(--pi-color-success);
+      background-color: var(--pi-color-success-bg);
+
+      .pi-notice__icon::before {
+        content: "\2713";  // ✓
+        color: var(--pi-color-success);
+      }
+    }
+
+    // ── Variante: warning ────────────────────────────────────────────────
+    &--warning {
+      border-left-color: var(--pi-color-warning);
+      background-color: var(--pi-color-warning-bg);
+
+      .pi-notice__icon::before {
+        content: "\26A0";  // ⚠
+        color: var(--pi-color-warning);
+      }
+    }
+
+    // ── Variante: danger ─────────────────────────────────────────────────
+    &--danger {
+      border-left-color: var(--pi-color-danger);
+      background-color: var(--pi-color-danger-bg);
+
+      .pi-notice__icon::before {
+        content: "\2716";  // ✖
+        color: var(--pi-color-danger);
+      }
+    }
+
+    // ── Estado oculto (JS oculta ao fechar) ──────────────────────────────
+    &[hidden],
+    &.is-dismissed {
+      display: none;
+    }
+
+    // ── Variante inline (sem margin-bottom, menor padding) ───────────────
+    &--inline {
+      margin-bottom: 0;
+      padding: var(--pi-spacing-2) var(--pi-spacing-3);
+      border-radius: var(--pi-radius-sm);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(C:/xampp82/php/php.exe -l *)",
+      "Bash(/c/xampp82/php/php.exe -l *)",
+      "PowerShell(ls *)",
+      "PowerShell(git log *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git status *)",
+      "PowerShell(git branch *)",
+      "PowerShell(git show *)"
+    ]
+  }
+}

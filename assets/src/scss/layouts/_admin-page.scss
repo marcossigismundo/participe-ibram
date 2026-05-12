@@ -1,0 +1,112 @@
+// =============================================================================
+// Layout — Admin Page chrome (.pi-admin-page)
+// -----------------------------------------------------------------------------
+// Estrutura padrão para todas as telas admin do plugin.
+// Uso:
+//   <div class="participe-ibram-scope wrap pi-admin-page">
+//     <!-- PageLayout::open() injeta .pi-admin-page__header -->
+//     <!-- conteúdo -->
+//     <!-- PageLayout::close() injeta .pi-admin-page__footer -->
+//   </div>
+//
+// WCAG 2.1 AA: contrastes mantidos pelos tokens DSGov; focus ring via base.
+// =============================================================================
+
+.participe-ibram-scope {
+  .pi-admin-page {
+    // ── Reset de margens WordPress ──────────────────────────────────────────
+    // O WordPress aplica margin-top em .wrap; mantemos apenas o padding lateral.
+    margin: 0;
+    padding: 0;
+    font-family: var(--pi-font-family-base);
+    color: var(--pi-color-text);
+
+    // ── Zona de cabeçalho ──────────────────────────────────────────────────
+    &__header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--pi-spacing-1);
+      padding: var(--pi-spacing-6) 0 var(--pi-spacing-4);
+      border-bottom: 1px solid var(--pi-color-border);
+      margin-bottom: var(--pi-spacing-6);
+    }
+
+    &__header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--pi-spacing-3);
+    }
+
+    &__title {
+      margin: 0;
+      font-size: var(--pi-font-size-2xl);   // 1.875rem — h2 DSGov
+      font-weight: var(--pi-font-weight-semibold);
+      line-height: var(--pi-line-height-tight);
+      color: var(--pi-color-primary-dark);
+    }
+
+    &__subtitle {
+      margin: 0;
+      font-size: var(--pi-font-size-base);
+      color: var(--pi-color-text-muted);
+    }
+
+    // Zona de ações: botão primário + ações secundárias
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--pi-spacing-2);
+      flex-shrink: 0;
+
+      @media (max-width: 600px) {
+        width: 100%;
+        flex-wrap: wrap;
+
+        .pi-button {
+          flex: 1 1 auto;
+          justify-content: center;
+        }
+      }
+    }
+
+    // ── Card de conteúdo principal ─────────────────────────────────────────
+    &__content-card {
+      background-color: var(--pi-color-bg);
+      border: 1px solid var(--pi-color-border);
+      border-radius: var(--pi-radius-md);
+      box-shadow: var(--pi-shadow-sm);
+      padding: var(--pi-spacing-6);
+      margin-bottom: var(--pi-spacing-6);
+
+      @media (max-width: 600px) {
+        padding: var(--pi-spacing-4);
+      }
+    }
+
+    // ── Nota de rodapé (dica contextual) ──────────────────────────────────
+    &__footer-hint {
+      font-size: var(--pi-font-size-sm);
+      color: var(--pi-color-text-muted);
+      border-top: 1px solid var(--pi-color-border);
+      padding-top: var(--pi-spacing-4);
+      margin-top: var(--pi-spacing-4);
+
+      a {
+        color: var(--pi-color-primary);
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--pi-color-primary-dark);
+        }
+      }
+    }
+
+    // ── Breadcrumb integrado ao header ─────────────────────────────────────
+    // Quando usado dentro do header, sobrescreve o margin-bottom do componente.
+    .pi-breadcrumb {
+      margin-bottom: 0;
+    }
+  }
+}

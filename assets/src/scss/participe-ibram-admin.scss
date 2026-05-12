@@ -43,3 +43,11 @@
 @import "components/ajuda";
 
 @import "layouts/minha-conta";
+
+// Onda 11-B — Design system compartilhado (layouts + componentes auxiliares)
+@import "layouts/admin-page";
+@import "layouts/list-table";
+@import "layouts/form-fields";
+@import "components/empty-state";
+@import "components/notice";
+@import "components/painel";
