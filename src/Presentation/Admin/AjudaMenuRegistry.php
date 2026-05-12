@@ -32,7 +32,9 @@ final class AjudaMenuRegistry
         if (!function_exists('add_action')) {
             return;
         }
-        \add_action('admin_menu', [$this, 'register']);
+        // W11-A IA: prioridade 51 — grupo "Ferramentas", após Setup de teste (50).
+        // Ver docs/refactor/W11-IA.md.
+        \add_action('admin_menu', [$this, 'register'], 51);
     }
 
     public function register(): void
@@ -40,13 +42,16 @@ final class AjudaMenuRegistry
         if (!function_exists('add_submenu_page')) {
             return;
         }
+        // W11-A IA: grupo "Ferramentas", posição 51.
+        // Ver docs/refactor/W11-IA.md.
         \add_submenu_page(
             MenuRegistry::SLUG_ROOT,
-            self::translate('Ajuda'),
-            self::translate('Ajuda'),
+            self::translate('Ferramentas — Ajuda'),
+            self::translate('Ferramentas — Ajuda'),
             self::CAP,
             self::SLUG,
-            [$this, 'render']
+            [$this, 'render'],
+            51
         );
     }
 

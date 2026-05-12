@@ -50,8 +50,9 @@ final class AuditMenuRegistry
         if (!function_exists('add_action')) {
             return;
         }
-        // Priority 30 — depois dos outros menus das Ondas 4-6
-        \add_action('admin_menu', [$this, 'register'], 30);
+        // W11-A IA: prioridade 40 — grupo "Conformidade & LGPD",
+        // depois de Votações. Ver docs/refactor/W11-IA.md.
+        \add_action('admin_menu', [$this, 'register'], 40);
         \add_action('admin_init', [$this, 'routePostAction']);
     }
 
@@ -64,22 +65,26 @@ final class AuditMenuRegistry
             return;
         }
 
+        // W11-A IA: grupo "Conformidade & LGPD", posições 40–42.
+        // Ver docs/refactor/W11-IA.md.
         \add_submenu_page(
             self::SLUG_ROOT,
             self::tr('Auditoria — Log de eventos'),
-            self::tr('Auditoria — Log'),
+            self::tr('Auditoria — Log de eventos'),
             self::CAP,
             self::SLUG_LOG,
-            [$this, 'renderLog']
+            [$this, 'renderLog'],
+            40
         );
 
         \add_submenu_page(
             self::SLUG_ROOT,
             self::tr('Auditoria — Acessos a PII'),
-            self::tr('Auditoria — PII'),
+            self::tr('Auditoria — Acessos a PII'),
             self::CAP,
             self::SLUG_PII,
-            [$this, 'renderPii']
+            [$this, 'renderPii'],
+            41
         );
 
         \add_submenu_page(
@@ -88,7 +93,8 @@ final class AuditMenuRegistry
             self::tr('Auditoria — Decisões'),
             self::CAP,
             self::SLUG_DECISOES,
-            [$this, 'renderDecisoes']
+            [$this, 'renderDecisoes'],
+            42
         );
 
         // Detalhe: submenu oculto (parent options.php — não aparece na nav)

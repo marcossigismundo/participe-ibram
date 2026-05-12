@@ -64,7 +64,9 @@ final class RecursoMenuRegistry
         if (!function_exists('add_action')) {
             return;
         }
-        \add_action('admin_menu', [$this, 'registerMenu'], 20);
+        // W11-A IA: prioridade 11 — fecha o grupo "Análise de cadastros"
+        // logo após MenuRegistry (prio 10). Ver docs/refactor/W11-IA.md.
+        \add_action('admin_menu', [$this, 'registerMenu'], 11);
         \add_action('admin_init', [$this, 'maybeHandlePost']);
     }
 
@@ -77,13 +79,16 @@ final class RecursoMenuRegistry
             return;
         }
 
+        // W11-A IA: grupo "Análise de cadastros", posições 12–14.
+        // Ver docs/refactor/W11-IA.md.
         \add_submenu_page(
             self::PARENT_SLUG,
             \__('Recursos — Em Retratação', 'participe-ibram'),
             \__('Recursos — Retratação', 'participe-ibram'),
             self::CAP_RETRATACAO,
             self::SLUG_RETRATACAO,
-            [$this->retratacaoController, 'dispatch']
+            [$this->retratacaoController, 'dispatch'],
+            12
         );
 
         \add_submenu_page(
@@ -92,7 +97,8 @@ final class RecursoMenuRegistry
             \__('Recursos — Presidência', 'participe-ibram'),
             self::CAP_PRESIDENCIA,
             self::SLUG_PRESIDENCIA,
-            [$this->presidenciaController, 'dispatch']
+            [$this->presidenciaController, 'dispatch'],
+            13
         );
 
         \add_submenu_page(
@@ -101,7 +107,8 @@ final class RecursoMenuRegistry
             \__('Recursos — Prazos', 'participe-ibram'),
             self::CAP_PRAZOS,
             self::SLUG_PRAZOS,
-            [$this->prazosController, 'render']
+            [$this->prazosController, 'render'],
+            14
         );
     }
 

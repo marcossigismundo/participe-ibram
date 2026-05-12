@@ -86,5 +86,55 @@ add_action('plugins_loaded', static function (): void {
     if (!class_exists('Ibram\\ParticipeIbram\\Bootstrap\\Plugin')) {
         return;
     }
+
+    // Pre-flight: o plugin precisa de 6 segredos em wp-config.php para
+    // criptografia LGPD, HMAC de busca, anti-rastreio de voto e assinatura
+    // de URLs. Sem eles, SodiumCipher/EleitorHasher abortam o admin com
+    // fatal. Em vez disso, suprimimos o boot e mostramos um admin_notices
+    // explicando o que falta.
+    $pi_required = [
+        'PI_ENC_KEY_V1',
+        'PI_ENC_KEY_CURRENT',
+        'PI_HMAC_KEY',
+        'PI_IP_PEPPER',
+        'PI_VOTING_SECRET',
+        'PI_UNSUBSCRIBE_SECRET',
+    ];
+    $pi_missing = [];
+    foreach ($pi_required as $pi_const) {
+        if (!defined($pi_const) || (string) constant($pi_const) === '') {
+            $pi_missing[] = $pi_const;
+        }
+    }
+    if ($pi_missing !== []) {
+        add_action('admin_notices', static function () use ($pi_missing): void {
+            if (!function_exists('current_user_can') || !current_user_can('activate_plugins')) {
+                return;
+            }
+            $list = '<ul style="margin:6px 0 6px 18px;list-style:disc;">';
+            foreach ($pi_missing as $name) {
+                $list .= '<li><code>' . esc_html($name) . '</code></li>';
+            }
+            $list .= '</ul>';
+            $snippet = "define('PI_ENC_KEY_V1',         '<base64 32 bytes>');\n"
+                     . "define('PI_ENC_KEY_CURRENT',    'v1');\n"
+                     . "define('PI_HMAC_KEY',           '<base64 32 bytes, distinto>');\n"
+                     . "define('PI_IP_PEPPER',          '<base64 32 bytes, distinto>');\n"
+                     . "define('PI_VOTING_SECRET',      '<base64 32 bytes, distinto>');\n"
+                     . "define('PI_UNSUBSCRIBE_SECRET', '<base64 32 bytes, distinto>');";
+            echo '<div class="notice notice-error"><p><strong>'
+                . esc_html__('Participe Ibram — configuração obrigatória ausente', 'participe-ibram')
+                . '</strong></p><p>'
+                . esc_html__('O plugin não foi inicializado porque as seguintes constantes não estão definidas em wp-config.php:', 'participe-ibram')
+                . '</p>' . $list
+                . '<p>'
+                . esc_html__('Adicione o bloco abaixo antes de “/* That’s all, stop editing! */”, gerando cada valor com sodium_crypto_secretbox_keygen() ou random_bytes(32) → base64_encode. Cada chave deve ser independente (LGPD R2 §4.6).', 'participe-ibram')
+                . '</p><pre style="background:#f6f7f7;padding:10px;border:1px solid #c3c4c7;overflow:auto;">'
+                . esc_html($snippet)
+                . '</pre></div>';
+        });
+        return; // não bota o boot — admin permanece utilizável.
+    }
+
     \Ibram\ParticipeIbram\Bootstrap\Plugin::getInstance()->boot();
 }, 5);

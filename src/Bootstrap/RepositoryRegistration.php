@@ -18,6 +18,7 @@ namespace Ibram\ParticipeIbram\Bootstrap;
 
 use Ibram\ParticipeIbram\Infrastructure\Repository\AgenteHydrator;
 use Ibram\ParticipeIbram\Infrastructure\Repository\WpdbAgenteBroadcastQuery;
+use Ibram\ParticipeIbram\Infrastructure\Repository\WpdbAgenteDetalhesLoader;
 use Ibram\ParticipeIbram\Infrastructure\Repository\WpdbAgenteRepository;
 use Ibram\ParticipeIbram\Infrastructure\Repository\WpdbAnaliseRepository;
 use Ibram\ParticipeIbram\Infrastructure\Repository\WpdbCategoriaRepository;
@@ -62,6 +63,21 @@ final class RepositoryRegistration
                 $c->get('core:access_tracker')
             );
         });
+
+        // ------------------------------------------------------------------
+        // repo:agente_detalhes_loader — WpdbAgenteDetalhesLoader
+        // Porta consumida pelos handlers de transição de status
+        // (AssumirAnalise/Deferir/Indeferir/DecidirRetratacao/...) e pelo
+        // AgenteDetalhesController. Reutiliza o hydrator já registrado.
+        // ------------------------------------------------------------------
+        if (class_exists(WpdbAgenteDetalhesLoader::class)) {
+            $container->singleton('repo:agente_detalhes_loader', static function (Container $c): WpdbAgenteDetalhesLoader {
+                return new WpdbAgenteDetalhesLoader(
+                    $c->get('core:wpdb'),
+                    $c->get('repo:agente_hydrator')
+                );
+            });
+        }
 
         // ------------------------------------------------------------------
         // repo:agente — WpdbAgenteRepository

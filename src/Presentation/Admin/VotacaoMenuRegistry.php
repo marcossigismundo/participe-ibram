@@ -55,7 +55,9 @@ final class VotacaoMenuRegistry
         if (!function_exists('add_action')) {
             return;
         }
-        \add_action('admin_menu', [$this, 'register']);
+        // W11-A IA: prioridade 30 — grupo "Votações".
+        // Ver docs/refactor/W11-IA.md.
+        \add_action('admin_menu', [$this, 'register'], 30);
     }
 
     public function register(): void
@@ -64,13 +66,16 @@ final class VotacaoMenuRegistry
             return;
         }
 
+        // W11-A IA: grupo "Votações", posições 30–31.
+        // Ver docs/refactor/W11-IA.md.
         \add_submenu_page(
             self::SLUG_ROOT,
             self::tr('Votações — Lista'),
-            self::tr('Votações'),
+            self::tr('Votações — Lista'),
             self::CAP_APURAR,
             self::SLUG_VOTACOES,
-            [$this, 'renderList']
+            [$this, 'renderList'],
+            30
         );
 
         // Página oculta acessada via querystring; cap é re-checada no controller.
@@ -86,10 +91,11 @@ final class VotacaoMenuRegistry
         \add_submenu_page(
             self::SLUG_ROOT,
             self::tr('Votações — Auditoria'),
-            self::tr('Auditoria de Votações'),
+            self::tr('Votações — Auditoria'),
             self::CAP_AUDIT_VIEW,
             self::SLUG_AUDITORIA,
-            [$this, 'renderAuditoria']
+            [$this, 'renderAuditoria'],
+            31
         );
     }
 

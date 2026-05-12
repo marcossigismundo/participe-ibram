@@ -46,17 +46,24 @@ final class MenuRegistry
 
     /**
      * Register the `admin_menu` hook. Idempotent.
+     *
+     * W11-A IA: prioridade 10 — registra "Painel" + "Cadastros" (primeiro grupo
+     * após o root). Ordem global definida em docs/refactor/W11-IA.md.
      */
     public function registerHooks(): void
     {
         if (!function_exists('add_action')) {
             return;
         }
-        \add_action('admin_menu', [$this, 'register']);
+        \add_action('admin_menu', [$this, 'register'], 10);
     }
 
     /**
      * Build the menu tree. Called by WordPress.
+     *
+     * W11-A IA: submenus ordenados via parâmetro `$position` (WP 5.3+).
+     * Faixa de posições do grupo "Análise de cadastros": 10–14.
+     * Ver docs/refactor/W11-IA.md.
      */
     public function register(): void
     {
@@ -74,31 +81,37 @@ final class MenuRegistry
             26
         );
 
+        // Painel — root, posição 0 (auto-criado pelo WP, renomeado aqui).
         \add_submenu_page(
             self::SLUG_ROOT,
             self::translate('Painel'),
             self::translate('Painel'),
             self::CAP_LISTAR_CADASTROS,
             self::SLUG_ROOT,
-            [$this, 'renderDashboard']
+            [$this, 'renderDashboard'],
+            0
         );
 
+        // Cadastros — Fila de Análise (W11-A: posição 10).
         \add_submenu_page(
             self::SLUG_ROOT,
-            self::translate('Fila de Análise'),
-            self::translate('Fila de Análise'),
+            self::translate('Cadastros — Fila de Análise'),
+            self::translate('Cadastros — Fila de Análise'),
             self::CAP_LISTAR_CADASTROS,
             self::SLUG_CADASTROS,
-            [$this, 'renderFilaAnalise']
+            [$this, 'renderFilaAnalise'],
+            10
         );
 
+        // Cadastros — Todos os agentes (W11-A: posição 11).
         \add_submenu_page(
             self::SLUG_ROOT,
-            self::translate('Todos os agentes'),
-            self::translate('Todos os agentes'),
+            self::translate('Cadastros — Todos os agentes'),
+            self::translate('Cadastros — Todos os agentes'),
             self::CAP_LISTAR_CADASTROS,
             self::SLUG_AGENTES,
-            [$this, 'renderTodosAgentes']
+            [$this, 'renderTodosAgentes'],
+            11
         );
 
         // Detalhe é acessada via querystring; é registrada como submenu oculta
@@ -118,16 +131,32 @@ final class MenuRegistry
     }
 
     /**
-     * Dashboard render: keeps the legacy template until Wave 5 dashboard work.
+     * Dashboard render — W11-A.
+     *
+     * Delega para {@see Support\PainelRenderer::render()}: KPIs agregados
+     * (cadastros, editais, recursos, votações, LGPD, fila de e-mail) +
+     * painel "Próximo passo" role-aware, estilizado com tokens DSGov 3.7.
+     *
+     * O template legado `templates/admin/dashboard.php` (Onda 7, com gráficos)
+     * permanece no repositório e pode ser reativado movendo-o para outro
+     * submenu — o Painel raiz agora é uma página de overview pura.
      */
     public function renderDashboard(): void
     {
-        $template = self::templatePath('dashboard.php');
+        if (class_exists(Support\PainelRenderer::class)) {
+            Support\PainelRenderer::render();
+            return;
+        }
+        // Fallback se a classe ainda não carregou: template legado vazio
+        // (variáveis indefinidas, mas não quebra o admin).
+        $template = self::templatePath('painel.php') ?? self::templatePath('dashboard.php');
         if ($template !== null) {
             include $template;
             return;
         }
-        echo '<div class="wrap"><h1>' . self::escHtml(self::translate('Participe Ibram')) . '</h1></div>';
+        echo '<div class="participe-ibram-scope wrap"><h1>'
+            . self::escHtml(self::translate('Painel — Participe Ibram'))
+            . '</h1></div>';
     }
 
     public function renderFilaAnalise(): void

@@ -224,7 +224,7 @@ final class AdminRegistration
             $container->singleton('app:handler:assumir_analise', static function (Container $c): AssumirAnaliseHandler {
                 return new AssumirAnaliseHandler(
                     $c->get('repo:agente'),
-                    $c->get('repo:agente_hydrator'),
+                    $c->get('repo:agente_detalhes_loader'),
                     $c->get('repo:status_historico'),
                     $c->get('core:audit_logger')
                 );
@@ -236,7 +236,7 @@ final class AdminRegistration
             $container->singleton('app:handler:deferir_cadastro', static function (Container $c): DeferirCadastroHandler {
                 return new DeferirCadastroHandler(
                     $c->get('repo:agente'),
-                    $c->get('repo:agente_hydrator'),
+                    $c->get('repo:agente_detalhes_loader'),
                     $c->get('repo:analise'),
                     $c->get('repo:status_historico'),
                     $c->get('infra:numero_registro_allocator'),
@@ -250,7 +250,7 @@ final class AdminRegistration
             $container->singleton('app:handler:indeferir_cadastro', static function (Container $c): IndeferirCadastroHandler {
                 return new IndeferirCadastroHandler(
                     $c->get('repo:agente'),
-                    $c->get('repo:agente_hydrator'),
+                    $c->get('repo:agente_detalhes_loader'),
                     $c->get('repo:analise'),
                     $c->get('repo:status_historico'),
                     $c->get('core:audit_logger')
@@ -263,7 +263,7 @@ final class AdminRegistration
             $container->singleton('app:handler:decidir_retratacao', static function (Container $c): DecidirRetratacaoHandler {
                 return new DecidirRetratacaoHandler(
                     $c->get('repo:agente'),
-                    $c->get('repo:agente_hydrator'),
+                    $c->get('repo:agente_detalhes_loader'),
                     $c->get('repo:analise'),
                     $c->get('repo:recurso'),
                     $c->get('repo:status_historico'),
@@ -278,7 +278,7 @@ final class AdminRegistration
             $container->singleton('app:handler:decidir_recurso_presidencia', static function (Container $c): DecidirRecursoPresidenciaHandler {
                 return new DecidirRecursoPresidenciaHandler(
                     $c->get('repo:agente'),
-                    $c->get('repo:agente_hydrator'),
+                    $c->get('repo:agente_detalhes_loader'),
                     $c->get('repo:analise'),
                     $c->get('repo:recurso'),
                     $c->get('repo:status_historico'),
@@ -358,13 +358,12 @@ final class AdminRegistration
         // app:handler:exportar_relatorio_apuracao
         if (class_exists(ExportarRelatorioApuracaoHandler::class)) {
             $container->singleton('app:handler:exportar_relatorio_apuracao', static function (Container $c): ExportarRelatorioApuracaoHandler {
-                $inscricaoLookup = $c->get('adapter:inscricao_consulta');
                 return new ExportarRelatorioApuracaoHandler(
                     $c->get('repo:votacao'),
                     $c->get('repo:resultado'),
                     $c->get('repo:voto'),
                     $c->get('core:audit_logger'),
-                    is_callable($inscricaoLookup) ? $inscricaoLookup : [$inscricaoLookup, 'consultar']
+                    $c->get('lookup:inscricao_publico')
                 );
             });
         }
@@ -420,7 +419,7 @@ final class AdminRegistration
             $container->singleton('admin:controller:agente_detalhes', static function (Container $c): AgenteDetalhesController {
                 return new AgenteDetalhesController(
                     $c->get('repo:agente'),
-                    $c->get('repo:agente_hydrator'),
+                    $c->get('repo:agente_detalhes_loader'),
                     $c->get('repo:analise'),
                     $c->get('repo:recurso'),
                     $c->get('repo:status_historico'),
@@ -567,14 +566,13 @@ final class AdminRegistration
         // admin:controller:apuracao
         if (class_exists(ApuracaoController::class)) {
             $container->singleton('admin:controller:apuracao', static function (Container $c): ApuracaoController {
-                $inscricaoLookup = $c->get('adapter:inscricao_consulta');
                 return new ApuracaoController(
                     $c->get('repo:votacao'),
                     $c->get('repo:voto'),
                     $c->get('repo:resultado'),
                     $c->get('repo:edital'),
                     $c->get('repo:categoria'),
-                    is_callable($inscricaoLookup) ? $inscricaoLookup : [$inscricaoLookup, 'consultar']
+                    $c->get('lookup:inscricao_publico')
                 );
             });
         }
@@ -778,7 +776,7 @@ final class AdminRegistration
                 $container->get('app:handler:deferir_cadastro'),
                 $container->get('app:handler:indeferir_cadastro'),
                 $container->get('repo:agente'),
-                $container->get('repo:agente_hydrator'),
+                $container->get('repo:agente_detalhes_loader'),
                 $container->get('core:cipher'),
                 $container->get('core:access_tracker'),
                 $container->get('core:audit_logger')

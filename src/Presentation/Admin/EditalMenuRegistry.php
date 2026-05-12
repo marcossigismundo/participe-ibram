@@ -63,7 +63,9 @@ final class EditalMenuRegistry
         if (!function_exists('add_action')) {
             return;
         }
-        \add_action('admin_menu', [$this, 'register']);
+        // W11-A IA: prioridade 20 — abre o grupo "Editais & habilitações".
+        // Ver docs/refactor/W11-IA.md.
+        \add_action('admin_menu', [$this, 'register'], 20);
         \add_action('admin_init', [$this, 'routePostActions']);
     }
 
@@ -76,22 +78,26 @@ final class EditalMenuRegistry
             return;
         }
 
+        // W11-A IA: grupo "Editais & habilitações", posições 20–21.
+        // Ver docs/refactor/W11-IA.md.
         \add_submenu_page(
             self::SLUG_ROOT,
             self::tr('Editais — Lista'),
-            self::tr('Editais'),
+            self::tr('Editais — Lista'),
             self::CAP_LISTAR,
             self::SLUG_EDITAIS,
-            [$this, 'renderList']
+            [$this, 'renderList'],
+            20
         );
 
         \add_submenu_page(
             self::SLUG_ROOT,
-            self::tr('Editais — Novo'),
-            self::tr('Novo Edital'),
+            self::tr('Editais — Novo edital'),
+            self::tr('Editais — Novo edital'),
             self::CAP_CRIAR,
             self::SLUG_NOVO,
-            [$this, 'renderNovo']
+            [$this, 'renderNovo'],
+            21
         );
 
         // Hidden pages (registered under options.php so they don't appear in nav).

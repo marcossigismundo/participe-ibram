@@ -49,7 +49,9 @@ final class HabilitacaoMenuRegistry
         if (!function_exists('add_action')) {
             return;
         }
-        \add_action('admin_menu', [$this, 'registerMenu'], 25);
+        // W11-A IA: prioridade 22 — fecha o grupo "Editais & habilitações".
+        // Ver docs/refactor/W11-IA.md.
+        \add_action('admin_menu', [$this, 'registerMenu'], 22);
         \add_action('admin_init', [$this, 'maybeHandlePost']);
     }
 
@@ -62,22 +64,26 @@ final class HabilitacaoMenuRegistry
             return;
         }
 
+        // W11-A IA: grupo "Editais & habilitações", posições 22–23.
+        // Ver docs/refactor/W11-IA.md.
         \add_submenu_page(
             self::PARENT_SLUG,
             \__('Habilitações — Pendentes', 'participe-ibram'),
             \__('Habilitações — Pendentes', 'participe-ibram'),
             self::CAP_HABILITACAO,
             self::SLUG_HABILITACOES,
-            [$this->habilitacaoController, 'dispatch']
+            [$this->habilitacaoController, 'dispatch'],
+            22
         );
 
         \add_submenu_page(
             self::PARENT_SLUG,
-            \__('Recursos de Inabilitação', 'participe-ibram'),
-            \__('Recursos de Inabilitação', 'participe-ibram'),
+            \__('Habilitações — Recursos de inabilitação', 'participe-ibram'),
+            \__('Habilitações — Recursos de inabilitação', 'participe-ibram'),
             self::CAP_HABILITACAO,
             self::SLUG_RECURSOS_INABILITACAO,
-            [$this->recursoInabilitacaoController, 'dispatch']
+            [$this->recursoInabilitacaoController, 'dispatch'],
+            23
         );
     }
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Ibram\ParticipeIbram\Bootstrap;
 
+use Ibram\ParticipeIbram\Application\Consentimento\RevogarConsentimentoHandler;
 use Ibram\ParticipeIbram\Application\Email\EmailQueueWorker;
 use Ibram\ParticipeIbram\Application\Email\EnfileirarEmailHandler;
 use Ibram\ParticipeIbram\Application\Email\EventListeners;
@@ -91,10 +92,10 @@ final class EmailRegistration
         $container->singleton('email.event_listeners', static function (Container $c): EventListeners {
             return new EventListeners(
                 $c->get('email.enfileirar'),
-                $c->get('agente.repository'),
+                $c->get('repo:agente'),
                 $c->get('email.tokenizer'),
                 $c->get('email.logger'),
-                $c->has('agente.detalhes_loader') ? $c->get('agente.detalhes_loader') : null
+                $c->has('repo:agente_detalhes_loader') ? $c->get('repo:agente_detalhes_loader') : null
             );
         });
 
@@ -112,18 +113,22 @@ final class EmailRegistration
             return new EmailAdminAjax(
                 $c->get('email.smtp'),
                 $c->get('email.queue.repository'),
-                $c->get('audit.logger'),
+                $c->get('core:audit_logger'),
                 $c->get('email.logger')
             );
         });
 
         // ---------- Presentation: Public ----------
         $container->singleton('email.public.unsubscribe', static function (Container $c): UnsubscribeController {
+            $revogarHandler = new RevogarConsentimentoHandler(
+                $c->get('repo:consentimento'),
+                $c->get('core:audit_logger')
+            );
             return new UnsubscribeController(
                 $c->get('email.tokenizer'),
-                $c->get('consentimento.revogar.handler'),
-                $c->get('agente.repository'),
-                $c->get('audit.logger'),
+                $revogarHandler,
+                $c->get('repo:agente'),
+                $c->get('core:audit_logger'),
                 $c->get('email.logger'),
                 \PI_PLUGIN_DIR . 'templates/public/unsubscribe.php'
             );

@@ -31,12 +31,14 @@ final class SetupTesteMenuRegistry
             return;
         }
 
-        add_action('admin_menu', [self::class, 'registerMenu'], 99);
+        // W11-A IA: prioridade 50 — abre o grupo "Ferramentas".
+        // Ver docs/refactor/W11-IA.md.
+        add_action('admin_menu', [self::class, 'registerMenu'], 50);
         add_action('admin_init', [self::class, 'handlePost']);
     }
 
     /**
-     * Adiciona o submenu. Prioridade 99 → aparece por último.
+     * Adiciona o submenu. W11-A: prioridade 50 — abre o grupo "Ferramentas".
      */
     public static function registerMenu(): void
     {
@@ -47,13 +49,16 @@ final class SetupTesteMenuRegistry
         // Determina a cap efetiva para o contexto atual.
         $cap = self::effectiveCap();
 
+        // W11-A IA: grupo "Ferramentas", posição 50.
+        // Ver docs/refactor/W11-IA.md.
         add_submenu_page(
-            'participe-ibram',                          // parent slug
-            __('Setup de Teste', 'participe-ibram'),    // page title
-            __('Setup de Teste', 'participe-ibram'),    // menu title
+            'participe-ibram',                                              // parent slug
+            __('Ferramentas — Setup de teste', 'participe-ibram'),          // page title
+            __('Ferramentas — Setup de teste', 'participe-ibram'),          // menu title
             $cap,
             self::SLUG,
-            [self::class, 'render']
+            [self::class, 'render'],
+            50
         );
     }
 

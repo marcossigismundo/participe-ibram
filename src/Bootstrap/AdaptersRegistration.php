@@ -31,6 +31,53 @@ final class AdaptersRegistration
     public static function register(Container $container): void
     {
         // ------------------------------------------------------------------
+        // lookup:inscricao_publico — callable(int $inscricaoId): array{
+        //     numero_registro: string,
+        //     nome_publico: string
+        // }
+        //
+        // Resolve um candidato_inscricao_id em identificadores PUBLICOS do
+        // agente (whitelist anti-PII para apuração + exportação + tela
+        // pública). Substitui o wiring quebrado da Wave 9-B que tentava
+        // usar InscricaoConsultaGatewayAdapter como callable.
+        //
+        // Registrado no topo porque os blocos seguintes têm early-return em
+        // class_exists() falho e poderiam pular este registro.
+        // ------------------------------------------------------------------
+        $container->singleton('lookup:inscricao_publico', static function (Container $c): \Closure {
+            $wpdb        = $c->get('core:wpdb');
+            $prefix      = (string) $wpdb->prefix;
+            $tInscricoes = $prefix . 'pi_inscricoes';
+            $tAgentes    = $prefix . 'pi_agentes';
+
+            return static function (int $inscricaoId) use ($wpdb, $tInscricoes, $tAgentes): array {
+                $vazio = ['numero_registro' => '', 'nome_publico' => ''];
+                if ($inscricaoId <= 0) {
+                    return $vazio;
+                }
+                // phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL
+                $sql = $wpdb->prepare(
+                    "SELECT a.numero_registro AS numero_registro,
+                            a.nome_publico    AS nome_publico
+                     FROM {$tInscricoes} AS i
+                     INNER JOIN {$tAgentes} AS a ON a.id = i.agente_id
+                     WHERE i.id = %d
+                     LIMIT 1",
+                    $inscricaoId
+                );
+                $row = $wpdb->get_row($sql, ARRAY_A);
+                // phpcs:enable
+                if (!is_array($row)) {
+                    return $vazio;
+                }
+                return [
+                    'numero_registro' => isset($row['numero_registro']) ? (string) $row['numero_registro'] : '',
+                    'nome_publico'    => isset($row['nome_publico'])    ? (string) $row['nome_publico']    : '',
+                ];
+            };
+        });
+
+        // ------------------------------------------------------------------
         // adapter:agente_lookup — AgenteLookupAdapter
         // Implements: AgenteLookupPort (used by inscrição handlers)
         // Depends on: repo:agente (AgenteRepository)

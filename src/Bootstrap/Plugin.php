@@ -177,18 +177,29 @@ final class Plugin
     }
 
     /**
-     * Renderiza a página raiz "Painel". Stub que orienta o usuário até wave 10
-     * wirar os controllers completos.
+     * Renderiza a página raiz "Painel" (W11-A).
+     *
+     * Delega para {@see PainelRenderer::render()} que coleta KPIs do plugin
+     * (cadastros, editais, recursos, votações, LGPD, fila de e-mail) e produz
+     * uma página DSGov-themed com CTA role-aware. Cai num fallback texto-puro
+     * se a classe não estiver presente (boot incompleto).
      */
     public function renderRootStub(): void
     {
         if (!function_exists('current_user_can') || !current_user_can('pi_listar_cadastros')) {
             wp_die(esc_html__('Sem permissão.', 'participe-ibram'), 403);
         }
-        echo '<div class="wrap">';
-        echo '<h1>' . esc_html__('Participe Ibram', 'participe-ibram') . '</h1>';
+
+        if (class_exists('Ibram\\ParticipeIbram\\Presentation\\Admin\\Support\\PainelRenderer')) {
+            \Ibram\ParticipeIbram\Presentation\Admin\Support\PainelRenderer::render();
+            return;
+        }
+
+        // Fallback defensivo se o autoloader ainda não carregou a classe.
+        echo '<div class="participe-ibram-scope wrap">';
+        echo '<h1>' . esc_html__('Painel — Participe Ibram', 'participe-ibram') . '</h1>';
         echo '<p>' . esc_html__('Plataforma federal de Cadastro de Agentes para Participação Social do Ibram (Portaria 3230/2024).', 'participe-ibram') . '</p>';
-        echo '<div class="notice notice-info"><p><strong>' . esc_html__('Em desenvolvimento:', 'participe-ibram') . '</strong> ' . esc_html__('os painéis específicos (Cadastros, Editais, Recursos, Votações, Auditoria) serão wireados na Onda 10. Por enquanto, comece pelo "Setup de Teste" no submenu para popular dados de teste.', 'participe-ibram') . '</p></div>';
+        echo '<div class="notice notice-warning"><p>' . esc_html__('Painel indisponível: PainelRenderer não pôde ser carregado.', 'participe-ibram') . '</p></div>';
         echo '</div>';
     }
 
