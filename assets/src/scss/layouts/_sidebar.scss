@@ -1,0 +1,215 @@
+// =============================================================================
+// Layout — Sidebar de navegação do plugin (.pi-sidebar)
+// -----------------------------------------------------------------------------
+// Wave 12 — sidebar lateral híbrido para o admin do Participe Ibram.
+//
+// Estrutura HTML esperada:
+//   .pi-admin-page-shell
+//     aside.pi-sidebar#pi-sidebar-nav[role="navigation"]
+//       button.pi-sidebar__toggle           ← visível só em ≤900px
+//       div.pi-sidebar__nav-list#pi-sidebar-nav-list
+//         div.pi-sidebar__group (×N)
+//           h2.pi-sidebar__group-title       ← ausente no grupo 1 (Visão Geral)
+//           ul.pi-sidebar__group-items
+//             li.pi-sidebar__item[.is-active]
+//               a.pi-sidebar__link[aria-current="page"]
+//                 span.dashicons
+//                 span.pi-sidebar__label
+//     main.pi-content
+//
+// Tokens DSGov usados: --pi-color-primary, --pi-color-primary-dark,
+//   --pi-color-text, --pi-color-text-muted, --pi-color-border,
+//   --pi-color-bg-subtle, --pi-font-size-sm, --pi-font-size-xs,
+//   --pi-font-weight-semibold, --pi-spacing-1..6, --pi-radius-sm,
+//   --pi-line-height-tight.
+//
+// WCAG 2.1 AA: focus ring visível, contraste ≥ 4.5:1, navegação teclado.
+// =============================================================================
+
+// ── Shell de 2 colunas ────────────────────────────────────────────────────────
+
+.participe-ibram-scope {
+  .pi-admin-page-shell {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--pi-spacing-6);
+    align-items: start;
+
+    @media (max-width: 900px) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--pi-spacing-4);
+    }
+  }
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+
+.participe-ibram-scope {
+  .pi-sidebar {
+    // Sticky no desktop: acompanha o scroll sem sair da viewport.
+    position: sticky;
+    top: 32px; // 32px = barra de admin do WordPress
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    width: 260px;
+    min-width: 0;
+    flex-shrink: 0;
+
+    background-color: var(--pi-color-bg-subtle, #f8f9fa);
+    border: 1px solid var(--pi-color-border);
+    border-radius: var(--pi-radius-md, 6px);
+    padding: var(--pi-spacing-3) 0;
+
+    // Scrollbar fina e discreta
+    scrollbar-width: thin;
+    scrollbar-color: var(--pi-color-border) transparent;
+
+    &::-webkit-scrollbar        { width: 4px; }
+    &::-webkit-scrollbar-track  { background: transparent; }
+    &::-webkit-scrollbar-thumb  { background: var(--pi-color-border); border-radius: 2px; }
+
+    @media (max-width: 900px) {
+      position: static;
+      max-height: none;
+      width: 100%;
+      border-radius: var(--pi-radius-md, 6px);
+    }
+
+    // ── Botão hamburger (desktop: oculto; mobile: visível) ──────────────────
+    &__toggle {
+      display: none; // oculto no desktop
+
+      @media (max-width: 900px) {
+        display: flex;
+        align-items: center;
+        gap: var(--pi-spacing-2);
+        width: 100%;
+        padding: var(--pi-spacing-3) var(--pi-spacing-4);
+        font-size: var(--pi-font-size-sm);
+        font-weight: var(--pi-font-weight-semibold);
+        color: var(--pi-color-text);
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+
+        .dashicons { font-size: 1.25rem; width: 1.25rem; height: 1.25rem; }
+
+        &:focus-visible {
+          outline: 3px solid var(--pi-color-primary);
+          outline-offset: 2px;
+          border-radius: var(--pi-radius-sm, 4px);
+        }
+      }
+    }
+
+    // ── Lista de grupos (container colapsável no mobile) ─────────────────────
+    &__nav-list {
+      @media (max-width: 900px) {
+        display: none; // fechado por padrão no mobile
+
+        &--open {
+          display: block;
+        }
+      }
+    }
+
+    // ── Grupo ────────────────────────────────────────────────────────────────
+    &__group {
+      margin-bottom: var(--pi-spacing-1);
+
+      & + .pi-sidebar__group {
+        border-top: 1px solid var(--pi-color-border);
+        padding-top: var(--pi-spacing-2);
+        margin-top: var(--pi-spacing-2);
+      }
+    }
+
+    // ── Cabeçalho de grupo ───────────────────────────────────────────────────
+    &__group-title {
+      padding: var(--pi-spacing-2) var(--pi-spacing-4) var(--pi-spacing-1);
+      margin: 0;
+      font-size: var(--pi-font-size-xs, 0.6875rem);
+      font-weight: var(--pi-font-weight-semibold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--pi-color-text-muted);
+      line-height: var(--pi-line-height-tight);
+    }
+
+    // ── Lista de itens ───────────────────────────────────────────────────────
+    &__group-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    // ── Item ─────────────────────────────────────────────────────────────────
+    &__item {
+      margin: 0;
+    }
+
+    // ── Link ─────────────────────────────────────────────────────────────────
+    &__link {
+      display: flex;
+      align-items: center;
+      gap: var(--pi-spacing-2);
+      padding: var(--pi-spacing-2) var(--pi-spacing-4);
+      font-size: var(--pi-font-size-sm, 0.875rem);
+      color: var(--pi-color-text);
+      text-decoration: none;
+      line-height: var(--pi-line-height-tight);
+      border-left: 3px solid transparent;
+      transition: background-color 120ms ease, color 120ms ease;
+
+      .dashicons {
+        flex-shrink: 0;
+        font-size: 1.125rem;
+        width: 1.125rem;
+        height: 1.125rem;
+        color: var(--pi-color-text-muted);
+        transition: color 120ms ease;
+      }
+
+      &:hover {
+        background-color: var(--pi-color-primary-soft, rgba(26, 81, 165, 0.08));
+        color: var(--pi-color-primary-dark);
+        text-decoration: none;
+
+        .dashicons { color: var(--pi-color-primary); }
+      }
+
+      // ── Estado activo ──────────────────────────────────────────────────────
+      // Aplicado via .is-active na <li> e aria-current="page" no <a>.
+      .is-active > & {
+        background-color: var(--pi-color-primary-soft, rgba(26, 81, 165, 0.10));
+        color: var(--pi-color-primary-dark);
+        font-weight: var(--pi-font-weight-semibold);
+        border-left-color: var(--pi-color-primary);
+
+        .dashicons { color: var(--pi-color-primary); }
+      }
+
+      // ── Focus ring WCAG 2.1 AA ────────────────────────────────────────────
+      &:focus-visible {
+        outline: 3px solid var(--pi-color-primary);
+        outline-offset: -2px;
+        border-radius: 0 var(--pi-radius-sm, 4px) var(--pi-radius-sm, 4px) 0;
+        z-index: 1;
+        position: relative;
+      }
+    }
+
+    // ── Label de texto ───────────────────────────────────────────────────────
+    &__label {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

@@ -840,3 +840,185 @@
 .participe-ibram-scope.pi-painel .pi-painel__footer-note {
   font-size: 0.8125rem; color: var(--pi-color-ink-60); margin-top: var(--pi-space-2);
 }
+
+/* W12 sidebar */
+/* =============================================================================
+ * Layout — Shell de 2 colunas (.pi-admin-page-shell)
+ * Wave 12 — sidebar lateral + coluna de conteúdo
+ * ============================================================================= */
+
+.participe-ibram-scope .pi-admin-page-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--pi-spacing-6);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .participe-ibram-scope .pi-admin-page-shell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-4);
+  }
+}
+
+/* =============================================================================
+ * .pi-sidebar — sidebar lateral de navegação
+ * ============================================================================= */
+
+.participe-ibram-scope .pi-sidebar {
+  position: sticky;
+  top: 32px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 260px;
+  min-width: 0;
+  flex-shrink: 0;
+  background-color: var(--pi-color-bg-subtle, #f8f9fa);
+  border: 1px solid var(--pi-color-border);
+  border-radius: var(--pi-radius-md, 6px);
+  padding: var(--pi-spacing-3) 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pi-color-border) transparent;
+}
+.participe-ibram-scope .pi-sidebar::-webkit-scrollbar { width: 4px; }
+.participe-ibram-scope .pi-sidebar::-webkit-scrollbar-track { background: transparent; }
+.participe-ibram-scope .pi-sidebar::-webkit-scrollbar-thumb { background: var(--pi-color-border); border-radius: 2px; }
+
+@media (max-width: 900px) {
+  .participe-ibram-scope .pi-sidebar {
+    position: static;
+    max-height: none;
+    width: 100%;
+    border-radius: var(--pi-radius-md, 6px);
+  }
+}
+
+/* -- Botão hamburger --------------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__toggle { display: none; }
+
+@media (max-width: 900px) {
+  .participe-ibram-scope .pi-sidebar__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-2);
+    width: 100%;
+    padding: var(--pi-spacing-3) var(--pi-spacing-4);
+    font-size: var(--pi-font-size-sm);
+    font-weight: var(--pi-font-weight-semibold);
+    color: var(--pi-color-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+  .participe-ibram-scope .pi-sidebar__toggle .dashicons {
+    font-size: 1.25rem; width: 1.25rem; height: 1.25rem;
+  }
+  .participe-ibram-scope .pi-sidebar__toggle:focus-visible {
+    outline: 3px solid var(--pi-color-primary);
+    outline-offset: 2px;
+    border-radius: var(--pi-radius-sm, 4px);
+  }
+}
+
+/* -- Lista de grupos (colapsável no mobile) ---------------------------------- */
+
+@media (max-width: 900px) {
+  .participe-ibram-scope .pi-sidebar__nav-list { display: none; }
+  .participe-ibram-scope .pi-sidebar__nav-list--open { display: block; }
+}
+
+/* -- Grupo ------------------------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__group { margin-bottom: var(--pi-spacing-1); }
+.participe-ibram-scope .pi-sidebar__group + .pi-sidebar__group {
+  border-top: 1px solid var(--pi-color-border);
+  padding-top: var(--pi-spacing-2);
+  margin-top: var(--pi-spacing-2);
+}
+
+/* -- Cabeçalho de grupo ----------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__group-title {
+  padding: var(--pi-spacing-2) var(--pi-spacing-4) var(--pi-spacing-1);
+  margin: 0;
+  font-size: var(--pi-font-size-xs, 0.6875rem);
+  font-weight: var(--pi-font-weight-semibold);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--pi-color-text-muted);
+  line-height: var(--pi-line-height-tight);
+}
+
+/* -- Lista de itens ---------------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__group-items { list-style: none; padding: 0; margin: 0; }
+.participe-ibram-scope .pi-sidebar__item { margin: 0; }
+
+/* -- Link -------------------------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--pi-spacing-2);
+  padding: var(--pi-spacing-2) var(--pi-spacing-4);
+  font-size: var(--pi-font-size-sm, 0.875rem);
+  color: var(--pi-color-text);
+  text-decoration: none;
+  line-height: var(--pi-line-height-tight);
+  border-left: 3px solid transparent;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.participe-ibram-scope .pi-sidebar__link .dashicons {
+  flex-shrink: 0;
+  font-size: 1.125rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--pi-color-text-muted);
+  transition: color 120ms ease;
+}
+.participe-ibram-scope .pi-sidebar__link:hover {
+  background-color: var(--pi-color-primary-soft, rgba(26, 81, 165, 0.08));
+  color: var(--pi-color-primary-dark);
+  text-decoration: none;
+}
+.participe-ibram-scope .pi-sidebar__link:hover .dashicons { color: var(--pi-color-primary); }
+
+/* -- Estado activo ----------------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__item.is-active > .pi-sidebar__link {
+  background-color: var(--pi-color-primary-soft, rgba(26, 81, 165, 0.10));
+  color: var(--pi-color-primary-dark);
+  font-weight: var(--pi-font-weight-semibold);
+  border-left-color: var(--pi-color-primary);
+}
+.participe-ibram-scope .pi-sidebar__item.is-active > .pi-sidebar__link .dashicons {
+  color: var(--pi-color-primary);
+}
+
+/* -- Focus ring WCAG 2.1 AA -------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__link:focus-visible {
+  outline: 3px solid var(--pi-color-primary);
+  outline-offset: -2px;
+  border-radius: 0 var(--pi-radius-sm, 4px) var(--pi-radius-sm, 4px) 0;
+  z-index: 1;
+  position: relative;
+}
+
+/* -- Label de texto ---------------------------------------------------------- */
+
+.participe-ibram-scope .pi-sidebar__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* -- Ocultar submenu WP (Wave 12) -------------------------------------------- */
+/* Injectado também em admin_head via Plugin::hideWordPressSubmenu() */
+
+#toplevel_page_participe-ibram .wp-submenu { display: none !important; }
