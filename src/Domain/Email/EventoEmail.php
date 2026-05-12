@@ -37,12 +37,25 @@ final class EventoEmail
     public const VOTACAO_ABERTA         = 'votacao_aberta';
     public const RESULTADO_PUBLICADO    = 'resultado_publicado';
 
+    // Wave 7 — inscrições, recurso de inabilitação, votação encerrada
+    public const INSCRICOES_ABERTAS                  = 'inscricoes_abertas';
+    public const RECURSO_INABILITACAO_PROTOCOLADO    = 'recurso_inabilitacao_protocolado';
+    public const VOTACAO_ENCERRADA                   = 'votacao_encerrada';
+
+    // Wave 8 — LGPD self-service titular
+    public const LGPD_ANONIMIZACAO_LINK      = 'lgpd_anonimizacao_link';
+    public const LGPD_ANONIMIZACAO_EXECUTADA = 'lgpd_anonimizacao_executada';
+    public const LGPD_EXPORT_PRONTO          = 'lgpd_export_pronto';
+    public const LGPD_SOLICITACAO_RECEBIDA   = 'lgpd_solicitacao_recebida';
+    public const LGPD_SOLICITACAO_ATENDIDA   = 'lgpd_solicitacao_atendida';
+
     public const AUDIENCIA_INDIVIDUAL   = 'agente_individual';
     public const AUDIENCIA_BROADCAST    = 'todos_cadastrados';
     public const AUDIENCIA_ANALISTAS    = 'analistas';
 
     /** @var array<int,string> Lista canônica em ordem de fluxo. */
     private const ALLOWED = [
+        // Waves 3–6 (fluxo principal)
         self::CADASTRO_SUBMETIDO,
         self::CADASTRO_DEFERIDO,
         self::CADASTRO_INDEFERIDO,
@@ -54,6 +67,16 @@ final class EventoEmail
         self::HABILITACAO_DECIDIDA,
         self::VOTACAO_ABERTA,
         self::RESULTADO_PUBLICADO,
+        // Wave 7 — inscrições, recurso de inabilitação, votação encerrada
+        self::INSCRICOES_ABERTAS,
+        self::RECURSO_INABILITACAO_PROTOCOLADO,
+        self::VOTACAO_ENCERRADA,
+        // Wave 8 — LGPD self-service titular
+        self::LGPD_ANONIMIZACAO_LINK,
+        self::LGPD_ANONIMIZACAO_EXECUTADA,
+        self::LGPD_EXPORT_PRONTO,
+        self::LGPD_SOLICITACAO_RECEBIDA,
+        self::LGPD_SOLICITACAO_ATENDIDA,
     ];
 
     private string $value;

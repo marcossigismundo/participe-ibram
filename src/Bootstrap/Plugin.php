@@ -68,17 +68,44 @@ final class Plugin
             }, 9);
         }
 
+        // Wave 9 W9-D: registra event listeners e crons (init priority 10).
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\EventListenerRegistration')) {
+            add_action('init', function (): void {
+                \Ibram\ParticipeIbram\Bootstrap\EventListenerRegistration::register($this->container);
+                if (method_exists('Ibram\\ParticipeIbram\\Bootstrap\\EventListenerRegistration', 'boot')) {
+                    \Ibram\ParticipeIbram\Bootstrap\EventListenerRegistration::boot($this->container);
+                }
+            }, 10);
+        }
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\CronRegistration')) {
+            add_action('init', function (): void {
+                \Ibram\ParticipeIbram\Bootstrap\CronRegistration::register($this->container);
+                if (method_exists('Ibram\\ParticipeIbram\\Bootstrap\\CronRegistration', 'boot')) {
+                    \Ibram\ParticipeIbram\Bootstrap\CronRegistration::boot($this->container);
+                }
+            }, 5);
+        }
+
         // CRÍTICO: wire admin menus during plugins_loaded (NOT admin_init).
-        // admin_menu fires BEFORE admin_init in WP admin lifecycle, então
-        // chamar add_action('admin_menu', ...) a partir de initAdmin() seria
-        // tarde demais. Isto roda agora porque boot() é invocado em
-        // plugins_loaded priority 5.
+        // admin_menu fires BEFORE admin_init in WP admin lifecycle.
         if (is_admin()) {
             $this->wireAdminMenus();
         }
 
-        // Presentation entry points (admin, public, REST). They are stubs
-        // for Wave 1 and will be filled by later waves.
+        // Public layer (shortcodes + assets).
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\PublicRegistration')) {
+            \Ibram\ParticipeIbram\Bootstrap\PublicRegistration::register($this->container);
+        }
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\AssetRegistration')) {
+            \Ibram\ParticipeIbram\Bootstrap\AssetRegistration::register($this->container);
+        }
+
+        // REST endpoints (W9-C) — hookam rest_api_init internamente.
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\RestRegistration')) {
+            \Ibram\ParticipeIbram\Bootstrap\RestRegistration::register($this->container);
+        }
+
+        // Presentation entry points (legacy stubs, mantidos para extensão).
         add_action('admin_init', [$this, 'initAdmin']);
         add_action('init', [$this, 'initPublic'], 20);
         add_action('rest_api_init', [$this, 'initRest']);
@@ -94,17 +121,23 @@ final class Plugin
      */
     private function wireAdminMenus(): void
     {
-        // Top-level menu (parent slug 'participe-ibram') — outros submenus
-        // dependem deste. Capability mínima `pi_listar_cadastros` permite que
-        // todas as roles staff vejam o menu; pi_agente NÃO vê (acessa via
-        // shortcode `[pi_minha_conta]` no front-end).
-        add_action('admin_menu', [$this, 'registerTopLevelMenu'], 5);
+        // Top-level menu fallback. AdminRegistration (W9-B) registra o top-level
+        // completo via MenuRegistry. Se W9-B classe não existir, mantém este stub.
+        $hasAdminRegistration = class_exists('Ibram\\ParticipeIbram\\Bootstrap\\AdminRegistration');
+        if (!$hasAdminRegistration) {
+            add_action('admin_menu', [$this, 'registerTopLevelMenu'], 5);
+        }
 
-        // Wave 4-C: admin de e-mail (menu de submenu próprio + AJAX).
-        // Movido de initAdmin() para aqui — admin_menu callbacks precisam
-        // estar registrados antes do hook disparar.
+        // Wave 4-C: admin de e-mail (menu próprio + AJAX).
         if (class_exists(EmailRegistration::class)) {
             EmailRegistration::bootAdmin($this->container);
+        }
+
+        // Wave 9 W9-B: TODOS os menus admin (Cadastros, Editais, Recursos,
+        // Habilitações, Votações, Auditoria, Ajuda) + Controllers + AJAX
+        // handlers. ESTA É A ONDA DE INTEGRAÇÃO PRINCIPAL.
+        if ($hasAdminRegistration) {
+            \Ibram\ParticipeIbram\Bootstrap\AdminRegistration::register($this->container);
         }
 
         // Wave 8.5: Setup de Teste (registry static, sem dependências).
@@ -243,6 +276,19 @@ final class Plugin
 
         // Auth registry stub (replaced by Wave Auth).
         AuthRegistration::register($container);
+
+        // Wave 9 W9-A: Core services (cipher, audit, masker, ip, etc.),
+        // Repositories (todos Wpdb*Repository) e Cross-domain Adapters.
+        // 41 service IDs registrados aqui — fundação para outras Registrations.
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\CoreRegistration')) {
+            \Ibram\ParticipeIbram\Bootstrap\CoreRegistration::register($container);
+        }
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\RepositoryRegistration')) {
+            \Ibram\ParticipeIbram\Bootstrap\RepositoryRegistration::register($container);
+        }
+        if (class_exists('Ibram\\ParticipeIbram\\Bootstrap\\AdaptersRegistration')) {
+            \Ibram\ParticipeIbram\Bootstrap\AdaptersRegistration::register($container);
+        }
 
         // Wave 4-C: e-mail (queue, worker, listeners, admin, unsubscribe).
         if (class_exists(EmailRegistration::class)) {
