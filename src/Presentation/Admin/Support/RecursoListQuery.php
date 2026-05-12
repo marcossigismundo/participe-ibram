@@ -118,9 +118,9 @@ final class RecursoListQuery
                        a.tipo AS agente_tipo,
                        a.numero_registro AS numero_registro,
                        an.analista_id AS analista_id,
-                       pf.nome AS pf_nome,
-                       org.razao_social AS org_nome,
-                       sm.nome_oficial AS sm_nome
+                       COALESCE(NULLIF(pf.nome_social, ''), pf.nome_completo) AS pf_nome,
+                       org.nome_organizacao AS org_nome,
+                       sm.nome_orgao AS sm_nome
                 FROM {$this->tableRecursos} r
                 INNER JOIN {$this->tableAnalises} an ON an.id = r.analise_id
                 INNER JOIN {$this->tableAgentes} a ON a.id = an.agente_id

@@ -144,6 +144,54 @@ final class Plugin
         if (class_exists('Ibram\\ParticipeIbram\\Presentation\\Admin\\SetupTeste\\SetupTesteMenuRegistry')) {
             \Ibram\ParticipeIbram\Presentation\Admin\SetupTeste\SetupTesteMenuRegistry::register();
         }
+
+        // Wave 11 hot-fix: separadores visuais de grupo no submenu lateral.
+        // WP admin só suporta 2 níveis; injetamos cabeçalhos via CSS no
+        // ::before do primeiro item de cada grupo da IA W11-A.
+        add_action('admin_head', [$this, 'printSubmenuGroupSeparators']);
+    }
+
+    /**
+     * Imprime CSS que adiciona títulos de grupo visuais (ANÁLISE, EDITAIS &
+     * HABILITAÇÕES, VOTAÇÕES, CONFORMIDADE & LGPD, FERRAMENTAS) antes do
+     * primeiro item de cada grupo no submenu Participe Ibram.
+     *
+     * Hooked em admin_head. CSS-only, sem JS — usa pseudo-elemento ::before
+     * com selectors de atributo href$=.
+     */
+    public function printSubmenuGroupSeparators(): void
+    {
+        // Cada item: [slug-do-primeiro-item-do-grupo, label-do-cabeçalho]
+        $groups = [
+            ['participe-ibram_cadastros',   __('ANÁLISE DE CADASTROS',   'participe-ibram')],
+            ['participe-ibram_editais',     __('EDITAIS & HABILITAÇÕES', 'participe-ibram')],
+            ['participe-ibram_votacoes',    __('VOTAÇÕES',                'participe-ibram')],
+            ['participe-ibram_audit_log',   __('CONFORMIDADE & LGPD',     'participe-ibram')],
+            ['participe-ibram_setup_teste', __('FERRAMENTAS',             'participe-ibram')],
+        ];
+
+        echo '<style id="pi-admin-menu-groups">' . "\n";
+        foreach ($groups as [$slug, $label]) {
+            $sel = '#toplevel_page_participe-ibram .wp-submenu a[href$="page='
+                 . esc_attr($slug) . '"]';
+            // 1) Cria espaço visual antes do <a>
+            echo $sel . ' { position: relative; margin-top: 18px !important; }' . "\n";
+            // 2) Header textual via ::before
+            echo $sel . '::before {' . "\n"
+               . '  content: "' . esc_attr($label) . '";' . "\n"
+               . '  position: absolute;' . "\n"
+               . '  top: -16px;' . "\n"
+               . '  left: 0; right: 0;' . "\n"
+               . '  padding: 4px 12px 2px;' . "\n"
+               . '  font-size: 10px;' . "\n"
+               . '  font-weight: 600;' . "\n"
+               . '  letter-spacing: .06em;' . "\n"
+               . '  color: #8c8f94;' . "\n"
+               . '  border-top: 1px solid rgba(255,255,255,.06);' . "\n"
+               . '  pointer-events: none;' . "\n"
+               . '}' . "\n";
+        }
+        echo '</style>' . "\n";
     }
 
     /**

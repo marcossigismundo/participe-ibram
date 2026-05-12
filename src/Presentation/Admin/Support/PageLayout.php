@@ -48,8 +48,12 @@ final class PageLayout
         ?array $primaryAction = null,
         array $secondaryActions = []
     ): void {
-        // Abertura do wrapper raiz (WP wrap + escopo do plugin)
-        echo '<div class="participe-ibram-scope wrap pi-admin-page">' . "\n";
+        // Abertura do wrapper raiz: 2 elementos aninhados.
+        // .participe-ibram-scope é o ANCESTRAL que escopa todos os seletores
+        // do design system (`.participe-ibram-scope .pi-X`); .pi-admin-page é o
+        // descendente real que recebe o chrome da página.
+        echo '<div class="participe-ibram-scope">' . "\n";
+        echo '<div class="wrap pi-admin-page">' . "\n";
 
         // ── Header ───────────────────────────────────────────────────────────
         echo '<header class="pi-admin-page__header">' . "\n";
@@ -122,7 +126,8 @@ final class PageLayout
                 . '</a>.</p>' . "\n";
         }
 
-        echo '</div>' . "\n"; // .participe-ibram-scope.wrap.pi-admin-page
+        echo '</div>' . "\n"; // .wrap.pi-admin-page
+        echo '</div>' . "\n"; // .participe-ibram-scope
     }
 
     /**

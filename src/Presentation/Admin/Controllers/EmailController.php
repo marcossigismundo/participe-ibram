@@ -60,7 +60,8 @@ final class EmailController
         if (!function_exists('add_action')) {
             return;
         }
-        \add_action('admin_menu', [$this, 'registerMenu']);
+        // Hook priority 52: alinha com IA W11-A — Ferramentas group começa em 50.
+        \add_action('admin_menu', [$this, 'registerMenu'], 52);
     }
 
     public function registerMenu(): void
@@ -71,10 +72,11 @@ final class EmailController
         \add_submenu_page(
             self::PARENT_SLUG,
             __('Ferramentas — E-mail', 'participe-ibram'),
-            __('E-mail', 'participe-ibram'),
+            __('Ferramentas — E-mail', 'participe-ibram'),
             self::CAPABILITY,
             self::MENU_SLUG,
-            [$this, 'render']
+            [$this, 'render'],
+            52
         );
     }
 
