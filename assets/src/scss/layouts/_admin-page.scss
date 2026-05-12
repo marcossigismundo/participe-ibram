@@ -83,6 +83,71 @@
       @media (max-width: 600px) {
         padding: var(--pi-spacing-4);
       }
+
+      // ── Hierarquia tipográfica interna (Wave 12-B) ─────────────────────────
+      h2 {
+        font-size: 1.5rem;        // 24px
+        font-weight: var(--pi-font-weight-bold);
+        color: var(--pi-color-primary-dark);
+        margin-top: var(--pi-spacing-8);
+        margin-bottom: var(--pi-spacing-3);
+        padding-bottom: var(--pi-spacing-2);
+        border-bottom: 2px solid var(--pi-color-primary-lighter);
+        line-height: var(--pi-line-height-tight);
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+
+      h3 {
+        font-size: 1.25rem;       // 20px
+        font-weight: var(--pi-font-weight-semibold);
+        color: var(--pi-color-text);
+        margin-top: var(--pi-spacing-6);
+        margin-bottom: var(--pi-spacing-2);
+        line-height: var(--pi-line-height-tight);
+        border-bottom: none;
+      }
+
+      h4 {
+        font-size: var(--pi-font-size-base);  // 16px
+        font-weight: var(--pi-font-weight-semibold);
+        color: var(--pi-color-text-secondary);
+        margin-top: var(--pi-spacing-4);
+        margin-bottom: var(--pi-spacing-2);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: var(--pi-line-height-tight);
+      }
+
+      p {
+        font-size: var(--pi-font-size-base);
+        line-height: var(--pi-line-height-relaxed);
+        margin-bottom: var(--pi-spacing-4);
+        color: var(--pi-color-text);
+      }
+
+      ul, ol {
+        list-style: revert; // restaura marcadores que o reset global remove
+        padding-left: var(--pi-spacing-6);
+        margin-bottom: var(--pi-spacing-4);
+
+        li {
+          margin-bottom: var(--pi-spacing-2); // 6-8px entre itens
+          line-height: var(--pi-line-height-relaxed);
+        }
+      }
+
+      a {
+        color: var(--pi-color-primary);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+          color: var(--pi-color-primary-dark);
+        }
+      }
     }
 
     // ── Nota de rodapé (dica contextual) ──────────────────────────────────

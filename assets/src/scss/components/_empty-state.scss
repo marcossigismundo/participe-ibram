@@ -30,6 +30,9 @@
     text-align: center;
     padding: var(--pi-spacing-12) var(--pi-spacing-8);
     gap: var(--pi-spacing-4);
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
 
     // ── Slot de ilustração ─────────────────────────────────────────────────
     &__illustration {

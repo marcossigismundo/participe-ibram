@@ -1,0 +1,120 @@
+// =============================================================================
+// Component — Tabs (.pi-tabs)
+// -----------------------------------------------------------------------------
+// Wave 12-B — componente de abas horizontal com suporte a ARIA tablist.
+//
+// Estruturas suportadas:
+//   A) ARIA tablist (ajuda/index.php):
+//      .pi-tabs > .pi-tabs__list[role="tablist"] > button.pi-tabs__tab[role="tab"]
+//      .pi-tabs > section.pi-tabs__panel[role="tabpanel"]
+//
+//   B) Nav-tab WordPress (email/index.php):
+//      nav.pi-tabs > a.pi-tabs__link[.pi-tabs__link--active]
+//
+// WCAG 2.1 AA: foco visível 3px, contraste ≥ 4.5:1, touch target ≥ 40px.
+// =============================================================================
+
+.participe-ibram-scope {
+
+  // ── Container ───────────────────────────────────────────────────────────────
+  .pi-tabs {
+    // Overflow horizontal em telas estreitas
+    &__list {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0;
+      border-bottom: 2px solid var(--pi-color-border);
+      margin: 0 0 var(--pi-spacing-6);
+      padding: 0;
+      list-style: none;
+      overflow-x: auto;
+      // Esconde scrollbar mas mantém funcionalidade
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar { display: none; }
+
+      @media (max-width: 640px) {
+        overflow-x: auto;
+      }
+    }
+
+    // ── Tab (botão ARIA) e link (nav-tab WordPress) ──────────────────────────
+    &__tab,
+    &__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px; // WCAG touch target
+      padding: var(--pi-spacing-2) var(--pi-spacing-5);
+      font-family: var(--pi-font-family-base);
+      font-size: var(--pi-font-size-sm);
+      font-weight: var(--pi-font-weight-regular);
+      color: var(--pi-color-text-secondary);
+      background: transparent;
+      border: 0;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px; // sobrepõe a borda do __list
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+
+      &:hover:not(:disabled):not([aria-selected="true"]):not(.pi-tabs__link--active):not(.nav-tab-active) {
+        color: var(--pi-color-primary);
+        background-color: var(--pi-color-primary-lighter);
+        border-bottom-color: var(--pi-color-primary-light);
+      }
+
+      // ── Estado activo ────────────────────────────────────────────────────────
+      &[aria-selected="true"],
+      &--active,
+      &.nav-tab-active {
+        color: var(--pi-color-primary-dark);
+        font-weight: var(--pi-font-weight-semibold);
+        border-bottom-color: var(--pi-color-primary);
+        background-color: transparent;
+      }
+
+      // ── Foco visível (WCAG 2.4.7) ───────────────────────────────────────────
+      &:focus-visible {
+        outline: 3px solid var(--pi-color-primary);
+        outline-offset: 2px;
+        border-radius: var(--pi-radius-sm, 4px) var(--pi-radius-sm, 4px) 0 0;
+        z-index: 1;
+        position: relative;
+      }
+
+      &:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+    }
+
+    // ── Painel ───────────────────────────────────────────────────────────────
+    &__panel {
+      // Visível por padrão; JS controla o atributo hidden
+      &[hidden] {
+        display: none;
+      }
+    }
+  }
+
+  // ── Compatibilidade: nav-tab-wrapper WordPress dentro do escopo ───────────
+  // Cobre email/index.php antes do tweak de classe
+  nav.nav-tab-wrapper.pi-tabs,
+  .pi-tabs.nav-tab-wrapper {
+    border-bottom: 2px solid var(--pi-color-border);
+    margin-bottom: var(--pi-spacing-6);
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { display: none; }
+
+    // Override dos estilos WordPress .nav-tab
+    .nav-tab {
+      @extend .pi-tabs__link;
+    }
+  }
+}

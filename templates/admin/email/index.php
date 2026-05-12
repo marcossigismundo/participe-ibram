@@ -41,13 +41,13 @@ PageLayout::open(
 );
 ?>
 
-<nav class="nav-tab-wrapper" aria-label="<?php esc_attr_e('Navegação por abas', 'participe-ibram'); ?>">
+<nav class="nav-tab-wrapper pi-tabs" aria-label="<?php esc_attr_e('Navegação por abas', 'participe-ibram'); ?>">
     <?php foreach ($tabs as $key => $label) :
         $isActive = ($key === $tab);
         $url = add_query_arg(['page' => $menu, 'tab' => $key], admin_url('admin.php'));
         ?>
         <a href="<?php echo esc_url($url); ?>"
-           class="nav-tab <?php echo $isActive ? 'nav-tab-active' : ''; ?>"
+           class="nav-tab pi-tabs__link <?php echo $isActive ? 'nav-tab-active pi-tabs__link--active' : ''; ?>"
            <?php echo $isActive ? 'aria-current="page"' : ''; ?>>
             <?php echo esc_html($label); ?>
         </a>

@@ -78,6 +78,141 @@
     }
   }
 
+  // ── .pi-list-table — listagem moderna (Wave 12-B) ───────────────────────────
+  // Escopo restrito: não interfere com .pi-table ou .wp-list-table genéricos.
+  .pi-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--pi-color-bg);
+    border-radius: var(--pi-radius-md);
+    overflow: hidden;
+    font-size: var(--pi-font-size-sm);
+
+    // Reset de bordas pesadas do WordPress
+    &,
+    & th,
+    & td { border: 0; }
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+
+      th {
+        background-color: var(--pi-color-gray-2);
+        color: var(--pi-color-text);
+        font-size: var(--pi-font-size-xs);
+        font-weight: var(--pi-font-weight-semibold);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 12px 16px;
+        text-align: left;
+        white-space: nowrap;
+        border-bottom: 2px solid var(--pi-color-border);
+
+        a {
+          color: var(--pi-color-text);
+          text-decoration: none;
+          &:hover { color: var(--pi-color-primary); }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid var(--pi-color-gray-20);
+        transition: background-color 120ms ease;
+
+        // Zebra leve
+        &:nth-child(odd) {
+          background-color: var(--pi-color-gray-2);
+        }
+
+        &:hover {
+          background-color: var(--pi-color-primary-lighter);
+        }
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+
+      td {
+        padding: 12px 16px;
+        vertical-align: middle;
+        color: var(--pi-color-text);
+        // Sem bordas verticais
+        border-right: 0;
+        border-left: 0;
+      }
+    }
+
+    // Paginação interna (tablenav)
+    .tablenav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--pi-spacing-2);
+      padding: var(--pi-spacing-3) var(--pi-spacing-4);
+      border-top: 1px solid var(--pi-color-border);
+      background-color: var(--pi-color-gray-2);
+    }
+
+    .tablenav-pages {
+      display: flex;
+      align-items: center;
+      gap: var(--pi-spacing-1);
+      margin-left: auto;
+      font-size: var(--pi-font-size-sm);
+      color: var(--pi-color-text-muted);
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        min-height: 32px;
+        padding: var(--pi-spacing-1) var(--pi-spacing-2);
+        border: 1px solid var(--pi-color-border);
+        border-radius: var(--pi-radius-pill);
+        color: var(--pi-color-primary);
+        text-decoration: none;
+        transition: background-color 120ms ease;
+
+        &:hover { background-color: var(--pi-color-primary-lighter); }
+      }
+    }
+
+    @media (max-width: 768px) {
+      thead {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+        width: 1px; height: 1px;
+        overflow: hidden;
+      }
+
+      tbody tr {
+        display: block;
+        margin-bottom: var(--pi-spacing-3);
+        border: 1px solid var(--pi-color-border);
+        border-radius: var(--pi-radius-sm);
+      }
+
+      tbody td {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--pi-spacing-2);
+        padding: var(--pi-spacing-2) var(--pi-spacing-3);
+
+        &::before {
+          content: attr(data-label);
+          font-weight: var(--pi-font-weight-bold);
+          color: var(--pi-color-text-muted);
+        }
+      }
+    }
+  }
+
   .pi-table-tag {
     display: inline-block;
     padding: 0 var(--pi-spacing-2);
