@@ -90,7 +90,7 @@ $cards = [
         'titulo' => __('Alertas de prazo (fila de e-mail)', 'participe-ibram'),
         'valor' => $kpi_emails_pendentes,
         'empty' => __('Nenhum e-mail pendente.', 'participe-ibram'),
-        'url'   => admin_url('admin.php?page=pi-participe-ibram-email'),
+        'url'   => admin_url('admin.php?page=pi-email&tab=fila'),
         'cta'   => __('Ver fila de e-mail', 'participe-ibram'),
         'icone' => 'dashicons-email-alt',
     ],

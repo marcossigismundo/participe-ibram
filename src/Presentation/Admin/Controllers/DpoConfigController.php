@@ -25,7 +25,7 @@ final class DpoConfigController
 {
     public const CAPABILITY  = 'pi_administrar_dpo';
     public const MENU_SLUG   = 'pi-dpo-config';
-    public const PARENT_SLUG = 'pi-participe-ibram';
+    public const PARENT_SLUG = 'participe-ibram';
     public const NONCE_KEY   = 'pi_dpo_config_nonce';
 
     private string $templateDir;

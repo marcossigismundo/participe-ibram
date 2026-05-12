@@ -19,6 +19,8 @@ if (!defined('ABSPATH')) {
 }
 
 use Ibram\ParticipeIbram\Presentation\Admin\EditalMenuRegistry;
+use Ibram\ParticipeIbram\Presentation\Admin\Support\Notice;
+use Ibram\ParticipeIbram\Presentation\Admin\Support\PageLayout;
 
 /** @var \Ibram\ParticipeIbram\Presentation\Admin\ListTables\EditaisListTable $listTable */
 /** @var array<string,int> $resumo */
@@ -30,45 +32,41 @@ $resumo    = isset($resumo) && is_array($resumo) ? $resumo : [];
 $flash     = isset($flash) ? $flash : null;
 $podeCriar = isset($podeCriar) && $podeCriar;
 $urlNovo   = isset($urlNovo) ? (string) $urlNovo : '';
+
+$primaryAction = ($podeCriar && $urlNovo !== '')
+    ? ['label' => __('+ Novo Edital', 'participe-ibram'), 'url' => $urlNovo]
+    : null;
+
+PageLayout::open(
+    __('Editais', 'participe-ibram'),
+    [
+        ['label' => __('Início', 'participe-ibram'), 'url' => admin_url()],
+        ['label' => __('Editais & habilitações', 'participe-ibram'), 'url' => admin_url('admin.php?page=' . EditalMenuRegistry::SLUG_EDITAIS)],
+        ['label' => __('Editais', 'participe-ibram')],
+    ],
+    $primaryAction
+);
 ?>
-<div class="participe-ibram-scope wrap pi-admin-editais">
-  <a class="pi-skip-link" href="#pi-admin-main"><?php esc_html_e('Pular para o conteúdo', 'participe-ibram'); ?></a>
+<a class="pi-skip-link" href="#pi-admin-main"><?php esc_html_e('Pular para o conteúdo', 'participe-ibram'); ?></a>
 
-  <header>
-    <h1 class="wp-heading-inline"><?php esc_html_e('Editais', 'participe-ibram'); ?></h1>
-    <?php if ($podeCriar && $urlNovo !== '') : ?>
-      <a href="<?php echo esc_url($urlNovo); ?>" class="page-title-action">
-        <?php esc_html_e('+ Novo Edital', 'participe-ibram'); ?>
-      </a>
-    <?php endif; ?>
-  </header>
+<?php if ($flash !== null) : ?>
+    <?php
+    if ($flash['type'] === 'success') {
+        Notice::success($flash['message'], true);
+    } else {
+        Notice::danger($flash['message'], true);
+    }
+    ?>
+<?php endif; ?>
 
-  <nav class="pi-breadcrumb" aria-label="<?php esc_attr_e('Você está em', 'participe-ibram'); ?>">
-    <ol class="pi-breadcrumb__list">
-      <li class="pi-breadcrumb__item">
-        <a href="<?php echo esc_url(admin_url('admin.php?page=' . EditalMenuRegistry::SLUG_ROOT)); ?>">
-          <?php esc_html_e('Participe Ibram', 'participe-ibram'); ?>
-        </a>
-      </li>
-      <li class="pi-breadcrumb__item" aria-current="page">
-        <?php esc_html_e('Editais', 'participe-ibram'); ?>
-      </li>
-    </ol>
-  </nav>
-
-  <?php if ($flash !== null) : ?>
-    <div class="notice notice-<?php echo esc_attr($flash['type'] === 'success' ? 'success' : 'error'); ?> is-dismissible" role="alert">
-      <p><?php echo esc_html($flash['message']); ?></p>
-    </div>
-  <?php endif; ?>
-
-  <main id="pi-admin-main" tabindex="-1">
+<main id="pi-admin-main" tabindex="-1" class="pi-list-table">
     <form id="pi-editais-form" method="get">
-      <input type="hidden" name="page" value="<?php echo esc_attr(EditalMenuRegistry::SLUG_EDITAIS); ?>">
-      <?php
-        $listTable->search_box(esc_html__('Buscar editais', 'participe-ibram'), 'pi-edital-search');
-        $listTable->display();
-      ?>
+        <input type="hidden" name="page" value="<?php echo esc_attr(EditalMenuRegistry::SLUG_EDITAIS); ?>">
+        <?php
+            $listTable->search_box(esc_html__('Buscar editais', 'participe-ibram'), 'pi-edital-search');
+            $listTable->display();
+        ?>
     </form>
-  </main>
-</div>
+</main>
+<?php
+PageLayout::close();

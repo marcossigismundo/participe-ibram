@@ -9,6 +9,8 @@
  *  - $nonce       (string)
  *  - $message     (string) — 'salvo' | 'nonce_falhou' | ''
  *
+ * W11-C: migrado para PageLayout chrome + Notice helper.
+ *
  * @package Ibram\ParticipeIbram\Presentation\Admin
  */
 
@@ -17,95 +19,105 @@ declare(strict_types=1);
 if (!defined('ABSPATH')) {
     exit;
 }
+
+use Ibram\ParticipeIbram\Presentation\Admin\Support\Notice;
+use Ibram\ParticipeIbram\Presentation\Admin\Support\PageLayout;
+
+PageLayout::open(
+    __('Configurações do DPO (Encarregado LGPD)', 'participe-ibram'),
+    [
+        ['label' => __('Início', 'participe-ibram'), 'url' => admin_url()],
+        ['label' => __('Conformidade & LGPD', 'participe-ibram'), 'url' => admin_url('admin.php?page=participe-ibram')],
+        ['label' => __('DPO', 'participe-ibram')],
+    ]
+);
 ?>
-<div class="wrap pi-dpo-config" role="main">
-    <h1><?php esc_html_e('Configurações do DPO (Encarregado LGPD)', 'participe-ibram'); ?></h1>
+
+<?php if (isset($message) && $message === 'salvo') : ?>
+    <?php Notice::success(__('Configuração salva com sucesso.', 'participe-ibram'), true); ?>
+<?php elseif (isset($message) && $message === 'nonce_falhou') : ?>
+    <?php Notice::danger(__('Token de segurança inválido. Por favor, tente novamente.', 'participe-ibram')); ?>
+<?php endif; ?>
+
+<div class="pi-form">
     <p class="description">
         <?php esc_html_e('Define o e-mail e dados de contato do Encarregado de Proteção de Dados (DPO) conforme LGPD Art. 41. Estas informações aparecem no rodapé dos e-mails institucionais e nos templates de alerta LGPD.', 'participe-ibram'); ?>
     </p>
-
-    <?php if (isset($message) && $message === 'salvo') : ?>
-    <div class="notice notice-success is-dismissible" role="status" aria-live="polite">
-        <p><?php esc_html_e('Configuração salva com sucesso.', 'participe-ibram'); ?></p>
-    </div>
-    <?php elseif (isset($message) && $message === 'nonce_falhou') : ?>
-    <div class="notice notice-error" role="alert">
-        <p><?php esc_html_e('Token de segurança inválido. Por favor, tente novamente.', 'participe-ibram'); ?></p>
-    </div>
-    <?php endif; ?>
 
     <form method="post" action="" id="pi-dpo-config-form" novalidate>
         <?php wp_nonce_field('pi_dpo_config_nonce', 'pi_dpo_config_nonce'); ?>
         <input type="hidden" name="pi_dpo_config_submit" value="1">
 
-        <table class="form-table" role="presentation">
-            <tbody>
-                <tr>
-                    <th scope="row">
-                        <label for="pi_dpo_email">
-                            <?php esc_html_e('E-mail do DPO', 'participe-ibram'); ?>
-                            <span aria-hidden="true" class="required">*</span>
-                            <span class="screen-reader-text"><?php esc_html_e('(obrigatório)', 'participe-ibram'); ?></span>
-                        </label>
-                    </th>
-                    <td>
-                        <input
-                            type="email"
-                            id="pi_dpo_email"
-                            name="email"
-                            class="regular-text"
-                            value="<?php echo esc_attr($dpoEmail ?? ''); ?>"
-                            autocomplete="email"
-                            aria-required="true"
-                            aria-describedby="pi_dpo_email_desc"
-                        >
-                        <p id="pi_dpo_email_desc" class="description">
-                            <?php esc_html_e('E-mail exibido nos templates de e-mail e usado para alertas LGPD.', 'participe-ibram'); ?>
-                        </p>
-                    </td>
-                </tr>
+        <div class="pi-field-group">
+            <table class="form-table" role="presentation">
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <label for="pi_dpo_email">
+                                <?php esc_html_e('E-mail do DPO', 'participe-ibram'); ?>
+                                <span aria-hidden="true" class="required">*</span>
+                                <span class="screen-reader-text"><?php esc_html_e('(obrigatório)', 'participe-ibram'); ?></span>
+                            </label>
+                        </th>
+                        <td>
+                            <input
+                                type="email"
+                                id="pi_dpo_email"
+                                name="email"
+                                class="regular-text"
+                                value="<?php echo esc_attr($dpoEmail ?? ''); ?>"
+                                autocomplete="email"
+                                aria-required="true"
+                                aria-describedby="pi_dpo_email_desc"
+                            >
+                            <p id="pi_dpo_email_desc" class="description">
+                                <?php esc_html_e('E-mail exibido nos templates de e-mail e usado para alertas LGPD.', 'participe-ibram'); ?>
+                            </p>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <th scope="row">
-                        <label for="pi_dpo_nome">
-                            <?php esc_html_e('Nome do DPO', 'participe-ibram'); ?>
-                        </label>
-                    </th>
-                    <td>
-                        <input
-                            type="text"
-                            id="pi_dpo_nome"
-                            name="nome"
-                            class="regular-text"
-                            value="<?php echo esc_attr($dpoNome ?? ''); ?>"
-                            autocomplete="off"
-                        >
-                    </td>
-                </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="pi_dpo_nome">
+                                <?php esc_html_e('Nome do DPO', 'participe-ibram'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <input
+                                type="text"
+                                id="pi_dpo_nome"
+                                name="nome"
+                                class="regular-text"
+                                value="<?php echo esc_attr($dpoNome ?? ''); ?>"
+                                autocomplete="off"
+                            >
+                        </td>
+                    </tr>
 
-                <tr>
-                    <th scope="row">
-                        <label for="pi_dpo_telefone">
-                            <?php esc_html_e('Telefone do DPO (opcional)', 'participe-ibram'); ?>
-                        </label>
-                    </th>
-                    <td>
-                        <input
-                            type="tel"
-                            id="pi_dpo_telefone"
-                            name="telefone"
-                            class="regular-text"
-                            value="<?php echo esc_attr($dpoTelefone ?? ''); ?>"
-                            autocomplete="tel"
-                            aria-describedby="pi_dpo_telefone_desc"
-                        >
-                        <p id="pi_dpo_telefone_desc" class="description">
-                            <?php esc_html_e('Opcional. Incluído no relatório de dados do titular.', 'participe-ibram'); ?>
-                        </p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    <tr>
+                        <th scope="row">
+                            <label for="pi_dpo_telefone">
+                                <?php esc_html_e('Telefone do DPO (opcional)', 'participe-ibram'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <input
+                                type="tel"
+                                id="pi_dpo_telefone"
+                                name="telefone"
+                                class="regular-text"
+                                value="<?php echo esc_attr($dpoTelefone ?? ''); ?>"
+                                autocomplete="tel"
+                                aria-describedby="pi_dpo_telefone_desc"
+                            >
+                            <p id="pi_dpo_telefone_desc" class="description">
+                                <?php esc_html_e('Opcional. Incluído no relatório de dados do titular.', 'participe-ibram'); ?>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!-- .pi-field-group -->
 
         <?php submit_button(esc_html__('Salvar configuração DPO', 'participe-ibram')); ?>
     </form>
@@ -133,7 +145,7 @@ if (!defined('ABSPATH')) {
     </p>
 
     <div id="pi-dpo-test-result" aria-live="polite" role="status" style="margin-top:8px;"></div>
-</div>
+</div><!-- .pi-form -->
 
 <script>
 (function ($) {
@@ -164,3 +176,5 @@ if (!defined('ABSPATH')) {
     });
 }(jQuery));
 </script>
+
+<?php PageLayout::close(); ?>

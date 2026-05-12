@@ -19,6 +19,8 @@ use Ibram\ParticipeIbram\Domain\Analise\Recurso;
 use Ibram\ParticipeIbram\Domain\Analise\RecursoRepository;
 use Ibram\ParticipeIbram\Presentation\Admin\ListTables\RecursosRetratacaoListTable;
 use Ibram\ParticipeIbram\Presentation\Admin\RecursoMenuRegistry;
+use Ibram\ParticipeIbram\Presentation\Admin\Support\Notice;
+use Ibram\ParticipeIbram\Presentation\Admin\Support\PageLayout;
 use Ibram\ParticipeIbram\Presentation\Admin\Support\RecursoListQuery;
 use Throwable;
 
@@ -191,9 +193,9 @@ final class RecursoRetratacaoController
 
     private function renderNotFound(): void
     {
-        echo '<div class="participe-ibram-scope wrap"><div class="pi-alert pi-alert--danger" role="alert">'
-            . \esc_html__('Recurso não encontrado ou já decidido.', 'participe-ibram')
-            . '</div></div>';
+        PageLayout::open(\__('Recurso não encontrado', 'participe-ibram'));
+        Notice::danger(\__('Recurso não encontrado ou já decidido.', 'participe-ibram'));
+        PageLayout::close();
     }
 
     private function setFlash(string $level, string $message): void

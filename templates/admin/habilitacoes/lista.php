@@ -14,19 +14,27 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use Ibram\ParticipeIbram\Presentation\Admin\HabilitacaoMenuRegistry;
+use Ibram\ParticipeIbram\Presentation\Admin\Support\PageLayout;
+
 /** @var \Ibram\ParticipeIbram\Presentation\Admin\ListTables\InscricoesHabilitacaoListTable $listTable */
+
+PageLayout::open(
+    __('Habilitações — Pendentes', 'participe-ibram'),
+    [
+        ['label' => __('Início', 'participe-ibram'), 'url' => admin_url()],
+        ['label' => __('Editais & habilitações', 'participe-ibram'), 'url' => admin_url('admin.php?page=' . HabilitacaoMenuRegistry::SLUG_HABILITACOES)],
+        ['label' => __('Habilitações', 'participe-ibram')],
+    ]
+);
 ?>
-<div class="participe-ibram-scope wrap pi-habilitacao-lista">
-  <h1 class="wp-heading-inline">
-    <?php \esc_html_e('Habilitações — Pendentes', 'participe-ibram'); ?>
-  </h1>
-
-  <hr class="wp-header-end">
-
-  <form method="get" action="">
-    <input type="hidden" name="page" value="<?php echo \esc_attr(\Ibram\ParticipeIbram\Presentation\Admin\HabilitacaoMenuRegistry::SLUG_HABILITACOES); ?>">
-    <?php $listTable->views(); ?>
-    <?php $listTable->search_box(\__('Buscar', 'participe-ibram'), 'pi-search'); ?>
-    <?php $listTable->display(); ?>
-  </form>
+<div class="pi-list-table">
+    <form method="get" action="">
+        <input type="hidden" name="page" value="<?php echo esc_attr(HabilitacaoMenuRegistry::SLUG_HABILITACOES); ?>">
+        <?php $listTable->views(); ?>
+        <?php $listTable->search_box(esc_html__('Buscar', 'participe-ibram'), 'pi-search'); ?>
+        <?php $listTable->display(); ?>
+    </form>
 </div>
+<?php
+PageLayout::close();

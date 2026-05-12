@@ -36,6 +36,7 @@ use Ibram\ParticipeIbram\Domain\Agente\TipoAgente;
 use Ibram\ParticipeIbram\Presentation\Admin\Helpers\AgenteSummary;
 use Ibram\ParticipeIbram\Presentation\Admin\Helpers\SafeFieldRenderer;
 use Ibram\ParticipeIbram\Presentation\Admin\MenuRegistry;
+use Ibram\ParticipeIbram\Presentation\Admin\Support\PageLayout;
 
 /** @var \Ibram\ParticipeIbram\Domain\Agente\Agente $agente */
 /** @var AgentePF|AgenteOR|AgenteSM $detalhes */
@@ -74,43 +75,36 @@ $pageData = [
         'sucessoIniciar'     => __('Análise iniciada com sucesso.', 'participe-ibram'),
     ],
 ];
+
+// Build page title with inline badges (rendered outside PageLayout h1 as subtitle)
+$pageTitle = $nomeAgente;
+
+PageLayout::open(
+    $pageTitle,
+    [
+        ['label' => __('Início', 'participe-ibram'), 'url' => admin_url('admin.php?page=participe-ibram')],
+        ['label' => __('Análise de cadastros', 'participe-ibram'), 'url' => admin_url('admin.php?page=participe-ibram_cadastros')],
+        ['label' => __('Fila de Análise', 'participe-ibram'), 'url' => MenuRegistry::urlFilaAnalise()],
+        ['label' => $nomeAgente],
+    ]
+);
 ?>
-<div class="participe-ibram-scope wrap pi-admin-detalhes" data-pi-detalhes>
-  <a class="pi-skip-link" href="#pi-admin-main"><?php esc_html_e('Pular para o conteúdo', 'participe-ibram'); ?></a>
+<a class="pi-skip-link" href="#pi-admin-main"><?php esc_html_e('Pular para o conteúdo', 'participe-ibram'); ?></a>
 
-  <header role="banner" class="pi-admin-detalhes__header">
-    <h1>
-      <?php echo esc_html($nomeAgente); ?>
-      <span class="pi-badge pi-badge--tipo pi-badge--tipo-<?php echo esc_attr(strtolower($tipo)); ?>">
-        <?php echo esc_html($tipoLabel); ?>
-      </span>
-      <span class="pi-badge pi-badge--status pi-badge--status-<?php echo esc_attr($statusBadge['variant']); ?>">
-        <?php echo esc_html($statusBadge['label']); ?>
-      </span>
-    </h1>
-    <p class="pi-admin-detalhes__numero">
-      <strong><?php esc_html_e('Nº Registro:', 'participe-ibram'); ?></strong>
-      <?php echo esc_html($numeroReg); ?>
-    </p>
-  </header>
+<div class="pi-admin-detalhes__badge-row">
+  <span class="pi-badge pi-badge--tipo pi-badge--tipo-<?php echo esc_attr(strtolower($tipo)); ?>">
+    <?php echo esc_html($tipoLabel); ?>
+  </span>
+  <span class="pi-badge pi-badge--status pi-badge--status-<?php echo esc_attr($statusBadge['variant']); ?>">
+    <?php echo esc_html($statusBadge['label']); ?>
+  </span>
+  <span class="pi-admin-detalhes__numero">
+    <strong><?php esc_html_e('Nº Registro:', 'participe-ibram'); ?></strong>
+    <?php echo esc_html($numeroReg); ?>
+  </span>
+</div>
 
-  <nav class="pi-breadcrumb" aria-label="<?php esc_attr_e('Você está em', 'participe-ibram'); ?>">
-    <ol class="pi-breadcrumb__list">
-      <li class="pi-breadcrumb__item">
-        <a href="<?php echo esc_url(admin_url('admin.php?page=' . MenuRegistry::SLUG_ROOT)); ?>">
-          <?php esc_html_e('Participe Ibram', 'participe-ibram'); ?>
-        </a>
-      </li>
-      <li class="pi-breadcrumb__item">
-        <a href="<?php echo esc_url(MenuRegistry::urlFilaAnalise()); ?>">
-          <?php esc_html_e('Cadastros', 'participe-ibram'); ?>
-        </a>
-      </li>
-      <li class="pi-breadcrumb__item" aria-current="page">
-        <?php echo esc_html($nomeAgente); ?>
-      </li>
-    </ol>
-  </nav>
+<div class="pi-admin-detalhes" data-pi-detalhes>
 
   <main id="pi-admin-main" tabindex="-1">
 
@@ -558,7 +552,7 @@ $pageData = [
         <button type="button" class="pi-modal__close" data-pi-modal-close
                 aria-label="<?php esc_attr_e('Fechar', 'participe-ibram'); ?>">×</button>
       </header>
-      <div class="pi-modal__body">
+      <div class="pi-modal__body pi-form">
         <p>
           <?php
           printf(
@@ -569,11 +563,13 @@ $pageData = [
           );
           ?>
         </p>
-        <label for="pi-deferir-parecer">
-          <strong><?php esc_html_e('Parecer (Markdown):', 'participe-ibram'); ?></strong>
-        </label>
-        <textarea id="pi-deferir-parecer" name="parecer_md" rows="6" required class="pi-input pi-input--full"
-                  aria-required="true"></textarea>
+        <div class="pi-field-group">
+          <label for="pi-deferir-parecer">
+            <strong><?php esc_html_e('Parecer (Markdown):', 'participe-ibram'); ?></strong>
+          </label>
+          <textarea id="pi-deferir-parecer" name="parecer_md" rows="6" required class="pi-input pi-input--full"
+                    aria-required="true"></textarea>
+        </div>
       </div>
       <footer class="pi-modal__footer">
         <button type="button" class="pi-button pi-button--secondary" data-pi-modal-close>
@@ -596,21 +592,24 @@ $pageData = [
         <button type="button" class="pi-modal__close" data-pi-modal-close
                 aria-label="<?php esc_attr_e('Fechar', 'participe-ibram'); ?>">×</button>
       </header>
-      <div class="pi-modal__body">
+      <div class="pi-modal__body pi-form">
         <p>
           <?php esc_html_e('Será aberto prazo de 10 dias contínuos para recurso a partir da publicação.', 'participe-ibram'); ?>
         </p>
-        <label for="pi-indeferir-parecer">
-          <strong><?php esc_html_e('Parecer (Markdown):', 'participe-ibram'); ?></strong>
-        </label>
-        <textarea id="pi-indeferir-parecer" name="parecer_md" rows="5" required
-                  class="pi-input pi-input--full" aria-required="true"></textarea>
-
-        <label for="pi-indeferir-fundamentacao">
-          <strong><?php esc_html_e('Fundamentação legal (Markdown):', 'participe-ibram'); ?></strong>
-        </label>
-        <textarea id="pi-indeferir-fundamentacao" name="fundamentacao_md" rows="5" required
-                  class="pi-input pi-input--full" aria-required="true"></textarea>
+        <div class="pi-field-group">
+          <label for="pi-indeferir-parecer">
+            <strong><?php esc_html_e('Parecer (Markdown):', 'participe-ibram'); ?></strong>
+          </label>
+          <textarea id="pi-indeferir-parecer" name="parecer_md" rows="5" required
+                    class="pi-input pi-input--full" aria-required="true"></textarea>
+        </div>
+        <div class="pi-field-group">
+          <label for="pi-indeferir-fundamentacao">
+            <strong><?php esc_html_e('Fundamentação legal (Markdown):', 'participe-ibram'); ?></strong>
+          </label>
+          <textarea id="pi-indeferir-fundamentacao" name="fundamentacao_md" rows="5" required
+                    class="pi-input pi-input--full" aria-required="true"></textarea>
+        </div>
       </div>
       <footer class="pi-modal__footer">
         <button type="button" class="pi-button pi-button--secondary" data-pi-modal-close>
@@ -654,4 +653,7 @@ $pageData = [
     echo Json::encodeForScript($pageData);
     ?>
   </script>
-</div>
+
+</div><!-- .pi-admin-detalhes -->
+
+<?php PageLayout::close(); ?>

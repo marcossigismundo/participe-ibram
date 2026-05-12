@@ -33,7 +33,7 @@ final class EmailController
 {
     public const CAPABILITY  = 'pi_administrar_email';
     public const MENU_SLUG   = 'pi-email';
-    public const PARENT_SLUG = 'pi-email';
+    public const PARENT_SLUG = 'participe-ibram';
 
     private SmtpConfig $smtp;
     private EmailQueueRepository $fila;
@@ -65,17 +65,16 @@ final class EmailController
 
     public function registerMenu(): void
     {
-        if (!function_exists('add_menu_page')) {
+        if (!function_exists('add_submenu_page')) {
             return;
         }
-        \add_menu_page(
-            __('Participe Ibram - E-mail', 'participe-ibram'),
-            __('PI E-mail', 'participe-ibram'),
+        \add_submenu_page(
+            self::PARENT_SLUG,
+            __('Ferramentas — E-mail', 'participe-ibram'),
+            __('E-mail', 'participe-ibram'),
             self::CAPABILITY,
             self::MENU_SLUG,
-            [$this, 'render'],
-            'dashicons-email-alt',
-            58
+            [$this, 'render']
         );
     }
 
