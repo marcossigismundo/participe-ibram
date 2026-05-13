@@ -97,20 +97,22 @@ $cards = [
 ];
 
 ?>
-<div class="participe-ibram-scope wrap pi-painel">
-
-  <header class="pi-painel__header">
-    <?php
-    PageLayout::breadcrumbs([
+<?php
+// W14: usa PageLayout::open() para ter a sidebar em-pagina como nas
+// demais telas admin. O conteudo do painel fica dentro de <main class="pi-content">.
+PageLayout::open(
+    __('Painel — Participe Ibram', 'participe-ibram'),
+    [
         ['label' => __('Início', 'participe-ibram'), 'url' => admin_url()],
         ['label' => __('Painel', 'participe-ibram')],
-    ]);
-    ?>
-    <h1 class="pi-painel__title"><?php esc_html_e('Painel — Participe Ibram', 'participe-ibram'); ?></h1>
-    <p class="pi-painel__subtitle">
-      <?php esc_html_e('Plataforma federal de Cadastro de Agentes para Participação Social do Ibram (Portaria 3230/2024).', 'participe-ibram'); ?>
-    </p>
-  </header>
+    ]
+);
+?>
+
+<div class="pi-painel">
+  <p class="pi-painel__subtitle">
+    <?php esc_html_e('Plataforma federal de Cadastro de Agentes para Participação Social do Ibram (Portaria 3230/2024).', 'participe-ibram'); ?>
+  </p>
 
   <?php if (is_array($proximo_passo)): ?>
   <section class="pi-next-step" aria-labelledby="pi-next-step-title">
@@ -159,3 +161,4 @@ $cards = [
     <?php esc_html_e('Os números são atualizados a cada acesso ao painel. Para detalhes, use os menus à esquerda.', 'participe-ibram'); ?>
   </p>
 </div>
+<?php PageLayout::close(); ?>
