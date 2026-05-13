@@ -7,7 +7,10 @@
 // _shadow.scss — nenhum valor raw aqui, apenas referências via var().
 // =============================================================================
 
-.participe-ibram-scope.pi-painel {
+// W14 hot-fix: usar descendente (espaco) — .pi-painel agora e descendente
+// de .participe-ibram-scope (via PageLayout::open emitindo wrappers aninhados),
+// nao mais compound (mesmo elemento como era no markup pre-W14).
+.participe-ibram-scope .pi-painel {
   font-family: var(--pi-font-family-base);
   color: var(--pi-color-ink-90);
 

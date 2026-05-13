@@ -769,78 +769,78 @@
  * W11-B — Component: Painel (migrado de inline style — painel.php)
  * ============================================================================ */
 
-.participe-ibram-scope.pi-painel {
+.participe-ibram-scope .pi-painel {
   font-family: var(--pi-font-family-base);
   color: var(--pi-color-ink-90);
 }
-.participe-ibram-scope.pi-painel .pi-painel__header {
+.participe-ibram-scope .pi-painel .pi-painel__header {
   display: flex; flex-direction: column; gap: var(--pi-space-1);
   padding: var(--pi-space-3) 0 var(--pi-space-2);
   border-bottom: 1px solid var(--pi-color-border);
   margin-bottom: var(--pi-space-3);
 }
-.participe-ibram-scope.pi-painel .pi-painel__title {
+.participe-ibram-scope .pi-painel .pi-painel__title {
   font-size: 1.875rem; line-height: 1.15; font-weight: 600; margin: 0;
   color: var(--pi-color-primary-dark);
 }
-.participe-ibram-scope.pi-painel .pi-painel__subtitle { font-size: 1rem; color: var(--pi-color-ink-60); margin: 0; }
-.participe-ibram-scope.pi-painel .pi-breadcrumb {
+.participe-ibram-scope .pi-painel .pi-painel__subtitle { font-size: 1rem; color: var(--pi-color-ink-60); margin: 0; }
+.participe-ibram-scope .pi-painel .pi-breadcrumb {
   font-size: 0.875rem; color: var(--pi-color-ink-60); margin: 0 0 var(--pi-space-1);
 }
-.participe-ibram-scope.pi-painel .pi-breadcrumb a { color: var(--pi-color-primary); text-decoration: none; }
-.participe-ibram-scope.pi-painel .pi-breadcrumb a:hover { text-decoration: underline; }
-.participe-ibram-scope.pi-painel .pi-kpi-grid {
+.participe-ibram-scope .pi-painel .pi-breadcrumb a { color: var(--pi-color-primary); text-decoration: none; }
+.participe-ibram-scope .pi-painel .pi-breadcrumb a:hover { text-decoration: underline; }
+.participe-ibram-scope .pi-painel .pi-kpi-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: var(--pi-space-2); margin-bottom: var(--pi-space-4);
 }
-.participe-ibram-scope.pi-painel .pi-kpi-card {
+.participe-ibram-scope .pi-painel .pi-kpi-card {
   background: var(--pi-color-bg); border: 1px solid var(--pi-color-border);
   border-left: 4px solid var(--pi-color-primary); border-radius: var(--pi-radius);
   padding: var(--pi-space-2); box-shadow: var(--pi-shadow);
   display: flex; flex-direction: column; gap: var(--pi-space-1); min-height: 140px;
 }
-.participe-ibram-scope.pi-painel .pi-kpi-card[data-empty="true"] {
+.participe-ibram-scope .pi-painel .pi-kpi-card[data-empty="true"] {
   border-left-color: var(--pi-color-border); background: var(--pi-color-bg-soft);
 }
-.participe-ibram-scope.pi-painel .pi-kpi-card__head { display: flex; align-items: center; gap: var(--pi-space-1); }
-.participe-ibram-scope.pi-painel .pi-kpi-card__title {
+.participe-ibram-scope .pi-painel .pi-kpi-card__head { display: flex; align-items: center; gap: var(--pi-space-1); }
+.participe-ibram-scope .pi-painel .pi-kpi-card__title {
   font-size: 0.875rem; font-weight: 600; color: var(--pi-color-ink-80); margin: 0; text-transform: none;
 }
-.participe-ibram-scope.pi-painel .pi-kpi-card__value {
+.participe-ibram-scope .pi-painel .pi-kpi-card__value {
   font-size: 2.25rem; line-height: 1.15; font-weight: 700;
   color: var(--pi-color-primary-dark); margin: 0; font-variant-numeric: tabular-nums;
 }
-.participe-ibram-scope.pi-painel .pi-kpi-card[data-empty="true"] .pi-kpi-card__value {
+.participe-ibram-scope .pi-painel .pi-kpi-card[data-empty="true"] .pi-kpi-card__value {
   color: var(--pi-color-ink-40); font-size: 1rem; font-weight: 500; font-style: italic;
 }
-.participe-ibram-scope.pi-painel .pi-kpi-card__cta {
+.participe-ibram-scope .pi-painel .pi-kpi-card__cta {
   margin-top: auto; align-self: flex-start; color: var(--pi-color-primary);
   font-size: 0.875rem; text-decoration: none; font-weight: 600;
 }
-.participe-ibram-scope.pi-painel .pi-kpi-card__cta:hover { text-decoration: underline; }
-.participe-ibram-scope.pi-painel .pi-kpi-card__icon { color: var(--pi-color-primary); font-size: 1.25rem; }
-.participe-ibram-scope.pi-painel .pi-kpi-card[data-empty="true"] .pi-kpi-card__icon { color: var(--pi-color-ink-40); }
-.participe-ibram-scope.pi-painel .pi-next-step {
+.participe-ibram-scope .pi-painel .pi-kpi-card__cta:hover { text-decoration: underline; }
+.participe-ibram-scope .pi-painel .pi-kpi-card__icon { color: var(--pi-color-primary); font-size: 1.25rem; }
+.participe-ibram-scope .pi-painel .pi-kpi-card[data-empty="true"] .pi-kpi-card__icon { color: var(--pi-color-ink-40); }
+.participe-ibram-scope .pi-painel .pi-next-step {
   background: var(--pi-color-primary-soft); border-left: 4px solid var(--pi-color-primary);
   border-radius: var(--pi-radius); padding: var(--pi-space-3);
   display: flex; gap: var(--pi-space-3); align-items: flex-start; margin-bottom: var(--pi-space-3);
 }
-.participe-ibram-scope.pi-painel .pi-next-step__icon { font-size: 2rem; color: var(--pi-color-primary-dark); }
-.participe-ibram-scope.pi-painel .pi-next-step__body { flex: 1 1 auto; }
-.participe-ibram-scope.pi-painel .pi-next-step__title {
+.participe-ibram-scope .pi-painel .pi-next-step__icon { font-size: 2rem; color: var(--pi-color-primary-dark); }
+.participe-ibram-scope .pi-painel .pi-next-step__body { flex: 1 1 auto; }
+.participe-ibram-scope .pi-painel .pi-next-step__title {
   margin: 0 0 var(--pi-space-1); font-size: 1.125rem; color: var(--pi-color-primary-dark);
 }
-.participe-ibram-scope.pi-painel .pi-next-step__desc {
+.participe-ibram-scope .pi-painel .pi-next-step__desc {
   margin: 0 0 var(--pi-space-2); font-size: 1rem; color: var(--pi-color-ink-80);
 }
-.participe-ibram-scope.pi-painel .pi-button {
+.participe-ibram-scope .pi-painel .pi-button {
   display: inline-block; background: var(--pi-color-primary); color: #fff;
   padding: 0.5rem 1rem; border-radius: 100em; text-decoration: none;
   font-weight: 600; font-size: 0.875rem; border: 0; line-height: 1.45;
 }
-.participe-ibram-scope.pi-painel .pi-button:hover,
-.participe-ibram-scope.pi-painel .pi-button:focus { background: var(--pi-color-primary-dark); color: #fff; }
-.participe-ibram-scope.pi-painel .pi-painel__footer-note {
+.participe-ibram-scope .pi-painel .pi-button:hover,
+.participe-ibram-scope .pi-painel .pi-button:focus { background: var(--pi-color-primary-dark); color: #fff; }
+.participe-ibram-scope .pi-painel .pi-painel__footer-note {
   font-size: 0.8125rem; color: var(--pi-color-ink-60); margin-top: var(--pi-space-2);
 }
 
