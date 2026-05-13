@@ -1225,11 +1225,11 @@
  * W12-B — Layout: Hierarquia de headings em .pi-admin-page__content-card
  * ---------------------------------------------------------------------------- */
 
-/* W14.1: Wrapped all broad typography rules in :where() to zero out specificity.
-   Without this, .pi-card__metric-value (0,2,0) and similar component rules
-   could not override the content-card p/h2/h3 rules (0,3,1). With :where(),
-   any class-level rule wins automatically. */
-.participe-ibram-scope .pi-admin-page__content-card :where(h2) {
+/* W14.1 (revised): wrap the ENTIRE selector chain in :where() so specificity
+   collapses to 0,0,0. Any component rule with at least one class (≥0,1,0)
+   beats these defaults. Tipografia "broad" do W12-B nao deve ganhar sobre
+   componentes especificos como .pi-card__metric-value. */
+:where(.participe-ibram-scope .pi-admin-page__content-card h2) {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--pi-color-primary-dark);
@@ -1239,10 +1239,10 @@
   border-bottom: 2px solid var(--pi-color-primary-lighter);
   line-height: var(--pi-line-height-tight);
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(h2):first-child {
+:where(.participe-ibram-scope .pi-admin-page__content-card h2:first-child) {
   margin-top: 0;
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(h3) {
+:where(.participe-ibram-scope .pi-admin-page__content-card h3) {
   font-size: 1.25rem;
   font-weight: var(--pi-font-weight-semibold);
   color: var(--pi-color-text);
@@ -1251,7 +1251,7 @@
   line-height: var(--pi-line-height-tight);
   border-bottom: none;
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(h4) {
+:where(.participe-ibram-scope .pi-admin-page__content-card h4) {
   font-size: var(--pi-font-size-base);
   font-weight: var(--pi-font-weight-semibold);
   color: var(--pi-color-text-secondary);
@@ -1261,26 +1261,28 @@
   letter-spacing: 0.04em;
   line-height: var(--pi-line-height-tight);
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(p) {
+:where(.participe-ibram-scope .pi-admin-page__content-card p) {
   font-size: var(--pi-font-size-base);
   line-height: var(--pi-line-height-relaxed);
   margin-bottom: var(--pi-spacing-4);
   color: var(--pi-color-text);
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(ul, ol) {
+:where(.participe-ibram-scope .pi-admin-page__content-card ul,
+       .participe-ibram-scope .pi-admin-page__content-card ol) {
   list-style: revert;
   padding-left: var(--pi-spacing-6);
   margin-bottom: var(--pi-spacing-4);
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(ul li, ol li) {
+:where(.participe-ibram-scope .pi-admin-page__content-card ul li,
+       .participe-ibram-scope .pi-admin-page__content-card ol li) {
   margin-bottom: var(--pi-spacing-2);
   line-height: var(--pi-line-height-relaxed);
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(a) {
+:where(.participe-ibram-scope .pi-admin-page__content-card a) {
   color: var(--pi-color-primary);
   text-decoration: none;
 }
-.participe-ibram-scope .pi-admin-page__content-card :where(a:hover) {
+:where(.participe-ibram-scope .pi-admin-page__content-card a:hover) {
   text-decoration: underline;
   color: var(--pi-color-primary-dark);
 }

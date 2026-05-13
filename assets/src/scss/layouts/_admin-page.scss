@@ -84,11 +84,15 @@
         padding: var(--pi-spacing-4);
       }
 
-      // ── Hierarquia tipográfica interna (Wave 12-B + W14.1) ─────────────────
-      // Selectors envolvidos em :where() para zerar specificity. Sem isso, as
-      // regras h2/h3/p sobrescreviam componentes como .pi-card__metric-value
-      // (que tem specificity menor mas e o estilo correto para o componente).
-      :where(h2) {
+      // ── Hierarquia tipográfica interna (Wave 12-B + W14.1 revisada) ──────
+      // Atencao: estes blocos sao "defaults" que NAO devem ganhar de
+      // componentes especificos (.pi-card__title, .pi-card__metric-value,
+      // .pi-kpi-card__value, etc). Por isso usamos @at-root :where(...) para
+      // colapsar a specificity TOTAL para 0,0,0 — qualquer regra de componente
+      // com 1 classe (≥0,1,0) sobrescreve naturalmente.
+      // Se editar, mantenha o padrao @at-root :where(#{&} TAG) { ... }.
+
+      @at-root :where(#{&} h2) {
         font-size: 1.5rem;        // 24px
         font-weight: var(--pi-font-weight-bold);
         color: var(--pi-color-primary-dark);
@@ -97,13 +101,12 @@
         padding-bottom: var(--pi-spacing-2);
         border-bottom: 2px solid var(--pi-color-primary-lighter);
         line-height: var(--pi-line-height-tight);
-
-        &:first-child {
-          margin-top: 0;
-        }
+      }
+      @at-root :where(#{&} h2:first-child) {
+        margin-top: 0;
       }
 
-      :where(h3) {
+      @at-root :where(#{&} h3) {
         font-size: 1.25rem;       // 20px
         font-weight: var(--pi-font-weight-semibold);
         color: var(--pi-color-text);
@@ -113,7 +116,7 @@
         border-bottom: none;
       }
 
-      :where(h4) {
+      @at-root :where(#{&} h4) {
         font-size: var(--pi-font-size-base);  // 16px
         font-weight: var(--pi-font-weight-semibold);
         color: var(--pi-color-text-secondary);
@@ -124,32 +127,31 @@
         line-height: var(--pi-line-height-tight);
       }
 
-      :where(p) {
+      @at-root :where(#{&} p) {
         font-size: var(--pi-font-size-base);
         line-height: var(--pi-line-height-relaxed);
         margin-bottom: var(--pi-spacing-4);
         color: var(--pi-color-text);
       }
 
-      :where(ul, ol) {
+      @at-root :where(#{&} ul, #{&} ol) {
         list-style: revert; // restaura marcadores que o reset global remove
         padding-left: var(--pi-spacing-6);
         margin-bottom: var(--pi-spacing-4);
-
-        :where(li) {
-          margin-bottom: var(--pi-spacing-2); // 6-8px entre itens
-          line-height: var(--pi-line-height-relaxed);
-        }
       }
 
-      :where(a) {
+      @at-root :where(#{&} ul li, #{&} ol li) {
+        margin-bottom: var(--pi-spacing-2);
+        line-height: var(--pi-line-height-relaxed);
+      }
+
+      @at-root :where(#{&} a) {
         color: var(--pi-color-primary);
         text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-          color: var(--pi-color-primary-dark);
-        }
+      }
+      @at-root :where(#{&} a:hover) {
+        text-decoration: underline;
+        color: var(--pi-color-primary-dark);
       }
     }
 
