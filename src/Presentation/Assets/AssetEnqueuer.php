@@ -142,24 +142,41 @@ final class AssetEnqueuer
     public function enqueueAdmin(string $hook): void
     {
         if (!$this->isPluginAdminScreen($hook)) {
+            // Em DEBUG, registra hooks rejeitados para diagnose de cache/CSS.
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('[pi-assets] hook NAO matched: ' . $hook);
+            }
             return;
+        }
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[pi-assets] hook matched, enfileirando CSS para: ' . $hook);
         }
 
         $cssBase = $this->pluginUrl . 'assets/dist/css/';
         $jsBase  = $this->pluginUrl . 'assets/dist/js/';
 
+        // Cache-bust automatico via filemtime do CSS principal — qualquer
+        // mudanca no dist invalida o cache do browser imediatamente.
+        $cssPath  = $this->pluginPath . 'assets/dist/css/';
+        $verAdmin = is_file($cssPath . 'participe-ibram-admin.css')
+            ? (string) filemtime($cssPath . 'participe-ibram-admin.css')
+            : self::VERSION;
+        $verTokens = is_file($cssPath . 'tokens.css')
+            ? (string) filemtime($cssPath . 'tokens.css')
+            : self::VERSION;
+
         wp_enqueue_style(
             'pi-tokens',
             $cssBase . 'tokens.css',
             [],
-            self::VERSION
+            $verTokens
         );
 
         wp_enqueue_style(
             'pi-admin',
             $cssBase . 'participe-ibram-admin.css',
             ['pi-tokens'],
-            self::VERSION
+            $verAdmin
         );
 
         // Wave 4-A admin JS: list table inline confirms + detalhes page tabs/modais.
