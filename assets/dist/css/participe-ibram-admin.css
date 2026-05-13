@@ -1542,3 +1542,99 @@
 /* ============================================================================
  * End W12-B polish
  * ============================================================================ */
+
+/* ============================================================================
+ * W13: dialog modal fix
+ * Estende o design system para cobrir <dialog class="pi-modal"> com as
+ * classes .pi-modal__content / .pi-modal__warning / .pi-modal__actions
+ * usadas em templates/admin/setup-teste/index.php.
+ * ============================================================================ */
+
+/* Elemento <dialog> aberto via showModal() */
+.participe-ibram-scope dialog.pi-modal[open] {
+  max-width: 560px;
+  max-height: 80vh;
+  width: calc(100% - 2rem);
+  background-color: var(--pi-color-bg, #fff);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.2);
+  padding: 0;
+  margin: auto;
+  z-index: 100;
+  overflow: hidden;
+  /* polyfill fallback: posicionamento fixo centralizado */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Overlay backdrop nativo (showModal) */
+.participe-ibram-scope dialog.pi-modal::backdrop {
+  background: rgba(0,0,0,.5);
+}
+
+/* Wrapper de conteúdo */
+.participe-ibram-scope dialog.pi-modal .pi-modal__content {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+/* Título h3 dentro do modal */
+.participe-ibram-scope dialog.pi-modal h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--pi-color-primary-darker, #071D41);
+  margin: 0 0 16px;
+}
+
+/* Bloco de aviso/alerta */
+.participe-ibram-scope dialog.pi-modal .pi-modal__warning {
+  background-color: var(--pi-color-danger-light, #FCE7E7);
+  border-left: 4px solid var(--pi-color-danger, #D04F4F);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  color: var(--pi-color-danger-dark, #9B2424);
+  border-radius: 0 4px 4px 0;
+  font-size: 14px;
+}
+
+/* Linha de ações do modal */
+.participe-ibram-scope dialog.pi-modal .pi-modal__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--pi-color-border, #c7d0df);
+}
+
+/* WCAG 2.4.7 — foco visível dentro do modal */
+.participe-ibram-scope dialog.pi-modal input:focus,
+.participe-ibram-scope dialog.pi-modal button:focus,
+.participe-ibram-scope dialog.pi-modal select:focus,
+.participe-ibram-scope dialog.pi-modal textarea:focus {
+  outline: 2px solid var(--pi-color-primary, #1351B4);
+  outline-offset: 2px;
+}
+
+/* Polyfill overlay backdrop (para browsers sem suporte nativo a <dialog>) */
+.pi-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .participe-ibram-scope dialog.pi-modal[open] { animation: none; }
+}
+
+/* ============================================================================
+ * End W13: dialog modal fix
+ * ============================================================================ */

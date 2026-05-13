@@ -112,3 +112,105 @@
     animation: none;
   }
 }
+
+// =============================================================================
+// W13: <dialog class="pi-modal"> — native HTML dialog chrome
+// -----------------------------------------------------------------------------
+// Os templates setup-teste/index.php usam a API nativa <dialog> com as classes
+// .pi-modal__content / .pi-modal__warning / .pi-modal__actions.
+// As regras abaixo estendem o design system para cobrir essas classes sem
+// alterar os templates.
+// =============================================================================
+
+.participe-ibram-scope {
+  // Estilo base do elemento <dialog> quando aberto (showModal()).
+  dialog.pi-modal[open] {
+    max-width: 560px;
+    max-height: 80vh;
+    width: calc(100% - 2rem);
+    background-color: var(--pi-color-bg, #fff);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    margin: auto;
+    z-index: 100;
+    overflow: hidden;
+    // Polyfill: navegadores sem suporte nativo ao <dialog> que
+    // usam o atributo `open` via JS precisam de posicionamento explícito.
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  // Backdrop nativo (Chrome/Firefox/Edge com showModal()).
+  dialog.pi-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  // Wrapper interno de conteúdo (.pi-modal__content).
+  dialog.pi-modal .pi-modal__content {
+    padding: 24px;
+    overflow-y: auto;
+    max-height: 80vh;
+  }
+
+  // Título h3 dentro do modal.
+  dialog.pi-modal h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--pi-color-primary-darker, #071D41);
+    margin: 0 0 16px;
+  }
+
+  // Bloco de aviso/alerta (.pi-modal__warning).
+  dialog.pi-modal .pi-modal__warning {
+    background-color: var(--pi-color-danger-light, #FCE7E7);
+    border-left: 4px solid var(--pi-color-danger, #D04F4F);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    color: var(--pi-color-danger-dark, #9B2424);
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+  }
+
+  // Linha de ações do modal (.pi-modal__actions).
+  dialog.pi-modal .pi-modal__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--pi-color-border, #c7d0df);
+  }
+
+  // WCAG 2.4.7 — anel de foco visível para inputs e botões dentro do modal.
+  dialog.pi-modal input:focus,
+  dialog.pi-modal button:focus,
+  dialog.pi-modal select:focus,
+  dialog.pi-modal textarea:focus {
+    outline: 2px solid var(--pi-color-primary, #1351B4);
+    outline-offset: 2px;
+  }
+}
+
+// Polyfill overlay backdrop para navegadores sem suporte nativo a <dialog>
+// (quando o atributo `open` é setado manualmente via JS).
+// Requer que um wrapper externo `.pi-modal-backdrop` seja adicionado via JS,
+// mas o CSS o cobre para quando isso acontecer.
+.pi-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .participe-ibram-scope dialog.pi-modal[open] {
+    animation: none;
+  }
+}
