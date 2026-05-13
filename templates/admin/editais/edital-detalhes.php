@@ -281,9 +281,9 @@ PageLayout::open(
                 $tblAudit = $wpdb->prefix . 'pi_audit_log';
                 $rows     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
                     $wpdb->prepare(
-                        "SELECT acao, ator_id, dados_depois, criado_em FROM {$tblAudit}
+                        "SELECT acao, ator_id, dados_depois, created_at FROM {$tblAudit}
                          WHERE entidade = 'edital' AND entidade_id = %d
-                         ORDER BY criado_em DESC LIMIT 50",
+                         ORDER BY created_at DESC LIMIT 50",
                         $editalId
                     ),
                     ARRAY_A
@@ -307,7 +307,7 @@ PageLayout::open(
                     <tr>
                         <td><?php echo esc_html((string) $row['acao']); ?></td>
                         <td><?php echo esc_html($atorNome); ?></td>
-                        <td><?php echo esc_html((string) $row['criado_em']); ?></td>
+                        <td><?php echo esc_html((string) $row['created_at']); ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

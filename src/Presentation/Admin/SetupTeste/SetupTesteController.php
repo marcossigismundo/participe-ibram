@@ -1156,10 +1156,18 @@ final class SetupTesteController
         if ($editalBId > 0 && $catBFirst > 0 && !empty($deferidos)) {
             $wpdb->query("DELETE FROM `{$prefix}pi_inscricoes` WHERE edital_id = {$editalBId}");
 
-            // Reutilizamos os agentes seed em round-robin para cobrir 10 inscrições.
+            // Dedup: unique key e (edital_id, categoria_id, agente_id).
+            // Com poucos agentes deferidos, round-robin causaria duplicatas no
+            // i-esimo loop. Pulamos tuplas ja vistas em vez de quebrar a query.
+            $seen = [];
             for ($i = 0; $i < 10; $i++) {
                 $agId  = $deferidos[$i % count($deferidos)];
                 $catId = $i < 7 ? $catBFirst : $catBSecond;
+                $key = $editalBId . '-' . $catId . '-' . $agId;
+                if (isset($seen[$key])) {
+                    continue; // ja inserimos esta combinacao
+                }
+                $seen[$key] = true;
                 $wpdb->insert("{$prefix}pi_inscricoes", [
                     'edital_id'    => $editalBId,
                     'categoria_id' => $catId,
@@ -1196,8 +1204,15 @@ final class SetupTesteController
 
             $wpdb->query("DELETE FROM `{$prefix}pi_inscricoes` WHERE edital_id = {$editalEncId}");
             $defsEnc = !empty($deferidos) ? $deferidos : $agenteIds;
+            // Dedup por (edital, cat, agente).
+            $seenEnc = [];
             for ($i = 0; $i < 10; $i++) {
                 $agId = $defsEnc[$i % max(1, count($defsEnc))];
+                $key = $editalEncId . '-' . $catEnc . '-' . $agId;
+                if (isset($seenEnc[$key])) {
+                    continue;
+                }
+                $seenEnc[$key] = true;
                 $wpdb->insert("{$prefix}pi_inscricoes", [
                     'edital_id'    => $editalEncId,
                     'categoria_id' => $catEnc,

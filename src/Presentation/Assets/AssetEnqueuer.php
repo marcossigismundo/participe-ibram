@@ -56,10 +56,14 @@ final class AssetEnqueuer
         'participe-ibram_',
         'toplevel_page_pi-',
         'toplevel_page_participe-ibram',
-        // Paginas ocultas registradas com parent='options.php' (truque para
-        // nao aparecerem no menu nativo do WP) recebem hook prefixado por
-        // settings_page_. Cobertura: Edital detalhes, Categoria, Detalhes
-        // do agente, Apuracao, Audit detalhe.
+        // Paginas ocultas registradas com parent='options.php' geram hook
+        // 'admin_page_<slug>' OU 'settings_page_<slug>' dependendo de como
+        // o WP resolve get_admin_page_parent. Smoke test confirmou que e
+        // 'admin_page_' (debug.log: hook NAO matched: admin_page_participe-ibram_edital).
+        // Cobertura: Edital detalhes, Categoria, Detalhes do agente,
+        // Apuracao, Audit detalhe.
+        'admin_page_participe-ibram',
+        'admin_page_pi-',
         'settings_page_participe-ibram',
         'settings_page_pi-',
     ];
