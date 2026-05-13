@@ -176,13 +176,16 @@
  * Modal
  * ============================================================================ */
 
-.participe-ibram-scope .pi-modal {
+/* Legacy <div class="pi-modal"> pattern — toggle via [hidden].
+   <dialog class="pi-modal"> usa toggle via [open] (regras W13 abaixo) e
+   NÃO deve receber position:fixed sempre, senão fica visível na carga. */
+.participe-ibram-scope .pi-modal:not(dialog) {
   position: fixed; inset: 0; z-index: var(--pi-z-modal);
   display: flex; align-items: center; justify-content: center;
   padding: var(--pi-spacing-4);
   background-color: rgba(7, 29, 65, 0.55);
 }
-.participe-ibram-scope .pi-modal[hidden] { display: none; }
+.participe-ibram-scope .pi-modal:not(dialog)[hidden] { display: none; }
 .participe-ibram-scope .pi-modal__dialog {
   width: 100%; max-width: 640px;
   background-color: var(--pi-color-bg);

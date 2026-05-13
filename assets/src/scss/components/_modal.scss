@@ -5,7 +5,11 @@
 // =============================================================================
 
 .participe-ibram-scope {
-  .pi-modal {
+  // Legacy <div class="pi-modal"> pattern — toggle via [hidden].
+  // O bloco W13 abaixo cuida do <dialog class="pi-modal"> que usa [open].
+  // :not(dialog) impede que esta regra force o <dialog> a aparecer
+  // sem o atributo open (bug do Setup de Teste corrigido em W13.1).
+  .pi-modal:not(dialog) {
     position: fixed;
     inset: 0;
     z-index: var(--pi-z-modal);
