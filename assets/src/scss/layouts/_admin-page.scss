@@ -84,8 +84,11 @@
         padding: var(--pi-spacing-4);
       }
 
-      // ── Hierarquia tipográfica interna (Wave 12-B) ─────────────────────────
-      h2 {
+      // ── Hierarquia tipográfica interna (Wave 12-B + W14.1) ─────────────────
+      // Selectors envolvidos em :where() para zerar specificity. Sem isso, as
+      // regras h2/h3/p sobrescreviam componentes como .pi-card__metric-value
+      // (que tem specificity menor mas e o estilo correto para o componente).
+      :where(h2) {
         font-size: 1.5rem;        // 24px
         font-weight: var(--pi-font-weight-bold);
         color: var(--pi-color-primary-dark);
@@ -100,7 +103,7 @@
         }
       }
 
-      h3 {
+      :where(h3) {
         font-size: 1.25rem;       // 20px
         font-weight: var(--pi-font-weight-semibold);
         color: var(--pi-color-text);
@@ -110,7 +113,7 @@
         border-bottom: none;
       }
 
-      h4 {
+      :where(h4) {
         font-size: var(--pi-font-size-base);  // 16px
         font-weight: var(--pi-font-weight-semibold);
         color: var(--pi-color-text-secondary);
@@ -121,25 +124,25 @@
         line-height: var(--pi-line-height-tight);
       }
 
-      p {
+      :where(p) {
         font-size: var(--pi-font-size-base);
         line-height: var(--pi-line-height-relaxed);
         margin-bottom: var(--pi-spacing-4);
         color: var(--pi-color-text);
       }
 
-      ul, ol {
+      :where(ul, ol) {
         list-style: revert; // restaura marcadores que o reset global remove
         padding-left: var(--pi-spacing-6);
         margin-bottom: var(--pi-spacing-4);
 
-        li {
+        :where(li) {
           margin-bottom: var(--pi-spacing-2); // 6-8px entre itens
           line-height: var(--pi-line-height-relaxed);
         }
       }
 
-      a {
+      :where(a) {
         color: var(--pi-color-primary);
         text-decoration: none;
 
