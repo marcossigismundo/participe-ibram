@@ -47,3 +47,9 @@ build/
 # until npm/postcss is wired in Wave 10. Track these distribution files.
 !assets/dist/
 !assets/dist/**
+
+# Exception: docs/build/ contains the manual MD->HTML build script and
+# vendored Parsedown.php (reproducibility offline). MANUAL.html intermediate
+# is excluded via docs/build/.gitignore.
+!docs/build/
+!docs/build/**
