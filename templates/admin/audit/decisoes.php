@@ -57,8 +57,10 @@ if ($flash !== null) {
     <main id="pi-admin-main" class="pi-admin-layout__main pi-list-table" tabindex="-1">
         <form method="get" action="">
             <input type="hidden" name="page" value="<?php echo esc_attr(AuditMenuRegistry::SLUG_DECISOES); ?>" />
-            <?php $listTable->extra_tablenav('top'); ?>
-            <?php $listTable->display(); ?>
+            <?php // Nao chame extra_tablenav('top') aqui — $listTable->display() ja
+                  // renderiza a barra de filtros via display_tablenav('top'). Duplo-
+                  // call causava 2 barras lado a lado.
+                  $listTable->display(); ?>
         </form>
     </main>
 
