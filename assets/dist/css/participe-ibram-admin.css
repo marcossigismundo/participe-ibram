@@ -1700,3 +1700,190 @@
   gap: var(--pi-spacing-2);
   flex-wrap: wrap;
 }
+
+/* ============================================================================
+ * W14.5 — Edital form layout (regras antes so no SCSS, nunca compiladas)
+ * ----------------------------------------------------------------------------
+ * O partial _edital.scss tinha as regras mas nenhuma havia ido para o dist.
+ * Sem isso, .pi-form-layout perdia a grid 2-col, datas stackavam vertical
+ * 100% width, timeline ficava sem visual de linha, hints ficavam invisiveis.
+ * Esta secao compila + melhora visualmente.
+ * ============================================================================ */
+
+/* Layout 2 cols (form + sidebar timeline) */
+.participe-ibram-scope .pi-form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .participe-ibram-scope .pi-form-layout {
+    grid-template-columns: 1fr;
+  }
+}
+.participe-ibram-scope .pi-form-layout__main { min-width: 0; }
+.participe-ibram-scope .pi-form-layout__sidebar { min-width: 0; }
+
+/* Inputs / textarea / select dentro de .pi-form */
+.participe-ibram-scope .pi-form input[type="text"],
+.participe-ibram-scope .pi-form input[type="email"],
+.participe-ibram-scope .pi-form input[type="number"],
+.participe-ibram-scope .pi-form input[type="datetime-local"],
+.participe-ibram-scope .pi-form input[type="date"],
+.participe-ibram-scope .pi-form textarea,
+.participe-ibram-scope .pi-form select {
+  width: 100%;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--pi-color-border, #c7d0df);
+  border-radius: 4px;
+  font-size: 15px;
+  background: var(--pi-color-bg, #fff);
+  color: var(--pi-color-text, #1f2937);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.participe-ibram-scope .pi-form input:focus,
+.participe-ibram-scope .pi-form textarea:focus,
+.participe-ibram-scope .pi-form select:focus {
+  outline: 2px solid var(--pi-color-primary, #1351B4);
+  outline-offset: 1px;
+  border-color: var(--pi-color-primary, #1351B4);
+}
+.participe-ibram-scope .pi-form textarea { min-height: 120px; resize: vertical; }
+.participe-ibram-scope .pi-form .description {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 4px 0 0;
+}
+
+/* Field-group espacamento padrao */
+.participe-ibram-scope .pi-field-group { margin-bottom: 18px; }
+.participe-ibram-scope .pi-field-group__label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--pi-color-text, #1f2937);
+}
+.participe-ibram-scope .pi-field-group__label--required::after {
+  content: ' *';
+  color: #D04F4F;
+}
+
+/* Dates fieldset: grid 2-col compacto */
+.participe-ibram-scope .pi-dates-fieldset {
+  border: 1px solid var(--pi-color-border, #c7d0df);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+.participe-ibram-scope .pi-dates-fieldset > legend {
+  grid-column: 1 / -1;
+  padding: 0 6px;
+  font-weight: 700;
+  color: #0C326F;
+}
+.participe-ibram-scope .pi-dates-fieldset > .description,
+.participe-ibram-scope .pi-dates-fieldset > .pi-date-errors {
+  grid-column: 1 / -1;
+}
+.participe-ibram-scope .pi-field-group--date { margin-bottom: 0; }
+@media (max-width: 600px) {
+  .participe-ibram-scope .pi-dates-fieldset { grid-template-columns: 1fr; }
+}
+
+.participe-ibram-scope .pi-date-errors {
+  min-height: 1.25rem;
+  color: #D04F4F;
+  font-size: 13px;
+}
+
+/* Hint Markdown ao lado do label */
+.participe-ibram-scope .pi-hint-md {
+  font-weight: 400;
+  font-size: 13px;
+  color: #6b7280;
+  margin-left: 6px;
+  font-style: italic;
+}
+
+.participe-ibram-scope .pi-muted { color: #9ca3af; }
+
+/* Sidebar timeline */
+.participe-ibram-scope .pi-form-layout__sidebar .pi-timeline-card {
+  position: sticky;
+  top: 64px;
+}
+.participe-ibram-scope .pi-timeline-card {
+  background: #fff;
+  border: 1px solid var(--pi-color-border, #c7d0df);
+  border-radius: 8px;
+  padding: 18px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.participe-ibram-scope .pi-timeline-card__title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: #0C326F;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #C5D4EB;
+}
+.participe-ibram-scope .pi-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.participe-ibram-scope .pi-timeline__item {
+  position: relative;
+  padding: 10px 0 10px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.participe-ibram-scope .pi-timeline__item + .pi-timeline__item {
+  border-top: 1px dashed #e5e7eb;
+}
+.participe-ibram-scope .pi-timeline__item::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 14px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1351B4;
+  z-index: 1;
+}
+.participe-ibram-scope .pi-timeline__item--empty::before { background: #c7d0df; }
+.participe-ibram-scope .pi-timeline__item::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 24px;
+  bottom: -10px;
+  width: 1px;
+  background: #e5e7eb;
+}
+.participe-ibram-scope .pi-timeline__item:last-child::after { display: none; }
+.participe-ibram-scope .pi-timeline__label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.participe-ibram-scope .pi-timeline__value {
+  font-size: 14px;
+  color: #1f2937;
+  font-weight: 500;
+}
+.participe-ibram-scope .pi-timeline__item--empty .pi-timeline__value { color: #9ca3af; }
+.participe-ibram-scope .pi-timeline__item--set .pi-timeline__value { color: #0C326F; font-weight: 600; }
+
+/* ============================================================================
+ * End W14.5
+ * ============================================================================ */
