@@ -2090,3 +2090,1332 @@
 /* ============================================================================
  * End W14.6
  * ============================================================================ */
+
+/* ============================================================================
+ * W14.7 — recurso (compiled from _recurso.scss)
+ * ============================================================================ */
+
+/* Cabecalho do recurso (titulo + badge de status) */
+.participe-ibram-scope .pi-recurso-header {
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-md, 1rem);
+    flex-wrap: wrap;
+    margin-bottom: var(--pi-spacing-md, 1rem);
+}
+.participe-ibram-scope .pi-recurso-header h1 {
+    margin: 0;
+}
+
+.participe-ibram-scope .pi-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--pi-radius-full, 999px);
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: var(--pi-color-info-bg, #e8f4fd);
+    color: var(--pi-color-info-fg, #0c5460);
+}
+.participe-ibram-scope .pi-status-badge--em-retratacao {
+    background: var(--pi-color-warning-bg, #fff3cd);
+    color: var(--pi-color-warning-fg, #856404);
+}
+.participe-ibram-scope .pi-status-badge--em-presidencia {
+    background: var(--pi-color-info-bg, #d1ecf1);
+    color: var(--pi-color-info-fg, #0c5460);
+}
+
+/* Grid principal (main + sidebar) */
+.participe-ibram-scope .pi-recurso-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--pi-spacing-md, 1rem);
+}
+@media (min-width: 992px) {
+    .participe-ibram-scope .pi-recurso-grid {
+        grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    }
+}
+.participe-ibram-scope .pi-recurso-grid__main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-md, 1rem);
+}
+.participe-ibram-scope .pi-recurso-grid__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-md, 1rem);
+}
+
+/* Countdown de prazo */
+.participe-ibram-scope .pi-prazo-countdown {
+    font-size: 1.25rem;
+    margin: 0 0 var(--pi-spacing-sm, 0.5rem);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--pi-radius-sm, 4px);
+}
+
+/* Severity classes */
+.participe-ibram-scope .pi-prazo {
+    font-weight: 600;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--pi-radius-sm, 4px);
+    display: inline-block;
+}
+.participe-ibram-scope .pi-prazo--ok {
+    background: var(--pi-color-success-bg, #d4edda);
+    color: var(--pi-color-success-fg, #155724);
+}
+.participe-ibram-scope .pi-prazo--atencao {
+    background: var(--pi-color-warning-bg, #fff3cd);
+    color: var(--pi-color-warning-fg, #856404);
+}
+.participe-ibram-scope .pi-prazo--urgente {
+    background: var(--pi-color-warning-bg, #ffe1b3);
+    color: var(--pi-color-warning-fg-strong, #7a3e00);
+    border: 1px solid var(--pi-color-warning-fg, #856404);
+}
+.participe-ibram-scope .pi-prazo--vencido {
+    background: var(--pi-color-danger-bg, #f8d7da);
+    color: var(--pi-color-danger-fg, #721c24);
+    border: 1px solid currentColor;
+}
+
+/* KPI cards na pagina de prazos */
+.participe-ibram-scope .pi-card--kpi {
+    border-left: 4px solid var(--pi-color-border, #ccc);
+}
+.participe-ibram-scope .pi-card--kpi .pi-card__metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+}
+.participe-ibram-scope .pi-card--urgente { border-left-color: var(--pi-color-warning, #f0ad4e); }
+.participe-ibram-scope .pi-card--vencido { border-left-color: var(--pi-color-danger, #d9534f); }
+.participe-ibram-scope .pi-card--ok { border-left-color: var(--pi-color-success, #5cb85c); }
+
+/* Timeline (sidebar do detalhe) — note: distinct from edital pi-timeline (W14.5) */
+.participe-ibram-scope .pi-recurso-timeline.pi-timeline,
+.participe-ibram-scope .pi-recurso-grid__sidebar .pi-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.participe-ibram-scope .pi-recurso-grid__sidebar .pi-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.4rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: var(--pi-color-border, #d0d0d0);
+}
+.participe-ibram-scope .pi-recurso-grid__sidebar .pi-timeline__item {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-bottom: var(--pi-spacing-sm, 0.5rem);
+}
+.participe-ibram-scope .pi-recurso-grid__sidebar .pi-timeline__item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    background: var(--pi-color-border, #ccc);
+    border: 2px solid var(--pi-color-bg, #fff);
+    z-index: 1;
+}
+.participe-ibram-scope .pi-recurso-grid__sidebar .pi-timeline__item time {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--pi-color-text-muted, #666);
+}
+.participe-ibram-scope .pi-recurso-grid__sidebar .pi-timeline__item--done::before {
+    background: var(--pi-color-success, #28a745);
+}
+.participe-ibram-scope .pi-recurso-grid__sidebar .pi-timeline__item--current::before {
+    background: var(--pi-color-info, #17a2b8);
+    box-shadow: 0 0 0 3px var(--pi-color-info-bg, #d1ecf1);
+}
+
+/* Filtros das list tables de recurso */
+.participe-ibram-scope .pi-list-filters {
+    display: inline-flex;
+    gap: var(--pi-spacing-sm, 0.5rem);
+    align-items: center;
+    flex-wrap: wrap;
+}
+.participe-ibram-scope .pi-list-filters select {
+    min-width: 180px;
+}
+
+/* Meta list (pares dt/dd) */
+.participe-ibram-scope .pi-meta-list {
+    margin: 0;
+}
+.participe-ibram-scope .pi-meta-list__row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--pi-spacing-sm, 0.5rem);
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--pi-color-border-light, #eaeaea);
+}
+.participe-ibram-scope .pi-meta-list__row:last-child { border-bottom: none; }
+.participe-ibram-scope .pi-meta-list__row dt { font-weight: 600; color: var(--pi-color-text-muted, #555); }
+.participe-ibram-scope .pi-meta-list__row dd { margin: 0; text-align: right; }
+
+/* Form fieldset */
+.participe-ibram-scope .pi-fieldset {
+    border: 1px solid var(--pi-color-border, #ccc);
+    padding: var(--pi-spacing-md, 1rem);
+    margin: 0 0 var(--pi-spacing-md, 1rem);
+    border-radius: var(--pi-radius-sm, 4px);
+}
+.participe-ibram-scope .pi-fieldset legend {
+    font-weight: 600;
+    padding: 0 var(--pi-spacing-sm, 0.5rem);
+}
+
+/* Radio rows */
+.participe-ibram-scope .pi-radio {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pi-spacing-sm, 0.5rem);
+    padding: var(--pi-spacing-sm, 0.5rem) 0;
+}
+.participe-ibram-scope .pi-radio label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    cursor: pointer;
+}
+.participe-ibram-scope .pi-radio label .description {
+    color: var(--pi-color-text-muted, #555);
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+/* Form rows */
+.participe-ibram-scope .pi-form-row {
+    margin-bottom: var(--pi-spacing-md, 1rem);
+}
+.participe-ibram-scope .pi-form-row textarea {
+    width: 100%;
+    min-height: 8rem;
+    font-family: inherit;
+}
+
+/* Form actions */
+.participe-ibram-scope .pi-form-actions {
+    display: flex;
+    gap: var(--pi-spacing-sm, 0.5rem);
+    margin-top: var(--pi-spacing-md, 1rem);
+}
+
+/* Prose (markdown renderizado) */
+.participe-ibram-scope .pi-prose {
+    max-width: 70ch;
+    line-height: 1.6;
+}
+.participe-ibram-scope .pi-prose p { margin: 0 0 1rem; }
+.participe-ibram-scope .pi-prose h1,
+.participe-ibram-scope .pi-prose h2,
+.participe-ibram-scope .pi-prose h3,
+.participe-ibram-scope .pi-prose h4 { margin-top: 1.25rem; }
+.participe-ibram-scope .pi-prose ul,
+.participe-ibram-scope .pi-prose ol { padding-left: 1.5rem; }
+.participe-ibram-scope .pi-prose code {
+    background: var(--pi-color-bg-muted, #f4f4f4);
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+}
+
+/* Skip link */
+.participe-ibram-scope .pi-skip-link {
+    position: absolute;
+    left: -9999px;
+}
+.participe-ibram-scope .pi-skip-link:focus {
+    position: static;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--pi-color-focus-bg, #ffe1b3);
+    color: var(--pi-color-focus-fg, #000);
+    outline: 2px solid currentColor;
+}
+
+/* End W14.7 — recurso */
+
+/* ============================================================================
+ * W14.7 — habilitacao (compiled from _habilitacao.scss)
+ * ============================================================================ */
+
+/* Listagem de inscrições */
+.participe-ibram-scope .pi-habilitacao-lista .pi-list-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pi-spacing-sm, 8px);
+    align-items: flex-end;
+}
+.participe-ibram-scope .pi-habilitacao-lista .pi-list-filters input[type="number"],
+.participe-ibram-scope .pi-habilitacao-lista .pi-list-filters input[type="date"],
+.participe-ibram-scope .pi-habilitacao-lista .pi-list-filters select {
+    min-width: 120px;
+}
+
+/* Detalhe da inscrição */
+.participe-ibram-scope .pi-inscricao-detalhes__header {
+    margin-bottom: var(--pi-spacing-lg, 24px);
+}
+.participe-ibram-scope .pi-inscricao-detalhes__header h1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pi-spacing-xs, 4px);
+}
+.participe-ibram-scope .pi-inscricao-detalhes__meta {
+    margin-top: var(--pi-spacing-sm, 8px);
+}
+.participe-ibram-scope .pi-inscricao-detalhes__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pi-spacing-sm, 8px);
+    margin-bottom: var(--pi-spacing-md, 16px);
+}
+
+/* Botões de ação de habilitação */
+.participe-ibram-scope .pi-btn--habilitar {
+    background-color: var(--pi-color-success, #2e7d32);
+    border-color: var(--pi-color-success, #2e7d32);
+    color: #fff;
+}
+.participe-ibram-scope .pi-btn--habilitar:hover,
+.participe-ibram-scope .pi-btn--habilitar:focus-visible {
+    background-color: var(--pi-color-success-dark, #1b5e20);
+    border-color: var(--pi-color-success-dark, #1b5e20);
+}
+
+.participe-ibram-scope .pi-btn--inabilitar {
+    background-color: var(--pi-color-danger, #c62828);
+    border-color: var(--pi-color-danger, #c62828);
+    color: #fff;
+}
+.participe-ibram-scope .pi-btn--inabilitar:hover,
+.participe-ibram-scope .pi-btn--inabilitar:focus-visible {
+    background-color: var(--pi-color-danger-dark, #8e0000);
+    border-color: var(--pi-color-danger-dark, #8e0000);
+}
+
+/* Prazo countdown — habilitacao variant (flex layout with background) */
+.participe-ibram-scope .pi-habilitacao-lista .pi-prazo-countdown,
+.participe-ibram-scope .pi-inscricao-detalhes .pi-prazo-countdown {
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-sm, 8px);
+    margin-bottom: var(--pi-spacing-md, 16px);
+    padding: var(--pi-spacing-sm, 8px) var(--pi-spacing-md, 16px);
+    border-radius: var(--pi-radius-md, 4px);
+    background-color: var(--pi-color-bg-info, #e3f2fd);
+    border: 1px solid var(--pi-color-border-info, #90caf9);
+}
+.participe-ibram-scope .pi-habilitacao-lista .pi-prazo-countdown time,
+.participe-ibram-scope .pi-inscricao-detalhes .pi-prazo-countdown time {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Formulário público — protocolar recurso de inabilitação */
+.participe-ibram-scope .pi-protocolar-recurso {
+    max-width: 760px;
+}
+.participe-ibram-scope .pi-protocolar-recurso .pi-prazo-aviso {
+    margin-bottom: var(--pi-spacing-md, 16px);
+}
+.participe-ibram-scope .pi-protocolar-recurso .pi-countdown {
+    font-variant-numeric: tabular-nums;
+    font-weight: bold;
+}
+.participe-ibram-scope .pi-protocolar-recurso .pi-form {
+    margin-top: var(--pi-spacing-md, 16px);
+}
+.participe-ibram-scope .pi-protocolar-recurso #pi-fundamentacao-md {
+    width: 100%;
+    font-family: inherit;
+    resize: vertical;
+}
+
+/* End W14.7 — habilitacao */
+
+/* ============================================================================
+ * W14.7 — votacao (compiled from _votacao.scss — admin-relevant classes only)
+ * ============================================================================ */
+
+/* App container */
+.participe-ibram-scope .pi-votacao-app {
+    display: block;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: var(--pi-spacing-4, 1rem);
+}
+.participe-ibram-scope .pi-votacao-app__main {
+    outline: 0;
+}
+.participe-ibram-scope .pi-votacao-app__header {
+    margin-bottom: var(--pi-spacing-6, 1.5rem);
+    padding-bottom: var(--pi-spacing-4, 1rem);
+    border-bottom: 1px solid var(--pi-color-border, #c5c5c5);
+}
+.participe-ibram-scope .pi-votacao-app__titulo {
+    margin: 0 0 var(--pi-spacing-3, 0.75rem);
+    font-size: var(--pi-font-size-2xl, 1.75rem);
+    font-weight: var(--pi-font-weight-bold, 700);
+    color: var(--pi-color-primary-darker, #071d41);
+}
+.participe-ibram-scope .pi-votacao-app__info {
+    margin-bottom: var(--pi-spacing-3, 0.75rem);
+}
+.participe-ibram-scope .pi-votacao-app__datas {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--pi-spacing-1, 0.25rem) var(--pi-spacing-3, 0.75rem);
+    margin: 0 0 var(--pi-spacing-2, 0.5rem);
+}
+.participe-ibram-scope .pi-votacao-app__datas dt {
+    font-weight: var(--pi-font-weight-semibold, 600);
+    color: var(--pi-color-text-muted, #555);
+}
+.participe-ibram-scope .pi-votacao-app__datas dd {
+    margin: 0;
+    color: var(--pi-color-text, #1c1c1c);
+}
+.participe-ibram-scope .pi-votacao-app__countdown {
+    margin: 0;
+    font-weight: var(--pi-font-weight-semibold, 600);
+    color: var(--pi-color-warning-darker, #a16207);
+}
+.participe-ibram-scope .pi-votacao-app__countdown:empty {
+    display: none;
+}
+.participe-ibram-scope .pi-votacao-app__loading {
+    display: flex;
+    align-items: center;
+    gap: var(--pi-spacing-2, 0.5rem);
+    padding: var(--pi-spacing-4, 1rem);
+    color: var(--pi-color-text-muted, #555);
+}
+.participe-ibram-scope .pi-votacao-app--encerrada .pi-aviso {
+    margin-top: var(--pi-spacing-6, 1.5rem);
+}
+
+/* Aviso de irreversibilidade */
+.participe-ibram-scope .pi-aviso--importante {
+    background-color: var(--pi-color-warning-bg, #fff4e5);
+    border: 2px solid var(--pi-color-warning, #d97706);
+    color: var(--pi-color-warning-darker, #92400e);
+    padding: var(--pi-spacing-3, 0.75rem) var(--pi-spacing-4, 1rem);
+    border-radius: var(--pi-radius-md, 4px);
+}
+.participe-ibram-scope .pi-aviso--importante strong {
+    display: inline-block;
+    margin-right: var(--pi-spacing-1, 0.25rem);
+}
+
+/* Categoria fieldset */
+.participe-ibram-scope .pi-votacao-categoria {
+    border: 1px solid var(--pi-color-border, #c5c5c5);
+    border-radius: var(--pi-radius-md, 4px);
+    padding: var(--pi-spacing-4, 1rem);
+    margin-bottom: var(--pi-spacing-5, 1.25rem);
+    background-color: var(--pi-color-bg, #fff);
+}
+.participe-ibram-scope .pi-votacao-categoria__legenda {
+    font-size: var(--pi-font-size-lg, 1.125rem);
+    font-weight: var(--pi-font-weight-semibold, 600);
+    color: var(--pi-color-primary, #1351b4);
+    padding: 0 var(--pi-spacing-2, 0.5rem);
+}
+.participe-ibram-scope .pi-votacao-categoria__status {
+    margin: 0 0 var(--pi-spacing-3, 0.75rem);
+    color: var(--pi-color-text-muted, #555);
+}
+.participe-ibram-scope .pi-votacao-categoria__status--votado {
+    color: var(--pi-color-success-darker, #166534);
+    font-weight: var(--pi-font-weight-semibold, 600);
+}
+.participe-ibram-scope .pi-votacao-categoria__status--votado::before {
+    content: "\2713";
+    margin-right: var(--pi-spacing-1, 0.25rem);
+    font-weight: 700;
+}
+.participe-ibram-scope .pi-votacao-categoria.is-voted {
+    background-color: var(--pi-color-success-bg, #f0fdf4);
+    border-color: var(--pi-color-success, #16a34a);
+}
+.participe-ibram-scope .pi-votacao-categoria [role="radiogroup"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--pi-spacing-3, 0.75rem);
+}
+.participe-ibram-scope .pi-votacao-categoria.is-voted [role="radiogroup"] {
+    opacity: 0.6;
+}
+
+/* Card de candidato */
+.participe-ibram-scope .pi-candidato-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-2, 0.5rem);
+    padding: var(--pi-spacing-3, 0.75rem);
+    border: 2px solid var(--pi-color-border, #c5c5c5);
+    border-radius: var(--pi-radius-md, 4px);
+    background-color: var(--pi-color-bg, #fff);
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.participe-ibram-scope .pi-candidato-card:hover:not(.is-disabled) {
+    border-color: var(--pi-color-primary, #1351b4);
+}
+.participe-ibram-scope .pi-candidato-card:focus-visible {
+    outline: 3px solid var(--pi-color-focus, #fbbf24);
+    outline-offset: 2px;
+}
+.participe-ibram-scope .pi-candidato-card[aria-checked="true"],
+.participe-ibram-scope .pi-candidato-card.is-selected {
+    border-color: var(--pi-color-primary, #1351b4);
+    box-shadow: inset 0 0 0 2px var(--pi-color-primary, #1351b4);
+}
+.participe-ibram-scope .pi-candidato-card.is-disabled,
+.participe-ibram-scope .pi-candidato-card[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.55;
+    background-color: var(--pi-color-gray-2, #f5f5f5);
+}
+.participe-ibram-scope .pi-candidato-card__foto {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: var(--pi-radius-pill, 999px);
+    background-color: var(--pi-color-gray-2, #f5f5f5);
+}
+.participe-ibram-scope .pi-candidato-card__corpo { flex: 1; }
+.participe-ibram-scope .pi-candidato-card__nome {
+    font-weight: var(--pi-font-weight-semibold, 600);
+    font-size: var(--pi-font-size-md, 1rem);
+    color: var(--pi-color-text, #1c1c1c);
+}
+.participe-ibram-scope .pi-candidato-card__numero {
+    font-size: var(--pi-font-size-sm, 0.875rem);
+    color: var(--pi-color-text-muted, #555);
+}
+.participe-ibram-scope .pi-candidato-card__numero-label {
+    font-weight: var(--pi-font-weight-semibold, 600);
+}
+.participe-ibram-scope .pi-candidato-card__voto-btn {
+    margin-top: var(--pi-spacing-2, 0.5rem);
+    width: 100%;
+}
+
+/* Modal de confirmacao warning */
+.participe-ibram-scope .pi-confirmacao-modal--warning .pi-modal__dialog {
+    border-top: 4px solid var(--pi-color-danger, #dc2626);
+}
+
+/* Confirmacao voto */
+.participe-ibram-scope .pi-confirmacao-voto__pergunta {
+    margin: 0 0 var(--pi-spacing-2, 0.5rem);
+    font-size: var(--pi-font-size-md, 1rem);
+}
+.participe-ibram-scope .pi-confirmacao-voto__detalhes {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--pi-spacing-1, 0.25rem) var(--pi-spacing-3, 0.75rem);
+    margin: 0 0 var(--pi-spacing-3, 0.75rem);
+}
+.participe-ibram-scope .pi-confirmacao-voto__detalhes dt {
+    font-weight: var(--pi-font-weight-semibold, 600);
+    color: var(--pi-color-text-muted, #555);
+}
+.participe-ibram-scope .pi-confirmacao-voto__detalhes dd { margin: 0; }
+.participe-ibram-scope .pi-confirmacao-voto__numero {
+    display: inline-block;
+    margin-left: var(--pi-spacing-2, 0.5rem);
+    color: var(--pi-color-text-muted, #555);
+    font-size: var(--pi-font-size-sm, 0.875rem);
+}
+.participe-ibram-scope .pi-confirmacao-voto__alerta {
+    background-color: var(--pi-color-danger-bg, #fef2f2);
+    border-left: 4px solid var(--pi-color-danger, #dc2626);
+    color: var(--pi-color-danger-darker, #991b1b);
+    padding: var(--pi-spacing-3, 0.75rem) var(--pi-spacing-4, 1rem);
+    border-radius: var(--pi-radius-sm, 2px);
+    margin: 0 0 var(--pi-spacing-3, 0.75rem);
+    font-weight: var(--pi-font-weight-semibold, 600);
+}
+.participe-ibram-scope .pi-confirmacao-voto__alerta strong {
+    display: inline-block;
+    margin-right: var(--pi-spacing-1, 0.25rem);
+}
+.participe-ibram-scope .pi-confirmacao-voto__countdown {
+    margin: 0;
+    font-size: var(--pi-font-size-sm, 0.875rem);
+    color: var(--pi-color-warning-darker, #92400e);
+    font-weight: var(--pi-font-weight-semibold, 600);
+    text-align: right;
+}
+.participe-ibram-scope .pi-confirmacao-voto__countdown:empty {
+    display: none;
+}
+
+/* Botao perigo */
+.participe-ibram-scope .pi-btn--perigo {
+    background-color: var(--pi-color-danger, #dc2626);
+    color: #fff;
+    border-color: var(--pi-color-danger, #dc2626);
+}
+.participe-ibram-scope .pi-btn--perigo:hover:not(:disabled) {
+    background-color: var(--pi-color-danger-darker, #991b1b);
+    border-color: var(--pi-color-danger-darker, #991b1b);
+}
+.participe-ibram-scope .pi-btn--perigo:focus-visible {
+    outline: 3px solid var(--pi-color-focus, #fbbf24);
+    outline-offset: 2px;
+}
+.participe-ibram-scope .pi-btn--perigo:disabled,
+.participe-ibram-scope .pi-btn--perigo[aria-disabled="true"] {
+    background-color: var(--pi-color-gray-3, #d4d4d4);
+    border-color: var(--pi-color-gray-3, #d4d4d4);
+    color: var(--pi-color-text-muted, #555);
+    cursor: not-allowed;
+}
+
+/* Recibo de voto */
+.participe-ibram-scope .pi-recibo {
+    margin-top: var(--pi-spacing-6, 1.5rem);
+    padding: var(--pi-spacing-5, 1.25rem);
+    border: 2px solid var(--pi-color-success, #16a34a);
+    border-radius: var(--pi-radius-md, 4px);
+    background-color: var(--pi-color-success-bg, #f0fdf4);
+}
+.participe-ibram-scope .pi-recibo__titulo {
+    margin: 0 0 var(--pi-spacing-2, 0.5rem);
+    font-size: var(--pi-font-size-xl, 1.25rem);
+    color: var(--pi-color-success-darker, #166534);
+}
+.participe-ibram-scope .pi-recibo__titulo::before {
+    content: "\2713 ";
+    font-weight: 700;
+    margin-right: var(--pi-spacing-1, 0.25rem);
+}
+.participe-ibram-scope .pi-recibo__aviso {
+    margin: 0 0 var(--pi-spacing-3, 0.75rem);
+    font-size: var(--pi-font-size-sm, 0.875rem);
+    color: var(--pi-color-text, #1c1c1c);
+}
+.participe-ibram-scope .pi-recibo__dados {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--pi-spacing-1, 0.25rem) var(--pi-spacing-3, 0.75rem);
+    margin: 0 0 var(--pi-spacing-3, 0.75rem);
+}
+.participe-ibram-scope .pi-recibo__dados dt {
+    font-weight: var(--pi-font-weight-semibold, 600);
+    color: var(--pi-color-text-muted, #555);
+}
+.participe-ibram-scope .pi-recibo__dados dd { margin: 0; }
+.participe-ibram-scope .pi-recibo__hash-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pi-spacing-1, 0.25rem);
+    margin-bottom: var(--pi-spacing-3, 0.75rem);
+}
+.participe-ibram-scope .pi-recibo__hash-label {
+    font-weight: var(--pi-font-weight-semibold, 600);
+    color: var(--pi-color-text, #1c1c1c);
+}
+.participe-ibram-scope .pi-recibo__hash {
+    width: 100%;
+    font-family: var(--pi-font-family-mono, "Courier New", monospace);
+    font-size: var(--pi-font-size-sm, 0.875rem);
+    padding: var(--pi-spacing-2, 0.5rem) var(--pi-spacing-3, 0.75rem);
+    border: 1px solid var(--pi-color-border, #c5c5c5);
+    border-radius: var(--pi-radius-sm, 2px);
+    background-color: #fff;
+    word-break: break-all;
+}
+.participe-ibram-scope .pi-recibo__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pi-spacing-2, 0.5rem);
+}
+
+/* Spinner */
+.participe-ibram-scope .pi-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: pi-spinner-rot 0.8s linear infinite;
+}
+@keyframes pi-spinner-rot {
+    to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .participe-ibram-scope .pi-spinner {
+        animation: none;
+    }
+}
+
+/* Alto contraste */
+@media (forced-colors: active) {
+    .participe-ibram-scope .pi-candidato-card {
+        border: 2px solid CanvasText;
+    }
+    .participe-ibram-scope .pi-candidato-card:focus-visible {
+        outline: 3px solid Highlight;
+    }
+    .participe-ibram-scope .pi-candidato-card[aria-checked="true"],
+    .participe-ibram-scope .pi-candidato-card.is-selected {
+        border-color: Highlight;
+        box-shadow: inset 0 0 0 2px Highlight;
+        forced-color-adjust: none;
+    }
+    .participe-ibram-scope .pi-candidato-card.is-disabled,
+    .participe-ibram-scope .pi-candidato-card[aria-disabled="true"] {
+        color: GrayText;
+        border-color: GrayText;
+    }
+    .participe-ibram-scope .pi-confirmacao-voto__alerta {
+        border: 2px solid CanvasText;
+        background: Canvas;
+        color: CanvasText;
+    }
+    .participe-ibram-scope .pi-btn--perigo {
+        background: Canvas;
+        color: CanvasText;
+        border: 2px solid CanvasText;
+    }
+    .participe-ibram-scope .pi-recibo {
+        border: 2px solid CanvasText;
+    }
+}
+
+/* Print — comprovante de voto */
+@media print {
+    @page {
+        size: A4;
+        margin: 1.5cm;
+    }
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11pt;
+        line-height: 1.4;
+    }
+    .pi-recibo.is-printing ~ * { display: none !important; }
+    nav, header.site-header, footer.site-footer,
+    .pi-skip-link, .pi-modal,
+    [data-pi-votacao-loading],
+    [data-pi-votacao-error]:not([hidden]),
+    [data-pi-votacao-categorias],
+    .pi-recibo__acoes,
+    .pi-recibo__link-auditoria,
+    .pi-votacao-app__aviso {
+        display: none !important;
+    }
+    .pi-comprovante-print,
+    .pi-recibo.is-printing,
+    .pi-recibo {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0 !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+    .pi-comprovante-print__header {
+        border-bottom: 1.5pt solid #000;
+        margin-bottom: 1cm;
+        padding-bottom: 0.5cm;
+    }
+    .pi-comprovante-print__org {
+        font-size: 10pt;
+        color: #555;
+        margin: 0;
+    }
+    .pi-comprovante-print__titulo {
+        font-size: 18pt;
+        margin: 0.2cm 0 0.1cm;
+    }
+    .pi-comprovante-print__edital {
+        font-size: 12pt;
+        font-style: italic;
+        margin: 0;
+    }
+    .pi-comprovante-print__dados dl {
+        display: grid;
+        grid-template-columns: 5cm 1fr;
+        gap: 0.2cm 0.5cm;
+        margin: 0;
+    }
+    .pi-comprovante-print__dados dl dt { font-weight: 700; }
+    .pi-comprovante-print__dados dl dd { margin: 0; }
+    .pi-comprovante-print__hash {
+        margin-top: 1cm;
+        padding: 0.5cm;
+        border: 1pt solid #000;
+    }
+    .pi-comprovante-print__hash h2 {
+        font-size: 12pt;
+        margin: 0 0 0.2cm;
+    }
+    .pi-comprovante-print__hash-valor {
+        margin: 0 0 0.3cm;
+        text-align: center;
+    }
+    .pi-comprovante-print__hash-valor code {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 11pt;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        word-break: break-all;
+    }
+    .pi-comprovante-print__hash-aviso,
+    .pi-comprovante-print__auditoria {
+        font-size: 10pt;
+        color: #333;
+    }
+    .pi-comprovante-print__url {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 9pt;
+        word-break: break-all;
+    }
+    .pi-comprovante-print__footer {
+        margin-top: 1.5cm;
+        font-size: 9pt;
+        color: #555;
+        border-top: 0.5pt solid #999;
+        padding-top: 0.3cm;
+    }
+}
+
+/* End W14.7 — votacao */
+
+/* ============================================================================
+ * W14.7 — ajuda (compiled from _ajuda.scss)
+ * Note: .participe-ibram-scope.pi-ajuda wrapper DROPPED — template does not
+ * add .pi-ajuda class to scope div; rules applied directly under .participe-ibram-scope
+ * ============================================================================ */
+
+/* Skip link — ajuda */
+.participe-ibram-scope .pi-skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 9999;
+}
+.participe-ibram-scope .pi-skip-link:focus {
+    left: 0;
+    background: #fff;
+    padding: 0.5rem 1rem;
+    border-bottom: 2px solid #1351b4;
+    color: #1351b4;
+    outline: 3px solid #1351b4;
+    outline-offset: 0;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* Header — ajuda */
+.participe-ibram-scope .pi-ajuda__header {
+    margin-bottom: 1.5rem;
+}
+.participe-ibram-scope .pi-ajuda__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1351b4;
+    margin: 0 0 0.5rem;
+    line-height: 1.25;
+}
+
+/* Tabs — ajuda context */
+.participe-ibram-scope .pi-tabs {
+    margin-top: 1.5rem;
+}
+.participe-ibram-scope [role="tablist"].pi-tabs__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    border-bottom: 2px solid #c5d4eb;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    list-style: none;
+}
+.participe-ibram-scope [role="tab"].pi-tabs__tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.625rem 1.125rem;
+    background: transparent;
+    border: 2px solid transparent;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    position: relative;
+    bottom: -2px;
+    transition: background 0.15s ease, color 0.15s ease;
+    line-height: 1.4;
+}
+.participe-ibram-scope [role="tab"].pi-tabs__tab:hover {
+    background: #e8eef8;
+    color: #1351b4;
+}
+.participe-ibram-scope [role="tab"].pi-tabs__tab:focus-visible {
+    outline: 3px solid #1351b4;
+    outline-offset: 2px;
+    background: #e8eef8;
+}
+.participe-ibram-scope [role="tab"].pi-tabs__tab:focus:not(:focus-visible) {
+    outline: none;
+}
+.participe-ibram-scope [role="tab"].pi-tabs__tab[aria-selected="true"],
+.participe-ibram-scope [role="tab"].pi-tabs__tab.pi-tabs__tab--active {
+    background: #fff;
+    border-color: #c5d4eb;
+    border-bottom-color: #fff;
+    color: #1351b4;
+}
+.participe-ibram-scope [role="tab"].pi-tabs__tab[aria-selected="true"]::after,
+.participe-ibram-scope [role="tab"].pi-tabs__tab.pi-tabs__tab--active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #fff;
+}
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel {
+    padding: 1.75rem 2rem;
+    background: #fff;
+    border: 1px solid #c5d4eb;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    min-height: 300px;
+}
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel h2 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #1351b4;
+    margin: 0 0 1rem;
+}
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1.5rem 0 0.75rem;
+}
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel p {
+    line-height: 1.7;
+    color: #333;
+    margin: 0 0 1rem;
+}
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel ul,
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel ol {
+    padding-left: 1.5rem;
+    margin: 0 0 1rem;
+}
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel ul li,
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel ol li {
+    line-height: 1.7;
+    margin-bottom: 0.375rem;
+}
+.participe-ibram-scope [role="tabpanel"].pi-tabs__panel[hidden] {
+    display: none;
+}
+
+/* SVG fluxos */
+.participe-ibram-scope .pi-flow-svg {
+    max-width: 100%;
+    height: auto;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    display: block;
+    margin: 1rem auto;
+}
+.participe-ibram-scope figure {
+    margin: 1rem 0;
+}
+.participe-ibram-scope figure figcaption {
+    font-size: 0.875rem;
+    color: #555;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Glossário */
+.participe-ibram-scope .pi-glossario {
+    max-width: 100%;
+}
+.participe-ibram-scope .pi-glossario__desc {
+    font-size: 0.9375rem;
+    color: #555;
+    margin-bottom: 1.25rem;
+}
+.participe-ibram-scope .pi-glossario__nav {
+    margin-bottom: 1.5rem;
+}
+.participe-ibram-scope .pi-glossario__letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.participe-ibram-scope .pi-glossario__letter-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: #e8eef8;
+    border: 1px solid #c5d4eb;
+    border-radius: 4px;
+    color: #1351b4;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+.participe-ibram-scope .pi-glossario__letter-link:hover {
+    background: #c5d4eb;
+}
+.participe-ibram-scope .pi-glossario__letter-link:focus-visible {
+    outline: 3px solid #1351b4;
+    outline-offset: 2px;
+}
+.participe-ibram-scope .pi-glossario__columns {
+    column-count: 1;
+    column-gap: 2rem;
+}
+@media (min-width: 768px) {
+    .participe-ibram-scope .pi-glossario__columns {
+        column-count: 2;
+    }
+}
+.participe-ibram-scope .pi-glossario__group {
+    break-inside: avoid;
+    margin-bottom: 2rem;
+}
+.participe-ibram-scope .pi-glossario__letter-heading {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #1351b4;
+    border-bottom: 2px solid #c5d4eb;
+    padding-bottom: 0.375rem;
+    margin: 0 0 0.75rem;
+}
+.participe-ibram-scope .pi-glossario__list {
+    margin: 0 0 1rem;
+}
+.participe-ibram-scope .pi-glossario__term {
+    font-weight: 700;
+    color: #1351b4;
+    margin: 0.75rem 0 0.125rem;
+    font-size: 0.9375rem;
+}
+.participe-ibram-scope .pi-glossario__term:focus {
+    outline: 3px solid #1351b4;
+    outline-offset: 2px;
+}
+.participe-ibram-scope .pi-glossario__def {
+    margin: 0 0 0.5rem 1rem;
+    line-height: 1.7;
+    color: #333;
+    font-size: 0.9375rem;
+}
+
+/* Print — ajuda */
+@media print {
+    .participe-ibram-scope .pi-tabs__list,
+    .participe-ibram-scope .pi-glossario__nav,
+    .participe-ibram-scope .pi-skip-link,
+    .participe-ibram-scope .pi-breadcrumb {
+        display: none !important;
+    }
+    .participe-ibram-scope [role="tabpanel"].pi-tabs__panel {
+        display: block !important;
+        border: none;
+        padding: 0;
+        min-height: auto;
+    }
+    .participe-ibram-scope [role="tabpanel"].pi-tabs__panel[hidden] {
+        display: block !important;
+    }
+    .participe-ibram-scope [role="tabpanel"].pi-tabs__panel h2 {
+        page-break-before: always;
+        color: #000;
+    }
+    .participe-ibram-scope [role="tabpanel"].pi-tabs__panel h2:first-child {
+        page-break-before: avoid;
+    }
+    .participe-ibram-scope .pi-glossario__columns {
+        column-count: 1;
+    }
+    .participe-ibram-scope .pi-ajuda__title,
+    .participe-ibram-scope .pi-glossario__letter-heading,
+    .participe-ibram-scope .pi-glossario__term {
+        color: #000;
+    }
+    .participe-ibram-scope .pi-flow-svg {
+        max-width: 90%;
+        border: 1px solid #ccc;
+    }
+}
+
+/* End W14.7 — ajuda */
+
+/* ============================================================================
+ * W14.7 — dashboard (compiled from _dashboard.scss)
+ * Note: .participe-ibram-scope.pi-dashboard wrapper DROPPED — template does not
+ * add .pi-dashboard class to scope div; rules applied directly under .participe-ibram-scope
+ * ============================================================================ */
+
+/* Skip link — dashboard (merged with recurso skip-link above; no duplication) */
+
+/* Header — dashboard */
+.participe-ibram-scope .pi-dash__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.participe-ibram-scope .pi-dash__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1c1c1e;
+    margin: 0;
+}
+.participe-ibram-scope .pi-dash__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Breadcrumb — dashboard */
+.participe-ibram-scope .pi-breadcrumb__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: #666;
+}
+.participe-ibram-scope .pi-breadcrumb__list a { color: #1351b4; text-decoration: underline; }
+.participe-ibram-scope .pi-breadcrumb__item + .pi-breadcrumb__item::before {
+    content: '›';
+    margin-right: 0.25rem;
+    color: #888;
+}
+
+/* Status bar */
+.participe-ibram-scope .pi-dash__status-bar {
+    min-height: 1.5rem;
+    font-size: 0.875rem;
+    color: #2c7be5;
+    margin-bottom: 0.75rem;
+}
+.participe-ibram-scope .pi-dash__status-bar:empty { display: none; }
+
+/* KPI Grid */
+.participe-ibram-scope .pi-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* KPI values and labels */
+.participe-ibram-scope .pi-kpi__value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1351b4;
+    line-height: 1;
+}
+.participe-ibram-scope .pi-kpi__label {
+    font-size: 0.8rem;
+    color: #666;
+}
+.participe-ibram-scope .pi-kpi__aux {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* Charts row */
+.participe-ibram-scope .pi-charts-row--2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) {
+    .participe-ibram-scope .pi-charts-row--2col {
+        grid-template-columns: 1fr;
+    }
+}
+.participe-ibram-scope .pi-chart-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.participe-ibram-scope .pi-chart-card--wide {
+    grid-column: 1 / -1;
+}
+.participe-ibram-scope .pi-chart-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1c1c1e;
+    margin: 0 0 0.75rem;
+}
+
+/* SVG chart canvas */
+.participe-ibram-scope .pi-chart-canvas {
+    width: 100%;
+    overflow: hidden;
+}
+.participe-ibram-scope .pi-chart-canvas svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.participe-ibram-scope .pi-chart-canvas--tall svg {
+    max-height: 200px;
+}
+
+/* Accessible table toggle */
+.participe-ibram-scope .pi-chart-alt-toggle {
+    background: none;
+    border: 1px solid #1351b4;
+    color: #1351b4;
+    padding: 0.25rem 0.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+.participe-ibram-scope .pi-chart-alt-toggle:focus-visible {
+    outline: 3px solid #f4c430;
+    outline-offset: 2px;
+}
+.participe-ibram-scope .pi-chart-alt-toggle:hover {
+    background: #e8f0fb;
+}
+.participe-ibram-scope .pi-chart-alt-table {
+    margin-top: 0.5rem;
+}
+
+/* Tables — dashboard */
+.participe-ibram-scope .pi-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.875rem;
+}
+.participe-ibram-scope .pi-table th,
+.participe-ibram-scope .pi-table td {
+    border: 1px solid #e0e0e0;
+    padding: 0.4rem 0.6rem;
+    text-align: left;
+}
+.participe-ibram-scope .pi-table thead th {
+    background: #f5f5f5;
+    font-weight: 600;
+    color: #1c1c1e;
+}
+.participe-ibram-scope .pi-table caption {
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #1c1c1e;
+}
+
+/* Top-10 horizontal bar chart */
+.participe-ibram-scope .pi-top10-bar {
+    width: 100%;
+    overflow: hidden;
+}
+.participe-ibram-scope .pi-top10-bar svg {
+    width: 100%;
+    height: auto;
+}
+
+/* Buttons — dashboard */
+.participe-ibram-scope .pi-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+.participe-ibram-scope .pi-button:focus-visible {
+    outline: 3px solid #f4c430;
+    outline-offset: 2px;
+}
+.participe-ibram-scope .pi-button--secondary {
+    background: #fff;
+    border-color: #1351b4;
+    color: #1351b4;
+}
+.participe-ibram-scope .pi-button--secondary:hover { background: #e8f0fb; }
+.participe-ibram-scope .pi-button--sm {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+/* Screen-reader only */
+.participe-ibram-scope .pi-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Print — dashboard */
+@media print {
+    .participe-ibram-scope .pi-skip-link,
+    .participe-ibram-scope .pi-dash__header-actions,
+    .participe-ibram-scope .pi-chart-alt-toggle { display: none; }
+    .participe-ibram-scope .pi-chart-alt-table { display: block !important; }
+}
+
+/* End W14.7 — dashboard */
+
+/* ============================================================================
+ * End W14.7
+ * ============================================================================ */
