@@ -9,20 +9,28 @@
 .participe-ibram-scope {
 
   /* ----- Cadastros: layout principal ----- */
+  // W14.3: layout vertical sempre (lista no topo, sidebar abaixo). Antes
+  // usavamos 2 colunas (3fr lista + 1fr sidebar) em >=1024px, mas com a
+  // sidebar in-page do W12 ocupando 260px o espaco efetivo nao acomoda mais.
   .pi-admin-cadastros__layout {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--pi-space-6, 1.5rem);
-
-    @media (min-width: 1024px) {
-      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
-    }
-  }
-
-  .pi-admin-cadastros__sidebar {
     display: flex;
     flex-direction: column;
-    gap: var(--pi-space-4, 1rem);
+    gap: var(--pi-space-6, 1.5rem);
+  }
+
+  // Sidebar de Resumo: cards horizontais com auto-fit grid.
+  // Titulo h2 abrange toda a primeira linha; cards se distribuem em
+  // colunas de minimo 180px que crescem para ocupar o restante.
+  .pi-admin-cadastros__sidebar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--pi-space-3, .75rem);
+    align-items: stretch;
+
+    > h2 {
+      grid-column: 1 / -1;
+      margin: 0 0 var(--pi-space-1, .25rem);
+    }
   }
 
   .pi-card--sm {

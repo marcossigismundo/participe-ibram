@@ -1645,3 +1645,47 @@
 /* ============================================================================
  * End W13: dialog modal fix
  * ============================================================================ */
+
+/* ============================================================================
+ * W14.3 — Cadastros: layout principal + sidebar de Resumo
+ * ----------------------------------------------------------------------------
+ * O SCSS _admin-detalhes.scss nao havia sido compilado para o dist. Sem
+ * essas regras, .pi-admin-cadastros__sidebar nao tinha display: flex e os
+ * <article class="pi-card"> stackavam 100% width como block elements.
+ *
+ * W14.3 muda o layout de 2 colunas (3fr+1fr) para vertical (lista no topo,
+ * sidebar abaixo) e transforma a sidebar em grid auto-fit horizontal — os
+ * cards ficam lado a lado quando ha espaco e empilham em viewports estreitos.
+ * ============================================================================ */
+
+.participe-ibram-scope .pi-admin-cadastros__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pi-space-6, 1.5rem);
+}
+
+.participe-ibram-scope .pi-admin-cadastros__sidebar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--pi-space-3, .75rem);
+  align-items: stretch;
+}
+
+.participe-ibram-scope .pi-admin-cadastros__sidebar > h2 {
+  grid-column: 1 / -1;
+  margin: 0 0 var(--pi-space-1, .25rem);
+}
+
+.participe-ibram-scope .pi-card--sm {
+  padding: var(--pi-space-3, .75rem) var(--pi-space-4, 1rem);
+}
+
+.participe-ibram-scope .pi-card--sm .pi-card__metric-value {
+  font-size: var(--pi-font-size-xl, 1.5rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ============================================================================
+ * End W14.3
+ * ============================================================================ */
