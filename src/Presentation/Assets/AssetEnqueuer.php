@@ -38,12 +38,22 @@ final class AssetEnqueuer
      *
      * @var list<string>
      */
+    // W14.9: lista completa dos 8 shortcodes registrados pelos Public Controllers.
+    // Antes faltavam pi_inscricao_edital, pi_editais_publicos, pi_edital_detalhes,
+    // pi_edital_resultados e pi_votacao_transparencia — paginas com esses
+    // shortcodes renderizavam SEM nenhum CSS porque isPluginPublicPage()
+    // retornava false.
     private const PUBLIC_SHORTCODES = [
         'pi_cadastro',
         'pi_dashboard_publico',
         'pi_minha_conta',
         'pi_votacao',
         'pi_lgpd_meus_dados',
+        'pi_editais_publicos',
+        'pi_edital_detalhes',
+        'pi_inscricao_edital',
+        'pi_edital_resultados',
+        'pi_votacao_transparencia',
     ];
 
     /**
@@ -110,19 +120,30 @@ final class AssetEnqueuer
         $cssBase = $this->pluginUrl . 'assets/dist/css/';
         $jsBase  = $this->pluginUrl . 'assets/dist/js/';
 
+        // Cache-bust automatico via filemtime do CSS publico — qualquer
+        // mudanca no dist invalida o cache do browser imediatamente
+        // (paralelo ao enqueueAdmin).
+        $cssPath    = $this->pluginPath . 'assets/dist/css/';
+        $verPublic  = is_file($cssPath . 'participe-ibram-public.css')
+            ? (string) filemtime($cssPath . 'participe-ibram-public.css')
+            : self::VERSION;
+        $verTokens  = is_file($cssPath . 'tokens.css')
+            ? (string) filemtime($cssPath . 'tokens.css')
+            : self::VERSION;
+
         // Tokens primeiro — outras folhas dependem dele.
         wp_enqueue_style(
             'pi-tokens',
             $cssBase . 'tokens.css',
             [],
-            self::VERSION
+            $verTokens
         );
 
         wp_enqueue_style(
             'pi-public',
             $cssBase . 'participe-ibram-public.css',
             ['pi-tokens'],
-            self::VERSION
+            $verPublic
         );
 
         // JS modular do W3-C
