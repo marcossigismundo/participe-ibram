@@ -1887,3 +1887,206 @@
 /* ============================================================================
  * End W14.5
  * ============================================================================ */
+
+/* ============================================================================
+ * W14.6 — Apuração + Auditoria de votação
+ * ----------------------------------------------------------------------------
+ * _apuracao.scss tinha tudo aninhado em .pi-admin-apuracao/auditoria/votacoes
+ * mas os templates usam data-pi-apuracao/auditoria attributes — desalinhamento.
+ * Aqui aplicamos as regras direto em .participe-ibram-scope para casar com a
+ * realidade do markup. _audit.scss compila quase 1:1.
+ * ============================================================================ */
+
+/* Cards comuns das telas */
+.participe-ibram-scope .pi-card__lead { color: #50575e; margin-top: 0; }
+.participe-ibram-scope .pi-card__actions {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+}
+
+/* dl em grid auto-fit para Resumo da votacao */
+.participe-ibram-scope .pi-apuracao__dl,
+.participe-ibram-scope .pi-transparencia__dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.participe-ibram-scope .pi-apuracao__dl > div,
+.participe-ibram-scope .pi-transparencia__dl > div {
+  background: #f6f7f7;
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+.participe-ibram-scope .pi-apuracao__dl dt,
+.participe-ibram-scope .pi-transparencia__dl dt {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #50575e;
+  margin: 0;
+}
+.participe-ibram-scope .pi-apuracao__dl dd,
+.participe-ibram-scope .pi-transparencia__dl dd {
+  margin: 4px 0 0;
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+/* Hash block (preto monoespacado) */
+.participe-ibram-scope .pi-hash-block {
+  background: #1d2327;
+  color: #f0f0f1;
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  word-break: break-all;
+  white-space: pre-wrap;
+  margin: 8px 0;
+}
+.participe-ibram-scope .pi-hash-block code { color: inherit; background: transparent; }
+
+.participe-ibram-scope .pi-hash-chip {
+  background: transparent;
+  border: 1px dashed #1351B4;
+  padding: 2px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+}
+.participe-ibram-scope .pi-hash-chip:hover,
+.participe-ibram-scope .pi-hash-chip:focus-visible {
+  background: #f0f6fc;
+  outline: 2px solid #1351B4;
+  outline-offset: 2px;
+}
+
+.participe-ibram-scope .pi-hash-result {
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+.participe-ibram-scope .pi-hash-result--ok {
+  background: #d4edda; color: #155724; border-left: 4px solid #1e7e34;
+}
+.participe-ibram-scope .pi-hash-result--erro {
+  background: #f8d7da; color: #721c24; border-left: 4px solid #b32d2e;
+}
+
+/* Status badge — variantes votacao */
+.participe-ibram-scope .pi-status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #e0e0e0;
+  color: #1d2327;
+}
+.participe-ibram-scope .pi-status-badge--aberta     { background: #d4edda; color: #155724; }
+.participe-ibram-scope .pi-status-badge--encerrada  { background: #fff3cd; color: #856404; }
+.participe-ibram-scope .pi-status-badge--apurada    { background: #cce5ff; color: #004085; }
+.participe-ibram-scope .pi-status-badge--cancelada  { background: #f8d7da; color: #721c24; }
+.participe-ibram-scope .pi-status-badge--agendada   { background: #e2e3e5; color: #383d41; }
+.participe-ibram-scope .pi-status-badge--eleito     { background: #1e7e34; color: #fff; }
+.participe-ibram-scope .pi-status-badge--suplente   { background: #0073aa; color: #fff; }
+
+/* Modal Apurar/Publicar do template apuracao (<div class="pi-modal">, NAO <dialog>) */
+.participe-ibram-scope .pi-modal[role="dialog"] {
+  position: fixed; inset: 0; z-index: 100050;
+  display: flex; align-items: center; justify-content: center;
+}
+.participe-ibram-scope .pi-modal[role="dialog"][hidden] { display: none; }
+.participe-ibram-scope .pi-modal__overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+}
+.participe-ibram-scope .pi-modal__panel {
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  max-width: 560px;
+  width: calc(100% - 32px);
+  padding: 24px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.25);
+  z-index: 1;
+}
+.participe-ibram-scope .pi-modal--warning { border-top: 6px solid #d63638; }
+.participe-ibram-scope .pi-modal__title { margin: 0 0 14px; font-size: 1.25rem; color: #0C326F; }
+.participe-ibram-scope .pi-modal__body p { margin: 10px 0; }
+.participe-ibram-scope .pi-modal__actions {
+  display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px;
+}
+
+/* Eleitos / stats / pagination / aviso */
+.participe-ibram-scope .pi-eleitos-list { list-style: disc inside; padding-left: 0; margin: 8px 0 0; }
+.participe-ibram-scope .pi-stats {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: 14px;
+}
+.participe-ibram-scope .pi-stats > li {
+  background: #f6f7f7; padding: 8px 12px; border-radius: 4px;
+}
+.participe-ibram-scope .pi-pagination {
+  display: flex; gap: 8px; align-items: center; margin-top: 12px;
+}
+.participe-ibram-scope .pi-pagination__current {
+  font-weight: 600; color: #0C326F;
+}
+.participe-ibram-scope .pi-aviso {
+  background: #fff3cd; border-left: 4px solid #ffb900;
+  padding: 10px 14px; margin: 12px 0; border-radius: 0 4px 4px 0;
+}
+
+/* Audit (action badges + audit-kpi + integrity warning) */
+.participe-ibram-scope [class^="pi-acao--"],
+.participe-ibram-scope [class*=" pi-acao--"] {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.participe-ibram-scope .pi-acao--criar      { background: #dbe8fb; color: #0c326f; border: 1px solid #1351b4; }
+.participe-ibram-scope .pi-acao--atualizar  { background: #e6e6e6; color: #333; border: 1px solid #9e9e9e; }
+.participe-ibram-scope .pi-acao--deferir    { background: #e6f4ea; color: #0d6b18; border: 1px solid #168821; }
+.participe-ibram-scope .pi-acao--indeferir  { background: #fff0ee; color: #a51a06; border: 1px solid #e52207; }
+.participe-ibram-scope .pi-acao--visualizar { background: #f8f8f8; color: #555; border: 1px solid #ccc; }
+.participe-ibram-scope .pi-acao--exportar   { background: #fff8d6; color: #5c4200; border: 1px solid #ffcd07; }
+.participe-ibram-scope .pi-acao--voto       { background: #f0ebff; color: #4a0080; border: 1px solid #7b2fbe; }
+
+.participe-ibram-scope .pi-audit-payload pre {
+  background: #f8f8f8;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  color: #1b1b1b;
+  font-family: Consolas, Menlo, "Courier New", monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+  overflow: auto;
+  padding: 1rem;
+  max-height: 400px;
+}
+
+.participe-ibram-scope .pi-audit-integrity-warning {
+  align-items: center;
+  background: #fff5f5;
+  border: 2px solid #e52207;
+  border-radius: 4px;
+  color: #a51a06;
+  display: flex; gap: 8px;
+  margin: 8px 0;
+  padding: 8px 12px;
+  font-weight: 600;
+}
+
+.participe-ibram-scope .pi-muted { color: #8c8f94; }
+
+/* ============================================================================
+ * End W14.6
+ * ============================================================================ */
