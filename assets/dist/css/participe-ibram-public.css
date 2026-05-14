@@ -879,3 +879,742 @@
 }
 .participe-ibram-scope .pi-minha-conta__title { margin: 0; font-size: var(--pi-font-size-2xl); color: var(--pi-color-primary-darker); }
 .participe-ibram-scope .pi-minha-conta__subtitle { margin: var(--pi-spacing-1) 0 0; color: var(--pi-color-text-muted); font-size: var(--pi-font-size-sm); }
+
+/* ============================================================================
+ * W15 — Wizard cadastro/inscricao + consent + revisao (compiled orphans)
+ * Source: wizard/_structure.scss (structural), plus visual theme for
+ *         pi-btn, pi-campo, pi-consent__, pi-revisao, pi-help-button.
+ * ============================================================================ */
+
+/* -----------------------------------------------------------------------
+ * Wizard — root container
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pi-spacing-6);
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--pi-spacing-4);
+}
+
+/* -----------------------------------------------------------------------
+ * Wizard — header
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-wizard__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pi-spacing-2);
+  margin-bottom: var(--pi-spacing-2);
+  padding-bottom: var(--pi-spacing-4);
+  border-bottom: 1px solid var(--pi-color-border);
+}
+
+/* -----------------------------------------------------------------------
+ * Wizard — stepper nav
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-wizard__nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--pi-z-sticky);
+  background-color: var(--pi-color-bg-page);
+  padding: var(--pi-spacing-3) 0;
+  margin-bottom: var(--pi-spacing-4);
+}
+
+.participe-ibram-scope .pi-wizard__steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pi-spacing-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: pi-step;
+}
+
+.participe-ibram-scope .pi-wizard__step {
+  flex: 1 1 8rem;
+  min-width: 8rem;
+  padding: var(--pi-spacing-2);
+  text-align: center;
+  border-radius: var(--pi-radius-md);
+  border: 2px solid transparent;
+  background-color: var(--pi-color-bg);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.participe-ibram-scope .pi-wizard__step.is-current {
+  border-color: var(--pi-color-primary);
+  background-color: var(--pi-color-primary-lighter);
+}
+
+.participe-ibram-scope .pi-wizard__step.is-complete {
+  border-color: var(--pi-color-tertiary);
+  background-color: var(--pi-color-success-bg);
+}
+
+.participe-ibram-scope .pi-wizard__step-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pi-spacing-1);
+  width: 100%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--pi-color-text-muted);
+  padding: var(--pi-spacing-2);
+  border-radius: var(--pi-radius-sm);
+  transition: color 0.15s ease;
+}
+
+.participe-ibram-scope .pi-wizard__step.is-current .pi-wizard__step-btn {
+  color: var(--pi-color-primary-darker);
+  font-weight: var(--pi-font-weight-semibold);
+}
+
+.participe-ibram-scope .pi-wizard__step.is-complete .pi-wizard__step-btn {
+  color: var(--pi-color-tertiary-dark);
+}
+
+.participe-ibram-scope .pi-wizard__step-btn:hover {
+  color: var(--pi-color-primary);
+}
+
+.participe-ibram-scope .pi-wizard__step-btn:focus-visible {
+  outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+  outline-offset: var(--pi-focus-offset);
+}
+
+.participe-ibram-scope .pi-wizard__step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--pi-radius-full);
+  font-size: var(--pi-font-size-sm);
+  font-weight: var(--pi-font-weight-bold);
+  background-color: var(--pi-color-gray-10);
+  color: var(--pi-color-text-muted);
+  border: 2px solid var(--pi-color-gray-20);
+  line-height: 1;
+}
+
+.participe-ibram-scope .pi-wizard__step.is-current .pi-wizard__step-num {
+  background-color: var(--pi-color-primary);
+  color: var(--pi-color-text-inverse);
+  border-color: var(--pi-color-primary-dark);
+}
+
+.participe-ibram-scope .pi-wizard__step.is-complete .pi-wizard__step-num {
+  background-color: var(--pi-color-tertiary);
+  color: var(--pi-color-text-inverse);
+  border-color: var(--pi-color-tertiary-dark);
+}
+
+.participe-ibram-scope .pi-wizard__step-label {
+  display: block;
+  font-size: var(--pi-font-size-xs);
+  line-height: var(--pi-line-height-snug);
+}
+
+/* autosave status */
+.participe-ibram-scope .pi-wizard__autosave-status {
+  margin: 0;
+  font-size: var(--pi-font-size-xs);
+  color: var(--pi-color-text-muted);
+}
+
+/* -----------------------------------------------------------------------
+ * Wizard — panel (one step at a time, hidden via [hidden])
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-wizard-panel {
+  display: block;
+  background-color: var(--pi-color-bg);
+  border: 1px solid var(--pi-color-border);
+  border-radius: var(--pi-radius-md);
+  padding: var(--pi-spacing-6);
+  box-shadow: var(--pi-shadow-sm);
+}
+
+.participe-ibram-scope .pi-wizard-panel[hidden] {
+  display: none !important;
+}
+
+/* -----------------------------------------------------------------------
+ * Wizard — acoes bar (Voltar / Salvar / Avancar)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-wizard__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pi-spacing-3);
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--pi-spacing-6);
+  padding-top: var(--pi-spacing-4);
+  border-top: 1px solid var(--pi-color-border);
+}
+
+/* -----------------------------------------------------------------------
+ * Passo instrucoes (helper paragraph)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-passo-instrucoes {
+  margin: 0 0 var(--pi-spacing-5);
+  font-size: var(--pi-font-size-sm);
+  color: var(--pi-color-text-muted);
+  line-height: var(--pi-line-height-relaxed);
+}
+
+/* -----------------------------------------------------------------------
+ * Campo (label + input + dica + erro group)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pi-spacing-1);
+  margin-bottom: var(--pi-spacing-5);
+}
+
+.participe-ibram-scope .pi-campo label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pi-spacing-2);
+  font-weight: var(--pi-font-weight-semibold);
+  font-size: var(--pi-font-size-sm);
+  color: var(--pi-color-text);
+}
+
+/* required asterisk */
+.participe-ibram-scope .pi-campo label .pi-obrigatorio,
+.participe-ibram-scope .pi-campo label [aria-hidden="true"]:last-child {
+  color: var(--pi-color-danger);
+  font-weight: var(--pi-font-weight-bold);
+}
+
+.participe-ibram-scope .pi-campo input,
+.participe-ibram-scope .pi-campo select,
+.participe-ibram-scope .pi-campo textarea {
+  width: 100%;
+  padding: var(--pi-spacing-2) var(--pi-spacing-3);
+  border: 1px solid var(--pi-color-border-strong);
+  border-radius: var(--pi-radius-sm);
+  background-color: var(--pi-color-bg);
+  color: var(--pi-color-text);
+  font-size: var(--pi-font-size-base);
+  line-height: var(--pi-line-height-normal);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.participe-ibram-scope .pi-campo input:focus,
+.participe-ibram-scope .pi-campo select:focus,
+.participe-ibram-scope .pi-campo textarea:focus {
+  outline: none;
+  border-color: var(--pi-color-border-focus);
+  box-shadow: var(--pi-shadow-focus);
+}
+
+.participe-ibram-scope .pi-campo input[aria-invalid="true"],
+.participe-ibram-scope .pi-campo select[aria-invalid="true"],
+.participe-ibram-scope .pi-campo textarea[aria-invalid="true"] {
+  border-color: var(--pi-color-danger);
+}
+
+.participe-ibram-scope .pi-campo__dica {
+  margin: 0;
+  font-size: var(--pi-font-size-xs);
+  color: var(--pi-color-text-muted);
+  line-height: var(--pi-line-height-normal);
+}
+
+.participe-ibram-scope .pi-campo__erro {
+  margin: 0;
+  font-size: var(--pi-font-size-xs);
+  color: var(--pi-color-danger);
+  font-weight: var(--pi-font-weight-semibold);
+}
+
+.participe-ibram-scope .pi-campo__erro[hidden] {
+  display: none !important;
+}
+
+/* -----------------------------------------------------------------------
+ * Botoes publicos (pi-btn)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pi-spacing-2);
+  padding: var(--pi-spacing-2) var(--pi-spacing-5);
+  font-size: var(--pi-font-size-base);
+  font-weight: var(--pi-font-weight-semibold);
+  font-family: inherit;
+  line-height: 1.5;
+  border-radius: var(--pi-radius-sm);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.participe-ibram-scope .pi-btn:focus-visible {
+  outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+  outline-offset: var(--pi-focus-offset);
+}
+
+.participe-ibram-scope .pi-btn:disabled,
+.participe-ibram-scope .pi-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primario — DSGov blue solid */
+.participe-ibram-scope .pi-btn--primario {
+  background-color: var(--pi-color-primary);
+  border-color: var(--pi-color-primary);
+  color: var(--pi-color-text-inverse);
+}
+
+.participe-ibram-scope .pi-btn--primario:hover {
+  background-color: var(--pi-color-primary-dark);
+  border-color: var(--pi-color-primary-dark);
+  color: var(--pi-color-text-inverse);
+}
+
+.participe-ibram-scope .pi-btn--primario:active {
+  background-color: var(--pi-color-primary-darker);
+  border-color: var(--pi-color-primary-darker);
+}
+
+/* Secundario — outline */
+.participe-ibram-scope .pi-btn--secundario {
+  background-color: transparent;
+  border-color: var(--pi-color-primary);
+  color: var(--pi-color-primary);
+}
+
+.participe-ibram-scope .pi-btn--secundario:hover {
+  background-color: var(--pi-color-primary-lighter);
+  color: var(--pi-color-primary-dark);
+}
+
+.participe-ibram-scope .pi-btn--secundario:active {
+  background-color: var(--pi-color-primary-lighter);
+  border-color: var(--pi-color-primary-dark);
+}
+
+/* Terciario — ghost/text-only */
+.participe-ibram-scope .pi-btn--terciario {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--pi-color-primary);
+  text-decoration: underline;
+}
+
+.participe-ibram-scope .pi-btn--terciario:hover {
+  background-color: var(--pi-color-hover);
+  text-decoration: none;
+}
+
+/* -----------------------------------------------------------------------
+ * Upload — lista de arquivos (pi-upload__lista)
+ * Note: pi-upload__list already exists; __lista alias added here.
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-upload__lista {
+  list-style: none;
+  padding: 0;
+  margin: var(--pi-spacing-3) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pi-spacing-2);
+}
+
+.participe-ibram-scope .pi-upload__lista li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--pi-spacing-2);
+  align-items: center;
+  padding: var(--pi-spacing-2) var(--pi-spacing-3);
+  background-color: var(--pi-color-gray-2);
+  border: 1px solid var(--pi-color-border);
+  border-radius: var(--pi-radius-sm);
+  font-size: var(--pi-font-size-sm);
+}
+
+.participe-ibram-scope .pi-upload__status {
+  font-size: var(--pi-font-size-xs);
+  color: var(--pi-color-text-muted);
+}
+
+.participe-ibram-scope .pi-upload__erro {
+  font-size: var(--pi-font-size-xs);
+  color: var(--pi-color-danger);
+  margin-top: var(--pi-spacing-1);
+}
+
+/* Upload dropzone (visual affordance) */
+.participe-ibram-scope .pi-upload__dropzone {
+  padding: var(--pi-spacing-8) var(--pi-spacing-4);
+  text-align: center;
+  border: 2px dashed var(--pi-color-border-strong);
+  border-radius: var(--pi-radius-md);
+  background-color: var(--pi-color-gray-2);
+  color: var(--pi-color-text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.participe-ibram-scope .pi-upload__dropzone:hover,
+.participe-ibram-scope .pi-upload__dropzone.is-dragover {
+  border-color: var(--pi-color-primary);
+  background-color: var(--pi-color-primary-lighter);
+}
+
+/* -----------------------------------------------------------------------
+ * Help button (inline ? button)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-help-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  font-size: var(--pi-font-size-xs);
+  font-weight: var(--pi-font-weight-bold);
+  font-family: inherit;
+  line-height: 1;
+  background-color: var(--pi-color-gray-10);
+  color: var(--pi-color-primary);
+  border: 1px solid var(--pi-color-border);
+  border-radius: var(--pi-radius-full);
+  cursor: pointer;
+  text-decoration: none;
+  vertical-align: middle;
+  margin-left: var(--pi-spacing-2);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.participe-ibram-scope .pi-help-button:hover {
+  background-color: var(--pi-color-primary-lighter);
+  color: var(--pi-color-primary-dark);
+}
+
+.participe-ibram-scope .pi-help-button:focus-visible {
+  outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+  outline-offset: var(--pi-focus-offset);
+}
+
+/* -----------------------------------------------------------------------
+ * Modal overlay (pi-modal__overlay — complement to existing pi-modal rules)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-modal__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.55);
+  cursor: default;
+}
+
+/* -----------------------------------------------------------------------
+ * Consent (JS-rendered: pi-consent__*)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-consent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pi-spacing-4);
+}
+
+.participe-ibram-scope .pi-consent__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pi-spacing-4);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.participe-ibram-scope .pi-consent__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--pi-spacing-3);
+  row-gap: var(--pi-spacing-1);
+  padding: var(--pi-spacing-4);
+  border: 1px solid var(--pi-color-border);
+  border-left: 4px solid var(--pi-color-border);
+  border-radius: var(--pi-radius-md);
+  background-color: var(--pi-color-bg);
+}
+
+.participe-ibram-scope .pi-consent__item.is-obrigatoria {
+  border-left-color: var(--pi-color-danger);
+  background-color: var(--pi-color-danger-bg);
+}
+
+.participe-ibram-scope .pi-consent__item > input[type="checkbox"] {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: start;
+  margin-top: 0.25rem;
+  accent-color: var(--pi-color-primary);
+  width: 1.125rem;
+  height: 1.125rem;
+  cursor: pointer;
+}
+
+.participe-ibram-scope .pi-consent__item > input[type="checkbox"]:focus-visible {
+  outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+  outline-offset: var(--pi-focus-offset);
+}
+
+.participe-ibram-scope .pi-consent__item > label,
+.participe-ibram-scope .pi-consent__rotulo {
+  grid-row: 1;
+  grid-column: 2;
+  font-weight: var(--pi-font-weight-semibold);
+  color: var(--pi-color-text);
+  font-size: var(--pi-font-size-base);
+  cursor: pointer;
+}
+
+.participe-ibram-scope .pi-consent__tag {
+  display: inline-block;
+  margin-left: var(--pi-spacing-2);
+  padding: 0.1em var(--pi-spacing-2);
+  font-size: var(--pi-font-size-xs);
+  font-weight: var(--pi-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--pi-letter-spacing-wide);
+  border-radius: var(--pi-radius-pill);
+  vertical-align: middle;
+  line-height: 1.4;
+  /* Default tag: gray/optional */
+  background-color: var(--pi-color-gray-10);
+  color: var(--pi-color-text-secondary);
+}
+
+.participe-ibram-scope .pi-consent__tag--necessaria,
+.participe-ibram-scope .pi-consent__tag[data-tipo="necessaria"] {
+  background-color: var(--pi-color-danger);
+  color: var(--pi-color-text-inverse);
+}
+
+.participe-ibram-scope .pi-consent__tag--opcional,
+.participe-ibram-scope .pi-consent__tag[data-tipo="opcional"] {
+  background-color: var(--pi-color-gray-10);
+  color: var(--pi-color-text-secondary);
+}
+
+.participe-ibram-scope .pi-consent__descricao,
+.participe-ibram-scope .pi-consent__base-legal {
+  grid-column: 2;
+  margin: 0;
+}
+
+.participe-ibram-scope .pi-consent__descricao {
+  font-size: var(--pi-font-size-sm);
+  color: var(--pi-color-text);
+  line-height: var(--pi-line-height-relaxed);
+}
+
+.participe-ibram-scope .pi-consent__base-legal {
+  font-size: var(--pi-font-size-xs);
+  color: var(--pi-color-text-muted);
+  font-style: italic;
+}
+
+.participe-ibram-scope .pi-consent__ver-termo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pi-spacing-2);
+  grid-column: 2;
+  margin-top: var(--pi-spacing-2);
+  font-size: var(--pi-font-size-sm);
+  color: var(--pi-color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+}
+
+.participe-ibram-scope .pi-consent__ver-termo:hover {
+  color: var(--pi-color-primary-dark);
+}
+
+.participe-ibram-scope .pi-consent__ver-termo:focus-visible {
+  outline: var(--pi-focus-width) var(--pi-focus-style) var(--pi-focus-color);
+  outline-offset: var(--pi-focus-offset);
+}
+
+/* -----------------------------------------------------------------------
+ * Revisao — info card before submit
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-revisao {
+  padding: var(--pi-spacing-4) var(--pi-spacing-5);
+  margin: var(--pi-spacing-4) 0;
+  background-color: var(--pi-color-info-bg);
+  border: 1px solid var(--pi-color-info);
+  border-radius: var(--pi-radius-md);
+  color: var(--pi-color-text);
+}
+
+.participe-ibram-scope .pi-revisao h3,
+.participe-ibram-scope .pi-revisao > h3 {
+  margin: 0 0 var(--pi-spacing-2);
+  font-size: var(--pi-font-size-md);
+  color: var(--pi-color-primary-darker);
+}
+
+.participe-ibram-scope .pi-revisao p {
+  margin: 0;
+  font-size: var(--pi-font-size-sm);
+  color: var(--pi-color-text);
+  line-height: var(--pi-line-height-relaxed);
+}
+
+/* -----------------------------------------------------------------------
+ * Skip-link & sr-only (from _structure.scss, structural/a11y)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-skip-link {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.participe-ibram-scope .pi-skip-link:focus {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  z-index: var(--pi-z-skip-link);
+  background-color: var(--pi-color-bg);
+  color: var(--pi-color-primary);
+  padding: var(--pi-spacing-2) var(--pi-spacing-4);
+  border: 2px solid var(--pi-color-primary);
+  border-radius: var(--pi-radius-sm);
+  font-weight: var(--pi-font-weight-semibold);
+  text-decoration: none;
+}
+
+.participe-ibram-scope .sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -----------------------------------------------------------------------
+ * Erros sumario (wizard validation summary)
+ * ----------------------------------------------------------------------- */
+.participe-ibram-scope .pi-erros-sumario {
+  padding: var(--pi-spacing-4);
+  margin-bottom: var(--pi-spacing-4);
+  background-color: var(--pi-color-danger-bg);
+  border: 2px solid var(--pi-color-danger);
+  border-radius: var(--pi-radius-sm);
+  color: var(--pi-color-danger);
+}
+
+.participe-ibram-scope .pi-erros-sumario[hidden] {
+  display: none !important;
+}
+
+.participe-ibram-scope .pi-erros-sumario > h3 {
+  margin: 0 0 var(--pi-spacing-2);
+  font-size: var(--pi-font-size-md);
+  color: var(--pi-color-danger);
+}
+
+.participe-ibram-scope .pi-erros-sumario > ul {
+  margin: 0;
+  padding-left: var(--pi-spacing-6);
+  list-style: disc;
+}
+
+/* -----------------------------------------------------------------------
+ * Responsive — mobile
+ * ----------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .participe-ibram-scope .pi-wizard {
+    padding: var(--pi-spacing-3);
+    gap: var(--pi-spacing-4);
+  }
+
+  .participe-ibram-scope .pi-wizard__nav {
+    position: static;
+  }
+
+  .participe-ibram-scope .pi-wizard__steps {
+    flex-direction: column;
+    gap: var(--pi-spacing-1);
+  }
+
+  .participe-ibram-scope .pi-wizard__step {
+    flex: none;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .participe-ibram-scope .pi-wizard__step-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .participe-ibram-scope .pi-wizard-panel {
+    padding: var(--pi-spacing-4);
+  }
+
+  .participe-ibram-scope .pi-wizard__acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .participe-ibram-scope .pi-wizard__acoes > * {
+    width: 100%;
+  }
+
+  .participe-ibram-scope .pi-btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .participe-ibram-scope .pi-upload__lista li {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* -----------------------------------------------------------------------
+ * Reduced motion
+ * ----------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .participe-ibram-scope .pi-wizard__step,
+  .participe-ibram-scope .pi-wizard__step-btn,
+  .participe-ibram-scope .pi-wizard__step-num,
+  .participe-ibram-scope .pi-btn,
+  .participe-ibram-scope .pi-help-button,
+  .participe-ibram-scope .pi-upload__dropzone,
+  .participe-ibram-scope .pi-campo input,
+  .participe-ibram-scope .pi-campo select,
+  .participe-ibram-scope .pi-campo textarea {
+    transition: none;
+  }
+}
+
+/* End W15 */
