@@ -8,8 +8,11 @@ declare(strict_types=1);
 
 require __DIR__ . '/Parsedown.php';
 
-$mdPath   = __DIR__ . '/../GUIA-USUARIO.md';
-$htmlPath = __DIR__ . '/GUIA-USUARIO.html';
+// Aceita argv: php md-to-html-guia.php [input.md] [output.html] [title]
+// Defaults para GUIA-USUARIO se sem argv.
+$mdPath   = $argv[1] ?? (__DIR__ . '/../GUIA-USUARIO.md');
+$htmlPath = $argv[2] ?? (__DIR__ . '/GUIA-USUARIO.html');
+$title    = $argv[3] ?? 'Participe Ibram — Guia do Usuário';
 
 $md = file_get_contents($mdPath);
 if ($md === false) { fwrite(STDERR, "Falha ao ler $mdPath\n"); exit(1); }
@@ -29,7 +32,7 @@ $css = <<<'CSS'
     color: #6b7280;
   }
   @bottom-left {
-    content: "Participe Ibram — Guia do Usuário";
+    content: "__DOC_TITLE__";
     font-size: 9pt;
     color: #1351b4;
     font-weight: 600;
@@ -579,13 +582,16 @@ code {
 }
 CSS;
 
+// Substitui o placeholder do rodape pelo titulo dinamico.
+$cssRendered = str_replace('__DOC_TITLE__', $title, $css);
+
 $html = <<<HTML
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Participe Ibram — Guia do Usuário</title>
-<style>$css</style>
+<title>$title</title>
+<style>$cssRendered</style>
 </head>
 <body>
 $body
