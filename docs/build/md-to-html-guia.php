@@ -360,30 +360,26 @@ h2 + ol li {
 }
 
 /* ==== Timeline (visual) ==== */
+/* Fix: border-left fica no container .timeline; itens usam APENAS padding-left
+   (sem grid) para nao quebrar o layout quando o dot e position:absolute. */
 
 .timeline {
   margin: 16px 0 20px;
-  position: relative;
+  padding-left: 14px;
+  border-left: 2px solid #c5d4eb;
+  margin-left: 10px;
 }
 
 .timeline__item {
-  display: grid;
-  grid-template-columns: 20px 1fr;
-  gap: 16px;
-  padding: 8px 0 14px;
-  border-left: 2px solid #c5d4eb;
-  margin-left: 9px;
-  padding-left: 18px;
   position: relative;
+  padding: 8px 0 14px 22px;
   page-break-inside: avoid;
 }
 
-.timeline__item:last-child { border-left-color: transparent; }
-
 .timeline__dot {
   position: absolute;
-  left: -7px;
-  top: 12px;
+  left: -8px;
+  top: 14px;
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -411,8 +407,11 @@ h2 + ol li {
 
 .timeline__body ul {
   margin: 4px 0;
+  padding-left: 18px;
   font-size: 10pt;
 }
+
+.timeline__body ul li { margin-bottom: 3px; }
 
 /* ==== Rights grid (direitos LGPD) ==== */
 
