@@ -27,13 +27,18 @@ use Ibram\ParticipeIbram\Presentation\Admin\VotacaoMenuRegistry;
 $resumo = isset($resumo) && is_array($resumo) ? $resumo : [];
 $flash  = isset($flash) ? $flash : null;
 
+$primaryAction = current_user_can(VotacaoMenuRegistry::CAP_APURAR)
+    ? ['label' => __('Nova votação', 'participe-ibram'), 'url' => VotacaoMenuRegistry::urlNovaVotacao()]
+    : null;
+
 PageLayout::open(
     __('Votações', 'participe-ibram'),
     [
         ['label' => __('Início', 'participe-ibram'), 'url' => admin_url()],
         ['label' => __('Votações', 'participe-ibram'), 'url' => admin_url('admin.php?page=' . VotacaoMenuRegistry::SLUG_VOTACOES)],
         ['label' => __('Votações', 'participe-ibram')],
-    ]
+    ],
+    $primaryAction
 );
 ?>
 <a class="pi-skip-link" href="#pi-admin-main"><?php esc_html_e('Pular para o conteúdo', 'participe-ibram'); ?></a>

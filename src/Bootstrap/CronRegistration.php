@@ -24,6 +24,8 @@ namespace Ibram\ParticipeIbram\Bootstrap;
 
 use Ibram\ParticipeIbram\Application\Email\EmailQueueWorker;
 use Ibram\ParticipeIbram\Application\Lgpd\Cron\DpoAlertsCron;
+use Ibram\ParticipeIbram\Application\Votacao\AbrirVotacaoHandler;
+use Ibram\ParticipeIbram\Application\Votacao\Cron\AutoAberturaVotacao;
 use Ibram\ParticipeIbram\Application\Votacao\Cron\AutoEncerramentoVotacao;
 use Ibram\ParticipeIbram\Application\Votacao\EncerrarVotacaoHandler;
 use Ibram\ParticipeIbram\Presentation\Admin\Cron\RecursoPrazoAlerts;
@@ -113,6 +115,31 @@ final class CronRegistration
                 return new EncerrarVotacaoHandler(
                     $c->get('repo:votacao'),
                     $c->get('repo:voto'),
+                    $c->get('core:audit_logger')
+                );
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // cron:abrir_votacao_handler — AbrirVotacaoHandler (dep de AutoAberturaVotacao)
+        // ------------------------------------------------------------------
+        if (class_exists(AbrirVotacaoHandler::class) && !$container->has('cron:abrir_votacao_handler')) {
+            $container->singleton('cron:abrir_votacao_handler', static function (Container $c): AbrirVotacaoHandler {
+                return new AbrirVotacaoHandler(
+                    $c->get('repo:votacao'),
+                    $c->get('core:audit_logger')
+                );
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // cron:auto_abertura_votacao — AutoAberturaVotacao
+        // ------------------------------------------------------------------
+        if (class_exists(AutoAberturaVotacao::class) && !$container->has('cron:auto_abertura_votacao')) {
+            $container->singleton('cron:auto_abertura_votacao', static function (Container $c): AutoAberturaVotacao {
+                return new AutoAberturaVotacao(
+                    $c->get('core:wpdb'),
+                    $c->get('cron:abrir_votacao_handler'),
                     $c->get('core:audit_logger')
                 );
             });
@@ -207,6 +234,20 @@ final class CronRegistration
                 $auto = $container->get('cron:auto_encerramento_votacao');
                 if (method_exists($auto, 'registerHooks')) {
                     $auto->registerHooks();
+                }
+            } catch (\Throwable $e) {
+                // graceful degradation
+            }
+        }
+
+        // ------------------------------------------------------------------
+        // AutoAberturaVotacao — hook: pi_votacao_auto_abrir / schedule: pi_dezminutos
+        // ------------------------------------------------------------------
+        if ($container->has('cron:auto_abertura_votacao')) {
+            try {
+                $autoAbertura = $container->get('cron:auto_abertura_votacao');
+                if (method_exists($autoAbertura, 'registerHooks')) {
+                    $autoAbertura->registerHooks();
                 }
             } catch (\Throwable $e) {
                 // graceful degradation

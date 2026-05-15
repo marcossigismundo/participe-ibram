@@ -234,8 +234,8 @@ final class VotacoesListTable extends \WP_List_Table
      */
     public function column_acoes($item): string
     {
-        $id      = (int) $item['id'];
-        $status  = (string) ($item['status'] ?? '');
+        $id        = (int) $item['id'];
+        $status    = (string) ($item['status'] ?? '');
         $urlApurar = \esc_url(VotacaoMenuRegistry::urlApurar($id));
 
         $labelGerir = \__('Gerir', 'participe-ibram');
@@ -244,6 +244,13 @@ final class VotacoesListTable extends \WP_List_Table
             $urlApurar,
             \esc_html($labelGerir)
         );
+
+        // Editar: somente votações agendadas e usuários com cap adequada.
+        if ($status === StatusVotacao::AGENDADA && self::userCan('pi_apurar_votacao')) {
+            $urlEditar = \esc_url(VotacaoMenuRegistry::urlEditarVotacao($id));
+            $btn .= ' <a class="button button-secondary" href="' . $urlEditar . '">'
+                . \esc_html__('Editar', 'participe-ibram') . '</a>';
+        }
 
         if ($status === StatusVotacao::ENCERRADA && self::userCan('pi_apurar_votacao')) {
             $btn .= ' <a class="button button-primary" href="' . $urlApurar

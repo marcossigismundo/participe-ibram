@@ -11,6 +11,7 @@ namespace Ibram\ParticipeIbram\Presentation\Admin;
 
 use Ibram\ParticipeIbram\Presentation\Admin\Controllers\ApuracaoController;
 use Ibram\ParticipeIbram\Presentation\Admin\Controllers\VotacaoAuditoriaController;
+use Ibram\ParticipeIbram\Presentation\Admin\Controllers\VotacaoFormController;
 use Ibram\ParticipeIbram\Presentation\Admin\Controllers\VotacaoListController;
 
 /**
@@ -29,10 +30,12 @@ final class VotacaoMenuRegistry
     public const CAP_PUBLICAR   = 'pi_publicar_resultado';
     public const CAP_AUDIT_VIEW = 'pi_visualizar_audit_log';
 
-    public const SLUG_ROOT      = 'participe-ibram';
-    public const SLUG_VOTACOES  = 'participe-ibram_votacoes';
-    public const SLUG_APURAR    = 'participe-ibram_apurar';
-    public const SLUG_AUDITORIA = 'participe-ibram_votacao_auditoria';
+    public const SLUG_ROOT           = 'participe-ibram';
+    public const SLUG_VOTACOES       = 'participe-ibram_votacoes';
+    public const SLUG_APURAR         = 'participe-ibram_apurar';
+    public const SLUG_AUDITORIA      = 'participe-ibram_votacao_auditoria';
+    public const SLUG_VOTACAO_NOVA   = 'participe-ibram_votacao_nova';
+    public const SLUG_VOTACAO_EDITAR = 'participe-ibram_votacao_editar';
 
     private VotacaoListController $listCtrl;
 
@@ -40,14 +43,18 @@ final class VotacaoMenuRegistry
 
     private VotacaoAuditoriaController $auditoriaCtrl;
 
+    private VotacaoFormController $formCtrl;
+
     public function __construct(
         VotacaoListController $listCtrl,
         ApuracaoController $apurarCtrl,
-        VotacaoAuditoriaController $auditoriaCtrl
+        VotacaoAuditoriaController $auditoriaCtrl,
+        VotacaoFormController $formCtrl
     ) {
         $this->listCtrl      = $listCtrl;
         $this->apurarCtrl    = $apurarCtrl;
         $this->auditoriaCtrl = $auditoriaCtrl;
+        $this->formCtrl      = $formCtrl;
     }
 
     public function registerHooks(): void
@@ -58,6 +65,8 @@ final class VotacaoMenuRegistry
         // W11-A IA: prioridade 30 — grupo "Votações".
         // Ver docs/refactor/W11-IA.md.
         \add_action('admin_menu', [$this, 'register'], 30);
+        // Roteamento POST do formulário de votação.
+        \add_action('admin_init', [$this->formCtrl, 'handlePostAction']);
     }
 
     public function register(): void
@@ -78,7 +87,7 @@ final class VotacaoMenuRegistry
             30
         );
 
-        // Página oculta acessada via querystring; cap é re-checada no controller.
+        // Páginas ocultas acessadas via querystring; cap é re-checada no controller.
         \add_submenu_page(
             'options.php',
             self::tr('Votação — Apurar'),
@@ -96,6 +105,27 @@ final class VotacaoMenuRegistry
             self::SLUG_AUDITORIA,
             [$this, 'renderAuditoria'],
             31
+        );
+
+        // Submenu visível: "Nova Votação" (posição 32).
+        \add_submenu_page(
+            self::SLUG_ROOT,
+            self::tr('Votações — Nova'),
+            self::tr('Votações — Nova'),
+            self::CAP_APURAR,
+            self::SLUG_VOTACAO_NOVA,
+            [$this, 'renderNovaVotacao'],
+            32
+        );
+
+        // Submenu oculto: editar votação agendada.
+        \add_submenu_page(
+            'options.php',
+            self::tr('Votação — Editar'),
+            self::tr('Votação — Editar'),
+            self::CAP_APURAR,
+            self::SLUG_VOTACAO_EDITAR,
+            [$this, 'renderEditarVotacao']
         );
     }
 
@@ -120,6 +150,18 @@ final class VotacaoMenuRegistry
         $this->auditoriaCtrl->render($id);
     }
 
+    public function renderNovaVotacao(): void
+    {
+        $this->formCtrl->renderCreate();
+    }
+
+    public function renderEditarVotacao(): void
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $id = isset($_GET['id']) ? (int) \absint(\wp_unslash($_GET['id'])) : 0;
+        $this->formCtrl->renderEdit($id);
+    }
+
     /* ---------------------- URL helpers ---------------------- */
 
     public static function urlVotacoesList(): string
@@ -138,6 +180,18 @@ final class VotacaoMenuRegistry
     {
         $base = function_exists('admin_url') ? \admin_url('admin.php') : 'admin.php';
         return $base . '?page=' . self::SLUG_AUDITORIA . '&id=' . $votacaoId;
+    }
+
+    public static function urlNovaVotacao(): string
+    {
+        $base = function_exists('admin_url') ? \admin_url('admin.php') : 'admin.php';
+        return $base . '?page=' . self::SLUG_VOTACAO_NOVA;
+    }
+
+    public static function urlEditarVotacao(int $votacaoId): string
+    {
+        $base = function_exists('admin_url') ? \admin_url('admin.php') : 'admin.php';
+        return $base . '?page=' . self::SLUG_VOTACAO_EDITAR . '&id=' . $votacaoId;
     }
 
     private static function tr(string $text): string

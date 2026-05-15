@@ -41,6 +41,8 @@ use Ibram\ParticipeIbram\Application\Email\Templates\EmailRenderer;
 use Ibram\ParticipeIbram\Application\Lgpd\Configuracao\DpoConfig;
 use Ibram\ParticipeIbram\Application\Vocabulario\ListarVocabularioHandler;
 use Ibram\ParticipeIbram\Application\Votacao\ApurarHandler;
+use Ibram\ParticipeIbram\Application\Votacao\CriarVotacaoHandler;
+use Ibram\ParticipeIbram\Application\Votacao\EditarVotacaoHandler;
 use Ibram\ParticipeIbram\Application\Votacao\ExportarRelatorioApuracaoHandler;
 use Ibram\ParticipeIbram\Application\Votacao\PublicarResultadoHandler;
 use Ibram\ParticipeIbram\Infrastructure\Repository\SequenceNumeroRegistroAllocator;
@@ -79,6 +81,7 @@ use Ibram\ParticipeIbram\Presentation\Admin\Controllers\RecursoRetratacaoControl
 use Ibram\ParticipeIbram\Presentation\Admin\Controllers\TodosAgentesController;
 use Ibram\ParticipeIbram\Presentation\Admin\Controllers\VocabularioController;
 use Ibram\ParticipeIbram\Presentation\Admin\Controllers\VotacaoAuditoriaController;
+use Ibram\ParticipeIbram\Presentation\Admin\Controllers\VotacaoFormController;
 use Ibram\ParticipeIbram\Presentation\Admin\Controllers\VotacaoListController;
 use Ibram\ParticipeIbram\Presentation\Admin\EditalMenuRegistry;
 use Ibram\ParticipeIbram\Presentation\Admin\HabilitacaoMenuRegistry;
@@ -288,13 +291,38 @@ final class AdminRegistration
             });
         }
 
-        // app:handler:publicar_edital
+        // app:handler:criar_votacao
+        if (class_exists(CriarVotacaoHandler::class)) {
+            $container->singleton('app:handler:criar_votacao', static function (Container $c): CriarVotacaoHandler {
+                return new CriarVotacaoHandler(
+                    $c->get('repo:votacao'),
+                    $c->get('repo:edital'),
+                    $c->get('core:audit_logger')
+                );
+            });
+        }
+
+        // app:handler:editar_votacao
+        if (class_exists(EditarVotacaoHandler::class)) {
+            $container->singleton('app:handler:editar_votacao', static function (Container $c): EditarVotacaoHandler {
+                return new EditarVotacaoHandler(
+                    $c->get('repo:votacao'),
+                    $c->get('core:audit_logger')
+                );
+            });
+        }
+
+        // app:handler:publicar_edital — injects CriarVotacaoHandler optionally for auto-creation.
         if (class_exists(PublicarEditalHandler::class)) {
             $container->singleton('app:handler:publicar_edital', static function (Container $c): PublicarEditalHandler {
+                $criarVotacao = $c->has('app:handler:criar_votacao')
+                    ? $c->get('app:handler:criar_votacao')
+                    : null;
                 return new PublicarEditalHandler(
                     $c->get('repo:edital'),
                     $c->get('repo:categoria'),
-                    $c->get('core:audit_logger')
+                    $c->get('core:audit_logger'),
+                    $criarVotacao instanceof CriarVotacaoHandler ? $criarVotacao : null
                 );
             });
         }
@@ -563,6 +591,19 @@ final class AdminRegistration
             });
         }
 
+        // admin:controller:votacao_form
+        if (class_exists(VotacaoFormController::class)) {
+            $container->singleton('admin:controller:votacao_form', static function (Container $c): VotacaoFormController {
+                return new VotacaoFormController(
+                    $c->get('app:handler:criar_votacao'),
+                    $c->get('app:handler:editar_votacao'),
+                    $c->get('repo:votacao'),
+                    $c->get('repo:edital'),
+                    $c->get('core:audit_logger')
+                );
+            });
+        }
+
         // admin:controller:apuracao
         if (class_exists(ApuracaoController::class)) {
             $container->singleton('admin:controller:apuracao', static function (Container $c): ApuracaoController {
@@ -711,16 +752,18 @@ final class AdminRegistration
             $habilitacaoMenuRegistry->registerHooks();
         }
 
-        // Votações menu (VotacaoList, Apuracao, VotacaoAuditoria)
+        // Votações menu (VotacaoList, Apuracao, VotacaoAuditoria, VotacaoForm)
         if (class_exists(VotacaoMenuRegistry::class)
             && class_exists(VotacaoListController::class)
             && class_exists(ApuracaoController::class)
             && class_exists(VotacaoAuditoriaController::class)
+            && class_exists(VotacaoFormController::class)
         ) {
             $votacaoMenuRegistry = new VotacaoMenuRegistry(
                 $container->get('admin:controller:votacao_list'),
                 $container->get('admin:controller:apuracao'),
-                $container->get('admin:controller:votacao_auditoria')
+                $container->get('admin:controller:votacao_auditoria'),
+                $container->get('admin:controller:votacao_form')
             );
             $votacaoMenuRegistry->registerHooks();
         }
