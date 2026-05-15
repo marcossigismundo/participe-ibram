@@ -139,12 +139,53 @@ final class Activator
     public static function activate(): void
     {
         self::assertEnvironment();
+
+        // CRITICO: gerar e injetar as 6 constantes em wp-config.php ANTES de
+        // qualquer outra etapa. As migrations precisam de SodiumCipher que
+        // depende de PI_ENC_KEY_V1; cron + roles tambem podem precisar.
+        // Se falhar (sem permissao de escrita, etc.) o pre-flight check em
+        // participe-ibram.php cuida de mostrar instrucoes manuais.
+        self::ensureWpConfigConstants();
+
         self::installRoles();
         self::ensurePrivateStorage();
         self::runMigrations();
         self::scheduleCrons();
 
         flush_rewrite_rules();
+    }
+
+    /**
+     * Tenta gerar e gravar as 6 constantes em wp-config.php se ainda nao
+     * existirem. Resultado e armazenado em pi_activation_last_constants
+     * (option) para inspecao via Setup de Teste / debug.log.
+     */
+    private static function ensureWpConfigConstants(): void
+    {
+        if (!class_exists('Ibram\\ParticipeIbram\\Bootstrap\\WpConfigConstantsWriter')) {
+            return;
+        }
+        try {
+            $result = \Ibram\ParticipeIbram\Bootstrap\WpConfigConstantsWriter::ensure();
+        } catch (\Throwable $e) {
+            $result = [
+                'written' => [],
+                'skipped' => [],
+                'error'   => 'Exception: ' . $e->getMessage(),
+                'backup'  => null,
+            ];
+        }
+        if (function_exists('update_option')) {
+            \update_option('pi_activation_last_constants', $result, false);
+        }
+        if (!empty($result['error']) && function_exists('error_log')) {
+            \error_log('[participe-ibram] wp-config constants: ' . (string) $result['error']);
+        }
+        if (!empty($result['written']) && function_exists('error_log')) {
+            \error_log('[participe-ibram] wp-config constants geradas: '
+                . \implode(', ', $result['written'])
+                . (isset($result['backup']) ? ' (backup: ' . $result['backup'] . ')' : ''));
+        }
     }
 
     /**
